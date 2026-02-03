@@ -1,0 +1,27 @@
+//基本技能列表
+//skill id,类型(0 知识 1 其他武学 2 兵器武学 3 空手武学 4 音乐)
+force,1
+dodge,1
+parry,1
+magic,1
+unarmed,3
+cuff,3
+claw,3
+strike,3
+hand,3
+finger,3
+sword,2
+blade,2
+whip,2
+dagger,2
+staff,2
+club,2
+hammer,2
+whip,2
+throwing,2
+chuixiao-jifa,9
+tanqin-jifa,4
+guzheng-jifa,4
+medical,0
+cooking,0
+poison,1

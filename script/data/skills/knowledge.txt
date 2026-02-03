@@ -1,0 +1,10 @@
+//知识技能清单
+//skill id,是否受经验限制
+zuoyou hubo,f
+lamaism,f
+literate,f
+muslim,f
+mathematics,f
+jingluo-xue,f
+buddhism,f
+sanscrit,f

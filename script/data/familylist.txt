@@ -1,0 +1,36 @@
+//id, 全名
+baixing,普通百姓
+shaolin,少林派
+wudangg,武当派
+emei,峨眉派
+huashan,华山派
+gaibang,丐帮
+taohua,桃花岛
+xingxiu,星宿派
+xiaoyao,逍遥派
+gumu,古墓派
+quanzhen,全真派
+xuanming,玄冥谷
+kunlun,昆仑派
+mingjiao,明教
+riyue,日月神教
+lingjiu,灵鹫宫
+shenlong,神龙教
+dalunsi,大轮寺
+tiezhang,铁掌帮
+honghua,红花会
+xuedao,血刀门
+wudu,五毒教
+meizhuang,梅庄
+zhenyuan,镇远镖局
+xueshan,雪山剑派
+song,嵩山派
+henshan,衡山派
+ouyang,欧阳世家
+hu,关外胡家
+murong,慕容世家
+duan,段氏皇族
+shang,商家堡
+miao,中原苗家
+jueqing,绝情谷
+tangmen, 唐门世家
