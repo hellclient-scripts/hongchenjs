@@ -6,6 +6,15 @@
     //是否驱散失败
     App.Core.Dispel.Fail = false
     //是否致命毒
+    App.Core.Dispel.Messages = {}
+    App.LoadLines("data/needdispel.txt").forEach((data) => {
+        App.Core.Dispel.Messages[data] = true
+    })
+    App.Core.LineHooks.push((event) => {
+        if (App.Core.Dispel.Messages[event.Data.Output]) {
+            App.RaiseEvent(event.Clone().WithName("core.needdispel"))
+        }
+    })
     App.Core.Dispel.Deadly = false
     App.BindEvent("core.dispelok", function () {
         App.Core.Dispel.Need = false

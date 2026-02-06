@@ -20,12 +20,14 @@
             maze.Data.Count = maze.Data.Count + 1
             if (maze.Data.Count % 3 == 0) {
                 App.Eat(true)
+                App.Send("hp")
             }
             if (cmd == "sw") {
                 if (maze.Data.Count < 10) {
                     cmd = "e"
                 } else {
-                    cmd = "ne"
+                    // cmd = "ne"
+                    cmd = "e"
                 }
             }
             map.TrySteps([cmd != maze.Data.Step.Command ? App.Map.NewStep(cmd) : maze.Data.Step])
