@@ -148,7 +148,7 @@
     App.Echo = function (name, value) {
         name = name || ""
         value = value || ""
-        App.Send("follow -echo- " + name + "." + value)
+        App.Send("follow -echo-" + name + "." + value)
     }
     //参数会以core.echo.参数名抛出事件，事件值为参数值
     App.Engine.SetFilter("core.onecho", function (event) {

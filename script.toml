@@ -18,7 +18,6 @@ OnBufferMin = 0
 OnBufferMax = 0
 Channel = ""
 Timers = []
-RequiredParams = []
 
 [[Triggers]]
   ID = "d1fu8bc9ec0l0d71gvntjv"
@@ -45,6 +44,626 @@ RequiredParams = []
   Group = ""
   IgnoreCase = false
   KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1fui7dgutrfff65of6lg"
+  Name = "core.noitem"
+  Enabled = true
+  Match = "目前你身上没有任何东西。"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent(\"core.noitem\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = false
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1fv5gcsss6q2c726vp884"
+  Name = "core.wrongway"
+  Enabled = true
+  Match = "^(这个方向没有出路。|你一不小心脚下踏了个空，... 啊...！)$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent(\"core.wrongway\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1fv5jkjvdotit726vp8pf"
+  Name = "core.walkbusy"
+  Enabled = true
+  Match = "^(你觉得.*的感觉相当飘忽)"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent(\"core.walkbusy\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1fv6n79t7ee4e726vqd4d"
+  Name = "core.onecho"
+  Enabled = true
+  Match = "^这里没有 -echo-(.*)\\.(.*)。$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.FilterLineEvent(\"core.onecho\",\"core.echo\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1fvcv20fk6t9372l29nab-2"
+  Name = "core.ride.nohorse"
+  Enabled = true
+  Match = "^(在房间内不能骑马走人！|这里不能骑马走人！)$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.FilterLineEvent(\"core.ride.later\",\"core.walkretry\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1fvcv20fk6t9372l29nab"
+  Name = "core.ride.nohorse"
+  Enabled = true
+  Match = "^(你还没有座骑！)$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.FilterLineEvent(\"core.ride.nohorse\",\"core.walkretry\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1fvdiuhjk8uej72l2ersa"
+  Name = "core.faint"
+  Enabled = true
+  Match = "你的眼前一黑，接著什么也不知道了...."
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent('core.faint')"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = false
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1fvnp5ao4q0ru72ocigh3"
+  Name = "core.dispelok"
+  Enabled = true
+  Match = "结果你没发现自己有任何异常。"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent('core.dispelok')"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = false
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = false
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1fvnph7bgrsb672ocigh6"
+  Name = "core.needdispel"
+  Enabled = true
+  Match = "^(忽然浑身一阵剧痛，你中的|忽然一股寒流夹着一阵灼热涌上心来，你中的生死符发作了！|忽然你觉得四肢百赅是似乎有无数小虫在游走|结果你一个不慎，被火星溅到了衣衫，哪知碧焰|结果只听扑的一声，你被他一掌拍中！一时间|你惊慌失措，连忙后退，然而没能避开|你只觉得伤口一阵灼伤，随即便跟着麻木起来|你只觉全身灼热无比，全身的燃起的碧焰直焚心髓|“喀喇”一声响，你大声惨叫，连退数步|你见滔天热浪扑面涌来，只觉眼前一片通红|你中的剧毒发作了|你只感内息顿滞，真气不畅，一张脸涨得通红|你只感内息顿滞，全身血液竟渐渐的开始凝固起来|你觉得肢体末端一阵僵直|你的脸蛋烧得通红|你嘶哑着嗓子咳了两声|你打了个冷战，头昏沉沉的|你觉得胸臆之间一阵翻腾|你感到胸口处传来阵阵刺痛，全身血液竟似要凝结住一般。|你只觉丹田处有如火焚，便似有千万钢针一齐扎入体内。|你只觉得一股寒意袭上心头，浑身说不出得难受。|你中的玄冥神掌之毒发作了|你只见眼前紫影晃动，突然间胸口一震，)"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent('core.needdispel')"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = false
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1fvp1h2ir151r7115lsdj"
+  Name = "core.idhere"
+  Enabled = true
+  Match = "在这个房间中, 生物及物品的(英文)名称如下："
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent('core.idhere')"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = false
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1fvs0p6fg7om9720kp6pb"
+  Name = "core.walkrest"
+  Enabled = true
+  Match = "^(你太累了，还是休息一会儿吧|你太累了，再也走不动了。)$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.FilterLineEvent(\"core.walkrest\",\"core.walkretry\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1fvsfoh9l5c0n720l52mg"
+  Name = "core.unwield"
+  Enabled = true
+  Match = "^(请不要装备武器。|张翠山喝道：各色人等，到解剑岩都需解剑，千百年来概无例外！)"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.FilterLineEvent(\"core.unwield\",\"core.walkretry\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1g07madisgo9g73hu933d"
+  Name = "core.ride.later"
+  Enabled = true
+  Match = "^(你现在正在和人家动手， 哪能骑马走人呀。|你还在战斗中！没空前去。)$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.FilterLineEvent(\"core.ride.later\",\"core.walkretry\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1g0aa8cs644hk72mm880i"
+  Name = "core.needrest"
+  Enabled = true
+  Match = "^(你太累了，还是休息一会儿吧。|你的内力不够，还是休息一下再说吧。)$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent(\"core.needrest\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1g0ikquo2tchh72ii58sh"
+  Name = "core.healcombat"
+  Enabled = true
+  Match = "战斗中运功疗伤？找死吗？"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent(\"core.healcombat\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = false
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1g0isslidire572ii598b"
+  Name = "core.notdispelable"
+  Enabled = true
+  Match = "^你运用内功驱散.+，然而似乎没有半点效果。$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent(\"core.notdispelable\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1g0nv3tsp0vip6o9bfl5"
+  Name = "core.needweapon"
+  Enabled = true
+  Match = "^(要刺墙不用家伙恐怕不行吧！)$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.FilterLineEvent(\"core.needweapon\",\"core.retrymove\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1g0oicq0o5k0m6o9bhnr"
+  Name = "core.walkfail"
+  Enabled = true
+  Match = "^(你看着奔腾不息的白河，心里有点紧张，不敢乱来。|你觉得河面太宽，没有十足的把握跃过去。|你看着浩瀚的太湖，心里不禁打了个突，没敢乱来。|你觉得湖面太宽，没有十足的把握跃过去。|你想把门推开，却发觉门被人从里面闩上了。|看来是自己的内功火候还不够。)$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent(\"core.walkfail\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1g0ra5fkjq1th58bvj2"
+  Name = "core.login"
+  Enabled = true
+  Match = "^目前共有.+位巫师、.+位玩家在线上，以及.+位使用者尝试连线中。$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent(\"core.login\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = false
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1h156ebm7d6l46f4r0iv"
+  Name = "core.blocked2"
+  Enabled = true
+  Match = "^(五毒.+忽然挡住你，厉声喝道：这位.+鬼头鬼脑的想干什么？)$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent('core.blocked2')"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = false
   OmitFromLog = false
   OmitFromOutput = false
   Inverse = false
@@ -485,6 +1104,182 @@ RequiredParams = []
   Italic = false
   Variable = ""
 
+[[Triggers]]
+  ID = "d1h45kp4e6a1gn733tt8tb"
+  Name = "core.item"
+  Enabled = true
+  Match = "^你身上带著下列这些东西\\(负重 (\\d+)%\\)：$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent('core.item')"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1h47v77bvrgor6f5ji48"
+  Name = "core.foodfull"
+  Enabled = true
+  Match = "你只感疲劳一扫而空，再也不觉得饥饿。"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent('core.foodfull')"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = false
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1h47vcbqjjlih6f5jioj"
+  Name = "core.foodempty"
+  Enabled = true
+  Match = "你只觉肚子「咕咕咕」叫个不停，随后放了个奇臭无比的屁。"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent('core.foodempty')"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = false
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+[[Triggers]]
+  ID = "d1g1fa90otbd14719uqq9l"
+  Name = "core.walkresend"
+  Enabled = true
+  Match = "^(你突然发现眼前的景象有些迷乱。)$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent(\"core.walkresend\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+[[Triggers]]
+  ID = "d1h47vhga25q0t6f5jje6"
+  Name = "core.hungry"
+  Enabled = true
+  Match = "^(你饿得头晕眼花，|你渴得喉咙冒烟，|你又饥又渴，|你饿得快死了。|你渴得要虚脱了。|你过于缺水，眼冒金星。)"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent('core.hungry')"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "enent"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Aliases]]
+  ID = "d1fufevcofgvaa73s6n5s7"
+  Name = "App.Core.Connect.OnAliasLogin"
+  Enabled = true
+  Match = "#login"
+  Send = ""
+  Script = "App.Core.Connect.OnAliasLogin"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = false
+  Menu = false
+  OmitFromLog = false
+  Variable = ""
+  ReverseSpeedwalk = false
+  OmitFromOutput = false
+  OmitFromCommandHistory = false
+
 [[Aliases]]
   ID = "d1fv62osn8i7nf726vpqu6"
   Name = "queue"
@@ -599,3 +1394,131 @@ RequiredParams = []
   ReverseSpeedwalk = false
   OmitFromOutput = false
   OmitFromCommandHistory = false
+
+[[Aliases]]
+  ID = "d1h1551dlrb9ub6f4q53o"
+  Name = ""
+  Enabled = true
+  Match = "^#streetview( .+)?"
+  Send = "#start streetview %1||stop"
+  Script = ""
+  SendTo = 10
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = false
+  Menu = false
+  OmitFromLog = false
+  Variable = ""
+  ReverseSpeedwalk = false
+  OmitFromOutput = false
+  OmitFromCommandHistory = false
+
+[[RequiredParams]]
+  Name = "id"
+  Desc = "用户的id"
+  Intro = "登陆用"
+
+[[RequiredParams]]
+  Name = "password"
+  Desc = "密码"
+  Intro = "用户密码，登陆用"
+
+[[RequiredParams]]
+  Name = "cmd_ride"
+  Desc = "骑坐骑的指令"
+  Intro = "比如ride bao-feiji。\n留空则不尝试rideto。"
+
+[[RequiredParams]]
+  Name = "quest"
+  Desc = "任务列表"
+  Intro = "#start不带参数会执行这个列表里的任务，一行一个，越上面的越优先。"
+
+[[RequiredParams]]
+  Name = "combat"
+  Desc = "战斗指令"
+  Intro = "有$1(对象),$wpon(装备武器),$wpoff(卸装备指令）3个变量\n有#before,#start,#send(默认)三种指令\n\n战斗指令,参考：\n#before yun recover\n#start $wpon\n#start perform sword.kuang $1\nyun recover\nperform sword.kuang\n\n或\n#before yun regenerate;hand bow\n#start shot $1 with arrow\nyun recover\nshot $1 with arrow"
+
+[[RequiredParams]]
+  Name = "command"
+  Desc = "指令"
+  Intro = "设置在不同场景下发送的指令。\n会在游戏提示触发场景时发送对应的命令。\n比如\n\n#prepare yun powerup;yun shield;#wpoff 2\n#npcfaint #wpoff 1;#wpon 2\n#npcdie #wpoff 2\n#wait #jiqu"
+
+[[RequiredParams]]
+  Name = "weapon"
+  Desc = "武器"
+  Intro = "武器相关设置\n\n支持\n#wield 武器ID\n#wear 空手武器ID\n#wield.别名 武器ID\n的格式\n\n以及\n#repair 修理装备id\n#repair 修理装备id * 修理需要的黄金\n的格式\n\n有10 lv的话通过\n\n#touch 武器id\n\n设置touch的武器"
+
+[[RequiredParams]]
+  Name = "items"
+  Desc = "物品配置"
+  Intro = "一行一个物品id。\n需要多个可以 id * 数量\n如：\nfire\nlong sword\nlong bow\narrow * 30\n#qu.10 jiuhua wan *5\n#fetch.3 jiuhua wan *3\n\n#qu为从乾坤袋或者箱子里取。#fetch为从乾坤袋里拿，没有就放弃。小数点后是一次拿几个。\n支持吃药，包括回阳无极丹，修罗无常丹，罗刹无常丹，玉洞黑石丹，无常丹，九花玉露丸，白虎夺命丹，天王保命丹，生生造化丹，九转熊蛇丸。\n带身上会自动吃"
+
+[[RequiredParams]]
+  Name = "max_exp"
+  Desc = "最大经验"
+  Intro = "部分任务中超过这个会放弃。\n留空或小于等于0不放弃"
+
+[[RequiredParams]]
+  Name = "max_pot"
+  Desc = "潜能上限(实时更新)"
+  Intro = ""
+
+[[RequiredParams]]
+  Name = "study"
+  Desc = "学习指令，一行一个学习内容"
+  Intro = "格式为\n\n技能ID|学习限制|类型|目标|位置|开始指令|结束指令\n除了技能ID都能省略，类型默认为yanjiu\n技能ID以!开头代表强制优先学习\n可以 #teacher ID@位置的方式设置老师信息\n参考:\n\nsword|180|xue|feng buping|2226|wield sword\nforce|180|xue\nhuashan-xinfa\n!zuoyou-hubo|360|xue|zhou botong|779\n#teacher feng buping@2226"
+
+[[RequiredParams]]
+  Name = "min_pot"
+  Desc = "潜能下限(实时更新,选填)"
+  Intro = ""
+
+[[RequiredParams]]
+  Name = "jifa"
+  Desc = "激发指令(选填，实时生效)"
+  Intro = "用于设置jifa和bei的指令\n用于练习结束后，或者通过#jifa指令手动调用。\n确保使用正确的武功做任务\n#lian和#yanjiu指令会根据这个变量的设置，在练习后激活正确的技能"
+
+[[RequiredParams]]
+  Name = "lian"
+  Desc = "练习指令(选填)"
+  Intro = "一行一个练习内容\n格式同学习指令\n技能ID|学习限制|类型|基本功夫|位置|开始指令|结束指令\n可以通过助理按钮初始化，再调整"
+
+[[RequiredParams]]
+  Name = "house"
+  Desc = "房屋信息(重新加载起效)"
+  Intro = "设置后会将1933-1949设置为对应的房屋信息\n格式为'机器人工厂 robot 4084'"
+
+[[RequiredParams]]
+  Name = "sell"
+  Desc = "道具处理指令(选填)"
+  Intro = ""
+
+[[RequiredParams]]
+  Name = "id_pass"
+  Desc = "门派缩写（选填）"
+  Intro = "留空从门派自动判断"
+
+[[RequiredParams]]
+  Name = "jiqu"
+  Desc = "汲取武道设置(选填)"
+  Intro = "设置数字则为最大体会，数字小于等于0不汲取，不设自动设置。\n\n#cmd可以指定多条汲取指令。不设则自动。参考\n\n400\n#cmd jiqu\n#cmd #unwield;#wpon;jiqu sword-cognize"
+
+[[RequiredParams]]
+  Name = "params"
+  Desc = "系统参数(选填)"
+  Intro = "不要手动设置，通过助理按钮的设置系统参数功能设置。"
+
+[[RequiredParams]]
+  Name = "quest_params"
+  Desc = "任务参数(选填)"
+  Intro = "任务相关参数的设置\n不要手动设置，通过助理按钮的设置系统参数功能设置。"
+
+[[RequiredParams]]
+  Name = "autorun"
+  Desc = "大米自动执行任务(选填)"
+  Intro = "填写后，机器打开就会自动执行对应的命令。\n\n一般给各种大米用。"

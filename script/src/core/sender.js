@@ -8,7 +8,7 @@
     }
     let re = /[;\n]/g
     let re2 = /[！·。\*]/g
-    let linkre = /、/g
+    let linkre = /[、&]/g
     App.Sender.Parser = function (cmd, Grouped) {
         let result = []
         if (Grouped) {

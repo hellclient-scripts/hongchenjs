@@ -3,15 +3,20 @@
     let objectModule = App.RequireModule("helllibjs/object/object.js")
     let mapModule = App.RequireModule("helllibjs/map/map.js")
     var natures = {};
-    ReadLines("data/natures.txt").forEach(line => { 
-        if (!line.endsWith("。")){
-            line=line+"。"
+    App.Core.Room = {}
+    ReadLines("data/natures.txt").forEach(line => {
+        if (!line.endsWith("。")) {
+            line = line + "。"
         }
         natures[line] = true
-     })
-    App.Core.Room = {}
+    })
+    var noexitrooms = {};
+    App.LoadLines("data/noexitrooms.txt").forEach(data => {
+        noexitrooms[data] = true
+    })
+    App.Core.RoomsByName = {}
     App.Core.Room.Desc = []
-    App.Core.Room.MaxDescLines=10
+    App.Core.Room.MaxDescLines = 10
     App.Core.Room.DescStart = false
     App.Core.Room.Current = null
     //创建实例，绑定position
@@ -29,38 +34,47 @@
     })
     App.Core.Room.OnName = function (event) {
         App.Core.Room.DescStart = true
-        App.Core.Room.Desc=[]
+        App.Core.Room.Desc = []
         App.Core.Room.Current = App.Map.NewRoom().
             WithName(App.History.Current).
             WithNameRaw(App.History.CurrentOutput)
     }
     App.BindEvent("core.roomname", App.Core.Room.OnName)
     App.Core.Room.OnDesc = function (event) {
-        if (App.Core.Room.DescStart&&App.Core.Room.Desc.length<=App.Core.Room.MaxDescLines){
+        if (App.Core.Room.DescStart && App.Core.Room.Desc.length <= App.Core.Room.MaxDescLines) {
+            if (noexitrooms[App.Core.Room.Current.Name]) {
+                App.Core.Room.OnExit(event,true)
+                return
+            }
             App.Core.Room.Desc.push(event.Data.Output)
         }
     }
     App.BindEvent("line", App.Core.Room.OnDesc)
     reExit = /[a-z]+/g
     //响应房间出口
-    App.Core.Room.OnExit = function (event) {
-        App.Core.Room.DescStart=false
-        var rawdesc=App.Core.Room.Desc
-        App.Core.Room.Desc=[]
+    App.Core.Room.OnExit = function (event,noexit) {
+        App.Core.Room.DescStart = false
+        var rawdesc = App.Core.Room.Desc
+        App.Core.Room.Desc = []
         rawdesc.pop()
-        let desc=[]
-        rawdesc.forEach(line=>{
-            if (!natures[line.trim()]){
+        let desc = []
+        rawdesc.forEach(line => {
+            if (!natures[line.trim()]) {
                 desc.push(line)
             }
-        })        
+        })
         App.Map.EnterNewRoom(App.Core.Room.Current)
         initRoom()
-        if (desc.length>0){
-            App.Core.Room.Current.WithData("Desc",desc.join("").trim())
+        if (desc.length > 0) {
+            App.Core.Room.Current.WithData("Desc", desc.join("").trim())
         }
         event.Context.Propose(function () {
-            let result = [...event.Data.Wildcards[1].matchAll(reExit)].map(data => data[0]).sort()
+            let result = []
+            if (!noexit) {
+                result = [...event.Data.Wildcards[1].matchAll(reExit)].map(data => data[0]).sort()
+            } else {
+                Note("此房间无出口描述。")
+            }
             App.Map.Room.WithExits(result)
             App.RaiseEvent(new App.Event("room.onexit"))
             PlanOnExit.Execute()
@@ -110,7 +124,7 @@
         }, function (result) {
             if (result.Type != "cancel") {
                 if (App.Map.Room.Name && !App.Map.Room.ID) {
-                    let idlist = App.Map.Data.RoomsByName[App.Map.Room.Name]
+                    let idlist = App.Core.RoomsByName[App.Map.Room.Name]
                     if (idlist && idlist.length == 1) {
                         App.Map.Room.ID = idlist[0]
                     }

@@ -41,6 +41,19 @@
         }
         return dir
     }
+    App.Move.FailedMessages = {}
+    App.LoadLines("data/walkfailed.txt").forEach(data => {
+        App.Move.FailedMessages[data] = true
+    })
+    App.Move.BlockedMessages = {}
+    App.LoadLines("data/walkblocked.txt", "|").forEach(data => {
+        App.Move.BlockedMessages[data[1]] = data[0]
+    })
+    App.Move.BusyMessages = {}
+    App.LoadLines("data/walkbusy.txt").forEach(data => {
+        App.Move.BusyMessages[data] = true
+    })
+
     //移动跟踪
     App.Map.Trace = function (map, rid, dir) {
         var exits = App.Map.GetRoomExits(rid, true)
@@ -106,6 +119,26 @@
                 catcher.WithData(event.Data)
             }).WithName("blocked")
             task.AddCatcher("core.needrest").WithName("needrest")
+            task.AddCatcher("line", function (catcher, event) {
+                if (App.Move.BusyMessages[event.Data.Output]) {
+                    catcher.WithName("walkbusy")
+                    return false
+                }
+                if (App.Move.FailedMessages[event.Data.Output]) {
+                    if (App.Core.Room.Current.ID == "") {
+                        return true;
+                    }
+                    catcher.WithName("blocked2")
+                    return false
+                }
+                if (App.Move.BlockedMessages[event.Data.Output]) {
+                    catcher.WithName("blocked")
+                    catcher.WithData(App.Move.BlockedMessages[event.Data.Output])
+                    return false
+                }
+                return true;
+            })
+
         },
         function (result) {
             switch (result.Type) {
@@ -221,9 +254,10 @@
                 target = [target]
             }
             if (target) {
+                target = App.Mapper.LoadMarkers(target)
                 Note(`${App.Map.Room.ID} 前往 ${target.join(",")}`)
             }
-            App.Move.NewTo(running.Command.Data.Target, ...running.Command.Data.Initers).Execute()
+            App.Move.NewTo(target, ...running.Command.Data.Initers).Execute()
         }
     })
     //注册rooms指令

@@ -1,54 +1,5 @@
 //用户信息模块
 (function (App) {
-    //武学技能列表
-    let martial = {
-        "force": true,
-        "dodge": true,
-        "parry": true,
-        "unarmed": true,
-        "cuff": true,
-        "strike": true,
-        "finger": true,
-        "hand": true,
-        "claw": true,
-        "sword": true,
-        "blade": true,
-        "staff": true,
-        "hammer": true,
-        "club": true,
-        "whip": true,
-        "dagger": true,
-        "throwing": true,
-        "axe": true,
-        "poison": true,
-    }
-    //空手技能列表
-    let unarmedskill = {
-        "unarmed": true,
-        "cuff": true,
-        "strike": true,
-        "finger": true,
-        "hand": true,
-        "claw": true,
-    }
-    //武器技能列表
-    let weaponskill = {
-        "sword": true,
-        "blade": true,
-        "staff": true,
-        "hammer": true,
-        "club": true,
-        "whip": true,
-        "dagger": true,
-        "throwing": true,
-        "axe": true,
-    }
-    //音乐技能列表
-    let music = {
-        "chuixiao-jifa": true,
-        "guzheng-jifa": true,
-        "tanqin-jifa": true,
-    }
     App.Core.Player = {}
     App.Core.Player.BasicSkills = {}
     App.Core.Player.KnowledgeSkills = {}
@@ -97,12 +48,11 @@
     //【 平 和 】  ─────────    【 经 验 】  4733814117
     //≡──────────────────────────ZHYX───≡
 
-    // var matcherHPLine1 = /^【 精 气 】\s*(-?\d+)\s*\/\s+(-?\d+)\s*\(\s*(-?\d+)%\)\s+【 精 力 】\s+(-?\d+)\s+ \/\s*(-?\d+)\s+\(\+\s*(\d+)\)\s*$/
     var matcherHPLine1 = /^【 精 气 】\s*(-?\d+)\s*\/\s+(-?\d+)\s*\(\s*(-?\d+)%\)\s+【 精 力 】\s+(-?\d+)\s+\/\s*(-?\d+)\s+\(\+\s*(\d+)\)\s*$/
     var matcherHPLine2 = /^【 气 血 】\s*(-?\d+)\s*\/\s+(-?\d+)\s*\(\s*(-?\d+)%\)\s+【 内 力 】\s+(-?\d+)\s+\/\s*(-?\d+)\s+\(\+\s*(\d+)\)\s*$/
-    var matcherHPLine3 = /^【 食 物 】\s*(-?\d+)\s*\/\s+(-?\d+)\s*\[.+\]\s+【 潜 能 】\s+(-?\d+)\s*$/
-    var matcherHPLine4 = /^【 饮 水 】\s*(-?\d+)\s*\/\s+(-?\d+)\s*\[.+\]\s+【 经 验 】\s+(-?\d+)\s*$/
-    var matcherHPLine5 = /^【 .+【 经 验 】\s+(-?\d+)\s+$/
+    var matcherHPLine3 = /^【 食 物 】\s*(-?\d+)\s*\/\s+(-?\d+)\s*【 潜 能 】\s+(-?\d+)\s*$/
+    var matcherHPLine4 = /^【 饮 水 】\s*(-?\d+)\s*\/\s+(-?\d+)\s*【 体 会 】\s+(-?\d+)\s*$/
+    var matcherHPLine5 = /^【 .+【 经 验 】\s+(-?\d+)\s*$/
     var matcherHPEnd = /^≡─+[^─]+─+─≡$/
     //响应hp指令的计划
     var PlanOnHP = new App.Plan(App.Positions.Connect,
@@ -128,12 +78,18 @@
             task.AddTrigger(matcherHPLine3, function (trigger, result, event) {
                 App.Data.Player.HP["当前食物"] = result[1] - 0
                 App.Data.Player.HP["最大食物"] = result[2] - 0
+                if (App.Data.Player.HP["当前食物"] < App.Data.Player.HP["最大食物"]) {
+                    App.NeedEat = true
+                }
                 App.Data.Player.HP["潜能"] = result[3] - 0
                 return true
             })
             task.AddTrigger(matcherHPLine4, function (trigger, result, event) {
                 App.Data.Player.HP["当前饮水"] = result[1] - 0
                 App.Data.Player.HP["最大饮水"] = result[2] - 0
+                if (App.Data.Player.HP["当前饮水"] < App.Data.Player.HP["最大饮水"]) {
+                    App.NeedEat = true
+                }
                 App.Data.Player.HP["体会"] = result[3] - 0
                 return true
             })
@@ -155,6 +111,35 @@
     }
     App.BindEvent("core.hp", App.Core.OnHP)
 
+
+    //吃yuchi zhou 逻辑
+    let LastEat = 0
+    let IntervalEat = 2000
+    App.NeedEat = false
+    App.Eat = function (force) {
+        if (App.NeedEat) {
+            let now = (new Date()).getTime()
+            if (force || (now - LastEat > IntervalEat)) {
+                App.Send(App.Params.FoodCommand)
+                if (App.Params.FoodCommand != App.Params.DrinkCommand) {
+                    App.Send(App.Params.DrinkCommand)
+                }
+                LastEat = now
+            }
+        }
+    }
+
+    App.BindEvent("core.foodfull", () => {
+        App.NeedEat = false
+        checkerHP.Force()
+    })
+    App.BindEvent("core.foodempty", () => {
+        App.NeedEat = true
+        checkerHP.Force()
+    })
+    App.BindEvent("core.hungry", () => {
+        App.NeedEat = true
+    })
     // 你现在会以下这些特技：
     // 杀气(hatred)
     // 小周天运转(self)
@@ -200,42 +185,42 @@
     //score的checker
     let checkerScore = App.Checker.Register("score", "score", 600000)
 
-    // 你的状态属性如下：
-    // ≡──────────────────────────≡
-    //  【武林神话】华山派第十四代传人 渡劫(imez)
-    // --------------------------------------------------------
-    //   你是位一百五十四岁二个月的男性，甲午年十一月九日酉时三刻生。
-    //   膂力：[448]  悟性：[148]  根骨：[452]  身法：[411]
-    //   你是福建人氏，天性狡黠多变，师父是岳不群。
-    //   你目前的存款：二十九万四千一百五十九两黄金六十二两白银五文铜钱。
-    //   你尚未娶妻。
-    //   你还是童男。
-    // --------------------------------------------------------
-    //   战斗攻击： 29371702		  战斗防御： 30468583
-    //   战斗伤害：        0		  战斗保护：        8
-    // --------------------------------------------------------
-    //   你到目前为止总共杀生二百八十一万八千零九十一次。
-    //   你到目前为止总共到黑白无常那里串门二百五十三次。
-    //   你最后一次是被李朱刺死了。
-    // --------------------------------------------------------
-    //   任督二脉：   ○                 元婴出世：   ○
-    //   生死玄关：   ○                 转世重生：   ○
-    //   主角光环：   × (三次转世)
-    // --------------------------------------------------------
-    // 前四穴： 肩前穴：○  天冲穴：○  天池穴：○  髀关穴：○ 
-    // 后四穴： 天突穴：×  涌泉穴：○  气海穴：○  曲池穴：○ 
-    // --------------------------------------------------------
-    //   镇狱惊天丸： ×                 子午龙甲丹： ×
-    //   玄黄紫箐丹： ×                   转世脱离： ○
-    // --------------------------------------------------------
-    //   拳脚功夫：  无评价              兵器运用：  无评价
-    //   内家功夫：  无评价              轻身功夫：  无评价
-    // --------------------------------------------------------
-    //   实战经验： 4733814117		  门派贡献： 165245116
-    //   江湖阅历： 732355152		  江湖威望： 101269096
-    //   正    气： 10512865490		  灵    慧：   281358
-    //   转生次数： 	五		  转生灵魂： 	16022		
-    // ≡──────────────────────ZHYX──≡
+    //你的状态属性如下：
+    //≡──────────────────────────≡
+    // 【武林神话】华山派第十四代传人 渡劫(imez)
+    //--------------------------------------------------------
+    //  你是位一百五十四岁二个月的男性，甲午年十一月九日酉时三刻生。
+    //  膂力：[448]  悟性：[148]  根骨：[452]  身法：[411]
+    //  你是福建人氏，天性狡黠多变，师父是岳不群。
+    //  你目前的存款：二十九万四千一百五十九两黄金六十二两白银五文铜钱。
+    //  你尚未娶妻。
+    //  你还是童男。
+    //--------------------------------------------------------
+    //  战斗攻击： 29371702		  战斗防御： 30468583
+    //  战斗伤害：        0		  战斗保护：        8
+    //--------------------------------------------------------
+    //  你到目前为止总共杀生二百八十一万八千零九十一次。
+    //  你到目前为止总共到黑白无常那里串门二百五十三次。
+    //  你最后一次是被李朱刺死了。
+    //--------------------------------------------------------
+    //  任督二脉：   ○                 元婴出世：   ○
+    //  生死玄关：   ○                 转世重生：   ○
+    //  主角光环：   × (三次转世)
+    //--------------------------------------------------------
+    //前四穴： 肩前穴：○  天冲穴：○  天池穴：○  髀关穴：○ 
+    //后四穴： 天突穴：×  涌泉穴：○  气海穴：○  曲池穴：○ 
+    //--------------------------------------------------------
+    //  镇狱惊天丸： ×                 子午龙甲丹： ×
+    //  玄黄紫箐丹： ×                   转世脱离： ○
+    //--------------------------------------------------------
+    //  拳脚功夫：  无评价              兵器运用：  无评价
+    //  内家功夫：  无评价              轻身功夫：  无评价
+    //--------------------------------------------------------
+    //  实战经验： 4733814117		  门派贡献： 165245116
+    //  江湖阅历： 732355152		  江湖威望： 101269096
+    //  正    气： 10512865490		  灵    慧：   281358
+    //  转生次数： 	五		  转生灵魂： 	16022		
+    //≡──────────────────────ZHYX──≡
 
     App.BindEvent("core.score", App.Core.OnScore)
     var matcherScoreEnd = /^≡─+[^─]+─+─≡$/
@@ -244,9 +229,7 @@
     var matcherScoreBank = /^  你目前的存款：(.+)两黄金.+。$/
     var matcherScoreExp = /^  实战经验：\s+(\d+)\s+门派贡献：\s+(\d+)$/
     var matcherScoreYueli = /^  江湖阅历：\s+(\d+)\s+江湖威望：\s+(\d+)$/
-    // var matcherScoreYueli = /^│灵慧：(\d+)\s+正气：(\d+)\s+│阅历：(\d+)\s+│$/
-    // var matcherScoreMenzhong = /^│住宅：(\S+)\s+│门贡：(\d+)\s*点\s*│$/
-    // var matcherScoreBreakup = /^│武学宗师：(\S)\s*任督二脉：(\S)\s*│杀害玩家：.*│$/
+    var matcherScoreZhengqi = /^  (正|邪)\s+气：\s+(\d+)\s+灵\s+慧：\s*(\d+)\s*$/
     //响应score指令的计划
     var PlanOnScore = new App.Plan(App.Positions.Connect,
         function (task) {
@@ -286,6 +269,15 @@
             task.AddTrigger(matcherScoreYueli, function (trigger, result, event) {
                 App.Data.Player.Score["江湖阅历"] = result[1] - 0
                 App.Data.Player.Score["江湖威望"] = result[2] - 0
+                return true
+            })
+            task.AddTrigger(matcherScoreZhengqi, function (trigger, result, event) {
+                App.Data.Player.Score["正气"] = result[2] - 0
+                if (result[1] != "正") {
+                    App.Data.Player.Score["正气"] = -App.Data.Player.Score["正气"]
+                }
+                App.Data.Player.Score["灵慧"] = result[3] - 0
+                return true
             })
             task.AddTimer(5000)
             task.AddTrigger(matcherScoreEnd)

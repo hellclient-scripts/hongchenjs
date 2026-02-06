@@ -145,6 +145,14 @@
             num = num / 1000
             unit = "M"
         }
+        if (num >= 999) {
+            num = num / 1000
+            unit = "B"
+        }
+        if (num >= 999) {
+            num = num / 1000
+            unit = "T"
+        }
         if (tofixed) {
             let pow = Math.pow(10, tofixed)
             num = Math.floor(num / pow) * pow

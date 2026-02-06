@@ -1,5 +1,5 @@
 HMM1.0>UTF8
-Info>红尘MUD地图|1765435505|
+Info>红尘MUD地图|1770346582|
 Room>0|玄冥峰山脚||||ed,5,,1;nw,1,,1|
 Room>1|山路||||nw,6,,1|
 Room>10|玄冥谷||||enter,8,,1;nw,4,,1;su,3,,1|
@@ -219,7 +219,7 @@ Room>1191|水莲洞内||||s,1122,,1|
 Room>1192|水莲洞内||||s,1191,,1|
 Room>1193|水莲洞内||||e,1190,,1|
 Room>1194|紫盖仙洞||||n,1180,,1|
-Room>1195|白虎堂大门||||e,1196,,1;w,1211,,1|
+Room>1195|白虎堂大门||||e,1196,,1;w。,1211,,1|
 Room>1196|碎石小道||||s,1197,,1;w,1195,,1|
 Room>1197|碎石小道||||s,1235,,1;n,1196,,1|
 Room>1198|白虎堂后厅||||n,1200,,1|
@@ -229,7 +229,7 @@ Room>120|古龙桥||||nu,141,,1;sd,135,,1|
 Room>1200|长廊||||s,1198,,1;n,1199,,1|
 Room>1201|吊篮|||||
 Room>1202|小桥||||e,782,,1;nw,760,,1|
-Room>1203|长滩||||cross,1273,,1;yell boat,1273,,1;wu,1250,,1|
+Room>1203|长滩||||cross,1273,,1;yell boat,1273,,10;wu,1250,,1|
 Room>1204|成德殿||||s。,1252,,1;n,1274,,1|
 Room>1205|池塘||||e,1209,,1;w,1255,,1;n,1261,,1|
 Room>1206|长廊||||s,1207,,1;n,1212,,1|
@@ -303,7 +303,7 @@ Room>1267|日月坪||||ed,1260,,1;ask zhang about 回崖,1254,ry^,1;piao,1254,ry
 Room>127|青泥小道||||e,126,,1;n,128,,1|
 Room>1271|小花园||||enter,1272,,1;s,1219,,1|
 Room>1272|小舍||||e,1238,,1;out,1271,,1|
-Room>1273|猩猩滩||||cross,1203,,1;yell boat,1203,,1;su,1257,,1|
+Room>1273|猩猩滩||||cross,1203,,1;yell boat,1203,,10;su,1257,,1|
 Room>1274|走廊||||s,1204,,1;n,1232,,1|
 Room>1275|北大街||||nu,1307,,1;s,1282,,1|
 Room>1276|福威镖局||||enter,1277,,1;s,1326,,1|
@@ -547,7 +547,7 @@ Room>149|大厅||||e,192,,1;out,180,,1;w,142,,1;n,164,,1|
 Room>1490|栈道||||e,1489,,1;w,1491,,1|
 Room>1491|栈道||||e,1490,,1;w,1492,,1|
 Room>1492|栈道||||e,1491,,1;wu,1493,,1|
-Room>1493|峭壁||||ed,1492,,1;xia\&qilinku,4215,,2;wu,1494,,1|
+Room>1493|峭壁||||ed,1492,,1;xia\&qilinku,4215,?^,2;wu,1494,,1|
 Room>1494|山顶||||ed,1493,,1;w,1444,,1|
 Room>1495|蜀都道||||e,1450,,1;w,1454,,1|
 Room>1496|蜀都道||||e,1454,,1;w,1508,,1|
@@ -696,7 +696,7 @@ Room>1624|桃花山庄正门||||e,1635,,1;ride diao。,1854,th^,1;s,1634,,1;n,16
 Room>1625|道具房||||u,1640,,1;w,1626,,1|
 Room>1626|大厅||||e,1625,,1;w,1646,,1;s,1629,,1;n,1634,,1|
 Room>1627|山洞||||out,1639,,1|
-Room>1628|海滩||||s,1642,,1;enter chuan,4138,,1|
+Room>1628|海滩||||s,1642,,1;enter chuan,4138,,50|
 Room>1629|后院||||s,1649,,1;se,1647,,1;e,1641,,1;sw,1648,,1;w,1650,,1;n,1626,,1|
 Room>163|厉鬼峰||||sw,176,,1|
 Room>1630|蓝天|||||
@@ -878,7 +878,7 @@ Room>1789|打柴沟||||sw,1793,,1;n,1834,,1|
 Room>179|山腰||||w,171,,1;eu,169,,1|
 Room>1790|渡船|||||
 Room>1791|广场||||e,1807,,1;w,1837,,1|
-Room>1792|古长城||||cross,433,,1;sw,1840,,1;yell boat,433,,1;se,1819,,1|
+Room>1792|古长城||||cross,433,,1;sw,1840,,1;yell boat,433,,10;se,1819,,1|
 Room>1793|古浪||||ne,1789,,1;s,1841,,1;e,1839,,1;w,1836,,1;n,1838,,1|
 Room>1794|河套||||e,1796,,1;sw,1808,,1;w,1815,,1|
 Room>1795|红山峡||||s,1809,,1;n,1819,,1|
@@ -935,7 +935,7 @@ Room>184|树林||||nu,183,,1;sd,170,,1|
 Room>1840|营盘水||||ne,1792,,1;sw,1786,,1|
 Room>1841|永登||||e,1798,,1;su,3776,,1;w,1810,,1;n,1793,,1|
 Room>1842|厨房||||s,1847,,1|
-Room>1843|大门||||enter,1854,,1;s,1850,,1|
+Room>1843|大门||||enter*,1854,,1;s,1850,,1|
 Room>1844|大厅||||e,1858,,1;s,1854,,1;n,1846,,1|
 Room>1845|渡船|||||
 Room>1846|花厅||||e,1851,,1;w,1853,,1;s,1844,,1;n,1847,,1|
@@ -958,7 +958,7 @@ Room>1860|树林||||w,1863,,1;nw,1859,,1;se,1861,,1|
 Room>1861|树林||||e,1862,,1;nw,1860,,1|
 Room>1862|树林||||s,1855,,1;w,1861,,1|
 Room>1863|树林||||e,1860,,1;sw,1865,,1|
-Room>1864|太湖||||cross,1850,,1;yell boat,1850,,1;n,1855,,1|
+Room>1864|太湖||||cross,1850,,1;yell boat,1850,,10;n,1855,,1|
 Room>1865|田地||||ne,1863,,1;w,1866,,1|
 Room>1866|宜兴||||e,1865,,1;nw,1602,,1;s,1852,,1|
 Room>1867|阿头部||||wu,1917,,1;se,2054,,1;n,1963,,1|
@@ -1265,7 +1265,7 @@ Room>214|长廊||||s,231,,1;n,223,,1|
 Room>2140|石室||||e,2130,,1;w,2132,,1;s,2136,,1;n,2141,,1|
 Room>2141|石室||||s,2128,,1;u,2153,,1|
 Room>2142|草地||||ne,2143,,1;sw,2149,,1|
-Room>2143|门口||||sw,2142,,1;enter*,2154,,1|
+Room>2143|门口||||sw,2142,,1;enter*,2154,die^,1|
 Room>2144|竹林||||nw,2149,,1;se,2145,,1|
 Room>2145|竹林||||s,2081,,1;nw,2144,,1;n,2086,,1|
 Room>2146|青石地||||ne,2149,,1;sw,2147,,1|
@@ -1976,7 +1976,7 @@ Room>2781|岳坟||||s,2782,,1|
 Room>2782|岳廊||||s,2750,,1;n,2781,,1|
 Room>2783|玉皇山顶||||ed,2760,,1;wd,2759,,1|
 Room>2784|玉皇山路||||w,2743,,1;eu,2759,,1|
-Room>2785|玉皇山脚||||abao,4335,,1;abaoa,4199,,1;wu,2760,,1;n,2740,,1|
+Room>2785|玉皇山脚||||wu,2760,,1;n,2740,,1|
 Room>2786|玉泉||||e,2749,,1|
 Room>2787|小巷||||e,2812,,1;nw,2788,,1|
 Room>2788|小巷尽头||||se,2787,,1|
@@ -2162,7 +2162,7 @@ Room>2953|衙门正厅||||s,2896,,1;n,2901,,1|
 Room>2954|紫竹林||||nu,2934,,1;s,2955,,1|
 Room>2955|紫竹林||||enter,2946,,1;n,2954,,1|
 Room>2956|碧荷桥||||e,2989,,1;w,2966,,1|
-Room>2957|泊舟坞||||e,2978,,1;nd,2975,,1;yell boat,2968,,1;cross,2968,,1|
+Room>2957|泊舟坞||||e,2978,,1;nd,2975,,1;yell boat,2968,,10;cross,2968,,1|
 Room>2958|参合居||||e,3000,,1;w,2983,,1;s,2987,,1;n,2995,,1|
 Room>2959|长廊||||e,2967,,1;w,2973,,1;s,2966,,1;n,2985,,1|
 Room>296|打铁屋||||s,313,,1|
@@ -2456,7 +2456,7 @@ Room>3218|海滩||||enter,-1,,1;n,3222,,1|
 Room>3219|神龙教后厅||||s,3217,,1|
 Room>322|北帝庙||||s,345,,1|
 Room>3220|竹屋||||e,3231,,1|
-Room>3221|空地||||e,3224,,1;w,3213,,1;s,3223,,1;n,3212,,1|
+Room>3221|空地||||e,3224,,1;w,3213,die^,1;s,3223,,1;n,3212,,1|
 Room>3222|灌木林||||s,3218,,1;mw0\&kan bush\&n,3223,,3|
 Room>3223|灌木林||||s,3222,,1;n,3221,,1|
 Room>3224|大道||||w,3221,,1;n,3225,,1|
@@ -2639,7 +2639,7 @@ Room>3384|虎坊路||||e,3385,,1;s,3434,,1|
 Room>3385|虎坊路||||e,3476,,1;w,3384,,1;s,3397,,1;n,3386,,1|
 Room>3386|虎坊客栈||||s,3385,,1;n,3416,,1|
 Room>3387|高升茶馆||||n,3358,,1|
-Room>3388|镇远镖局||||enter,3382,,1;s,3368,,1|
+Room>3388|镇远镖局||||enter*,3382,,1;s,3368,,1|
 Room>3389|大官道||||e,3465,,1;n,3390,,1|
 Room>339|林间道||||e,340,,1;nw,338,,1|
 Room>3390|大官道||||s,3389,,1;n,3403,,1|
@@ -2861,11 +2861,11 @@ Room>3585|白云峰||||ed,3635,,1;sw,3650,,1;n,3610,,1|
 Room>3586|北城||||s,3602,,1;w,3644,,1|
 Room>3587|冰面||||e,3592,,1;w,3589,,1|
 Room>3588|谷草垛||||e,3584,,1;nw,3612,,1|
-Room>3589|船厂||||s,3649,,1;yell boat,3592,,1;cross,3592,,1|
+Room>3589|船厂||||s,3649,,1;yell boat,3592,,10;cross,3592,,1|
 Room>359|青石大道||||s,360,,1;n,358,,1|
 Room>3590|厨房||||e,3632,,1|
 Room>3591|达门||||nw,3619,,1;sw,3609,,1|
-Room>3592|大门坎子||||se,3594,,1;yell boat,3589,,1;cross,3589,,1|
+Room>3592|大门坎子||||se,3594,,1;yell boat,3589,,10;cross,3589,,1|
 Room>3593|东城||||e,3647,,1;w,3602,,1;s,3641,,1;ne,3599,,1|
 Room>3594|二门坎子||||e,3612,,1;nw,3592,,1|
 Room>3595|伐木场||||su,3610,,1|
@@ -3173,13 +3173,13 @@ Room>387|小吃店||||e,355,,1|
 Room>3870|鼓楼五层||||u,3871,,1;d,3869,,1|
 Room>3871|鼓楼六层||||u,3872,,1;d,3870,,1|
 Room>3872|鼓楼七层||||out,-1,,1;d,3871,,1|
-Room>3873|汉水南岸||||yell boat,3874,,1;s,3983,,1;cross,3874,,1|
-Room>3874|汉水北岸||||cross,3873,,1;yell boat,3873,,1;n,3906,,1|
+Room>3873|汉水南岸||||yell boat,3874,,10;s,3983,,1;cross,3874,,1|
+Room>3874|汉水北岸||||cross,3873,,1;yell boat,3873,,10;n,3906,,1|
 Room>3875|汉水|||||
 Room>3876|万古寒潭||||d,-1,,1|
 Room>3877|万古寒潭||||d,-1,,1|
 Room>3878|万古寒潭|||||
-Room>3879|后殿||||e,4002,,1;w,4001,,1;s,3863,,1;n,3967,,1|
+Room>3879|后殿||||e,4002,,1;w,4001,,1;s,3863,,1;n*,3967,,1|
 Room>388|小集市||||s,370,,1;n,389,,1|
 Room>3880|小院||||e,3978,,1;ne,3842,,1;nw,3999,,1;n,3979,,1|
 Room>3881|和尚院一部||||e,3993,,1;w,3970,,1;s,4006,,1;n,3882,,1|
@@ -3417,7 +3417,7 @@ Room>4089|群仙观||||s,4109,,1;n,4043,,1|
 Room>409|大将军府||||open door\&s*,410,,2;n,403,,1|
 Room>4090|峭壁||||out,4097,,1|
 Room>4091|山洞||||nd,4093,,1;su,4127,,1;out,4092,,1|
-Room>4092|山洞||||break wall\&enter,4091,,2;out,4104,,1|
+Room>4092|山洞||||mw0\&break wall\&enter,4091,,2;out,4104,,1|
 Room>4093|山洞||||su,4091,,1;nd,4094,,1|
 Room>4094|山洞||||su,4093,,1;n,4095,,1|
 Room>4095|山洞||||s,4094,,1|
@@ -3465,7 +3465,7 @@ Room>4131|泉州北门||||s,4164,,1;n,1308,,1|
 Room>4132|茶亭||||w,4154,,1|
 Room>4133|赤嵌城||||n,4139,,1;eu,4156,,1;s,4134,,1;enter zhou,4146,,1|
 Room>4134|打狗港||||n,4133,,1|
-Room>4136|海港||||w,4164,,1;enter chuan,4146,,1|
+Room>4136|海港||||w,4164,,1;enter chuan,4146,,50|
 Room>4137|嘉兴城||||e,4143,,1;s,4140,,1;w,4152,,1|
 Room>4138|嘉兴海港||||w,4143,,1;ask lao chuanfu about 出海\&give 1 gold to chuanfu,1628,,2|
 Room>4139|鸡笼港||||s,4133,,1|
@@ -3476,7 +3476,7 @@ Room>4142|马厩||||ne,4140,,1;goto hangzhou,2724,,20;goto suzhou,1049,,20;goto 
 Room>4143|嘉兴南湖||||e,4138,,1;w,4137,,1;s,4157,,1;se,4144,,1|
 Room>4144|嘉兴南湖||||nw,4143,,1;s,4161,,1|
 Room>4145|泉州南门||||n,4164,,1|
-Room>4146|澎湖岛||||enter zhou,4133,,1;enter chuan,4136,,1|
+Room>4146|澎湖岛||||enter zhou,4133,,50;enter chuan,4136,,50|
 Room>4147|青龙会前庭||||open door\&e,4130,,2;w,4148,,1;s,4149,,1;n,4150,,1|
 Room>4148|青龙会大庭||||e,4147,,1|
 Room>4149|青龙会侧庭||||n,4147,,1|
@@ -3508,7 +3508,6 @@ Room>4174|蔚蓝海边||||e,4175,,1;s,4173,,1|
 Room>4175|沙滩||||w,4174,,1|
 Room>4176|聊天室||||out,2474,,1|
 Room>4177|高空||||a9,2600,,1;a8,1309,,1;d9,2856,,1;a4,3415,,1;a5,1456,,1;a6,1043,,1;a7,2696,,1;c1,2029,,1;b3,1555,,1;a1,2474,,1;a0,437,,1|
-Room>4178|center||||t gumu,866,,1;t songshan,272,,1;t lanzhou,369,,1;t1 hmy,1229,,1;t xiangyang,2575,,1;t lingxiao,3049,,1;t1 sl,3959,,1;t lingzhou,395,,1;t wudang,1539,,1;t chengdu,1454,,1;t1 mj,2195,,1;t zhongzhou,512,,1;t1 kl,795,,1;t shangjia,3920,,1;t foshan,347,,1;t1 hgs,617,,1;t1 has,4084,,1;t wudu,1357,,1;t baituo,773,,1;t dali,1882,,1;t hujia,3645,,1;t gc,2460,,1;t xuanming,0,,1;t henshan,1140,,1;t guiyun,1843,,1;t riyue,1239,,1;t jingzhou,2892,,1;t luoyang,2241,,1;t xingxiu,2855,,1;t huashan,4072,,1;t1 kf,3168,,1;t quanzhou,4164,,1;t kunming,2396,,1;t shenlong,3216,,1;t1 hz,2738,,1;t shaolin,3933,,1;t kunlun,832,,1;t1 ca,3735,,1;t xiaoyao,315,,1;t jueqing,180,,1;t beijing,3475,,1;t duanshi,2029,,1;t meizhuang,96,mz^,1;flyup,4177,,1;t1 qz,649,,1;t suzhou,1086,,1;t quanzhen,682,,1;t1 cd,1497,,1;t kaifeng,3209,,1;t xuedao,260,,1;t1 ts,4027,,1;t ouyang,751,,1;t1 wd,1617,,1;t tangmen,4283,,1;t zhenyuan,3388,,1;t changan,3676,,1;t taohua,1624,,1;t murong,2957,,1;t hangzhou,2753,,1;t1 ss,291,,1;t ruzhou,3911,,1;t fuzhou,1282,,1;t dalun,1709,,1;t emei,955,,1;t tiezhang,1762,,1;t wugong,739,,1;t guanwai,3602,,1;t1 bt,773,,1;t lingjiu,583,,1;t mingjiao,2172,,1|
 Room>4179|赌坊||||out,2452,,1|
 Room>418|南大街||||e,396,,1;w,411,,1;s,419,,1;n,395,,1|
 Room>4180|潜能银行||||d,2510,,1|
@@ -3523,23 +3522,23 @@ Room>4188|三味书屋六号屋||||d,4187,,1|
 Room>4189|小院||||w,3983,,1|
 Room>419|灵州南门||||s,408,,1;n,418,,1|
 Room>4190|安全区||||leitai,2477,,1;out,2474,,1|
-Room>4191|灵感塔底||||southup,6004,,1;up,6009,,1;southwest,6007,,1;northeast,6005,,1;eastup,6001,,1;westup,6002,,1;out,3184,,1;southeast,6008,,1;northwest,6006,,1;northup,6003,,1|
-Room>4195|居住小区||||e,2522,,1;ttll,4225,,1;w,4196,,1;n,4999,,1|
+Room>4191|灵感塔底||||southup,6004,lgt^,1;up,6009,lgt^,1;southwest,6007,lgt^,1;northeast,6005,lgt^,1;eastup,6001,lgt^,1;westup,6002,lgt^,1;out,3184,,1;southeast,6008,lgt^,1;northwest,6006,lgt^,1;northup,6003,lgt^,1|
+Room>4195|居住小区||||e,2522,,1;w,4196,,1;n,4999,,1|
 Room>4196|副本集中营||||e,4195,,1;s,4230,,1;w,4197,,1;n,4198,,1|
 Room>4197|天牢||||e,4196,,1;xia\&enter door,5000,,2|
 Room>4198|血魔副本||||s,4196,,1|
-Room>4199|大院子大院||||n,4200,,1;out,2785,,1|
+Room>4199|House大院||||n,4200,,1|
 Room>42|山路||||e,43,,1;s,50,,1|
 Room>420|将军府内宅||||n,410,,1|
-Room>4200|大院子前庭||||e,4202,,1;push gate\&n,4203,,2;s,4199,,1;w,4201,,1|
-Room>4201|大院子右卫舍||||e,4200,,1|
-Room>4202|大院子左卫舍||||w,4200,,1|
+Room>4200|House前庭||||e,4202,,1;push gate\&n,4203,,2;s,4199,,1;w,4201,,1|
+Room>4201|House右卫舍||||e,4200,,1|
+Room>4202|House左卫舍||||w,4200,,1|
 Room>4203|走道||||push gate\&s,4200,,2;n,4204,,1|
-Room>4204|大院子迎客厅||||s,4203,,1;n,4205,,1|
+Room>4204|House迎客厅||||s,4203,,1;n,4205,,1|
 Room>4205|议事厅||||e,4207,,1;w,4206,,1;s,4204,,1;n,4208,,1|
-Room>4206|大院子演武厅||||e,4205,,1|
-Room>4207|大院子演武厅||||w,4205,,1|
-Room>4208|大院子中庭||||open west\&w,4227,,2;open east\&e,4228,,2;s,4205,,1;n,4209,,1|
+Room>4206|House演武厅||||e,4205,,1|
+Room>4207|House演武厅||||w,4205,,1|
+Room>4208|House中庭||||open west\&w,4227,,2;open east\&e,4228,,2;s,4205,,1;n,4209,,1|
 Room>4209|后院||||e,4211,,1;w,4210,,1;s,4208,,1;n,4212,,1|
 Room>421|青铜峡||||ne,425,,1;sw,417,,1|
 Room>4210|厨房||||e,4209,,1|
@@ -3659,7 +3658,7 @@ Room>4331|防具房||||n,4297,,1|
 Room>4332|碎石小路||||w,4310,,1;eu,4333,,1|
 Room>4333|后山||||wd,4332,,1|
 Room>4334|书房||||e,4300,,1|
-Room>4335|宝窝小院||||open door\&n,4336,,2;out,2785,,1|
+Room>4335|宝窝小院||||open door\&n,4336,,2|
 Room>4336|宝窝小屋||||open door\&s,4335,,2|
 Room>4337|地道||||u,4326,,1;sd,-1,,1|
 Room>4338|储料房||||ne,4302,,1|
@@ -3778,7 +3777,7 @@ Room>516|中州道||||s,517,,1;n,480,,1|
 Room>517|中州道||||s,518,,1;n,516,,1|
 Room>518|中州道||||s,470,,1;n,517,,1|
 Room>519|青石路||||w,2567,,1;n,510,,1|
-Room>52|高昌大门||||sd,61,,1;turn huan left\&turn huan left\&turn huan right\&turn huan right\&turn huan right\&turn huan right\&turn huan right,51,,7|
+Room>52|高昌大门||||sd,61,,1;turn huan left\&turn huan left\&turn huan right\&turn huan right\&turn huan right\&turn huan right\&turn huan right\&d,51,die^,7|
 Room>520|文定北街||||e,551,,1;w,531,,1;s,512,,1;n,521,,1|
 Room>521|文定北街||||e,548,,1;w,536,,1;s,520,,1;n,522,,1|
 Room>522|文定北街||||e,538,,1;w,539,,1;s,521,,1;n,523,,1|
@@ -3802,7 +3801,7 @@ Room>538|巡捕房||||e,491,,1;w,522,,1|
 Room>539|中州衙门||||e,522,,1;w,557,,1|
 Room>54|东大殿||||s,53,,1;n,55,,1|
 Room>540|鸦片馆||||e,477,,1;u,472,,1|
-Room>541|扬州渡||||cross,556,,1;yell boat,556,,1;n,2530,,1|
+Room>541|扬州渡||||cross,556,,1;yell boat,556,,10;n,2530,,1|
 Room>542|延陵西路||||e,512,,1;s,476,,1;w,543,,1|
 Room>543|延陵西路||||e,542,,1;w,544,,1;n,555,,1|
 Room>544|延陵西路||||e,543,,1;w,473,,1;n,482,,1|
@@ -3818,7 +3817,7 @@ Room>552|英豪酒家二楼||||w,535,,1;d,551,,1|
 Room>553|驿站||||w,527,,1|
 Room>554|黄员外府邸||||s,546,,1|
 Room>555|杂货铺||||s,543,,1|
-Room>556|中州渡||||yell boat,541,,1;s,480,,1;cross,541,,1|
+Room>556|中州渡||||yell boat,541,,10;s,480,,1;cross,541,,1|
 Room>557|走廊||||e,539,,1;w,485,,1;n,558,,1|
 Room>558|走廊||||s,557,,1;n,511,,1|
 Room>559|闭关室||||s,589,,1|
@@ -4318,3 +4317,87 @@ Room>996|深潭|||||
 Room>997|深潭|||||
 Room>998|深潭|||||
 Room>999|万年庵||||enter,1003,,1;sd,914,,1;wu,991,,1|
+Marker>chat|4176||聊天室|
+Marker>dp|2445||扬州当铺|
+Marker>dtp|2446||扬州打铁铺|
+Marker>gc|2460||扬州广场|
+Marker>home|4220||自建房卧室|
+Marker>kd|2474||扬州客店|
+Marker>qz|2510||扬州钱庄|
+Marker>ttg|4214||自建房听涛阁|
+Marker>wm|2522|||
+Marker>yp|2540||扬州药铺|
+Marker>zhp|2542|| 扬州杂货铺|
+Marker>zxl|2544||扬州醉仙楼|
+Marker>bei chou|2474|npc|npc北丑|北丑\|bei chou
+Marker>lu ban|4189|npc|npc鲁班|鲁班\|lu ban
+Landmark>3128|descline|    这里就是神龙岛了。南边是一望无际的大海；往北则是片||
+Shortcut>rideto baituo|ride|||rideto baituo|773|ride=|2
+Shortcut>rideto beijing|ride|||rideto beijing|3475|ride=|2
+Shortcut>rideto changan|ride|||rideto changan|3676|ride=|2
+Shortcut>rideto chengdu|ride|||rideto chengdu|1454|ride=|2
+Shortcut>rideto dali|ride|||rideto dali|1882|ride=|2
+Shortcut>rideto dalun|ride|||rideto dalun|1709|ride=|2
+Shortcut>rideto duanshi|ride|||rideto duanshi|2029|ride=|2
+Shortcut>rideto emei|ride|||rideto emei|955|ride=|2
+Shortcut>rideto foshan|ride|||rideto foshan|347|ride=|2
+Shortcut>rideto fuzhou|ride|||rideto fuzhou|1282|ride=|2
+Shortcut>rideto gc|ride|||rideto gc|2460|ride=|2
+Shortcut>rideto guanwai|ride|||rideto guanwai|3602|ride=|2
+Shortcut>rideto guiyun|ride|||rideto guiyun|1843|ride=|2
+Shortcut>rideto gumu|ride|||rideto gumu|866|ride=|2
+Shortcut>rideto hangzhou|ride|||rideto hangzhou|2753|ride=|2
+Shortcut>rideto henshan|ride|||rideto henshan|1140|ride=|2
+Shortcut>rideto huashan|ride|||rideto huashan|4072|ride=|2
+Shortcut>rideto hujia|ride|||rideto hujia|3645|ride=|2
+Shortcut>rideto jingzhou|ride|||rideto jingzhou|2892|ride=|2
+Shortcut>rideto jueqing|ride|||rideto jueqing|180|ride=|2
+Shortcut>rideto kaifeng|ride|||rideto kaifeng|3209|ride=|2
+Shortcut>rideto kunlun|ride|||rideto kunlun|832|ride=|2
+Shortcut>rideto kunming|ride|||rideto kunming|2396|ride=|2
+Shortcut>rideto lanzhou|ride|||rideto lanzhou|369|ride=|2
+Shortcut>rideto lingjiu|ride|||rideto lingjiu|583|ride=|2
+Shortcut>rideto lingxiao|ride|||rideto lingxiao|3049|ride=|2
+Shortcut>rideto lingzhou|ride|||rideto lingzhou|395|ride=|2
+Shortcut>rideto luoyang|ride|||rideto luoyang|2241|ride=|2
+Shortcut>rideto meizhuang|ride|||rideto meizhuang|96|mz=;ride=|2
+Shortcut>rideto mingjiao|ride|||rideto mingjiao|2172|ride=|2
+Shortcut>rideto murong|ride|||rideto murong|2957|ride=|2
+Shortcut>rideto ouyang|ride|||rideto ouyang|751|ride=|2
+Shortcut>rideto quanzhen|ride|||rideto quanzhen|682|ride=|2
+Shortcut>rideto quanzhou|ride|||rideto quanzhou|4164|ride=|2
+Shortcut>rideto riyue|ride|||rideto riyue|1239|ride=|2
+Shortcut>rideto ruzhou|ride|||rideto ruzhou|3911|ride=|2
+Shortcut>rideto shangjia|ride|||rideto shangjia|3920|ride=|2
+Shortcut>rideto shaolin|ride|||rideto shaolin|3933|ride=|2
+Shortcut>rideto shenlong|ride|||rideto shenlong|3216|ride=|2
+Shortcut>rideto songshan|ride|||rideto songshan|272|ride=|2
+Shortcut>rideto suzhou|ride|||rideto suzhou|1086|ride=|2
+Shortcut>rideto tangmen|ride|||rideto tangmen|4283|ride=;tm=|2
+Shortcut>rideto taohua|ride|||rideto taohua|1624|ride=|2
+Shortcut>rideto tiezhang|ride|||rideto tiezhang|1762|ride=|2
+Shortcut>rideto wudang|ride|||rideto wudang|1539|ride=|2
+Shortcut>rideto wudu|ride|||rideto wudu|1357|ride=|2
+Shortcut>rideto wugong|ride|||rideto wugong|739|ride=|2
+Shortcut>rideto xiangyang|ride|||rideto xiangyang|2575|ride=|2
+Shortcut>rideto xiaoyao|ride|||rideto xiaoyao|315|ride=|2
+Shortcut>rideto xingxiu|ride|||rideto xingxiu|2855|ride=|2
+Shortcut>rideto xuanming|ride|||rideto xuanming|0|ride=|2
+Shortcut>rideto xuedao|ride|||rideto xuedao|260|ride=|2
+Shortcut>rideto zhenyuan|ride|||rideto zhenyuan|3388|ride=|2
+Shortcut>rideto zhongzhou|ride|||rideto zhongzhou|512|ride=|2
+Shortcut>rideto1 bt|ride|||rideto1 bt|773|ride=|2
+Shortcut>rideto1 ca|ride|||rideto1 ca|3735|ride=|2
+Shortcut>rideto1 cd|ride|||rideto1 cd|1497|ride=|2
+Shortcut>rideto1 has|ride|||rideto1 has|4084|ride=|2
+Shortcut>rideto1 hgs|ride|||rideto1 hgs|617|ride=|2
+Shortcut>rideto1 hmy|ride|||rideto1 hmy|1229|ride=|2
+Shortcut>rideto1 hz|ride|||rideto1 hz|2738|ride=|2
+Shortcut>rideto1 kf|ride|||rideto1 kf|3168|ride=|2
+Shortcut>rideto1 kl|ride|||rideto1 kl|795|ride=|2
+Shortcut>rideto1 mj|ride|||rideto1 mj|2195|ride=|2
+Shortcut>rideto1 qz|ride|||rideto1 qz|649|ride=|2
+Shortcut>rideto1 sl|ride|||rideto1 sl|3959|ride=|2
+Shortcut>rideto1 ss|ride|||rideto1 ss|291|ride=|2
+Shortcut>rideto1 ts|ride|||rideto1 ts|4027|ride=|2
+Shortcut>rideto1 wd|ride|||rideto1 wd|1617|ride=|2

@@ -1,0 +1,11 @@
+(function (App) {
+    App.Include("src/quests/streetview/streetview.js")
+    App.Include("src/quests/lianskill/lianskill.js")
+    App.Include("src/quests/misc/quit.js")
+    App.Include("src/quests/misc/relogin.js")
+    App.Include("src/quests/misc/stop.js")
+    App.Include("src/quests/misc/fangqi.js")
+    App.Include("src/quests/misc/idle.js")
+    App.Include("src/quests/misc/execute.js")
+    App.Include("src/quests/misc/try.js")
+})(App)
