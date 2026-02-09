@@ -1,5 +1,5 @@
 HMM1.0>UTF8
-Info>红尘MUD地图|1770365051|
+Info>红尘MUD地图|1770618609|
 Room>0|玄冥峰山脚|||室外=|ed,5,,1;nw,1,,1|
 Room>1|山路|||室外=|nw,6,,1|
 Room>10|玄冥谷|||室外=|enter,8,,1;nw,4,,1;su,3,,1|
@@ -4317,6 +4317,11 @@ Room>996|深潭|||||
 Room>997|深潭|||||
 Room>998|深潭|||||
 Room>999|万年庵|||室外=|enter,1003,,1;sd,914,,1;wu,991,,1|
+Room>5103|秦始皇陵墓出口|fuben|||s,5104,,1|
+Room>5104|秦始皇陵墓出口|fuben|||n,5103,,1|
+Room>5100|秦始皇陵墓入口|qinling|||s,5101,,1|
+Room>5101|秦始皇陵墓入口|qinling|||n,5100,,1|
+Room>5102|秦始皇陵墓|qinling||||
 Marker>chat|4176||聊天室|
 Marker>dp|2445||扬州当铺|
 Marker>dtp|2446||扬州打铁铺|
@@ -4329,9 +4334,15 @@ Marker>wm|2522|||
 Marker>yp|2540||扬州药铺|
 Marker>zhp|2542|| 扬州杂货铺|
 Marker>zxl|2544||扬州醉仙楼|
+Marker>fuben\|lgtd|4191|fuben|灵感塔底|
+Marker>fuben\|qinlin-door|5100|fuben|秦岭副本入口|
+Marker>fuben\|qinlin-entry|5100|fuben|秦陵副本入口1|
+Marker>fuben\|qinlin-exit|5103|fuben|秦陵副本出口|
+Marker>fuben\|qinling-exit2|5104|fuben||
 Marker>bei chou|2474|npc|npc北丑|北丑\|bei chou
 Marker>lu ban|4189|npc|npc鲁班|鲁班\|lu ban
 Landmark>3128|descline|    这里就是神龙岛了。南边是一望无际的大海；往北则是片||
+Shortcut>flyup|fly|使用 fly bag的flyup||flyup|4177|flyup=|2
 Shortcut>rideto baituo|ride|||rideto baituo|773|ride=|2
 Shortcut>rideto beijing|ride|||rideto beijing|3475|ride=|2
 Shortcut>rideto changan|ride|||rideto changan|3676|ride=|2

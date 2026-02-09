@@ -21,7 +21,7 @@ $.Module(function (App) {
     Quest.Help = ""
     Quest.GetReady = function (q, data) {
         if (!data) {
-            data = "2046"
+            data = "chat"
         }
         return () => {
             Quest.Start(data)

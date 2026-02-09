@@ -10,5 +10,4 @@
     App.Include("src/ui/index.js")
     App.Include("src/quests/index.js")
     App.Include("src/tools/index.js")
-
 })(App)

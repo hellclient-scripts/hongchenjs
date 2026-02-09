@@ -8,4 +8,7 @@
     App.Include("src/quests/misc/idle.js")
     App.Include("src/quests/misc/execute.js")
     App.Include("src/quests/misc/try.js")
+    App.Include("src/quests/stab/stab.js")
+    App.Include("src/quests/qinling/qinling.js")
+    App.Include("src/quests/lgt/lgt.js")
 })(App)

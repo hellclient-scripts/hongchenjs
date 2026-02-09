@@ -32,18 +32,29 @@
             App.RaiseEvent(event)
         }
     })
+    App.Engine.SetFilter("core.chatroom", function (event) {
+        let words = App.History.CurrentOutput.Words
+        if (words.length == 1 && words[0].Color != "" && words[0].Bold == true) {
+            event.Context.Set("roomid", $.RID("chat"))
+            App.RaiseEvent(event)
+        }
+    })
     App.Core.Room.OnName = function (event) {
         App.Core.Room.DescStart = true
         App.Core.Room.Desc = []
+
         App.Core.Room.Current = App.Map.NewRoom().
             WithName(App.History.Current).
             WithNameRaw(App.History.CurrentOutput)
+        if (event.Context.Get("roomid") != null) {
+            App.Core.Room.Current.ID = event.Context.Get("roomid")
+        }
     }
     App.BindEvent("core.roomname", App.Core.Room.OnName)
     App.Core.Room.OnDesc = function (event) {
         if (App.Core.Room.DescStart && App.Core.Room.Desc.length <= App.Core.Room.MaxDescLines) {
             if (noexitrooms[App.Core.Room.Current.Name]) {
-                App.Core.Room.OnExit(event,true)
+                App.Core.Room.OnExit(event, true)
                 return
             }
             App.Core.Room.Desc.push(event.Data.Output)
@@ -52,7 +63,7 @@
     App.BindEvent("line", App.Core.Room.OnDesc)
     reExit = /[a-z]+/g
     //响应房间出口
-    App.Core.Room.OnExit = function (event,noexit) {
+    App.Core.Room.OnExit = function (event, noexit) {
         App.Core.Room.DescStart = false
         var rawdesc = App.Core.Room.Desc
         App.Core.Room.Desc = []

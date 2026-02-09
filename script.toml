@@ -671,6 +671,37 @@ Timers = []
   Variable = ""
 
 [[Triggers]]
+  ID = "d1g1nfmk2a6lu5723hlbia"
+  Name = "core.needneili"
+  Enabled = true
+  Match = "^(你现在真气不够|你现在内力太弱|你的内力不够|你现在内力不够|你的真气不足|你现在的真气不够)"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent(\"core.needneili\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
   ID = "d1h156ebm7d6l46f4r0iv"
   Name = "core.blocked2"
   Enabled = true
@@ -1259,6 +1290,68 @@ Timers = []
   Italic = false
   Variable = ""
 
+[[Triggers]]
+  ID = "d1h4jta2fg5t6k6rhnkp0"
+  Name = "core.missfail"
+  Enabled = true
+  Match = "你穷尽精力，也无法感应到这个物品。"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.FilterLineEvent(\"core.missfail\",\"core.walkretry\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = false
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
+[[Triggers]]
+  ID = "d1h4k0dvlguqll7226g2fq"
+  Name = "core.chatroom"
+  Enabled = true
+  Match = "^[^【】()：]{1,6}\\(\\w+\\)的聊天室$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.FilterLineEvent(\"core.chatroom\",\"core.roomname\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
 [[Aliases]]
   ID = "d1fufevcofgvaa73s6n5s7"
   Name = "App.Core.Connect.OnAliasLogin"
@@ -1420,6 +1513,29 @@ Timers = []
   OmitFromOutput = false
   OmitFromCommandHistory = false
 
+[[Aliases]]
+  ID = "d1h4jvocj0tvmn7226ffgj"
+  Name = "stab"
+  Enabled = true
+  Match = "#stab"
+  Send = "#start stab||stop"
+  Script = ""
+  SendTo = 10
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = false
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = false
+  Menu = false
+  OmitFromLog = false
+  Variable = ""
+  ReverseSpeedwalk = false
+  OmitFromOutput = false
+  OmitFromCommandHistory = false
+
 [[RequiredParams]]
   Name = "id"
   Desc = "用户的id"
@@ -1434,6 +1550,11 @@ Timers = []
   Name = "cmd_ride"
   Desc = "骑坐骑的指令"
   Intro = "比如ride bao-feiji。\n留空则不尝试rideto。"
+
+[[RequiredParams]]
+  Name = "miss_list"
+  Desc = "miss列表"
+  Intro = "用来miss的10兵的位置，一行一个格式为\n武器id|位置，比如\n\nhszz|4109"
 
 [[RequiredParams]]
   Name = "quest"

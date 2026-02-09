@@ -74,4 +74,9 @@
             checkerI.Reset()
         },
     )
+    App.Map.AppendInitiator((map) => {
+        if (App.Data.Item.List.FindByID("fly bag").First() != null) {
+            App.Map.SetTag("flyup", 1)
+        }
+    })
 })(App)
