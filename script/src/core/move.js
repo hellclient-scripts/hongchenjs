@@ -32,7 +32,7 @@
         }
     }
     App.Move = {}
-    let refilter = /[。·！]/g;
+    let refilter = /[。·！*]/g;
     App.Move.Filterdir = function (dir) {
         dir = dir.replace(refilter, "");
         if (dir.indexOf("、") != -1) {
@@ -56,6 +56,9 @@
 
     //移动跟踪
     App.Map.Trace = function (map, rid, dir) {
+        if (rid=="3527"&&dir=="n"){
+            dir="break men&n"
+        }
         var exits = App.Map.GetRoomExits(rid, true)
         var result = ""
         exits.forEach(function (path) {

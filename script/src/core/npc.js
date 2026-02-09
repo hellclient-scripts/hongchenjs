@@ -74,16 +74,16 @@
     //门派信息
     App.Core.NPC.Family = {}
     //加载门派设定
-    App.LoadLines("data/family.txt", "|").forEach((data) => {
-        App.Core.NPC.Family[data[0]] = {
-            Name: data[0],
-            LocMaster: data[1],
-            MasterID: data[2],
-            LocSleep: data[3],
-            LocDazuo: data[4],
-            IDPass: data[5],
-        }
-    })
+    // App.LoadLines("data/family.txt", "|").forEach((data) => {
+    //     App.Core.NPC.Family[data[0]] = {
+    //         Name: data[0],
+    //         LocMaster: data[1],
+    //         MasterID: data[2],
+    //         LocSleep: data[3],
+    //         LocDazuo: data[4],
+    //         IDPass: data[5],
+    //     }
+    // })
     App.Core.NPC.Load = function () {
         let fam = App.Core.NPC.Family[App.Data.Player.Score["门派"]]
         if (fam) {
