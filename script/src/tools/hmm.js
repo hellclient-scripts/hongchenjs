@@ -15,6 +15,18 @@
         MakeHomeFolder("")
         WriteHomeFile("export.hmm", App.Mapper.Database.Export())
     }
+    App.Tools.HMM.FixNPCDExit = () => {
+        let rooms = App.Mapper.Database.APIListRooms(App.Mapper.HMM.APIListRoomsOptions.New())
+        rooms.forEach(room => {
+            if (room.Exits) {
+                room.Exits.forEach(exit => {
+                    if (exit.Command.indexOf("ask ") || exit.Command.indexOf("goto ") || exit.Command.indexOf("cross") || exit.Command.indexOf("yell ")) {
+
+                    }
+                })
+            }
+        })
+    }
     App.Tools.HMM.GetPath = (from, to) => {
         let before = Date.now()
         // let result = App.Map.GetMapperPath(from, true, to);

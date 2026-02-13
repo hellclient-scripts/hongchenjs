@@ -43,9 +43,9 @@
         return result
     }
     //检查npc是否还活着
-    App.Core.NPC.AskBeichouAnswer={
-        "北丑嘿嘿奸笑两声，对你小声道：没有问题，不过得要一两黄金，不二价！":true,
-        "北丑皱了皱眉头，对你摇摇头道：看来你这次确实是遇到了困难，收你十两白银就是了。":true
+    App.Core.NPC.AskBeichouAnswer = {
+        "北丑嘿嘿奸笑两声，对你小声道：没有问题，不过得要一两黄金，不二价！": true,
+        "北丑皱了皱眉头，对你摇摇头道：看来你这次确实是遇到了困难，收你十两白银就是了。": true
     }
     App.Core.NPC.CheckBeichou = function (name, id) {
         App.Core.NPC.AskBeichouData = {
@@ -58,7 +58,7 @@
                 App.Move.NewToCommand("bei chou"),
                 App.NewAskCommand("bei chou", App.Core.NPC.AskBeichouData["ID"], 1),
                 App.Commands.NewFunctionCommand(() => {
-                    if (App.Data.Ask.Answers.length && App.Core.NPC.AskBeichouAnswer[App.Data.Ask.Answers[0].Line]){
+                    if (App.Data.Ask.Answers.length && App.Core.NPC.AskBeichouAnswer[App.Data.Ask.Answers[0].Line]) {
                         App.Core.NPC.AskBeichouData.Live = true
                     }
                     App.Next()
@@ -85,13 +85,20 @@
     //     }
     // })
     App.Core.NPC.Load = function () {
+        App.Core.Player.FamilyList.forEach(data => {
+            App.Core.NPC.Family[data[1]] = {
+                IDPass: data[0]
+            }
+        })
         let fam = App.Core.NPC.Family[App.Data.Player.Score["门派"]]
         if (fam) {
             Note("引入门派设置")
-            App.Params.LocSleep = fam.LocSleep
-            App.Params.MasterID = fam.MasterID
-            App.Params.LocMaster = fam.LocMaster
-            App.Params.LocDazuo = fam.LocDazuo
+            if (App.Mapper.Data.NPCMap[App.Data.Player.Score["掌门"]]){
+            App.Params.MasterID = App.Mapper.Data.NPCMap[App.Data.Player.Score["掌门"]].ID
+            App.Params.LocMaster = App.Data.Player.Score["掌门"]
+            }else{
+                Note(`无法找到掌门 ${App.Data.Player.Score["掌门"]} 的信息`)
+            }
             App.Params.IDPass = fam.IDPass
         }
         let idpass = GetVariable("id_pass").trim()

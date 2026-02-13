@@ -129,4 +129,24 @@
             App.Next()
         }
     ))
+    App.Map.RegisterMaze("圣湖", App.Map.NewMaze().WithCheckEnter(
+        function (maze, move, map, step) {
+            if (map.Room.Name == "圣湖") {
+                maze.Data = step
+                return true
+            }
+            return false
+        }
+    ).WithCheckEscaped(
+        function (maze, move, map) {
+            return map.Room.Name != "圣湖"
+        }
+    ).WithWalk(
+        function (maze, move, map) {
+            App.Eat(true)
+            let cmd = App.Move.Filterdir(maze.Data.Command)
+            map.TrySteps([App.Map.NewStep(cmd)])
+        }
+    ))
+
 })(App)

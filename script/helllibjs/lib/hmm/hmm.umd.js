@@ -690,7 +690,7 @@ class MapDatabase {
     }
 }
 exports.MapDatabase = MapDatabase;
-MapDatabase.Version = 1004;
+MapDatabase.Version = 1005;
 
 
 /***/ }),
@@ -2320,6 +2320,7 @@ class MapperOptions {
         this.MaxTotalCost = 0;
         this.DisableShortcuts = false;
         this.CommandWhitelist = {};
+        this.CommandNotContains = [];
     }
     static New() {
         return new MapperOptions();
@@ -2346,11 +2347,28 @@ class MapperOptions {
         this.CommandWhitelist = {};
         return this;
     }
+    WithCommandNotContains(list) {
+        this.CommandNotContains = list;
+        return this;
+    }
+    ClearCommandNotContains() {
+        this.CommandNotContains = [];
+        return this;
+    }
     ValidateCommand(cmd) {
-        if (Object.keys(this.CommandWhitelist).length === 0) {
-            return true;
+        if (Object.keys(this.CommandWhitelist).length !== 0) {
+            if (this.CommandWhitelist[cmd] === undefined) {
+                return false;
+            }
         }
-        return this.CommandWhitelist[cmd] === true;
+        if (this.CommandNotContains.length > 0) {
+            for (const str of this.CommandNotContains) {
+                if (cmd.includes(str)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
 exports.MapperOptions = MapperOptions;

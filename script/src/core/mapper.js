@@ -3,6 +3,8 @@
     let mapModule = App.RequireModule("helllibjs/map/map.js")
     App.Mapper = {}
     App.Mapper.Data = {}
+    App.Mapper.Data.NPCList = []
+    App.Mapper.Data.NPCMap = {}
     App.Mapper.Data.Markers = {}
     App.Mapper.CommonExits = ["west", "east", "south", "north", "up", "down", "enter", "out", "n", "s", "e", "w", "ne", "nw", "se", "sw", "u", "d", "northup", "northdown", "southup", "southdown", "eastup", "eastdown", "westup", "westdown", "nu", "nd", "eu", "ed", "wu", "wd", "su", "sd"]
     App.Mapper.HMM = mapModule.HMM
@@ -34,6 +36,14 @@
     }
     mapModule.Database.APIListMarkers(mapModule.HMM.APIListOption.New()).forEach((marker) => {
         App.Mapper.Data.Markers[marker.Key] = marker.Value
+        if ((marker.Group = "npc")) {
+            let data = marker.Message.split("|")
+            marker.Name = data[0]
+            marker.ID = data[1]
+            App.Mapper.Data.NPCList.push(marker)
+            App.Mapper.Data.NPCMap[marker.Key] = marker
+            App.Mapper.Data.NPCMap[marker.Name] = marker
+        }
     })
     App.Mapper.LoadMarker = (key) => {
         if (App.Mapper.Data.Markers[key]) {

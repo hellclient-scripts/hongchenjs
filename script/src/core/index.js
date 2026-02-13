@@ -48,6 +48,7 @@
     App.Include("src/core/medicine.js")
     App.Include("src/core/fuben.js")
     App.Include("src/core/miss.js")
+    App.Include("src/core/questlock.js")
     App.Core.Params.Load()
 
 })(App)

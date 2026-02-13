@@ -41,6 +41,9 @@
     App.Zone.InfoByZone = {}//每个mud地图区域对应的info坐标列表
     App.Zone.ZonesByCity = {}//每个城市对应的zone列表，直接逃跑时用来ask
     App.Zone.LocToCityList = {}//loc对应zone的区域
+    App.Zone.LocToZone = {}//loc对应zone的区域,缓存
+    App.Zone.NameToCityList = {}//房间名对应的Zone
+    App.Zone.NameToLocList = {}//房间名对应的loc
     App.Zone.FindLocCityList = function (loc) {
         return App.Zone.LocToCityList[loc] || []
     }
@@ -56,11 +59,12 @@
     ]).WithTags([
         App.Mapper.HMM.ValueTag.New("npcd", 1)
     ])
+    let npcdoptions=App.Mapper.HMM.MapperOptions.New().WithCommandNotContains(["goto ","ask ","cross","yell "])
     const NpcdMaxMove = 5
     //npcd最大移动步数
     App.Mapper.Database.APIListTraces(App.Mapper.HMM.APIListOption.New().WithGroups(["npcd"])).forEach((model) => {
-        App.Zone.NPCDMaps[`${model.Key}1`] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, 1, npcdcontext), Ordered: false }//计算1步路径
-        App.Zone.NPCDMaps[model.Key] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, NpcdMaxMove, npcdcontext), Ordered: false }//计算最大路径
+        App.Zone.NPCDMaps[`${model.Key}1`] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, 1, npcdcontext,npcdoptions), Ordered: false }//计算1步路径
+        App.Zone.NPCDMaps[model.Key] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, NpcdMaxMove, npcdcontext,npcdoptions), Ordered: false }//计算最大路径
         if (App.Zone.CiteList.indexOf(model.Key) > -1) {
             App.Zone.NPCDMaps[model.Key].Rooms.forEach(room => {
                 if (App.Zone.LocToCityList[room] === undefined) {
@@ -81,6 +85,16 @@
                     App.Zone.InfoByZone[room.Group] = []
                 }
             }
+            if (App.Zone.NameToCityList[room.Name] === undefined) {
+                App.Zone.NameToCityList[room.Name] = []
+            }
+            if (App.Zone.NameToLocList[room.Name] === undefined) {
+                App.Zone.NameToLocList[room.Name] = []
+            }
+            if (App.Zone.NameToCityList[room.Name].indexOf(model.Key) == -1) {
+                App.Zone.NameToCityList[room.Name].push(model.Key)//记录房间名对应的城市
+            }
+            App.Zone.NameToLocList[room.Name].push(room.Key)//记录房间名对应的loc
         })
         let orderedZones = Object.keys(zones).sort((a, b) => zones[b] - zones[a])//把区域根据数量排序
         App.Zone.ZonesByCity[model.Key] = orderedZones

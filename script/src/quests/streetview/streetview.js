@@ -82,7 +82,7 @@ $.Module(function (App) {
                 }
                 App.Mapper.Database.APIGroupRoom(StreetView.Current, result.Task.Data.Zone)
             }
-            Dump(result.Task.Data)
+            NoteJSON(result.Task.Data)
             $.Next()
         },
     )

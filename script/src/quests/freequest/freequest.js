@@ -335,7 +335,6 @@ $.Module(function (App) {
         $.Next()
     }
     Freequest.XunzhaoAfterAskKeeper = function () {
-        Dump(App.Data.Ask)
         if (App.Data.Ask.Result == "ok") {
             let npc1area = App.Data.Ask.Answers[0].Line.match(matcherXunzhaoItemNPC1)
             if (npc1area) {
@@ -374,7 +373,6 @@ $.Module(function (App) {
         $.Next()
     }
     Freequest.XunzhaoAfterAskLoser = function () {
-        Dump(App.Data.Ask)
         if (App.Data.Ask.Result == "ok") {
             let npc1area = App.Data.Ask.Answers[0].Line.match(matcherXunzhaoItemNPC2)
             if (npc1area) {
@@ -407,7 +405,6 @@ $.Module(function (App) {
         $.Next()
     }
     Freequest.BeiqiAfterAskMore = function () {
-        Dump(App.Data.Ask)
     }
     Freequest.YunsongAskMore = function () {
         $.PushCommands(
@@ -418,7 +415,6 @@ $.Module(function (App) {
         $.Next()
     }
     Freequest.YunsongAfterAskMore = function () {
-        Dump(App.Data.Ask)
     }
     Freequest.FeizeiAskMore = function () {
         $.PushCommands(
@@ -453,7 +449,12 @@ $.Module(function (App) {
         }
         $.Next()
     }
-
+    Freequest.OnSuccess = function () {
+        if (App.Core.QuestLock.Freequest > 0) {
+            App.Core.QuestLock.Freequest--
+        }
+        Freequest.Data.Success++
+    }
 
 
 
@@ -492,20 +493,15 @@ $.Module(function (App) {
     let matcherZhuisha = /^你为六大门派排除异己，/
     let matcherFanzei = /^你又做了件[侠|不]义之事，/
     let matcherXunzhao = /^你拿出[^() ]+\(.+\)给.+/
+    let successCallback = (tri, result) => {
+        Freequest.OnSuccess()
+        return true
+    }
     let planQuest = new App.Plan(App.Quests.Position,
         (task) => {
-            task.AddTrigger(matcherZhuisha, (tri, result) => {
-                Freequest.Data.Success++
-                return true
-            })
-            task.AddTrigger(matcherFanzei, (tri, result) => {
-                Freequest.Data.Success++
-                return true
-            })
-            task.AddTrigger(matcherXunzhao, (tri, result) => {
-                Freequest.Data.Success++
-                return true
-            })
+            task.AddTrigger(matcherZhuisha, successCallback)
+            task.AddTrigger(matcherFanzei, successCallback)
+            task.AddTrigger(matcherXunzhao, successCallback)
         },
     )
 
