@@ -3,8 +3,7 @@
     App.Zone = {}
     App.Zone.Maps = {}
     App.Zone.NPCDMaps = {}
-    App.Zone.Info = {}
-    App.Zone.Zones = [
+    App.Zone.CiteList = [
         "洛阳",
         "北京",
         "长安",
@@ -35,10 +34,15 @@
         "终南",
         "大理",
         "西域",
-    ];
-    App.Zone.LocToZone = {}
-    App.Zone.FindLocZones = function (loc) {
-        return App.Zone.LocToZone[loc] || []
+    ];//全部区域列表，取前2字
+
+    // App.Zone.Info = {}
+    App.Zone.InfoIDMap = {}//info坐标对应的info id
+    App.Zone.InfoByZone = {}//每个mud地图区域对应的info坐标列表
+    App.Zone.ZonesByCity = {}//每个城市对应的zone列表，直接逃跑时用来ask
+    App.Zone.LocToCityList = {}//loc对应zone的区域
+    App.Zone.FindLocCityList = function (loc) {
+        return App.Zone.LocToCityList[loc] || []
     }
     App.Mapper.Database.APIListRoutes(App.Mapper.HMM.APIListOption.New().WithGroups(["quest"])).forEach((model) => {
         App.Zone.Maps[model.Key] = {
@@ -55,16 +59,32 @@
     const NpcdMaxMove = 5
     //npcd最大移动步数
     App.Mapper.Database.APIListTraces(App.Mapper.HMM.APIListOption.New().WithGroups(["npcd"])).forEach((model) => {
-        App.Zone.NPCDMaps[`${model.Key}1`] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, 1, npcdcontext), Ordered: false }
-        App.Zone.NPCDMaps[model.Key] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, NpcdMaxMove, npcdcontext), Ordered: false }
-        if (App.Zone.Zones.indexOf(model.Key) > -1) {
+        App.Zone.NPCDMaps[`${model.Key}1`] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, 1, npcdcontext), Ordered: false }//计算1步路径
+        App.Zone.NPCDMaps[model.Key] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, NpcdMaxMove, npcdcontext), Ordered: false }//计算最大路径
+        if (App.Zone.CiteList.indexOf(model.Key) > -1) {
             App.Zone.NPCDMaps[model.Key].Rooms.forEach(room => {
-                if (App.Zone.LocToZone[room] === undefined) {
-                    App.Zone.LocToZone[room] = []
+                if (App.Zone.LocToCityList[room] === undefined) {
+                    App.Zone.LocToCityList[room] = []
                 }
-                App.Zone.LocToZone[room].push(model.Key)
+                App.Zone.LocToCityList[room].push(model.Key)//记录loc对应的城市
             })
         }
+        let rooms = App.Mapper.Database.APIListRooms(App.Mapper.HMM.APIListOption.New().WithKeys(App.Zone.NPCDMaps[model.Key].Rooms))
+        let zones = {}//当前城市对应的区域
+        rooms.forEach(room => {
+            if (room.Group != "") {
+                if (zones[room.Group] == null) {
+                    zones[room.Group] = 0
+                }
+                zones[room.Group]++
+                if (App.Zone.InfoByZone[room.Group] === undefined) {
+                    App.Zone.InfoByZone[room.Group] = []
+                }
+            }
+        })
+        let orderedZones = Object.keys(zones).sort((a, b) => zones[b] - zones[a])//把区域根据数量排序
+        App.Zone.ZonesByCity[model.Key] = orderedZones
+
     });
     App.Zone.GetMap = function (name) {
         if (App.Zone.NPCDMaps[name] && App.Params.DisableNPCD.trim() != "t") {
@@ -72,48 +92,29 @@
         }
         return App.Zone.Maps[name]
     }
-    // App.Mapper.ConvertAll = () => {
-    //     for (let key in loc_list) {
-    //         let loc = loc_list[key]
-    //         Note(key)
-    //         let path = convertPath(loc.id, map_list[loc.map])
-    //         let path1 = convertPath(loc.id, map_list1[loc.map])
-    //         var route = App.Mapper.HMM.Route.New()
-    //         route.Key = `${key}`
-    //         route.Group = "quest"
-    //         route.Rooms = path
-    //         var route1 = App.Mapper.HMM.Route.New()
-    //         route1.Key = `${key}1`
-    //         route1.Group = "quest"
-    //         route1.Rooms = path1
-    //         App.Mapper.Database.APIInsertRoutes([route, route1])
-    //         App.Tools.HMM.Export()
-    //     }
-    // }
+
+    var loadinfodata = function () {//加载小二信息
+        let infolist = App.LoadLinesText(App.Mapper.Database.APIGetVariable("infolist").split("\n"), "|")
+        infolist.forEach(data => {
+            App.Zone.InfoIDMap[data[0]] = data[1]
+        })
+        let rooms = App.Mapper.Database.APIListRooms(App.Mapper.HMM.APIListOption.New().WithKeys(infolist.map(data => data[0])))
+        rooms.forEach(room => {
+            if (room.Group != "") {//按NPCD代码必须所在房间有区域才能问到
+                if (App.Zone.InfoByZone[room.Group] === undefined) {
+                    App.Zone.InfoByZone[room.Group] = []
+                }
+                App.Zone.InfoByZone[room.Group].push(
+                    room.Key
+                )
+            }
+        })
+    }
+    loadinfodata()
     //将起点和路径传为带房间id的path
     let convertPath = function (fr, cmds) {
         return App.Map.TraceRooms(`${fr}`, ...cmds.split(";"))
     }
-    //加载默认数据
-    // App.LoadLines("data/zones.txt", "|").forEach((data) => {
-    //     switch (data[1]) {
-    //         case "path":
-    //             App.Zone.Maps[data[0]] = convertPath(data[2], data[3])
-    //             break
-    //         default:
-    //             PrintSystem("无效的路径类型" + data[1])
-    //     }
-    // })
-    //加载小二信息
-    // App.LoadLines("data/info.txt", "|").forEach((data) => {
-    //     App.Zone.Info[data[0]] = {
-    //         ID: data[0],
-    //         Name: data[1],
-    //         NPC: data[2],
-    //         Area: data[3],
-    //         Loc: data[4],
-    //     }
-    // })
     let DefaultChecker = function (wanted) {
         return App.Map.Room.Data.Objects.FindByName(wanted.Target).First() || App.Map.Room.Data.Objects.FindByIDLower(wanted.Target).First()
     }

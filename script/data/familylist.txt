@@ -1,37 +1,37 @@
-//id, 全名
+//id, 全名,掌门id
 
-bx,普通百姓
-sl,少林派
-wd,武当派
-em,峨眉派
-hs,华山派
-gb,丐帮
-th,桃花岛
-xx,星宿派
-xy,逍遥派
-gm,古墓派
-qz,全真派
-xm,玄冥谷
-kl,昆仑派
-mj,明教
-ry,日月神教
-lj,灵鹫宫
-slj,神龙教
-dls,大轮寺
-tiezhang,铁掌帮
-hh,红花会
-xd,血刀门
-wdj,五毒教
-mz,梅庄
-zy,镇远镖局
-xs,雪山剑派
-song,嵩山派
-hen,衡山派
-oy,欧阳世家
-hu,关外胡家
-mr,慕容世家
-duan,段氏皇族
-sj,商家堡
-miao,中原苗家
-jq,绝情谷
-tm, 唐门世家
+bx,普通百姓,
+sl,少林派,xuanci dashi
+wd,武当派,song yuanqiao
+em,峨眉派,miejue shitai
+hs,华山派,yue buqun
+gb,丐帮,jian zhanglao
+th,桃花岛,huang yaoshi
+xx,星宿派,ding chunqiu
+xy,逍遥派,su xinghe
+gm,古墓派,yang guo
+qz,全真教,ma yu
+xm,玄冥谷,baisun daoren
+kl,昆仑派,he taichong
+mj,明教,zhang wuji
+ry,日月神教,xiang wentian
+lj,灵鹫宫,xuzhu zi
+slj,神龙教,hong antong
+dls,大轮寺,jinlun fawang
+tiezhang,铁掌帮,qiu qianren
+hh,红花会,wen tailai
+xd,血刀门,xuedao laozu
+wdj,五毒教,he tieshou
+mz,梅庄,heibai zi
+zy,镇远镖局,wang jianjie
+xs,雪山剑派,bai wanjian
+song,嵩山派,zuo lengchan
+hen,衡山派,mo da
+oy,欧阳世家,ouyang feng
+hu,关外胡家,hu fei
+mr,慕容世家,murong bo
+duan,段氏皇族,duan zhengchun
+sj,商家堡,shang jianming
+miao,中原苗家,miao renfeng
+jq,绝情谷,gongsun zhi
+tm, 唐门世家,tang laotai

@@ -16,7 +16,7 @@
         }
         App.Commands.PushCommands(
             App.NewSyncCommand(),
-            App.Commands.NewFunctionCommand(() => { App.ReloadVariable(); App.Next() })
+            App.Commands.NewFunctionCommand(() => { App.ReloadVariable(true); App.Next() })
         )
         App.Next()
     }

@@ -244,6 +244,7 @@
                         App.Data.Player.Score["Family"] = item[0]
                         App.Data.Player.Score["门派"] = item[1]
                         App.Data.Player.Score["级别"] = result[2].slice(item[1].length).trim()
+                        App.Data.Player.Score["掌门"]=item[2]
                     }
                 }
                 if (!App.Data.Player.Score["Family"]) {
