@@ -17,6 +17,7 @@
     let matcherUnknown = /^.+(摇摇头，说道：没听说过。|疑惑地看着你，摇了摇头。|睁大眼睛望着你，显然不知道你在说什么。|耸了耸肩，很抱歉地说：无可奉告。|说道：嗯....这我可不清楚，你最好问问别人吧。|想了一会儿，说道：对不起，你问的事我实在没有印象。|耸了耸肩，很抱歉地说：“对不起，无可奉告。”|说道：“嗯……这我可不清楚，你最好问问别人吧。”|想了一会儿，说道：“对不起，你问的事我实在没有印象。”|看着你，皱了皱眉头，说道：“我从没听说过这事，你去问别人吧。”|摇摇头，说道：“没听说过)/
     let matcherUnknown2 = /^但是很显然的，.+现在的状况没有办法给你任何答覆。$/
     let matcherRetry = /^.+说道：(这个... 这个... 哦，好了，啊？你问我呢？|阿嚏！有点感冒，不好意思|等...等等，你说什么？没听清楚|嗯，稍等啊，就好... 好了，你刚才说啥|唉呦！... 不好意思，是你问我么|就好... 就好... 好了，你说啥|等…等等，你说什么？没听清楚|嗯，稍等啊，就好…好了，你刚才说啥|这个…这个…哦，好了，啊？你问我呢|唉呦！不好意思，是你问我么|就好…就好…好了，你说啥|嗯，你稍等一下，我这里还没忙完。)/
+    let matcherRetry2 = '你现在的精神不太好，没法向别人打听。'
     //这个地方不能讲话。
     //这里没有这个人。
     //$N对着$n自言自语....
@@ -63,6 +64,14 @@
                 }
                 return true
             })
+            task.AddTrigger(matcherRetry2, function (tri, result) {
+                if (App.Data.Ask.LineNumber == 1 && App.Data.Ask.Mode == 1) {
+                    App.Data.Ask.Result = "retry"
+                    App.Data.Ask.Mode = 2
+                }
+                return true
+            })
+
             task.AddTrigger(matcherFail, function (tri, result) {
                 if (App.Data.Ask.LineNumber == 1 && App.Data.Ask.Mode == 1) {
                     App.Data.Ask.Result = "fail"

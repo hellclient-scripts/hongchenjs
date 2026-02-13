@@ -6,6 +6,9 @@
 
     //判断是否可以raid
     ridable = function () {
+        if (App.Map.Room.Data.core_ride_noride === true) {
+            return 0
+        }
         var cmd = GetVariable("cmd_ride") || ""
         cmd = cmd.trim()
         if (cmd) {
@@ -47,9 +50,7 @@
     })
     //响应临时不骑马的状态
     App.Engine.SetFilter("core.ride.later", function (event) {
-        LastTry = (new Date()).getTime()
-        Mode = 2
-        App.Map.InitTags()
+        App.Map.Room.Data.core_ride_noride = true
         App.RaiseEvent(event)
     })
 })(App)

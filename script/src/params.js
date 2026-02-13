@@ -17,9 +17,9 @@
     App.NamedParams = new paramsModule.Params(App.Params)
     App.NamedParams.AddString("MasterID", "").WithName("掌门ID").WithDesc("掌门ID，未指定会根据门派自动判定")
     App.NamedParams.AddString("LocMaster", "").WithName("掌门坐标").WithDesc("掌门坐标，未指定会根据门派自动判定")
-    App.NamedParams.AddString("LocDazuo", "1927").WithName("打坐坐标").WithDesc("打坐坐标，未指定会根据门派自动判定")
+    App.NamedParams.AddString("LocDazuo", "public_dazuo").WithName("打坐坐标").WithDesc("打坐坐标，未指定会根据门派自动判定")
     App.NamedParams.AddString("LocYanjiu", "").WithName("研究坐标").WithDesc("研究坐标，未指定会根据是否有房屋信息去1949或LocDazuo")
-    App.NamedParams.AddString("LocSleep", "1929").WithName("睡觉坐标").WithDesc("睡觉坐标，未指定会根据门派自动判定")
+    App.NamedParams.AddString("LocSleep", "public_sleep").WithName("睡觉坐标").WithDesc("睡觉坐标，未指定会根据门派自动判定")
     App.NamedParams.AddNumber("HealBelow", 75).WithName("气血下限").WithDesc("低于这个值会疗伤")
     App.NamedParams.AddNumber("LearnMax", 100).WithName("学习最大次数").WithDesc("每次学习的最大次数")
     App.NamedParams.AddNumber("YanjiuMax", 100).WithName("研究最大次数").WithDesc("每次研究的最大次数")
@@ -43,5 +43,5 @@
     App.NamedParams.AddNumber("NumStep", 6).WithName("多步行走步数").WithDesc("多步行走时的最大步数,小于等于1强制单步")
     App.NamedParams.AddString("ShowRoomID", "").WithName("显示房间ID").WithDesc("设为t打开")
     App.NamedParams.AddString("Echo", "t").WithName("指令回显").WithDesc("设为f关闭回显")
-
+    App.NamedParams.AddString("DisableNPCD", "").WithName("禁用NPCD出生点路径").WithDesc("设为t使用固定路径")
 })()

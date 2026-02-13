@@ -17,7 +17,7 @@
         report.push(`经验:${App.Data.Player.HP["经验"] || "0"} 潜能:${App.Data.Player.HP["潜能"] || "0"} 体会:${App.Data.Player.HP["体会"] || "0"} 阅历:${App.Data.Player.Score["阅历"] || "-"} 当前等级 ${App.Data.Player.HPM["当前等级"]}`)
         report.push(`门贡:${App.Data.Player.Score["门贡"] || 0} 集资点:${App.Data.Player.Donate || 0}`)
 
-        report.push(`存款:${App.Data.Player.Score["存款" || 0]} 债券:${App.Data.Player.Score["债券" || 0]}`)
+        report.push(`存款:${App.Data.Player.Score["存款" || 0]}`)
         report.push(`打坐位置:${App.Params.LocDazuo} 睡觉位置:${App.Params.LocSleep} 掌门ID:${App.Params.MasterID || "-"} 掌门位置:${App.Params.LocMaster || "-"}`)
         report.push(`最大经验:${GetVariable("max_exp") || 0} 最大潜能:${GetVariable("max_pot")} 最小潜能:${GetVariable("min_pot")} 最大体会${App.Core.Study.Jiqu.Max || "0"}`)
         report.push(`汲取指令列表`)

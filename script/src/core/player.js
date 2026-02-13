@@ -128,7 +128,9 @@
             }
         }
     }
-
+    App.BindEvent("core.beforecheck", function (event) {
+        App.Eat()
+    })
     App.BindEvent("core.foodfull", () => {
         App.NeedEat = false
         checkerHP.Force()
@@ -483,8 +485,10 @@
     //cha force的计划
     var PlanOnChaForce = new App.Plan(App.Positions.Connect,
         function (task) {
+            var chastartcount = 0
             task.AddTrigger(matcherChaStart, function (trigger, result, event) {
-                return true
+                chastartcount++
+                return chastartcount < 2
             })
             task.AddTrigger(matcherSkills, function (trigger, result, event) {
                 if (result[2] != "基本内功") {
@@ -493,7 +497,6 @@
                 return true
             })
             task.AddTimer(5000)
-            task.AddTrigger(matcherSkillsEnd)
         })
     App.BindEvent("core.chaforce", App.Core.OnChaForce)
     //处理hp -m信息

@@ -1,5 +1,12 @@
 //街景模块
 $.Module(function (App) {
+    let fixedGroup = {
+
+    }
+    let nosleep = {
+        "群玉楼雅室": true,
+        "土娼馆":true,
+    }
     let StreetView = {
         Remain: [],
         StartPoint: "",
@@ -17,6 +24,8 @@ $.Module(function (App) {
     let matcherFill = "这个容器装不了水。"
     let matcherSafe = "这里禁止战斗。"
     let matcherIndoor = "只有在户外才有必要绘制地图。"
+    let matcherSleep = "你想和谁做爱？"
+    let matcherZone = /^s*【(.+)图】\s*$/
     let PlanLook = new App.Plan(
         App.Positions["Response"],
         (task) => {
@@ -24,6 +33,8 @@ $.Module(function (App) {
                 fill: false,
                 safe: false,
                 outdoor: true,
+                sleep: false,
+                Zone: "",
             }
             task.AddTrigger(matcherFill, (tri, result) => {
                 task.Data.fill = true
@@ -37,23 +48,41 @@ $.Module(function (App) {
                 task.Data.outdoor = false
                 return true
             })
+            task.AddTrigger(matcherZone, (tri, result) => {
+                task.Data.Zone = result[1]
+                return true
+            })
+            task.AddTrigger(matcherSleep, (tri, result) => {
+                task.Data.sleep = true
+                return true
+            })
+            let cmd = "yun recover;yun regenerate;fill cloth;hit;show;map here"
+            if (!nosleep[App.Map.Room.Name]) {
+                cmd += ";makelove"
+            }
             App.Look()
-            App.Send("yun recover;yun regenerate;fill cloth;hit;map here")
+            App.Send(cmd)
             App.Sync()
         },
         (result) => {
-            Dump(result.Task.Data)
             print(App.Core.Room.Current.Data.Desc)
             if (StreetView.Current != "") {
                 App.Mapper.Database.APITagRoom(StreetView.Current, "室外", result.Task.Data.outdoor ? 1 : 0)
                 App.Mapper.Database.APITagRoom(StreetView.Current, "safe", result.Task.Data.safe ? 1 : 0)
-                if (result.Task.Data.fill) {
-                    App.Mapper.Database.APITraceLocation("fill", StreetView.Current)
-                }
+                App.Mapper.Database.APITagRoom(StreetView.Current, "sleep", result.Task.Data.sleep ? 1 : 0)
+                App.Mapper.Database.APITagRoom(StreetView.Current, "fill", result.Task.Data.fill ? 1 : 0)
                 if (App.Core.Room.Current.Data.Desc) {
                     App.Mapper.Database.APITakeSnapshot(StreetView.Current, "desc", App.Core.Room.Current.Data.Desc, "")
                 }
+                if (result.Task.Data.Zone.endsWith("略") || result.Task.Data.Zone.endsWith("地") || result.Task.Data.Zone.endsWith("概")) {
+                    result.Task.Data.Zone = result.Task.Data.Zone.slice(0, -1)
+                }
+                if (fixedGroup[StreetView.Current]) {
+                    result.Task.Data.Zone = fixedGroup[StreetView.Current]
+                }
+                App.Mapper.Database.APIGroupRoom(StreetView.Current, result.Task.Data.Zone)
             }
+            Dump(result.Task.Data)
             $.Next()
         },
     )
@@ -124,7 +153,7 @@ $.Module(function (App) {
         $.Next()
     }
     StreetView.Finish = () => {
-        Quest.Cooldown(60000)
+        Quest.Cooldown(3600)
         App.Log("街景采集完毕")
         App.Tools.HMM.Export()
         App.Next()
@@ -132,8 +161,11 @@ $.Module(function (App) {
     Quest.OnHUD = () => {
         return [
             new App.HUD.UI.Word("扫街进度:"),
-            new App.HUD.UI.Word(StreetView.Count > 0 ? (StreetView.Remain.length * 100 / StreetView.Count).toFixed(2) : "-", 5, true),
+            new App.HUD.UI.Word(StreetView.Remain.length > 0 ? StreetView.Remain.length: "-", 5, true),
         ]
+    }
+    Quest.OnReport=function(){
+                return [`扫街进度:${StreetView.Remain.length} / ${StreetView.Count}`]
     }
     App.Quests.Register(Quest)
 })

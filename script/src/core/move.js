@@ -258,7 +258,8 @@
             }
             if (target) {
                 target = App.Mapper.LoadMarkers(target)
-                Note(`${App.Map.Room.ID} 前往 ${target.join(",")}`)
+                label=target.length>1?`${target[0]} 等 ${target.length} 个房间`:target[0]
+                Note(`${App.Map.Room.ID} 前往 ${label}`)
             }
             App.Move.NewTo(target, ...running.Command.Data.Initers).Execute()
         }

@@ -6,3 +6,4 @@ wielded>#carry any
 #home id=xuanyuan jian,map_ne,map_nw,map_se,map_sw,tian jing,
 #home id=Tower crystal
 #sell name=金块,金条,金锭,小金元宝,大金元宝,玄冰寒铁,乌金丝,银轮
+#drop id=baijin he,zijin chui,tie guanyin,qiankun mao,baiyu bi,yu hulu,yu ping,tong xique,sijian ping,jin hulu,yinlou hua,jinlou hua,qingtong ding,tie ruyi,yu dai,jixue shi,ziyun sha,ye guangbei,jin gua

@@ -47,7 +47,7 @@
         "北丑嘿嘿奸笑两声，对你小声道：没有问题，不过得要一两黄金，不二价！":true,
         "北丑皱了皱眉头，对你摇摇头道：看来你这次确实是遇到了困难，收你十两白银就是了。":true
     }
-    App.Core.NPC.CheckBiechou = function (name, id) {
+    App.Core.NPC.CheckBeichou = function (name, id) {
         App.Core.NPC.AskBeichouData = {
             Name: name,
             ID: id ? id : App.Core.NPC.GetPinyin(name),

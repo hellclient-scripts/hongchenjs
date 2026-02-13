@@ -2,71 +2,94 @@
 (function (App) {
     App.Zone = {}
     App.Zone.Maps = {}
+    App.Zone.NPCDMaps = {}
     App.Zone.Info = {}
+    App.Zone.Zones = [
+        "洛阳",
+        "北京",
+        "长安",
+        "开封",
+        "中州",
+        "苏州",
+        "杭州",
+        "襄阳",
+        "扬州",
+        "昆明",
+        "荆州",
+        "兰州",
+        "成都",
+        "福州",
+        "灵州",
+        "武功",
+        "泉州",
+        "华山",
+        "佛山",
+        "南海",
+        "汝州",
+        "嵩山",
+        "凌霄",
+        "五毒",
+        "星宿",
+        "天山",
+        "关外",
+        "终南",
+        "大理",
+        "西域",
+    ];
+    App.Zone.LocToZone = {}
+    App.Zone.FindLocZones = function (loc) {
+        return App.Zone.LocToZone[loc] || []
+    }
     App.Mapper.Database.APIListRoutes(App.Mapper.HMM.APIListOption.New().WithGroups(["quest"])).forEach((model) => {
         App.Zone.Maps[model.Key] = {
             Rooms: model.Rooms,
             Ordered: true,
         }
     });
-    var loc_list = {
-        "洛阳": { "info": "53" },
-        "北京": { "info": "02;59;25" },
-        "长安": { "info": "08;64;44;90;29" },
-        "开封": { "info": "39;32" },
-        "中州": { "info": "95;83;75" },
-        "苏州": { "info": "75;26;17;61;94;95;22" },
-        "杭州": { "info": "34;61;22" },
-        "襄阳": { "info": "83;53;77;78" },
-        "扬州": { "info": "91;29;17;61;75;26;78;27;08;70" },
-        "昆明": { "info": "43;14;16" },
-        "荆州": { "info": "37;43;10;83;78" },
-        "兰州": { "info": "44;90;08;67" },
-        "成都": { "info": "10;80;50;16" },
-        "福州": { "info": "22;60" },
-        "灵州": { "info": "56" },
-        "武功": { "info": "64;08" },
-        "泉州": { "info": "60;22;18" },
-        "华山": { "info": "32;33;29;30" },
-        "佛山": { "info": "18;87;27" },
-        "南海": { "info": "18;87" },
-        "汝州": { "info": "72;70;71;59;02;39" },
-        "嵩山": { "info": "72;70;71;02;39" },
-        "凌霄": { "info": "50;80;10" },
-        "五毒": { "info": "79;14" },
-        "星宿": { "info": "90;49;88;67" },
-        "天山": { "info": "49;90" },
-        "关外": { "info": "25;02" },
-        "终南": { "info": "64;23;08" },
-        "大理": { "info": "14;76;79" },
-        "西域": { "info": "48;49;90;57;40;80;88;67;05" },
-        // add map for bunch & family quest
-        "京城": { "info": "00" },
-        "理城": { "info": "00" },
-        "扬城": { "info": "00" },
-        "少林": { "info": "00" },
-        "桃花": { "info": "00" },
-        "全真": { "info": "00" },
-        "逍遥": { "info": "00" },
-    };
-    App.Mapper.ConvertAll = () => {
-        for (let key in loc_list) {
-            let loc = loc_list[key]
-            Note(key)
-            let path = convertPath(loc.id, map_list[loc.map])
-            let path1 = convertPath(loc.id, map_list1[loc.map])
-            var route = App.Mapper.HMM.Route.New()
-            route.Key = `${key}`
-            route.Group = "quest"
-            route.Rooms = path
-            var route1 = App.Mapper.HMM.Route.New()
-            route1.Key = `${key}1`
-            route1.Group = "quest"
-            route1.Rooms = path1
-            App.Mapper.Database.APIInsertRoutes([route, route1])
-            App.Tools.HMM.Export()
+    Note("加载NPCD出生点扩展路径")
+    let npcdcontext = App.Mapper.HMM.Context.New().WithRoomConditions([
+        App.Mapper.HMM.ValueCondition.New("safe", 1, true)//排除安全房间
+    ]).WithTags([
+        App.Mapper.HMM.ValueTag.New("npcd", 1)
+    ])
+    const NpcdMaxMove = 5
+    //npcd最大移动步数
+    App.Mapper.Database.APIListTraces(App.Mapper.HMM.APIListOption.New().WithGroups(["npcd"])).forEach((model) => {
+        App.Zone.NPCDMaps[`${model.Key}1`] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, 1, npcdcontext), Ordered: false }
+        App.Zone.NPCDMaps[model.Key] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, NpcdMaxMove, npcdcontext), Ordered: false }
+        if (App.Zone.Zones.indexOf(model.Key) > -1) {
+            App.Zone.NPCDMaps[model.Key].Rooms.forEach(room => {
+                if (App.Zone.LocToZone[room] === undefined) {
+                    App.Zone.LocToZone[room] = []
+                }
+                App.Zone.LocToZone[room].push(model.Key)
+            })
         }
+    });
+    App.Zone.GetMap = function (name) {
+        if (App.Zone.NPCDMaps[name] && App.Params.DisableNPCD.trim() != "t") {
+            return App.Zone.NPCDMaps[name]
+        }
+        return App.Zone.Maps[name]
     }
+    // App.Mapper.ConvertAll = () => {
+    //     for (let key in loc_list) {
+    //         let loc = loc_list[key]
+    //         Note(key)
+    //         let path = convertPath(loc.id, map_list[loc.map])
+    //         let path1 = convertPath(loc.id, map_list1[loc.map])
+    //         var route = App.Mapper.HMM.Route.New()
+    //         route.Key = `${key}`
+    //         route.Group = "quest"
+    //         route.Rooms = path
+    //         var route1 = App.Mapper.HMM.Route.New()
+    //         route1.Key = `${key}1`
+    //         route1.Group = "quest"
+    //         route1.Rooms = path1
+    //         App.Mapper.Database.APIInsertRoutes([route, route1])
+    //         App.Tools.HMM.Export()
+    //     }
+    // }
     //将起点和路径传为带房间id的path
     let convertPath = function (fr, cmds) {
         return App.Map.TraceRooms(`${fr}`, ...cmds.split(";"))
@@ -96,6 +119,14 @@
     }
     let CheckerIDLower = function (wanted) {
         return App.Map.Room.Data.Objects.FindByIDLower(wanted.Target).First()
+    }
+    App.Zone.NameChecker = function (wanted) {
+        let obj = App.Map.Room.Data.Objects.FindByName(wanted.Target).First()
+        if (obj && obj.ID.indexOf(" ") > 0) {
+            wanted.ID = obj.ID.toLowerCase()
+            return obj
+        }
+        return null
     }
     //默认的下一步回调
     App.Zone.DefaultNext = function (map, move, wanted) {
@@ -208,13 +239,13 @@
     }
     //search区域名方法
     App.Zone.Search = function (wanted) {
-        let rooms = App.Zone.Maps[wanted.Zone]
+        let rooms = App.Zone.GetMap(wanted.Zone)
         if (!rooms) {
             PrintSystem("#search 地图未找到")
             App.Fail()
             return
         }
-        wanted.Ordered=rooms.Ordered
+        wanted.Ordered = rooms.Ordered
         App.Zone.SearchRooms(rooms.Rooms, wanted)
     }
     //search指定房间
