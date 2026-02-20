@@ -347,6 +347,9 @@
         NewTag(key, value) {
             return new Tag(key, value)
         }
+        NewRoomTag(room, key, value) {
+            return new RoomTag(room, key, value)
+        }
         NewMaze() {
             return new Maze()
         }
@@ -364,6 +367,12 @@
         constructor(command, target) {
             this.Command = command
             this.Target = target
+        }
+        Clone() {
+            return new Step(this.Command, this.Target)
+        }
+        CloneWithCommand(command) {
+            return new Step(command, this.Target)
         }
         Command = null
         Target = null
@@ -400,6 +409,7 @@
     class Move {
         StartCommand = ""
         Data = {}
+        History = []
         Retry = DefaultMoveRetry
         Next = DefaultMoveNext
         OnRoom = DefaultMoveOnRoom
@@ -493,6 +503,7 @@
                 this.OnStepFinsih(this, map, step)
             }
             this.OnRoom(this, map, step)
+            this.History.push(step)
             if (this.#walking.length == 0) {
                 this.OnArrive(this, map)
                 return
@@ -572,6 +583,16 @@
         }
 
     }
+    class RoomTag {
+        constructor(room = "", key = "", value = 1) {
+            this.Room = room;
+            this.Key = key;
+            this.Value = value;
+        }
+        AppplyTo(move, map) {
+            map.Context.WithRoomTags(hmm.RoomTag.New(this.Room, this.Key, this.Value))
+        }
+    }
     class Route {
         constructor(map, ...initiators) {
             this.Map = map
@@ -634,6 +655,7 @@
     module.Move = Move
     module.Tag = Tag
     module.Step = Step
+    module.RoomTag = RoomTag
     module.Option = Option
     return module
 })

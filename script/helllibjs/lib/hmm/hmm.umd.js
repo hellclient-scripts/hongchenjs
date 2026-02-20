@@ -690,7 +690,7 @@ class MapDatabase {
     }
 }
 exports.MapDatabase = MapDatabase;
-MapDatabase.Version = 1005;
+MapDatabase.Version = 1006;
 
 
 /***/ }),
@@ -1158,6 +1158,14 @@ class Mapper {
         }
         return exit.Cost;
     }
+    GetRoomTags(room) {
+        let result = [...room.Tags];
+        let tags = this.Context.RoomTags[room.Key] || [];
+        result = result.concat(tags.map(x => new base_1.ValueTag(x.Key, x.Value)));
+        let publictags = this.Context.RoomTags[""] || [];
+        result = result.concat(publictags.map(x => new base_1.ValueTag(x.Key, x.Value)));
+        return result;
+    }
     GetRoomExits(room) {
         let result = [...room.Exits];
         let list = this.Context.Paths[room.Key];
@@ -1166,12 +1174,12 @@ class Mapper {
         }
         if (!this.Options.DisableShortcuts) {
             for (let key of Object.keys(this.MapFile.Records.Shortcuts)) {
-                if (base_1.ValueTag.ValidateConditions(room.Tags, this.MapFile.Records.Shortcuts[key].RoomConditions)) {
+                if (base_1.ValueTag.ValidateConditions(this.GetRoomTags(room), this.MapFile.Records.Shortcuts[key].RoomConditions)) {
                     result.push(this.MapFile.Records.Shortcuts[key]);
                 }
             }
             for (let shortcut of this.Context.Shortcuts) {
-                if (base_1.ValueTag.ValidateConditions(room.Tags, shortcut.RoomConditions)) {
+                if (base_1.ValueTag.ValidateConditions(this.GetRoomTags(room), shortcut.RoomConditions)) {
                     result.push(shortcut);
                 }
             }
@@ -1481,9 +1489,23 @@ exports.ItemKey = ItemKey;
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Context = exports.Environment = exports.CommandCost = exports.Link = exports.Path = void 0;
+exports.Context = exports.Environment = exports.CommandCost = exports.Link = exports.Path = exports.RoomTag = void 0;
 const exit_1 = __webpack_require__(/*! ./exit */ "./src/models/exit.ts");
 const base_1 = __webpack_require__(/*! ./base */ "./src/models/base.ts");
+class RoomTag {
+    constructor(room, key, value) {
+        this.Room = "";
+        this.Key = "";
+        this.Value = 1;
+        this.Room = room;
+        this.Key = key;
+        this.Value = value;
+    }
+    static New(room, key, value) {
+        return new RoomTag(room, key, value);
+    }
+}
+exports.RoomTag = RoomTag;
 class Path extends exit_1.Exit {
     constructor() {
         super(...arguments);
@@ -1528,6 +1550,7 @@ class Environment {
         this.Blacklist = [];
         this.BlockedLinks = [];
         this.CommandCosts = [];
+        this.RoomTags = [];
     }
     static New() {
         return new Environment();
@@ -1545,6 +1568,7 @@ class Context {
         this.Paths = {};
         this.BlockedLinks = {};
         this.CommandCosts = {};
+        this.RoomTags = {};
     }
     static New() {
         return new Context();
@@ -1649,6 +1673,19 @@ class Context {
     IsBlocked(from, to) {
         return this.BlockedLinks[from] != null && this.BlockedLinks[from][to] != null;
     }
+    WithRoomTags(list) {
+        for (let item of list) {
+            if (this.RoomTags[item.Room] == null) {
+                this.RoomTags[item.Room] = [];
+            }
+            this.RoomTags[item.Room].push(new base_1.ValueTag(item.Key, item.Value));
+        }
+        return this;
+    }
+    ClearRoomTags() {
+        this.RoomTags = {};
+        return this;
+    }
     static FromEnvironment(env) {
         let context = new Context();
         context.WithTags(env.Tags);
@@ -1660,6 +1697,7 @@ class Context {
         context.WithPaths(env.Paths);
         context.WithBlockedLinks(env.BlockedLinks);
         context.WithCommandCosts(env.CommandCosts);
+        context.WithRoomTags(env.RoomTags);
         return context;
     }
     ToEnvironment() {
@@ -1685,6 +1723,11 @@ class Context {
         for (let c in this.CommandCosts) {
             for (let t in this.CommandCosts[c]) {
                 env.CommandCosts.push(new CommandCost(c, t, this.CommandCosts[c][t]));
+            }
+        }
+        for (let r in this.RoomTags) {
+            for (let item of this.RoomTags[r]) {
+                env.RoomTags.push(new RoomTag(r, item.Key, item.Value));
             }
         }
         return env;
@@ -3671,8 +3714,8 @@ var exports = __webpack_exports__;
   \**********************/
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.DefaultHmmEncoderHooks = exports.MapHeadData = exports.HMMEncoder = exports.MapperOptions = exports.SnapshotSearch = exports.SnapshotSearchResult = exports.SnapshotFilter = exports.QueryResult = exports.Step = exports.UniqueKeyUtil = exports.Environment = exports.CommandCost = exports.Link = exports.Path = exports.Context = exports.Records = exports.MapFile = exports.MapSettings = exports.MapEncoding = exports.MapInfo = exports.Map = exports.Command = exports.ControlCode = exports.SnapshotKey = exports.Snapshot = exports.Variable = exports.RoomConditionExit = exports.Shortcut = exports.Landmark = exports.LandmarkKey = exports.Region = exports.Trace = exports.Route = exports.RoomFilter = exports.Room = exports.Marker = exports.Exit = exports.ItemKey = exports.ToggleKeyValues = exports.ToggleValue = exports.KeyValue = exports.ToggleKeyValue = exports.HMMFormatter = exports.RegionItem = exports.RegionItemType = exports.Data = exports.TypedConditions = exports.ValueCondition = exports.ValueTag = exports.Condition = void 0;
-exports.SnapshotHelper = exports.APIListOption = exports.MapDatabase = exports.WalkingStep = exports.Walking = exports.Mapper = void 0;
+exports.MapHeadData = exports.HMMEncoder = exports.MapperOptions = exports.SnapshotSearch = exports.SnapshotSearchResult = exports.SnapshotFilter = exports.QueryResult = exports.Step = exports.UniqueKeyUtil = exports.RoomTag = exports.Environment = exports.CommandCost = exports.Link = exports.Path = exports.Context = exports.Records = exports.MapFile = exports.MapSettings = exports.MapEncoding = exports.MapInfo = exports.Map = exports.Command = exports.ControlCode = exports.SnapshotKey = exports.Snapshot = exports.Variable = exports.RoomConditionExit = exports.Shortcut = exports.Landmark = exports.LandmarkKey = exports.Region = exports.Trace = exports.Route = exports.RoomFilter = exports.Room = exports.Marker = exports.Exit = exports.ItemKey = exports.ToggleKeyValues = exports.ToggleValue = exports.KeyValue = exports.ToggleKeyValue = exports.HMMFormatter = exports.RegionItem = exports.RegionItemType = exports.Data = exports.TypedConditions = exports.ValueCondition = exports.ValueTag = exports.Condition = void 0;
+exports.SnapshotHelper = exports.APIListOption = exports.MapDatabase = exports.WalkingStep = exports.Walking = exports.Mapper = exports.DefaultHmmEncoderHooks = void 0;
 const base_1 = __webpack_require__(/*! ./models/base */ "./src/models/base.ts");
 Object.defineProperty(exports, "Condition", ({ enumerable: true, get: function () { return base_1.Condition; } }));
 Object.defineProperty(exports, "ValueTag", ({ enumerable: true, get: function () { return base_1.ValueTag; } }));
@@ -3731,6 +3774,7 @@ Object.defineProperty(exports, "Path", ({ enumerable: true, get: function () { r
 Object.defineProperty(exports, "Link", ({ enumerable: true, get: function () { return context_1.Link; } }));
 Object.defineProperty(exports, "CommandCost", ({ enumerable: true, get: function () { return context_1.CommandCost; } }));
 Object.defineProperty(exports, "Environment", ({ enumerable: true, get: function () { return context_1.Environment; } }));
+Object.defineProperty(exports, "RoomTag", ({ enumerable: true, get: function () { return context_1.RoomTag; } }));
 const uniquekeyutil_1 = __webpack_require__(/*! ./utils/uniquekeyutil */ "./src/utils/uniquekeyutil.ts");
 Object.defineProperty(exports, "UniqueKeyUtil", ({ enumerable: true, get: function () { return uniquekeyutil_1.UniqueKeyUtil; } }));
 const step_1 = __webpack_require__(/*! ./models/step */ "./src/models/step.ts");

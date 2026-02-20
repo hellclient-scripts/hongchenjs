@@ -4,11 +4,11 @@
     // 默认设定,用户不可修改
     App.Params = {
         Drink: "yuchi zhou",
-        DrinkMin: 10,
+        DrinkMin: 30,
         DrinkCommand: "eat yuchi zhou",
         Food: "yuchi zhou",
         FoodCommand: "eat yuchi zhou",
-        FoodMin: 10,
+        FoodMin: 30,
         LocBank: "qz",
         LocRepair: "dtp",
         IDPass: "",
@@ -33,12 +33,12 @@
     App.NamedParams.AddNumber("GoldMax", 20).WithName("最大黄金数").WithDesc("超过这个数量会去银行存黄金")
     App.NamedParams.AddNumber("GoldKeep", 2).WithName("最小黄金数").WithDesc("身上保持的最少黄金的数量")
     App.NamedParams.AddNumber("SilverMax", 2000).WithName("最大白银数").WithDesc("超过这个数量会去银行存白银")
-    App.NamedParams.AddNumber("SilverKeep", 0).WithName("最小白银数").WithDesc("身上保持的最少白银的数量")
+    App.NamedParams.AddNumber("SilverKeep", 50).WithName("最小白银数").WithDesc("身上保持的最少白银的数量")
     App.NamedParams.AddNumber("CoinMax", 2000).WithName("最大铜钱数").WithDesc("超过这个数量会去银行存铜钱")
     App.NamedParams.AddNumber("CoinKeep", 0).WithName("最小铜钱数").WithDesc("身上保持的最少铜钱的数量")
     App.NamedParams.AddNumber("CashMax", 200).WithName("最大银票数").WithDesc("超过这个数量会去银行存银票")
     App.NamedParams.AddNumber("CashKeep", 30).WithName("最小银票数").WithDesc("预期身上银票的合理数量")
-    App.NamedParams.AddNumber("NumCmds", 19).WithName("每心跳指令数").WithDesc("每个心跳的指令数0")
+    App.NamedParams.AddNumber("NumCmds", 20).WithName("每心跳指令数").WithDesc("每个心跳的指令数0")
     App.NamedParams.AddNumber("SenderTimer", 1100).WithName("发送间隔").WithDesc("发送指令的间隔")
     App.NamedParams.AddNumber("NumStep", 6).WithName("多步行走步数").WithDesc("多步行走时的最大步数,小于等于1强制单步")
     App.NamedParams.AddString("ShowRoomID", "").WithName("显示房间ID").WithDesc("设为t打开")

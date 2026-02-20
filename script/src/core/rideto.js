@@ -39,8 +39,11 @@
         cmd = cmd.trim()
         if ((Mode == 0 || canretry()) && cmd) {
             Mode = 1
-            App.Send(cmd + ";whistle;" + cmd)
-            App.RaiseEvent(event)
+            App.Send(cmd + ";yun regenerate;whistle;" + cmd)
+
+            App.CheckBusy(0, 0, () => {
+                App.RaiseEvent(event)
+            })
             return
         }
         LastTry = (new Date()).getTime()

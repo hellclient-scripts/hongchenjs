@@ -454,6 +454,7 @@ $.Module(function (App) {
             App.Core.QuestLock.Freequest--
         }
         Freequest.Data.Success++
+        Note(`完成fq任务${Freequest.Data.Success}次`)
     }
 
 
@@ -490,7 +491,7 @@ $.Module(function (App) {
     //夏侯反沁掏出了一些黄金双手奉上，感激道：一点薄礼，不成敬意，不成敬意！
     //通过这次锻炼，你获得了三十七点经验、二十八点潜能、四十五点江湖阅
     //历、能力得到了提升。
-    let matcherZhuisha = /^你为六大门派排除异己，/
+    let matcherZhuisha = /^你为六大门派(排除|扫清)异己，/
     let matcherFanzei = /^你又做了件[侠|不]义之事，/
     let matcherXunzhao = /^你拿出[^() ]+\(.+\)给.+/
     let successCallback = (tri, result) => {

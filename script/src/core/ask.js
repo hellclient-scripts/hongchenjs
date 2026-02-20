@@ -73,10 +73,8 @@
             })
 
             task.AddTrigger(matcherFail, function (tri, result) {
-                if (App.Data.Ask.LineNumber == 1 && App.Data.Ask.Mode == 1) {
-                    App.Data.Ask.Result = "fail"
-                    App.Data.Ask.Mode = 2
-                }
+                App.Data.Ask.Result = "fail"
+                App.Data.Ask.Mode = 2
                 return true
             })
             task.AddCatcher("line", function (catcher, event) {

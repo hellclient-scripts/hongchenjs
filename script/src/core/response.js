@@ -93,7 +93,7 @@
         }).WithName("sync")
         App.Send("nick")
     }
-    //法器同步
+    //发起同步
     App.Sync = function (cb) {
         sync(cb)
     }

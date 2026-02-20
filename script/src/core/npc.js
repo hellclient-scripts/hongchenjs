@@ -52,6 +52,7 @@
             Name: name,
             ID: id ? id : App.Core.NPC.GetPinyin(name),
             Live: false,
+            Silver: false,
         }
         if (App.Core.NPC.AskBeichouData["ID"] != null) {
             App.Commands.PushCommands(
@@ -60,6 +61,9 @@
                 App.Commands.NewFunctionCommand(() => {
                     if (App.Data.Ask.Answers.length && App.Core.NPC.AskBeichouAnswer[App.Data.Ask.Answers[0].Line]) {
                         App.Core.NPC.AskBeichouData.Live = true
+                        if (App.Data.Ask.Answers[0].Line.includes("白银")) {
+                            App.Core.NPC.AskBeichouData.Silver = true
+                        }
                     }
                     App.Next()
                 })
@@ -93,10 +97,10 @@
         let fam = App.Core.NPC.Family[App.Data.Player.Score["门派"]]
         if (fam) {
             Note("引入门派设置")
-            if (App.Mapper.Data.NPCMap[App.Data.Player.Score["掌门"]]){
-            App.Params.MasterID = App.Mapper.Data.NPCMap[App.Data.Player.Score["掌门"]].ID
-            App.Params.LocMaster = App.Data.Player.Score["掌门"]
-            }else{
+            if (App.Mapper.Data.NPCMap[App.Data.Player.Score["掌门"]]) {
+                App.Params.MasterID = App.Mapper.Data.NPCMap[App.Data.Player.Score["掌门"]].ID
+                App.Params.LocMaster = App.Data.Player.Score["掌门"]
+            } else {
                 Note(`无法找到掌门 ${App.Data.Player.Score["掌门"]} 的信息`)
             }
             App.Params.IDPass = fam.IDPass

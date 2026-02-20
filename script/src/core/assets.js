@@ -83,6 +83,15 @@
                         App.Commands.NewWaitCommand(1000),
                     )
                     break
+                case "#openanddrop"://打开后丢到客店
+                    App.Commands.PushCommands(
+                        App.Move.NewToCommand("kd"),
+                        App.Commands.NewDoCommand(`open ${result.Asset.Item.IDLower};drop ${result.Asset.Item.IDLower}`),
+                        App.Commands.NewDoCommand("i"),
+                        App.NewSyncCommand(),
+                        App.Commands.NewWaitCommand(1000),
+                    )
+                    break
                 case "#drophere"://原地丢
                     App.Commands.PushCommands(
                         App.Commands.NewDoCommand("drop " + result.Asset.Item.IDLower),

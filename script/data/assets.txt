@@ -1,6 +1,11 @@
 wielded>#carry any
 #use id=xun zhang
-#home id=Bing puti,god light
+#home id=Bing puti,god light,Bainian lingzhi,Fozun sheli,Bainian renshen,Huolong guo,Dizhe sheli,Xin puti,Haotian dan,Yangsheng dan,zijin kuang,Tianshan xuelian,tiancan yu,huandi shenzhu
+#home id=xuanyin sha,yeyu tu,Puti zi,Zenghui dan,zhang jin,Xuelian gao,Sheng sheli,Xue puti,Zhu guo,Qiannian renshen,Sheli zi,Fushou gao,Qiannian lingzhi,Qinglong dan
+#home id=quandian canpian5,tianwu tu,xuanshe tu,sui pian7,chiyou tu,Zhuanggu fen,Xisui xiandan,haoyue jinsha
+#sell id=zhen zhu,zuan shi,yu shi,fei cui,ma nao
+#openanddrop id=bag
+#home id=tianxiang yulu,ruyi jue,yinjiao si,wujin kuang,handan shi,chishe tu,yinglong tu,tiangang tan,Zhuque dan,Haotian guo,Qiannian xuelian
 #home id=magic water,renshen wan,shangfa ling,fushou gao,xuantie lin,feicui lan,iuzhuan jindan,guigu book,tian jing,xun zhang,jiuzhuan jindan,xian dan,xisui dan,huohong xiandan,shenli wan,puti zi
 #home id=chipped agate,chipped crystal,crystal,agate,diamond,chipped diamond,jade,chipped jade,chipped magic stone,Fly knife,tianyi water,jing jing
 #home id=xuanyuan jian,map_ne,map_nw,map_se,map_sw,tian jing,

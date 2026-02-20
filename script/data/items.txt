@@ -2,7 +2,7 @@ shui dai|shui dai|牛皮水袋|buy|zxl|buy shui dai from xiao er|
 gan liang|gan liang|干粮|buy|zxl|buy 5 gan liang from xiao er|
 jin chuangyao|jin chuangyao|金创药|buy|yp|buy 金创药 from yaopu huoji|
 yangjing dan|yangjing dan|养精丹|buy|yp|buy 养精丹 from yaopu huoji|
-yuchi zhou|yuchi zhou|鱼翅粥|buy|zxl|buy 50 yuchi zhou from xiao er|
+yuchi zhou|yuchi zhou|鱼翅粥|buy|zxl|buy 100 yuchi zhou from xiao er|
 fire|fire|火折|buy|zhp|buy 火折 from yang yongfu|
 long bow|long bow|长弓|buy|dtp|buy long bow from tie jiang|8
 long sword|long sword|长剑|buy|dtp|buy long sword from tie jiang|

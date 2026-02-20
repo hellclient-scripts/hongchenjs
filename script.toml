@@ -207,7 +207,7 @@ Timers = []
 
 [[Triggers]]
   ID = "d1fvcv20fk6t9372l29nab-2"
-  Name = "core.ride.nohorse"
+  Name = "core.ride.later2"
   Enabled = true
   Match = "^(在房间内不能骑马走人！|这里不能骑马走人！)$"
   Send = ""

@@ -109,6 +109,7 @@
                     $.PushCommands(
                         $.To(loc),
                         $.Function(() => { PlanStudy.Execute(); App.Next() }),
+                        $.Do("yun regenerate"),
                         $.Do(cmds.join(";")),
                         $.Function(() => { $.RaiseStage("wait"); App.Next() }),
                         $.Do("hp"),

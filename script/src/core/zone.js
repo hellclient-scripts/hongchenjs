@@ -59,12 +59,12 @@
     ]).WithTags([
         App.Mapper.HMM.ValueTag.New("npcd", 1)
     ])
-    let npcdoptions=App.Mapper.HMM.MapperOptions.New().WithCommandNotContains(["goto ","ask ","cross","yell "])
+    let npcdoptions = App.Mapper.HMM.MapperOptions.New().WithCommandNotContains(["goto ", "ask ", "cross", "yell ", "jump ", "enter ", "ride "])
     const NpcdMaxMove = 5
     //npcd最大移动步数
     App.Mapper.Database.APIListTraces(App.Mapper.HMM.APIListOption.New().WithGroups(["npcd"])).forEach((model) => {
-        App.Zone.NPCDMaps[`${model.Key}1`] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, 1, npcdcontext,npcdoptions), Ordered: false }//计算1步路径
-        App.Zone.NPCDMaps[model.Key] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, NpcdMaxMove, npcdcontext,npcdoptions), Ordered: false }//计算最大路径
+        App.Zone.NPCDMaps[`${model.Key}1`] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, 1, npcdcontext, npcdoptions), Ordered: false }//计算1步路径
+        App.Zone.NPCDMaps[model.Key] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, NpcdMaxMove, npcdcontext, npcdoptions), Ordered: false }//计算最大路径
         if (App.Zone.CiteList.indexOf(model.Key) > -1) {
             App.Zone.NPCDMaps[model.Key].Rooms.forEach(room => {
                 if (App.Zone.LocToCityList[room] === undefined) {
@@ -263,11 +263,12 @@
         wanted.Ordered = rooms.Ordered
         App.Zone.SearchRooms(rooms.Rooms, wanted)
     }
+    App.Zone.RoomTag = App.Map.NewRoomTag("", "find", 1)
     //search指定房间
     App.Zone.SearchRooms = function (rooms, wanted) {
         App.Zone.Wanted = wanted
         wanted.Loc = null
-        let move = wanted.Ordered ? App.Move.NewOrderedCommand(rooms, App.Zone.Finder) : App.Move.NewRoomsCommand(rooms, App.Zone.Finder)
+        let move = wanted.Ordered ? App.Move.NewOrderedCommand(rooms, App.Zone.Finder, App.Zone.RoomTag) : App.Move.NewRoomsCommand(rooms, App.Zone.Finder, App.Zone.RoomTag)
         App.Commands.PushCommands(
             move,
             App.Commands.NewFunctionCommand(() => {

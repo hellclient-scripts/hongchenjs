@@ -28,7 +28,7 @@ $.Module(function (App) {
                     }
                 })
             }
-            this.First = false
+            this.First = true
             this.Fled = true
             this.Loc = null
         }
@@ -124,6 +124,7 @@ $.Module(function (App) {
         $.Next()
     }
     MQ.CanAccept = () => {
+        return false
         if (App.Quests.Stopped) {
             return false
         }
@@ -214,7 +215,7 @@ $.Module(function (App) {
                 return true
             })
             task.AddTrigger(reFreequest, (tri, result) => {
-                App.Core.QuestLock.Freequest = 4
+                App.Core.QuestLock.Freequest = 3
                 return true
             })
             task.AddTrigger(reNoQuest)
@@ -427,7 +428,11 @@ $.Module(function (App) {
                 task.Data = result[1]
                 return true
             })
-            App.Send("give 1 gold to bei chou;i")
+            var gold = "1 gold"
+            if (App.Core.NPC.AskBeichouData.Silver && App.Data.Item.List.FindByID("Silver").Sum() > 10) {
+                gold = "10 silver"
+            }
+            App.Send(`give ${gold} to bei chou;i`)
             App.Sync()
         },
         (result) => {
@@ -438,7 +443,7 @@ $.Module(function (App) {
             MQ.Far()
         })
     MQ.GiveBeiChou = () => {
-        if (App.QuestParams["mqgivebeichou"] == "t" && MQ.Data.NPC.Farlist == null) {
+        if (App.QuestParams["mqgivebeichou"] == "t" && (MQ.Data.NPC.Farlist == null || App.Core.NPC.AskBeichouData.Silver)) {
             PlanBeichou.Execute()
             return
         }
@@ -448,12 +453,20 @@ $.Module(function (App) {
         let rooms = App.Zone.NameToLocList[name]
         if (rooms) {
             rooms = App.Mapper.ExpandRooms(rooms, 2, true)
-            MQ.Data.NPC.Farlist = [...App.Zone.NameToCityList[name]]
-            App.Zone.Wanted = $.NewWanted(MQ.Data.NPC.Name, MQ.Data.NPC.Farlist[0]).WithChecker(Checker).WithID(MQ.Data.NPC.ID)
+            let farlist = [...App.Zone.NameToCityList[name]]
+            if (farlist.length > 0) {
+                MQ.Data.NPC.SetZone(farlist.shift())
+            } else[
+                App.Log(`未登记的房间面 ${name}`)
+            ]
+            MQ.Data.NPC.Farlist = farlist
+            let wanted = $.NewWanted(MQ.Data.NPC.Name, MQ.Data.NPC.Farlist[0]).WithChecker(Checker).WithID(MQ.Data.NPC.ID)
             MQ.Data.NPC.Loc = null
             $.PushCommands(
                 $.Prepare(),
-                $.Rooms(rooms, App.Zone.Finder),
+                $.Function(() => {
+                    App.Zone.SearchRooms(rooms, wanted)
+                }),
                 $.Function(MQ.KillLoc),
                 $.Function(MQ.Ready),
             )
@@ -473,7 +486,7 @@ $.Module(function (App) {
             } else if (exp < 700000) {
                 MQ.Data.NPC.Farlist = MQ.Data.NPC.Farlist.slice(0, -1)
             } else {
-                MQ.Data.NPC.Farlist.unshift(MQ.Data.NPC.Farlist.pop())
+                // MQ.Data.NPC.Farlist.unshift(MQ.Data.NPC.Farlist.pop())
             }
             MQ.Data.NPC.Loc = null
             MQ.Data.NPC.NextFar()
@@ -555,6 +568,7 @@ $.Module(function (App) {
                 App.Next()
             }),
             $.Prepare(),
+            $.To(App.Zone.GetMap(MQ.Data.NPC.Zone).Rooms),
             // $.To(Cities[MQ.Data.NPC.Zone].Loc),
             $.Function(() => {
                 App.Send("yun recover;yun regenerate")
@@ -566,7 +580,7 @@ $.Module(function (App) {
                     $.Sync(),
                     $.Function(() => {
                         if (MQ.Data.NPC.Loc) {
-                            App.Zone.SearchRooms(MQ.Data.NPC.Loc, wanted)
+                            App.Zone.SearchRooms([MQ.Data.NPC.Loc], wanted)
                         } else {
                             App.Zone.Search(wanted)
                         }
@@ -609,6 +623,7 @@ $.Module(function (App) {
                 if (MQ.Data.NPC && MQ.Data.NPC.Name == result[1]) {
                     MQ.Data.NPC.Died = true
                     App.Send("cut head from corpse;get head")
+                    App.Send(`get silver from corpse`)
                     MQ.OnNpcDie()
                     App.RaiseEvent(new App.Event("core.combatstop"))
                 }
@@ -643,16 +658,16 @@ $.Module(function (App) {
                 }
                 return true
             })
-            task.AddTrigger(matcherHelper, function (tri, result) {
-                if (MQ.Data.NPC) {
-                    if (result[1] == MQ.Data.NPC.Name) {
-                        MQ.Data.NPC.NotKilled = false
-                    } else {
-                        return
-                    }
-                    return true
-                }
-            }).WithName("helper")
+            // task.AddTrigger(matcherHelper, function (tri, result) {
+            //     if (MQ.Data.NPC) {
+            //         if (result[1] == MQ.Data.NPC.Name) {
+            //             MQ.Data.NPC.NotKilled = false
+            //         } else {
+            //             return
+            //         }
+            //         return true
+            //     }
+            // }).WithName("helper")
         },
         (result) => {
             if (result.Name == "helper") {
