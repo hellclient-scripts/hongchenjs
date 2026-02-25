@@ -589,8 +589,11 @@
             this.Key = key;
             this.Value = value;
         }
-        AppplyTo(move, map) {
-            map.Context.WithRoomTags(hmm.RoomTag.New(this.Room, this.Key, this.Value))
+        Room=""
+        Key=""
+        Value=1
+        ApplyTo(move, map) {
+            map.Context.WithRoomTags([hmm.RoomTag.New(this.Room, this.Key, this.Value)])
         }
     }
     class Route {

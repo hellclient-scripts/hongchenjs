@@ -15,17 +15,13 @@
         MakeHomeFolder("")
         WriteHomeFile("export.hmm", App.Mapper.Database.Export())
     }
-    App.Tools.HMM.FixNPCDExit = () => {
-        let rooms = App.Mapper.Database.APIListRooms(App.Mapper.HMM.APIListRoomsOptions.New())
-        rooms.forEach(room => {
-            if (room.Exits) {
-                room.Exits.forEach(exit => {
-                    if (exit.Command.indexOf("ask ") || exit.Command.indexOf("goto ") || exit.Command.indexOf("cross") || exit.Command.indexOf("yell ")) {
-
-                    }
-                })
-            }
+    App.Tools.HMMFixShortcuts=()=>{
+        let shortcuts = App.Mapper.Database.APIListShortcuts(App.Mapper.HMM.APIListOption.New())
+        shortcuts.forEach(shortcut => {
+            shortcut.RoomConditions=[App.Mapper.HMM.ValueCondition.New("find",1,true),App.Mapper.HMM.ValueCondition.New("maze",1,true)]
         })
+        App.Mapper.Database.APIInsertShortcuts(shortcuts)
+        App.Tools.HMM.Export()
     }
     App.Tools.HMM.GetPath = (from, to) => {
         let before = Date.now()

@@ -7,6 +7,7 @@
     App.Core.Miss.Mode = App.Core.Miss.ModeNormal
     App.Core.Miss.Weapons = []
     App.Core.Miss.Shortcuts = []
+    App.Core.Miss.RoomConditions=[App.Mapper.HMM.ValueCondition.New("find",1,true),App.Mapper.HMM.ValueCondition.New("maze",1,true)]
     App.Core.Miss.AddWeapon = (id, loc) => {
         App.Core.Miss.Weapons.push({ ID: id, Loc: loc })
         let shortcut = App.Mapper.HMM.Shortcut.New()
@@ -15,6 +16,7 @@
         shortcut.Command = `miss ${id}`
         shortcut.To = loc
         shortcut.Cost = 2
+        shortcut.RoomConditions=[...App.Core.Miss.RoomConditions]
         shortcut.Conditions.push(vc)
         App.Core.Miss.Shortcuts.push(shortcut)
     }

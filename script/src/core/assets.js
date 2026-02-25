@@ -24,6 +24,21 @@
                     return
                 }
                 break
+            case "type"://类型匹配
+                if (asset.Item.ID.indexOf(" ") < 0) {
+                    return
+                }
+                let matched = false
+                for (let type of rule.Data.UserData) {
+                    if (asset.Item.GetData().Name.endsWith(type)) {
+                        matched = true
+                        break
+                    }
+                }
+                if (!matched) {
+                    return
+                }
+                break
             default:
                 return
         }

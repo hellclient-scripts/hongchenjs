@@ -1,14 +1,18 @@
 wielded>#carry any
 #use id=xun zhang
-#home id=Bing puti,god light,Bainian lingzhi,Fozun sheli,Bainian renshen,Huolong guo,Dizhe sheli,Xin puti,Haotian dan,Yangsheng dan,zijin kuang,Tianshan xuelian,tiancan yu,huandi shenzhu
-#home id=xuanyin sha,yeyu tu,Puti zi,Zenghui dan,zhang jin,Xuelian gao,Sheng sheli,Xue puti,Zhu guo,Qiannian renshen,Sheli zi,Fushou gao,Qiannian lingzhi,Qinglong dan
-#home id=quandian canpian5,tianwu tu,xuanshe tu,sui pian7,chiyou tu,Zhuanggu fen,Xisui xiandan,haoyue jinsha
+#home id=Bing puti,god light,Bainian lingzhi,Fozun sheli,Bainian renshen,Dizhe sheli,Xin puti,Haotian dan,Tianshan xuelian,tiancan yu,huandi shenzhu
+#home id=yeyu tu,Puti zi,Zenghui dan,Xuelian gao,Sheng sheli,Xue puti,Qiannian renshen,Sheli zi,Fushou gao,Qiannian lingzhi,Qinglong dan
+#home id=Zhuanggu fen,Xisui xiandan,Shenli wan
+#home type=残篇,图腾
+#home name=羊皮碎片
+#home id=tongtian cao,qinglong ya,qingyu ya,wucai zhu,xi rang,Lingzhi wan
+#home id=Baihu dan,Xuanwu dan,Huogu lingyao,Shenxin dan,Lingzhi wan,Zhuyuan xiandan,Wuji xiandan,Tonghui xiandan
 #sell id=zhen zhu,zuan shi,yu shi,fei cui,ma nao
 #openanddrop id=bag
-#home id=tianxiang yulu,ruyi jue,yinjiao si,wujin kuang,handan shi,chishe tu,yinglong tu,tiangang tan,Zhuque dan,Haotian guo,Qiannian xuelian
-#home id=magic water,renshen wan,shangfa ling,fushou gao,xuantie lin,feicui lan,iuzhuan jindan,guigu book,tian jing,xun zhang,jiuzhuan jindan,xian dan,xisui dan,huohong xiandan,shenli wan,puti zi
-#home id=chipped agate,chipped crystal,crystal,agate,diamond,chipped diamond,jade,chipped jade,chipped magic stone,Fly knife,tianyi water,jing jing
-#home id=xuanyuan jian,map_ne,map_nw,map_se,map_sw,tian jing,
+#home id=tianxiang yulu,ruyi jue,Zhuque dan,Haotian guo,Qiannian xuelian
 #home id=Tower crystal
 #sell name=金块,金条,金锭,小金元宝,大金元宝,玄冰寒铁,乌金丝,银轮
+#sell id=zhang jin
 #drop id=baijin he,zijin chui,tie guanyin,qiankun mao,baiyu bi,yu hulu,yu ping,tong xique,sijian ping,jin hulu,yinlou hua,jinlou hua,qingtong ding,tie ruyi,yu dai,jixue shi,ziyun sha,ye guangbei,jin gua
+#sell name=镇龙石,阎罗绸,离火玄冰玉,八仙石,碧血石,钛金竹,昆仑石,天山玄铁,雷火寒晶,皓月金砂,紫金矿,邯郸石,九雷玄音纱,盘龙银绞丝,乌金矿,天罡碳
+#sell name=火龙果,养生丹, 朱果
