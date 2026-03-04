@@ -91,26 +91,39 @@
             map.TrySteps([maze.Data.CloneWithCommand(cmd)])
         }
     ))
+    const MaxDashamoStep = 15
     App.Map.RegisterMaze("大沙漠", App.Map.NewMaze().WithCheckEnter(
         function (maze, move, map, step) {
             if (map.Room.Name == "大沙漠") {
-                maze.Data = { Step: step, Count: 0 }
+                maze.Data = { Step: step, Count: 0, cmd: App.Move.Filterdir(step.Command) }
                 return true
             }
             return false
         }
     ).WithCheckEscaped(
         function (maze, move, map) {
-            return map.Room.Name != "大沙漠"
+            if (map.Room.Name != "大沙漠") {
+                let findfinish = !(move.Data.find && maze.Data.Count < MaxDashamoStep)
+                if (map.Room.Name == "丝绸之路" && maze.Data.cmd == "e") {
+                    maze.Data.cmd = "w"
+                    return findfinish && App.Move.Filterdir(maze.Data.Step.Command) == "e"
+                }
+                if (map.Room.Name == "戈壁" && maze.Data.cmd == "w") {
+                    maze.Data.cmd = "e"
+                    return findfinish && App.Move.Filterdir(maze.Data.Step.Command) == "w"
+                }
+                return true
+            }
+            return false
         }
     ).WithWalk(
         function (maze, move, map) {
-            let cmd = App.Move.Filterdir(maze.Data.Step.Command)
-            if (cmd == "w") {
-                if (Math.floor(Math.random() * 5) == 1) cmd = "s";
+            cmd = maze.Data.cmd
+            if (cmd != "e" && App.Mapper.CommonExits.indexOf(cmd) >= 0) {
+                cmd = "w"
             }
             maze.Data.Count = maze.Data.Count + 1
-            if (maze.Data.Count % 3 == 0) {
+            if (true) {
                 App.PushCommands(
                     App.Core.Heal.NewRestCommand(),
                     App.Commands.NewFunctionCommand(() => {

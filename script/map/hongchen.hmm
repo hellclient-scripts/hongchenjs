@@ -1,5 +1,5 @@
 HMM1.0>UTF8
-Info>红尘MUD地图|1771611965|
+Info>红尘MUD地图|1772611179|
 Room>100|柳园||||w,113,,1|
 Room>1007|小树林||||s,1008,,1|
 Room>1008|小树林||||s,1009,,1;n,1007,,1|
@@ -583,7 +583,7 @@ Room>2820|溶洞||||out,2865,,1|
 Room>2821|日月后洞||||s,2835,,1;sw,2836,,1|
 Room>2826|客店二楼||||enter,2827,,1;d,2825,,1|
 Room>2827|客店二楼||||out,2826,,1|
-Room>2828|沙漠绿洲||||ne,2839,,1;sw,2834,,1|
+Room>2828|沙漠绿洲||||ne,2839,,1;sw,2831,,1|
 Room>2832|南疆沙漠||||ne,2831,,1;w,2832,,1;s,2832,,1;se,2833,,1;e,3539,,1;sw,2832,,1;nw,2832,,1;n,2832,,1|
 Room>2833|南疆沙漠||||ne,2831,,1;w,2833,,1;s,2833,,1;se,2834,,1;e,2833,,1;sw,2833,,1;nw,2833,,1;n,3539,,1|
 Room>2834|南疆沙漠||||ne,2834,,1;w,2834,,1;s,2834,,1;se,2834,,1;e,2834,,1;sw,2834,,1;nw,2828,,1;n,2834,,1|
@@ -1573,7 +1573,7 @@ Room>763|酒店|白驼山庄||fill=|s,782,,1|
 Room>768|农舍|白驼山庄|||w,760,,1|
 Room>770|山路|白驼山庄||室外=|nw,771,,1;se,760,,1|
 Room>771|山路|白驼山庄||室外=|se,770,,1;n,774,,1|
-Room>773|石阶|白驼山庄||室外=|e,744,,1;sd,760,,1;nu,751,,1|
+Room>773|石阶|白驼山庄||室外=|e*,744,,1;sd*,760,,1;nu*,751,,1|
 Room>774|树林|白驼山庄||室外=|s,771,,1;w,775,,1|
 Room>775|树林|白驼山庄||室外=|e,774,,1;sw,743,,1|
 Room>778|小路|白驼山庄||室外=|ne,758,,1;sw,754,,1;nu,779,,1|
@@ -3843,7 +3843,7 @@ Room>2824|嘉峪关|星宿海||室外=|w,2841,,1;eu,2863,,1|
 Room>2825|客店|星宿海||safe=|s,2839,,1;u*,2826,,1|
 Room>2829|马厩|星宿海||室外=;safe=|goto lanzhou,374,,20;goto lingzhou,415,,20;s,2817,,1;goto changan,3726,,20|
 Room>2830|莫高窟|星宿海|||out,2869,,1|
-Room>2831|南疆沙漠|星宿海||室外=;maze=|w,2831,,1;sw。,3539,,50;s,2831,,1;ne。,2839,,50;e,2831,,1;se,2831,,1;nw,2831,,1;n,2831,,1|
+Room>2831|南疆沙漠|星宿海||室外=;maze=|w,2831,,1;sw。,3539,,50;s,2831,,1;ne。,2839,,50;e,2831,,1;se,2831,,1;nw。,2828,,10;n,2831,,1|
 Room>2837|赛马场|星宿海||室外=|se,2817,,1|
 Room>2838|大沙漠|星宿海||室外=;maze=|e。,2844,,100;w。,759,,100;s,2838,,1;n,2838,,1|
 Room>2839|天山脚下|星宿海||室外=|se,2844,,1;wu,2846,,1;sw,2831,,50;nw,2817,,1;n,2825,,1|
@@ -4969,6 +4969,7 @@ Marker>zuo zimu|595|npc||左子穆\|zuo zimu
 Marker>public_dazuo|4183|publc||公共打坐
 Marker>public_sleep|4183|public||公共休息
 Landmark>3128|descline|    这里就是神龙岛了。南边是一望无际的大海；往北则是片||
+Variable>houselist|bearoom\|4084\|盘龙\|天宫一号\ncmc\|4084\|小院\|神庭\ncmca\|4084\|小院\|太霄\ndaimonroom\|4084\|小院\|小别野\ndgaroom\|4084\|小院\|独孤一居\ndgbroom\|4084\|小院\|独孤二居\ndgcroom\|4084\|小院\|独孤三居\ndgdroom\|4084\|小院\|独孤四居\ndoczroom\|4084\|小院\|护士站\ngdaroom\|4084\|小院\|孤独一居\ngdbroom\|4084\|小院\|孤独二居\ngdcroom\|4084\|小院\|孤独三居\ngddroom\|4084\|小院\|孤独四居\ngderoom\|4084\|小院\|孤独五居\ngdfroom\|4084\|小院\|孤独六居\nljl\|4084\|小院\|老君炉\nmoonhouse\|4084\|小院\|月神居\nrobot\|4084\|盘龙\|机器人工厂\nrou\|4084\|小院\|红烧肉之家\nstrikeroom\|4084\|小院\|千与千寻居\ntaobao\|4084\|小院\|淘宝\nthanksyu\|4084\|盘龙\|博雅居\nzhi\|4084\|小院\|知孚里\ncat\|3321\|小院\|海天一色\nimebz\|3321\|小院\|帝王宝藏\nsxf\|3321\|小院\|清风轩\nxxo\|3321\|小院\|人渣集散地\nxxoo\|3321\|小院\|运师附小\ndengta\|3322\|小院\|洪门\ndong\|3322\|小院\|虫洞\nlongfa\|3322\|盘龙\|龙凤\nmmj\|3322\|盘龙\|酒吧\nqyl\|3322\|盘龙\|群玉楼\nsanerck\|3322\|小院\|散二仓库\nxxyy\|3322\|盘龙\|潇湘夜雨\nyao\|3322\|小院\|药庐\nbbh\|1787\|小院\|贝贝居\nbugs\|1787\|盘龙\|八哥居\ncaixia\|1787\|小院\|彩云之居\ndalishi\|1787\|小院\|青山\ndmidbroom\|1787\|小院\|天乙家\ndxk\|1787\|盘龙\|侠隐居\nfangzi\|1787\|小院\|天上人间\nfangzier\|1787\|小院\|天上人间二号\nfangzisan\|1787\|小院\|天上人间三号\nhbtwo\|1787\|盘龙\|无为观\nhhdgd\|1787\|盘龙\|涵涵打工屋\nhhz\|1787\|小院\|简居\nhhzz\|1787\|盘龙\|大平层\nitem\|1787\|盘龙\|萌新集中营\njuelszz\|1787\|小院\|牧场\nkkk\|1787\|小院\|西关小院\nlaoban\|1787\|小院\|地狱深渊\nlongfei\|1787\|小院\|南海明珠\nluk\|1787\|小院\|陆可\nlzza\|1787\|盘龙\|紫月居\nlzzd\|1787\|小院\|毒巢\nmufang\|1787\|小院\|木头房\npanlong\|1787\|盘龙\|盘龙居\nqianyelian\|1787\|小院\|千叶莲居\nqinglong\|1787\|小院\|华夏总盟\nrenzha\|1787\|小院\|人渣批发市场\nsglm\|1787\|小院\|三国联盟\nsglma\|1787\|盘龙\|三国联盟基地\nshjy\|1787\|小院\|盛合嘉园\nssd\|1787\|小院\|山水渡\ntgxy\|1787\|小院\|无相居\ntjxb\|1787\|盘龙\|筑剑小屋\ntrees\|1787\|盘龙\|大树洞\nttrees\|1787\|小院\|小树林\ntylg\|1787\|盘龙\|太原理工大学\nvea\|1787\|小院\|星河\nvingi\|1787\|小院\|苍月居\nvvv\|1787\|小院\|小宇宙\nwoyao\|1787\|小院\|要不完\nwsmjzb\|1787\|小院\|七彩云南\nxbb\|1787\|小院\|北一环蜗居\nxiaoyao\|1787\|小院\|逍遥居\nxlqy\|1787\|小院\|仙旅奇缘\nyoyoh\|1787\|小院\|哟哟小屋\nzhonghua\|1787\|盘龙\|华夏总舵\ncaihong\|1059\|小院\|彩虹\nworoom\|1059\|盘龙\|蜗居\nxingshi\|1059\|盘龙\|醒世轩\nazure\|1050\|小院\|蔚蓝海岸\nbaoshi\|1050\|盘龙\|紫云山庄\nbingbu\|1050\|盘龙\|兵部\nbucuochat\|1050\|盘龙\|爽歪歪之家\neastroom\|1050\|小院\|东厂\nfang\|1050\|盘龙\|芳草地\nfisher\|1050\|小院\|独乐\nfishhome\|1050\|小院\|鱼窝\ngwt\|1050\|小院\|恒大歌舞团\nhpsla\|1050\|盘龙\|和平之家\nhpslb\|1050\|小院\|神二局\nlaas\|1050\|小院\|一米居\nlotuss\|1050\|盘龙\|莲蓬\nmichell\|1050\|小院\|贝塔\nmin\|1050\|盘龙\|山水云间\nmoon\|1050\|小院\|广寒宫\nswordhouse\|1050\|小院\|试剑居\nvvj\|1050\|盘龙\|酒吧\nxiang\|1050\|小院\|尚香宫\nyqg\|1050\|盘龙\|太微玉清宫\nabao\|2785\|小院\|宝窝\nabaoa\|2785\|盘龙\|大院子\ndarkly\|2785\|小院\|九重紫\ndpc\|2785\|小院\|大平层\nfeb\|2785\|小院\|离火宫\nshg\|2785\|盘龙\|神水宫\ntay\|2785\|小院\|药佬居\nvichz\|2785\|小院\|独栋别墅\nhdq\|1051\|小院\|红灯区\nlsf\|1051\|小院\|洛神赋\nrsj\|1051\|盘龙\|人世间\nxiehui\|1051\|盘龙\|江南武林协会\nyuan\|1051\|小院\|百花苑\nbluecat\|1052\|小院\|猫窝\nbluechat\|1052\|小院\|猫的仓库\nbluestore\|1052\|盘龙\|猫店\nbucuohouse\|1052\|小院\|逍遥居\nhlt\|1052\|小院\|潇湘\nbucuoroom\|3239\|盘龙\|天下第一楼\npanlong\|3239\|盘龙\|沧海一声笑\nwarehouse\|3239\|小院\|沧澜居||房屋信息变量，通过ScanHouse收集
 Variable>infolist|1456\|xiao er\n1455\|xiao er\n1507\|seller\n2019\|xiao er\n1950\|xiao er\n988\|pu ren\n924\|xiao fan\n4018\|xiao er\n351\|feng qi\n1334\|chen apo\n1313\|xiao er\n1309\|xiao er\n1299\|xiao er\n890\|xiao fan\n3640\|he ersu\n3603\|xiao er\n1864\|seller\n1092\|cha boshi\n1804\|zu qianqiu\n1810\|xiao er\n1249\|xiao fan\n4102\|xiao er\n4126\|fortune teller\n2792\|seller\n2696\|xiao er\n2694\|xiao er\n2877\|a fang\n2902\|xiao er\n2907\|xiao er\n3095\|xiao er\n830\|xiao fan\n2397\|xiao er\n2387\|xiao er\n2398\|xiao er\n387\|xiao er\n370\|xiao er\n369\|xiao fan\n378\|bosi shangren\n596\|jiuyi daoren\n3002\|xiao er\n3021\|xiao er\n2258\|xiao er\n2292\|xiao er\n2381\|xiao er\n411\|xiao er\n396\|xiao er\n2167\|xiao fan\n45\|qiao fu\n617\|qiao fu\n4136\|chuan fu\n4161\|xiao er\n654\|xiao fan\n684\|xiao er\n686\|xiao er\n3558\|a man\n3555\|bosi shangren\n3563\|jin xiangyu\n3576\|zhubao shang\n3890\|xiao er\n3893\|xiao er\n4173\|lao chuanfu\n293\|seller\n262\|zhang tianshi\n1041\|xiao er\n1043\|xiao er\n460\|saodi seng\n1737\|xiao er\n1568\|xiao er\n1440\|sun erniang\n260\|zhuo ma\n206\|wu dunru\n2605\|xiao er\n2600\|xiao er\n2589\|seller\n2590\|seller\n3315\|xiao er\n3323\|yu fu\n1703\|xiao er\n1681\|zhike seng\n2839\|bosi shangren\n2544\|xiao er\n2444\|aqing sao\n2547\|xiao er\n2968\|yu fu\n551\|xiao er\n3415\|chen laotou\n3386\|xiao er\n3405\|xiao er\n3448\|xiao er\n763\|xiao er\n3770\|chen laoban\n3712\|xiaoer\n3714\|xiaoer\n3713\|yang laoban|info|所以的消息灵通人氏的地址和id
 Route>北京|quest||3475;3440;3401;3440;3475;3352;3476;3517;3380;3517;3518;3519;3518;3402;3518;3479;3518;3517;3405;3406;3405;3517;3476;3385;3386;3385;3384;3434;3384;3385;3397;3393;3396;3393;3392;3393;3394;3393;3397;3385;3476;3478;3477;3520;3521;3456;1681;3456;3457;3458;3457;617;3457;3458;3455;3454;3453;3451;3361;3360;3359;3485;3487;3362;3487;3489;3516;3489;3482;3510;3511;3510;3482;3448;3449;3448;3482;3490;3377;3499;3377;3376;3391;3376;3369;3370;3368;3388;3368;3370;3369;3373;3400;3373;3371;3375;3379;3378;3379;3375;3488;3486;3484;3502;3484;3481;3495;3481;3483;3509;3483;3356;3522;3356;3512;3356;3355;3351;3475;3353;3358;3387;3358;3357;3415;3357;3513;3435;3513;3514;3515;3446;3442;3446;3515;3514;3513;3357;3500;3436;3432;3436;3500;3343;3507;3506;3508;3506;3507;3343;3345;3354;3345;3464;3465;3389;3390;3403;3390;3389;3465;3466;3366;3335;3366;3367;3439;3367;3372;3364;3505;3504;3505;3364;3363;3365;3363;3346;3344;3410;3344;3501;3404;3430;3404;3501;3358;3353;3475|
 Route>北京1|quest||3475;3440;3475;3352;3476;3517;3518;3519;3518;3517;3476;3478;3477;3520;3477;3478;3476;3385;3384;3434;3384;3385;3476;3352;3475;3353;3358;3357;3513;3435;3513;3357;3358;3501;3344;3346;3345;3354;3345;3464;3465;3389;3390;3403;3390;3389;3465;3466;3366;3367;3369;3376;3377;3499;3377;3490;3482;3489;3487;3485;3483;3509;3483;3356;3355;3481;3484;3486;3488;3490;3371;3373;3400;3373;3372;3373;3371;3490;3488;3486;3484;3481;3355;3351;3475|
@@ -5075,73 +5076,73 @@ Trace>扬州|npcd||2441;2450;2506;2530|
 Trace>长安|npcd||3656;3663;3678;3735;3741;3778|
 Trace>中州|npcd||470;473;490;509;512;545|
 Trace>终南|npcd||633;635;643;703;709;717;890;904|
-Shortcut>flyup|fly|使用 fly bag的flyup|!find=;!maze=|flyup|4177|flyup=|2
-Shortcut>rideto baituo|ride||!find=;!maze=|rideto baituo|773|ride=|2
-Shortcut>rideto beijing|ride||!find=;!maze=|rideto beijing|3475|ride=|2
-Shortcut>rideto changan|ride||!find=;!maze=|rideto changan|3676|ride=|2
-Shortcut>rideto chengdu|ride||!find=;!maze=|rideto chengdu|1454|ride=|2
-Shortcut>rideto dali|ride||!find=;!maze=|rideto dali|1882|ride=|2
-Shortcut>rideto dalun|ride||!find=;!maze=|rideto dalun|1709|ride=|2
-Shortcut>rideto duanshi|ride||!find=;!maze=|rideto duanshi|2029|ride=|2
-Shortcut>rideto emei|ride||!find=;!maze=|rideto emei|955|ride=|2
-Shortcut>rideto foshan|ride||!find=;!maze=|rideto foshan|347|ride=|2
-Shortcut>rideto fuzhou|ride||!find=;!maze=|rideto fuzhou|1282|ride=|2
-Shortcut>rideto gc|ride||!find=;!maze=|rideto gc|2460|ride=|2
-Shortcut>rideto guanwai|ride||!find=;!maze=|rideto guanwai|3602|ride=|2
-Shortcut>rideto guiyun|ride||!find=;!maze=|rideto guiyun|1843|ride=|2
-Shortcut>rideto gumu|ride||!find=;!maze=|rideto gumu|866|ride=|2
-Shortcut>rideto hangzhou|ride||!find=;!maze=|rideto hangzhou|2753|ride=|2
-Shortcut>rideto henshan|ride||!find=;!maze=|rideto henshan|1140|ride=|2
-Shortcut>rideto huashan|ride||!find=;!maze=|rideto huashan|4072|ride=|2
-Shortcut>rideto hujia|ride||!find=;!maze=|rideto hujia|3645|ride=|2
-Shortcut>rideto jingzhou|ride||!find=;!maze=|rideto jingzhou|2892|ride=|2
-Shortcut>rideto jueqing|ride||!find=;!maze=|rideto jueqing|180|ride=|2
-Shortcut>rideto kaifeng|ride||!find=;!maze=|rideto kaifeng|3209|ride=|2
-Shortcut>rideto kunlun|ride||!find=;!maze=|rideto kunlun|832|ride=|2
-Shortcut>rideto kunming|ride||!find=;!maze=|rideto kunming|2396|ride=|2
-Shortcut>rideto lanzhou|ride||!find=;!maze=|rideto lanzhou|369|ride=|2
-Shortcut>rideto lingjiu|ride||!find=;!maze=|rideto lingjiu|583|ride=|2
-Shortcut>rideto lingxiao|ride||!find=;!maze=|rideto lingxiao|3049|ride=|2
-Shortcut>rideto lingzhou|ride||!find=;!maze=|rideto lingzhou|395|ride=|2
-Shortcut>rideto luoyang|ride||!find=;!maze=|rideto luoyang|2241|ride=|2
-Shortcut>rideto meizhuang|ride||!find=;!maze=|rideto meizhuang|96|mz=;ride=|2
-Shortcut>rideto mingjiao|ride||!find=;!maze=|rideto mingjiao|2172|ride=|2
-Shortcut>rideto murong|ride||!find=;!maze=|rideto murong|2957|ride=|2
-Shortcut>rideto ouyang|ride||!find=;!maze=|rideto ouyang|751|ride=|2
-Shortcut>rideto quanzhen|ride||!find=;!maze=|rideto quanzhen|682|ride=|2
-Shortcut>rideto quanzhou|ride||!find=;!maze=|rideto quanzhou|4164|ride=|2
-Shortcut>rideto riyue|ride||!find=;!maze=|rideto riyue|1239|ride=|2
-Shortcut>rideto ruzhou|ride||!find=;!maze=|rideto ruzhou|3911|ride=|2
-Shortcut>rideto shangjia|ride||!find=;!maze=|rideto shangjia|3920|ride=|2
-Shortcut>rideto shaolin|ride||!find=;!maze=|rideto shaolin|3933|ride=|2
-Shortcut>rideto shenlong|ride||!find=;!maze=|rideto shenlong|3216|ride=|2
-Shortcut>rideto songshan|ride||!find=;!maze=|rideto songshan|272|ride=|2
-Shortcut>rideto suzhou|ride||!find=;!maze=|rideto suzhou|1086|ride=|2
-Shortcut>rideto tangmen|ride||!find=;!maze=|rideto tangmen|4283|ride=;tm=|2
-Shortcut>rideto taohua|ride||!find=;!maze=|rideto taohua|1624|ride=|2
-Shortcut>rideto tiezhang|ride||!find=;!maze=|rideto tiezhang|1762|ride=|2
-Shortcut>rideto wudang|ride||!find=;!maze=|rideto wudang|1539|ride=|2
-Shortcut>rideto wudu|ride||!find=;!maze=|rideto wudu|1357|ride=|2
-Shortcut>rideto wugong|ride||!find=;!maze=|rideto wugong|739|ride=|2
-Shortcut>rideto xiangyang|ride||!find=;!maze=|rideto xiangyang|2575|ride=|2
-Shortcut>rideto xiaoyao|ride||!find=;!maze=|rideto xiaoyao|315|ride=|2
-Shortcut>rideto xingxiu|ride||!find=;!maze=|rideto xingxiu|2855|ride=|2
-Shortcut>rideto xuanming|ride||!find=;!maze=|rideto xuanming|0|ride=|2
-Shortcut>rideto xuedao|ride||!find=;!maze=|rideto xuedao|260|ride=|2
-Shortcut>rideto zhenyuan|ride||!find=;!maze=|rideto zhenyuan|3388|ride=|2
-Shortcut>rideto zhongzhou|ride||!find=;!maze=|rideto zhongzhou|512|ride=|2
-Shortcut>rideto1 bt|ride||!find=;!maze=|rideto1 bt|773|ride=|2
-Shortcut>rideto1 ca|ride||!find=;!maze=|rideto1 ca|3735|ride=|2
-Shortcut>rideto1 cd|ride||!find=;!maze=|rideto1 cd|1497|ride=|2
-Shortcut>rideto1 has|ride||!find=;!maze=|rideto1 has|4084|ride=|2
-Shortcut>rideto1 hgs|ride||!find=;!maze=|rideto1 hgs|617|ride=|2
-Shortcut>rideto1 hmy|ride||!find=;!maze=|rideto1 hmy|1229|ride=|2
-Shortcut>rideto1 hz|ride||!find=;!maze=|rideto1 hz|2738|ride=|2
-Shortcut>rideto1 kf|ride||!find=;!maze=|rideto1 kf|3168|ride=|2
-Shortcut>rideto1 kl|ride||!find=;!maze=|rideto1 kl|795|ride=|2
-Shortcut>rideto1 mj|ride||!find=;!maze=|rideto1 mj|2195|ride=|2
-Shortcut>rideto1 qz|ride||!find=;!maze=|rideto1 qz|649|ride=|2
-Shortcut>rideto1 sl|ride||!find=;!maze=|rideto1 sl|3959|ride=|2
-Shortcut>rideto1 ss|ride||!find=;!maze=|rideto1 ss|291|ride=|2
-Shortcut>rideto1 ts|ride||!find=;!maze=|rideto1 ts|4027|ride=|2
-Shortcut>rideto1 wd|ride||!find=;!maze=|rideto1 wd|1617|ride=|2
+Shortcut>flyup|fly|使用 fly bag的flyup|!noshortcut=|flyup|4177|flyup=|2
+Shortcut>rideto baituo|ride||!noshortcut=|rideto baituo|773|ride=|2
+Shortcut>rideto beijing|ride||!noshortcut=|rideto beijing|3475|ride=|2
+Shortcut>rideto changan|ride||!noshortcut=|rideto changan|3676|ride=|2
+Shortcut>rideto chengdu|ride||!noshortcut=|rideto chengdu|1454|ride=|2
+Shortcut>rideto dali|ride||!noshortcut=|rideto dali|1882|ride=|2
+Shortcut>rideto dalun|ride||!noshortcut=|rideto dalun|1709|ride=|2
+Shortcut>rideto duanshi|ride||!noshortcut=|rideto duanshi|2029|ride=|2
+Shortcut>rideto emei|ride||!noshortcut=|rideto emei|955|ride=|2
+Shortcut>rideto foshan|ride||!noshortcut=|rideto foshan|347|ride=|2
+Shortcut>rideto fuzhou|ride||!noshortcut=|rideto fuzhou|1282|ride=|2
+Shortcut>rideto gc|ride||!noshortcut=|rideto gc|2460|ride=|2
+Shortcut>rideto guanwai|ride||!noshortcut=|rideto guanwai|3602|ride=|2
+Shortcut>rideto guiyun|ride||!noshortcut=|rideto guiyun|1843|ride=|2
+Shortcut>rideto gumu|ride||!noshortcut=|rideto gumu|866|ride=|2
+Shortcut>rideto hangzhou|ride||!noshortcut=|rideto hangzhou|2753|ride=|2
+Shortcut>rideto henshan|ride||!noshortcut=|rideto henshan|1140|ride=|2
+Shortcut>rideto huashan|ride||!noshortcut=|rideto huashan|4072|ride=|2
+Shortcut>rideto hujia|ride||!noshortcut=|rideto hujia|3645|ride=|2
+Shortcut>rideto jingzhou|ride||!noshortcut=|rideto jingzhou|2892|ride=|2
+Shortcut>rideto jueqing|ride||!noshortcut=|rideto jueqing|180|ride=|2
+Shortcut>rideto kaifeng|ride||!noshortcut=|rideto kaifeng|3209|ride=|2
+Shortcut>rideto kunlun|ride||!noshortcut=|rideto kunlun|832|ride=|2
+Shortcut>rideto kunming|ride||!noshortcut=|rideto kunming|2396|ride=|2
+Shortcut>rideto lanzhou|ride||!noshortcut=|rideto lanzhou|369|ride=|2
+Shortcut>rideto lingjiu|ride||!noshortcut=|rideto lingjiu|583|ride=|2
+Shortcut>rideto lingxiao|ride||!noshortcut=|rideto lingxiao|3049|ride=|2
+Shortcut>rideto lingzhou|ride||!noshortcut=|rideto lingzhou|395|ride=|2
+Shortcut>rideto luoyang|ride||!noshortcut=|rideto luoyang|2241|ride=|2
+Shortcut>rideto meizhuang|ride||!noshortcut=|rideto meizhuang|96|mz=;ride=|2
+Shortcut>rideto mingjiao|ride||!noshortcut=|rideto mingjiao|2172|ride=|2
+Shortcut>rideto murong|ride||!noshortcut=|rideto murong|2957|ride=|2
+Shortcut>rideto ouyang|ride||!noshortcut=|rideto ouyang|751|ride=|2
+Shortcut>rideto quanzhen|ride||!noshortcut=|rideto quanzhen|682|ride=|2
+Shortcut>rideto quanzhou|ride||!noshortcut=|rideto quanzhou|4164|ride=|2
+Shortcut>rideto riyue|ride||!noshortcut=|rideto riyue|1239|ride=|2
+Shortcut>rideto ruzhou|ride||!noshortcut=|rideto ruzhou|3911|ride=|2
+Shortcut>rideto shangjia|ride||!noshortcut=|rideto shangjia|3920|ride=|2
+Shortcut>rideto shaolin|ride||!noshortcut=|rideto shaolin|3933|ride=|2
+Shortcut>rideto shenlong|ride||!noshortcut=|rideto shenlong|3216|ride=|2
+Shortcut>rideto songshan|ride||!noshortcut=|rideto songshan|272|ride=|2
+Shortcut>rideto suzhou|ride||!noshortcut=|rideto suzhou|1086|ride=|2
+Shortcut>rideto tangmen|ride||!noshortcut=|rideto tangmen|4283|ride=;tm=|2
+Shortcut>rideto taohua|ride||!noshortcut=|rideto taohua|1624|ride=|2
+Shortcut>rideto tiezhang|ride||!noshortcut=|rideto tiezhang|1762|ride=|2
+Shortcut>rideto wudang|ride||!noshortcut=|rideto wudang|1539|ride=|2
+Shortcut>rideto wudu|ride||!noshortcut=|rideto wudu|1357|ride=|2
+Shortcut>rideto wugong|ride||!noshortcut=|rideto wugong|739|ride=|2
+Shortcut>rideto xiangyang|ride||!noshortcut=|rideto xiangyang|2575|ride=|2
+Shortcut>rideto xiaoyao|ride||!noshortcut=|rideto xiaoyao|315|ride=|2
+Shortcut>rideto xingxiu|ride||!noshortcut=|rideto xingxiu|2855|ride=|2
+Shortcut>rideto xuanming|ride||!noshortcut=|rideto xuanming|0|ride=|2
+Shortcut>rideto xuedao|ride||!noshortcut=|rideto xuedao|260|ride=|2
+Shortcut>rideto zhenyuan|ride||!noshortcut=|rideto zhenyuan|3388|ride=|2
+Shortcut>rideto zhongzhou|ride||!noshortcut=|rideto zhongzhou|512|ride=|2
+Shortcut>rideto1 bt|ride||!noshortcut=|rideto1 bt|773|ride=|2
+Shortcut>rideto1 ca|ride||!noshortcut=|rideto1 ca|3735|ride=|2
+Shortcut>rideto1 cd|ride||!noshortcut=|rideto1 cd|1497|ride=|2
+Shortcut>rideto1 has|ride||!noshortcut=|rideto1 has|4084|ride=|2
+Shortcut>rideto1 hgs|ride||!noshortcut=|rideto1 hgs|617|ride=|2
+Shortcut>rideto1 hmy|ride||!noshortcut=|rideto1 hmy|1229|ride=|2
+Shortcut>rideto1 hz|ride||!noshortcut=|rideto1 hz|2738|ride=|2
+Shortcut>rideto1 kf|ride||!noshortcut=|rideto1 kf|3168|ride=|2
+Shortcut>rideto1 kl|ride||!noshortcut=|rideto1 kl|795|ride=|2
+Shortcut>rideto1 mj|ride||!noshortcut=|rideto1 mj|2195|ride=|2
+Shortcut>rideto1 qz|ride||!noshortcut=|rideto1 qz|649|ride=|2
+Shortcut>rideto1 sl|ride||!noshortcut=|rideto1 sl|3959|ride=|2
+Shortcut>rideto1 ss|ride||!noshortcut=|rideto1 ss|291|ride=|2
+Shortcut>rideto1 ts|ride||!noshortcut=|rideto1 ts|4027|ride=|2
+Shortcut>rideto1 wd|ride||!noshortcut=|rideto1 wd|1617|ride=|2

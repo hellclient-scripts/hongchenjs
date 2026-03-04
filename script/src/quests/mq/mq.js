@@ -51,6 +51,7 @@ $.Module(function (App) {
         helpded: 0,
         start: null,
         current: null,
+        last: 0,
         eff: 0,
     }
     MQ.NeedJiqu = (letter) => {
@@ -59,12 +60,13 @@ $.Module(function (App) {
                 return false
             }
             let tihui = App.QuestParams["mqtihui"]
-            let lettertihui = App.QuestParams["mqtihui"] * 3
-            let lettertihuimax = (App.Core.Study.Jiqu.Max + App.QuestParams["mqtihui"]) / 2
-            if (lettertihui > lettertihuimax) {
-                lettertihui = lettertihuimax.toFixed()
-            }
-            return App.Data.Player.HP["体会"] >= (letter ? lettertihui : tihui)
+            // let lettertihui = App.QuestParams["mqtihui"] * 3
+            // let lettertihuimax = (App.Core.Study.Jiqu.Max + App.QuestParams["mqtihui"]) / 2
+            // if (lettertihui > lettertihuimax) {
+            //     lettertihui = lettertihuimax.toFixed()
+            // }
+            // return App.Data.Player.HP["体会"] >= (letter ? lettertihui : tihui)
+            return App.Data.Player.HP["体会"] >= tihui
         }
         return false
 
@@ -101,6 +103,7 @@ $.Module(function (App) {
                 if (App.Core.NPC.AskBeichouData.Live) {
                     MQ.GiveBeiChou()
                 } else {
+                    App.Log("NPC没了")
                     MQ.GiveHead()
                 }
             })
@@ -171,6 +174,7 @@ $.Module(function (App) {
             let fled = false
             MQ.Data.NoMaster = false
             MQ.Data.NPC = null
+            MQ.Data.last = MQ.Data.current
             MQ.Data.current = null
             task.AddTrigger(reQuest, (tri, result) => {
                 MQ.Data.NPC = new NPC(result[2])
@@ -443,7 +447,8 @@ $.Module(function (App) {
             MQ.Far()
         })
     MQ.GiveBeiChou = () => {
-        if (App.QuestParams["mqgivebeichou"] == "t" && (MQ.Data.NPC.Farlist == null || App.Core.NPC.AskBeichouData.Silver)) {
+        //if (App.QuestParams["mqgivebeichou"] == "t" && (MQ.Data.NPC.Farlist == null || App.Core.NPC.AskBeichouData.Silver)) {
+        if (App.QuestParams["mqgivebeichou"] == "t") {
             PlanBeichou.Execute()
             return
         }
@@ -456,22 +461,24 @@ $.Module(function (App) {
             let farlist = [...App.Zone.NameToCityList[name]]
             if (farlist.length > 0) {
                 MQ.Data.NPC.SetZone(farlist.shift())
-            } else[
-                App.Log(`未登记的房间面 ${name}`)
-            ]
+            }
             MQ.Data.NPC.Farlist = farlist
             let wanted = $.NewWanted(MQ.Data.NPC.Name, MQ.Data.NPC.Farlist[0]).WithChecker(Checker).WithID(MQ.Data.NPC.ID)
             MQ.Data.NPC.Loc = null
+            MQ.Data.NPC.Fled = true
             $.PushCommands(
                 $.Prepare(),
                 $.Function(() => {
-                    App.Zone.SearchRooms(rooms, wanted)
+                    App.Zone.SearchRooms(rooms, wanted, MQ.MoveData)
                 }),
                 $.Function(MQ.KillLoc),
                 $.Function(MQ.Ready),
             )
             $.Next()
             return
+        } else {
+            App.Log(`未登记的房间 ${name}`)
+            MQ.Data.NPC.Farlist == null
         }
         MQ.Far()
     }
@@ -500,6 +507,7 @@ $.Module(function (App) {
             return
         }
         Note("很远没找到，放弃")
+        App.Log("很远没找到，放弃")
         MQ.GiveHead()
     }
     MQ.KillNear = () => {
@@ -508,7 +516,7 @@ $.Module(function (App) {
             let rooms = App.Mapper.ExpandRooms([App.Map.Room.ID], 2, true)
             App.Zone.Wanted = $.NewWanted(MQ.Data.NPC.Name, MQ.Data.NPC.Zone).WithChecker(Checker).WithID(MQ.Data.NPC.ID)
             $.PushCommands(
-                $.Rooms(rooms, App.Zone.Finder),
+                $.Rooms(rooms, App.Zone.Finder, MQ.MoveData),
                 $.Function(MQ.KillLoc),
             )
         }
@@ -580,9 +588,9 @@ $.Module(function (App) {
                     $.Sync(),
                     $.Function(() => {
                         if (MQ.Data.NPC.Loc) {
-                            App.Zone.SearchRooms([MQ.Data.NPC.Loc], wanted)
+                            App.Zone.SearchRooms([MQ.Data.NPC.Loc], wanted, MQ.MoveData)
                         } else {
-                            App.Zone.Search(wanted)
+                            App.Zone.Search(wanted, MQ.MoveData)
                         }
                     })
                 )
@@ -727,7 +735,19 @@ $.Module(function (App) {
         MQ.CheckBeichou()
     }
 
-
+    MQ.OnMoveBlocker = function (name) {
+        if (MQ.Data.NPC && MQ.Data.NPC.Name == name) {
+            App.Commands.Drop()
+            $.PushCommands(
+                $.Kill(MQ.Data.NPC.ID, App.NewCombat("mq").WithPlan(PlanCombat).WithKillInGroup(MQ.Data.NPC.NotKilled)),
+                $.Function(MQ.Ready),
+            )
+            App.Next()
+            return
+        }
+        App.Core.Blocker.KillMoveBlocker(name)
+    }
+    MQ.MoveData = App.Move.NewOnMoveBlocker(MQ.OnMoveBlocker)
     App.BindEvent("core.helpfind.onfound", (event) => {
         let name = event.Data.Name
         let id = event.Data.ID
@@ -779,6 +799,7 @@ $.Module(function (App) {
     }
     let matcherHead = /^你拣起一颗(.+)的人头。$/
     let matcherreward = /^通过这次锻炼你获得了/
+    let matcherquestfail = /^([^：()\[\]]{2,5})摆摆手，对你道：你干不了就算了/
     let planQuest = new App.Plan(App.Quests.Position,
         (task) => {
             task.AddTrigger(matcherHead, (tri, result) => {
@@ -798,6 +819,10 @@ $.Module(function (App) {
                     msg += " 任务效率：" + MQ.Data.eff.toFixed() + " 个/小时,共计" + MQ.Data.kills + "个任务," + "线报率 " + (MQ.Data.helpded * 100 / MQ.Data.kills).toFixed(2) + "%"
                 }
                 Note(msg)
+                return true
+            })
+            task.AddTrigger(matcherquestfail, (tri, result) => {
+                App.Log(`任务失败，当前任务:${MQ.Data.last || 0}`)
                 return true
             })
         },

@@ -1,5 +1,6 @@
 (function (App) {
     App.Include("src/quests/streetview/streetview.js")
+    App.Include("src/quests/streetview/scanhouse.js")
     App.Include("src/quests/lianskill/lianskill.js")
     App.Include("src/quests/misc/quit.js")
     App.Include("src/quests/misc/relogin.js")

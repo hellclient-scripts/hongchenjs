@@ -11,6 +11,21 @@
             Exp: data[2] - 0,
         }
     })
+    App.Engine.SetFilter("core.moveblocked", function (event) {
+        event.Data = event.Data.Wildcards["1"]
+        App.RaiseEvent(event)
+    })
+    App.Core.Blocker.KillMoveBlocker = (name) => {
+        let snap = App.Map.Snap()
+        App.Commands.Insert(
+            App.NewKillCommand("", App.NewCombat("moveblocker")),
+            App.Commands.NewFunctionCommand(() => {
+                App.Map.Rollback(snap)
+                App.Map.Resend(0)
+            })
+        )
+        App.Next()
+    }
     //响应触发
     App.Engine.SetFilter("core.blocked", function (event) {
         event.Data = event.Data.Wildcards["0"]

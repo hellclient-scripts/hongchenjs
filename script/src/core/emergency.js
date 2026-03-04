@@ -11,6 +11,7 @@
                 Note("醒来后继续。")
             } else {
                 App.Log(event.Data.Output)
+                App.PushMessage.Notify("任务状态异常", "稍后重试")
             }
             App.Reconnect(App.Params.ReloginDelay, cb)
         })

@@ -56,8 +56,8 @@
 
     //移动跟踪
     App.Map.Trace = function (map, rid, dir) {
-        if (rid=="3527"&&dir=="n"){
-            dir="break men&n"
+        if (rid == "3527" && dir == "n") {
+            dir = "break men&n"
         }
         var exits = App.Map.GetRoomExits(rid, true)
         var result = ""
@@ -121,6 +121,9 @@
             task.AddCatcher("core.blocked", (catcher, event) => {
                 catcher.WithData(event.Data)
             }).WithName("blocked")
+            task.AddCatcher("core.moveblocked", (catcher, event) => {
+                catcher.WithData(event.Data)
+            }).WithName("moveblocked")
             task.AddCatcher("core.needrest").WithName("needrest")
             task.AddCatcher("line", function (catcher, event) {
                 if (App.Move.BusyMessages[event.Data.Output]) {
@@ -177,6 +180,9 @@
                         case "blocked":
                             App.Move.OnBlocker(result.Data)
                             break
+                        case "moveblocked":
+                            App.Move.OnMoveBlocker(result.Data)
+                            break
                         case "blocked2":
                             App.Core.Blocker.BlockStepRetry()
                             break
@@ -218,6 +224,16 @@
     App.Move.OnBlocker = function (name) {
         App.Core.Blocker.KillBlocker(name)
     }
+    App.Move.OnMoveBlocker = function (name) {
+        if (App.Map.Move.Data["OnMoveBlocker"]) {
+            App.Map.Move.Data["OnMoveBlocker"](name)
+            return
+        }
+        App.Core.Blocker.KillMoveBlocker(name)
+    }
+    App.Move.NewOnMoveBlocker = function (callback) {
+        return App.Map.NewMoveData("OnMoveBlocker", callback)
+    }
     //房间名回显
     App.BindEvent("core.roomentry", function (event) {
         event.Context.ProposeLater(function () {
@@ -227,6 +243,7 @@
             }
         })
     })
+
     mapModule.DefaultOnFinish = function (move, map) {
         App.Next()
     }
@@ -258,7 +275,7 @@
             }
             if (target) {
                 target = App.Mapper.LoadMarkers(target)
-                label=target.length>1?`${target[0]} 等 ${target.length} 个房间`:target[0]
+                label = target.length > 1 ? `${target[0]} 等 ${target.length} 个房间` : target[0]
                 Note(`${App.Map.Room.ID} 前往 ${label}`)
             }
             App.Move.NewTo(target, ...running.Command.Data.Initers).Execute()
@@ -301,4 +318,17 @@
     App.Move.Load = () => {
         App.Map.Movement.MaxStep = App.Params.NumStep
     }
+    App.Vehicle = new mapModule.Vehicle()
+    App.Move.LastVehicleYanjiu = 0
+    App.Vehicle.Send = function (step, map) {
+        let now = $.Now()
+        if ((App.Params.YanjiuPot - 0) > 0 && App.Data.Player.HP["潜能"] > (App.Params.YanjiuPot - 0)) {
+            if (now - App.Move.LastVehicleYanjiu > 1000) {
+                App.Move.LastVehicleYanjiu = now
+                $.RaiseStage("moveyanjiu")
+            }
+        }
+        mapModule.DefaultVehicleSend(step, map)
+    }
+    mapModule.DefaultVehicle = App.Vehicle
 })(App)

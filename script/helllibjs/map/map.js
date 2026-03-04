@@ -163,6 +163,9 @@
         AddTemporaryPath(path) {
             this.#temporaryPaths.push(path)
         }
+        AddRoomTags(...tags) {
+            this.Context.WithRoomTags(...tags)
+        }
         BlockPath(from, to) {
             this.#blocked.push([from, to])
         }
@@ -195,7 +198,6 @@
             })
             this.Context.WithRooms(this.#temporaryRooms)
             this.Context.WithPaths(this.#temporaryPaths)
-
         }
         UpdateMapperOption(option) {
             if (option.blockedpath == null) {
@@ -232,6 +234,13 @@
                 path.push(new Step(step.Command, step.Target))
             })
             return this.filterpath(path)
+        }
+        GetNearestRoom(from,fly,to){
+            let result=this.GetMapperPath(from,fly,to)
+            if (result && result.length>0){
+                return result[result.length-1].Target
+            }
+            return null
         }
         GetMapperWalkAll(rooms, fly, distance) {
             let result = module.Database.APIQueryPathAll(rooms[0], rooms, this.Context, this.GetMapperOptions(!fly).WithMaxTotalCost(distance))
@@ -350,8 +359,14 @@
         NewRoomTag(room, key, value) {
             return new RoomTag(room, key, value)
         }
+        NewMoveData(name, value) {
+            return new MoveData(name, value)
+        }
         NewMaze() {
             return new Maze()
+        }
+        NewMove() {
+            return new Move()
         }
         RegisterMaze(name, maze) {
             this.Mazes[name] = maze
@@ -410,11 +425,15 @@
         StartCommand = ""
         Data = {}
         History = []
+        #initiator = []
+        AppendInitiator(fn) {
+            this.#initiator.push(fn)
+        }
         Retry = DefaultMoveRetry
         Next = DefaultMoveNext
         OnRoom = DefaultMoveOnRoom
         OnArrive = DefaultMoveOnArrive
-        Vehicle = DefaultVehicle
+        Vehicle = module.DefaultVehicle
         OnFinish = module.DefaultOnFinish
         OnCancel = module.DefaultOnCancel
         OnInitTags = DefaultOnInitTags
@@ -540,6 +559,7 @@
                         map.SetTag(key, value)
                     }
                 }
+                map.Context.WithRoomTags(this.Option.RoomTags)
                 this.Vehicle.OnInitTags(this, map)
                 this.OnInitTags(this, map)
             }
@@ -566,6 +586,7 @@
         MultipleStep = false
         Fly = false
         Tags = {}
+        RoomTags = []
         ApplyTo(move, map) {
             move.Option = this
         }
@@ -589,11 +610,22 @@
             this.Key = key;
             this.Value = value;
         }
-        Room=""
-        Key=""
-        Value=1
+        Room = ""
+        Key = ""
+        Value = 1
         ApplyTo(move, map) {
-            map.Context.WithRoomTags([hmm.RoomTag.New(this.Room, this.Key, this.Value)])
+            move.Option.RoomTags.push(hmm.RoomTag.New(this.Room, this.Key, this.Value))
+        }
+    }
+    class MoveData {
+        constructor(name = "", value = null) {
+            this.Name = name
+            this.Value = value
+        }
+        Name = ""
+        Value = null
+        ApplyTo(move, map) {
+            move.Data[this.Name] = this.Value
         }
     }
     class Route {
@@ -659,6 +691,9 @@
     module.Tag = Tag
     module.Step = Step
     module.RoomTag = RoomTag
+    moduleMoveData = MoveData
     module.Option = Option
+    module.DefaultVehicle = DefaultVehicle
+    module.DefaultVehicleSend = DefaultVehicleSend
     return module
 })

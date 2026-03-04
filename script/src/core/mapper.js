@@ -6,7 +6,7 @@
     App.Mapper.Data.NPCList = []
     App.Mapper.Data.NPCMap = {}
     App.Mapper.Data.Markers = {}
-    App.Mapper.CommonExits = ["west", "east", "south", "north", "up", "down", "enter", "out", "n", "s", "e", "w", "ne", "nw", "se", "sw", "u", "d", "northup", "northdown", "southup", "southdown", "eastup", "eastdown", "westup", "westdown", "nu", "nd", "eu", "ed", "wu", "wd", "su", "sd"]
+    App.Mapper.CommonExits = ["west", "east", "south", "north", "up", "down", "enter", "out", "n", "s", "e", "w", "ne", "nw", "se", "sw", "u", "d", "northup", "northdown", "southup", "southdown", "eastup", "eastdown", "westup", "westdown", "nu", "nd", "eu", "ed", "wu", "wd", "su", "sd","northeast","northwest","southeast","southwest","ne","nw","se","sw"]
     App.Mapper.HMM = mapModule.HMM
     App.Mapper.Database = mapModule.Database
     App.Core.RoomsByName = {}
@@ -89,13 +89,13 @@
                 App.Mapper.NewExit("s", "4199"),
                 App.Mapper.NewExit("w", "4202"),
             ]),
-            App.Mapper.NewRoom("4202", `右卫舍`, [
+            App.Mapper.NewRoom("4202", `右卫舍*`, [
                 App.Mapper.NewExit("e", "4200"),
             ]),
-            App.Mapper.NewRoom("4201", `左卫舍`, [
+            App.Mapper.NewRoom("4201", `左卫舍*`, [
                 App.Mapper.NewExit("w", "4200"),
             ]),
-            App.Mapper.NewRoom("4203", `走道`, [
+            App.Mapper.NewRoom("4203", `走道*`, [
                 App.Mapper.NewExit("n", "4204"),
                 App.Mapper.NewExit("push、s。", "4200"),
             ]),
@@ -261,13 +261,6 @@
                 map.AddTemporaryPath(p)
             })
         }
-        // if (App.Mapper.InWinter()) {
-        //     map.SetTag("winter", 1)
-        //     map.BlockPath("1236", "1237")
-        //     map.BlockPath("1238", "1237")
-        // } else {
-        //     map.SetTag("winter", 0)
-        // }
     }
     App.Mapper.Landmarkes = {}
     App.Mapper.Landmarkes.DesclineMap = {}

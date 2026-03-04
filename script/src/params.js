@@ -44,4 +44,5 @@
     App.NamedParams.AddString("ShowRoomID", "").WithName("显示房间ID").WithDesc("设为t打开")
     App.NamedParams.AddString("Echo", "t").WithName("指令回显").WithDesc("设为f关闭回显")
     App.NamedParams.AddString("DisableNPCD", "").WithName("禁用NPCD出生点路径").WithDesc("设为t使用固定路径")
+    App.NamedParams.AddString("YanjiuPot", "2000").WithName("走路研究潜能").WithDesc("设为0关闭走路研究")
 })()

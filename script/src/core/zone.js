@@ -35,6 +35,91 @@
         "大理",
         "西域",
     ];//全部区域列表，取前2字
+    App.Zone.HouseList = []//房屋列表
+    App.Zone.HouseRooms = []
+    App.Zone.HousePaths = []
+    App.Zone.BuildPanlong = function (room, id, name) {
+        if (id == App.Mapper.HouseID) {
+            return
+        }
+        let roomid = `house-${id}`
+        App.Zone.HouseRooms.push(
+            App.Mapper.NewRoom(roomid, `${name}大院`, [
+                App.Mapper.NewExit("out", room),
+                App.Mapper.NewExit("n", `${roomid}-qt`),
+            ])
+        )
+        App.Zone.HouseRooms.push(
+            App.Mapper.NewRoom(`${roomid}-qt`, `${name}前庭`, [
+                App.Mapper.NewExit("s", roomid),
+                App.Mapper.NewExit("w", `${roomid}-yws`),
+                App.Mapper.NewExit("e", `${roomid}-zws`),
+            ])
+        )
+        App.Zone.HouseRooms.push(
+            App.Mapper.NewRoom(`${roomid}-yws`, `${name}右卫舍`, [
+                App.Mapper.NewExit("e", `${roomid}-qt`),
+            ])
+        )
+        App.Zone.HouseRooms.push(
+            App.Mapper.NewRoom(`${roomid}-zws`, `${name}左卫舍`, [
+                App.Mapper.NewExit("w", `${roomid}-qt`),
+            ])
+        )
+        let model = App.Mapper.HMM.Path.New()
+        model.From = room
+        model.To = roomid
+        model.Command = `go ${id}`
+        model.Conditions = [App.Mapper.NewCondition("streetview", 1, true)]
+        App.Zone.HousePaths.push(model)
+
+    }
+    App.Zone.BuildXiaoyuan = function (room, id, name) {
+        if (id == App.Mapper.HouseID) {
+            return
+        }
+        let roomid = `house-${id}`
+        App.Zone.HouseRooms.push(
+            App.Mapper.NewRoom(roomid, `${name}小院`, [
+                App.Mapper.NewExit("out", room),
+            ])
+        )
+        let model = App.Mapper.HMM.Path.New()
+        model.From = room
+        model.To = roomid
+        model.Command = `go ${id}`
+        model.Conditions = [App.Mapper.NewCondition("streetview", 1, true)]
+        App.Zone.HousePaths.push(model)
+    }
+
+    App.LoadLinesText(App.Mapper.Database.APIGetVariable("houselist").split("\n"), "|").forEach(data => {
+        let room = {
+            ID: data[0],
+            Room: data[1],
+            Type: data[2],
+            Name: data[3],
+        }
+        App.Zone.HouseList.push(room)
+        switch (room.Type) {
+            case "盘龙":
+                App.Zone.BuildPanlong(room.Room, room.ID, room.Name)
+                break
+            case "小院":
+                App.Zone.BuildXiaoyuan(room.Room, room.ID, room.Name)
+                break
+        }
+    })
+    App.Zone.InitTag = function (map) {
+        if (App.Zone.HouseRooms.length) {
+            map.AddTemporaryRooms(App.Zone.HouseRooms)
+        }
+        if (App.Zone.HousePaths.length) {
+            App.Zone.HousePaths.forEach((p) => {
+                map.AddTemporaryPath(p)
+            })
+        }
+    }
+    App.Map.AppendInitiator(App.Zone.InitTag)
 
     // App.Zone.Info = {}
     App.Zone.InfoIDMap = {}//info坐标对应的info id
@@ -253,7 +338,7 @@
         }
     }
     //search区域名方法
-    App.Zone.Search = function (wanted) {
+    App.Zone.Search = function (wanted, ...initiators) {
         let rooms = App.Zone.GetMap(wanted.Zone)
         if (!rooms) {
             PrintSystem("#search 地图未找到")
@@ -261,14 +346,23 @@
             return
         }
         wanted.Ordered = rooms.Ordered
-        App.Zone.SearchRooms(rooms.Rooms, wanted)
+        App.Zone.SearchRooms(rooms.Rooms, wanted, ...initiators)
     }
-    App.Zone.RoomTag = App.Map.NewRoomTag("", "find", 1)
+    let filter = App.Mapper.HMM.RoomFilter.New()
+    filter.RoomConditions = [App.Mapper.HMM.ValueCondition.New("maze", 1, false)]
+    App.Zone.MazeRooms = App.Mapper.Database.APISearchRooms(filter).map(room => room.Key)
+    App.Zone.RoomTags = []
+    App.Zone.MazeRooms.forEach(room => {
+        App.Zone.RoomTags.push(App.Map.NewRoomTag(room, "noshortcut", 1))//迷宫在便利禁止飞走，保证探索每个房间
+    })
+    App.Zone.Tag = App.Map.NewTag("find", 1)
+    App.Zone.MoveData = App.Map.NewMoveData("find", true)
     //search指定房间
-    App.Zone.SearchRooms = function (rooms, wanted) {
+    App.Zone.SearchRooms = function (rooms, wanted, ...initiators) {
         App.Zone.Wanted = wanted
         wanted.Loc = null
-        let move = wanted.Ordered ? App.Move.NewOrderedCommand(rooms, App.Zone.Finder, App.Zone.RoomTag) : App.Move.NewRoomsCommand(rooms, App.Zone.Finder, App.Zone.RoomTag)
+        let moveArgs = [rooms, App.Zone.Finder, ...App.Zone.RoomTags, App.Zone.Tag, App.Zone.MoveData, ...initiators]
+        let move = wanted.Ordered ? App.Move.NewOrderedCommand(...moveArgs) : App.Move.NewRoomsCommand(...moveArgs)
         App.Commands.PushCommands(
             move,
             App.Commands.NewFunctionCommand(() => {
