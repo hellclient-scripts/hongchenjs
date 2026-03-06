@@ -22,14 +22,14 @@
                 App.Eat(true)
                 App.Send("hp")
             }
-            if (cmd == "sw") {
-                if (maze.Data.Count < 10) {
-                    cmd = "e"
-                } else {
-                    // cmd = "ne"
-                    cmd = "e"
-                }
-            }
+            // if (cmd == "sw") {
+            //     if (maze.Data.Count < 10) {
+            //         cmd = "e"
+            //     } else {
+            //         // cmd = "ne"
+            //         cmd = "e"
+            //     }
+            // }
             map.TrySteps([cmd != maze.Data.Step.Command ? maze.Data.Step.CloneWithCommand(cmd) : maze.Data.Step])
         }
     ))

@@ -33,6 +33,7 @@
     App.Include("src/core/weapon.js")
     App.Include("src/core/ask.js")
     App.Include("src/core/zone.js")
+    App.Include("src/core/zone.npcd.js")
     App.Include("src/core/quests.js")
     App.Include("src/core/combat.js")
     App.Include("src/core/assets.js")

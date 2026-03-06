@@ -112,6 +112,7 @@
             task.AddCatcher("core.walkbusy").WithName("walkbusy")
             task.AddCatcher("core.walkresend").WithName("walkresend")
             task.AddCatcher("core.walkretry").WithName("walkretry")
+            task.AddCatcher("core.walkretrylater").WithName("walkretrylater")
             task.AddCatcher("core.walkfail").WithName("walkfail")
             task.AddCatcher("core.blocked2", (catcher, event) => {
                 if (App.Core.Room.Current.ID == "") {
@@ -163,19 +164,27 @@
                                 App.Map.Resend(0)
                                 return
                             }
+                            App.Log("走错路了")
                             App.Map.Room.ID = ""
                             App.Sync(() => {
                                 App.Map.Retry()
                             })
                             break
                         case "walkbusy":
-                            App.Map.Resend()
+                            App.Sync(() => {
+                                App.Map.Resend()
+                            })
                             break
                         case "walkresend":
                             App.Map.Resend(0)
                             break
                         case "walkretry":
                             App.Map.Retry()
+                            break
+                        case "walkretrylater":
+                            App.Sync(() => {
+                                App.Map.Retry()
+                            })
                             break
                         case "blocked":
                             App.Move.OnBlocker(result.Data)

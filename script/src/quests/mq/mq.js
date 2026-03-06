@@ -8,7 +8,7 @@ $.Module(function (App) {
         ID = ""
         Zone = ""
         Times = 0
-        Die = false
+        Died = false
         Fled = false
         First = true
         NotKilled = true
@@ -51,6 +51,7 @@ $.Module(function (App) {
         helpded: 0,
         start: null,
         current: null,
+        Last: null,
         last: 0,
         eff: 0,
     }
@@ -178,14 +179,17 @@ $.Module(function (App) {
             MQ.Data.current = null
             task.AddTrigger(reQuest, (tri, result) => {
                 MQ.Data.NPC = new NPC(result[2])
+                MQ.Data.LastNPC = MQ.Data.NPC
                 return true
             })
             task.AddTrigger(reQuest2, (tri, result) => {
                 MQ.Data.NPC = new NPC(result[2])
+                MQ.Data.LastNPC = MQ.Data.NPC
                 return true
             })
             task.AddTrigger(reQuest3, (tri, result) => {
                 MQ.Data.NPC = new NPC(result[1])
+                MQ.Data.LastNPC = MQ.Data.NPC
                 return true
             })
             task.AddTrigger(reReward, (tri, result) => {
@@ -512,6 +516,7 @@ $.Module(function (App) {
     }
     MQ.KillNear = () => {
         if (App.Map.Room.ID && !MQ.Data.NPC.Fled && !MQ.Data.NPC.Died) {
+            Note("NPC跑了，附近找找")
             MQ.Data.NPC.Loc = null
             let rooms = App.Mapper.ExpandRooms([App.Map.Room.ID], 2, true)
             App.Zone.Wanted = $.NewWanted(MQ.Data.NPC.Name, MQ.Data.NPC.Zone).WithChecker(Checker).WithID(MQ.Data.NPC.ID)
@@ -702,6 +707,11 @@ $.Module(function (App) {
                         Note("当前房间ID：" + App.Map.Room.ID)
                         if (App.Map.Room.ID) {
                             infoid = App.Zone.InfoIDMap[App.Map.Room.ID] || ""
+                            if (infoid == "") {
+                                App.Log("AskInfo获取info id失败，房间ID:" + App.Map.Room.ID)
+                                MQ.GoAskInfo()
+                                return;
+                            }
                             $.PushCommands(
                                 $.Ask(infoid, MQ.Data.NPC.Name, 1),
                                 $.Function(() => {
@@ -722,6 +732,10 @@ $.Module(function (App) {
                                     MQ.AskInfo()
                                 })
                             )
+                        } else {
+                            App.Log("AskInfo房间ID出问题")
+                            MQ.GoAskInfo()
+                            return;
                         }
                         $.Next()
                     }),
@@ -729,7 +743,8 @@ $.Module(function (App) {
                 App.Next()
                 return
             }
-            MQ.AskInfo()
+            MQ.GoAskInfo()
+            return
         }
         Note("没人知道")
         MQ.CheckBeichou()
@@ -822,7 +837,14 @@ $.Module(function (App) {
                 return true
             })
             task.AddTrigger(matcherquestfail, (tri, result) => {
-                App.Log(`任务失败，当前任务:${MQ.Data.last || 0}`)
+                let npcmsg = ""
+                if (MQ.Data.LastNPC) {
+                    npcmsg = `NPC:${MQ.Data.LastNPC.Name}(${MQ.Data.LastNPC.ID}) 位置:${MQ.Data.LastNPC.Zone} ${MQ.Data.LastNPC.Fled ? "逃跑" : "未逃跑"} ${MQ.Data.LastNPC.Died ? "死亡" : "未死亡"}`
+                } else {
+                    npcmsg = "无NPC信息"
+                }
+                App.Log(`任务失败，当前任务:${MQ.Data.last || 0} ${npcmsg}`)
+                MQ.Data.LastNPC = null
                 return true
             })
         },
@@ -856,4 +878,5 @@ $.Module(function (App) {
         }
     })
     App.Quests.Register(Quest)
+    App.Quests.MQ = MQ
 })

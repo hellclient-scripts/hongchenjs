@@ -178,7 +178,7 @@
     App.Combat.OnStop = function (combat, reason) {
         if (reason == "fail") {
             App.Send("yun recover;yun regenerate;hp;i")
-            App.Fail()
+            App.Fail("战斗失败")
             return
         }
         let duration = Math.floor(combat.Duration() / 1000)

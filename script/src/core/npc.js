@@ -30,6 +30,7 @@
             result = App.Core.NPC["姓"][name.slice(0, 1)] + " "
             name = name.slice(1)
         } else {
+            App.Log("无法识别的姓氏 " + name)
             return null
         }
         let 名 = name.split("")
@@ -37,6 +38,7 @@
             if (App.Core.NPC["名"][char]) {
                 result = result + App.Core.NPC["名"][char]
             } else {
+                App.Log("无法识别的名字 " + char + " in " + name)
                 return null
             }
         }

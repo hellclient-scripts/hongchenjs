@@ -16,10 +16,26 @@
         let second = t.getSeconds().toString().padStart(2, "0")
         return `${year}-${month}-${day} ${hour}:${minute}:${second}`
     }
+    App.Core.Log.LoadLines = (num) => {
+        let result = []
+        let count = GetLinesInBufferCount()
+        for (let i = 0; i < num; i++) {
+            count--
+            let line = GetLineInfo(count, 1)
+            if (line) {
+                result.unshift(line)
+            }
+        }
+        return result
+    }
     //追加日志的方法
     App.Core.Log.Append = (msg) => {
         App.Core.Log.Data = App.Core.Log.Data.Next().WithValue(`${App.Core.Log.FormatTime()} ${msg}`)
         App.RaiseEvent(new App.Event("core.onlog", msg))
+        if (App.Params.LogDetail > 0) {
+            let detail = App.Core.Log.LoadLines(App.Params.LogDetail).map(r => "  " + r).join("\n")
+            world.writelog(`${msg}\n${detail}`)
+        }
     }
     //别名
     App.Log = App.Core.Log.Append

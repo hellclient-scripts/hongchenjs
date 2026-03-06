@@ -1,6 +1,9 @@
 //房屋核查模块
 $.Module(function (App) {
     var ScanHouse = {}
+    let Blacklist={
+        "dengta":true,//洪门小院出口错误
+    }
     ScanHouse.Data = {
         HouseList: [],
         CurrentHouse: null,
@@ -19,6 +22,7 @@ $.Module(function (App) {
             Remain: Object.keys(App.Zone.LocToCityList),
             HouseList: [],
             Records: [],
+            BlackList: {},
         }
         ScanHouse.Data.Remain = ScanHouse.Data.Remain.filter(r => r != App.Mapper.Data.Markers["gc"])
         commands = []
@@ -74,7 +78,7 @@ $.Module(function (App) {
     }
     ScanHouse.Scan = () => {
         App.Map.Room.Exits.forEach(exit => {
-            if (App.Mapper.CommonExits.indexOf(exit) < 0) {
+            if (App.Mapper.CommonExits.indexOf(exit) < 0 && !Blacklist[exit]) {
                 ScanHouse.Data.HouseList.push({
                     Room: App.Map.Room.ID,
                     HouseID: exit,
@@ -170,7 +174,7 @@ $.Module(function (App) {
         MakeHomeFolder("")
         let lines = []
         App.Zone.HouseList.forEach(h => {
-            let zones=App.Zone.FindLocCityList(h.Room).join(",")
+            let zones = App.Zone.FindLocCityList(h.Room).join(",")
             lines.push(`${h.ID}|${h.Room}|${h.Name}|${h.Type}|${zones}`)
         })
         WriteHomeFile("houselist.txt", lines.join("\n"))

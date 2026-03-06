@@ -4,11 +4,11 @@
     // 默认设定,用户不可修改
     App.Params = {
         Drink: "yuchi zhou",
-        DrinkMin: 30,
+        DrinkMin: 50,
         DrinkCommand: "eat yuchi zhou",
         Food: "yuchi zhou",
         FoodCommand: "eat yuchi zhou",
-        FoodMin: 30,
+        FoodMin: 50,
         LocBank: "qz",
         LocRepair: "dtp",
         IDPass: "",
@@ -45,4 +45,5 @@
     App.NamedParams.AddString("Echo", "t").WithName("指令回显").WithDesc("设为f关闭回显")
     App.NamedParams.AddString("DisableNPCD", "").WithName("禁用NPCD出生点路径").WithDesc("设为t使用固定路径")
     App.NamedParams.AddString("YanjiuPot", "2000").WithName("走路研究潜能").WithDesc("设为0关闭走路研究")
+    App.NamedParams.AddNumber("LogDetail", 0).WithName("日志详细程度").WithDesc("日志详细程度，0为不记录详情，大于0为记录的行数")
 })()

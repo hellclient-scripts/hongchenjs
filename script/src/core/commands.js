@@ -18,7 +18,12 @@
     App.Commands.EmptyCommand = cmdManual
     //别名
     App.Next = function () { App.Commands.Next() }
-    App.Fail = function () { App.Commands.Fail() }
+    App.Fail = function (msg) {
+        if (msg) {
+            App.Log(msg)
+        }
+        App.Commands.Fail()
+    }
     App.Pop = function () { App.Commands.Pop() }
     App.Append = function (...commands) { App.Commands.Append(...commands) }
     App.Insert = function (...commands) { App.Commands.Insert(...commands) }

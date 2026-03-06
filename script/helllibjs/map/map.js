@@ -70,6 +70,7 @@
             this.StepTimeout = module.DefaultStepTimeout
             this.ResendDelay = module.DefaultResendDelay
         }
+        LastHistory = []
         Context = new hmm.Context()
         CheckEnterMaze = DefaultCheckEnterMaze
         Position = null
@@ -235,10 +236,10 @@
             })
             return this.filterpath(path)
         }
-        GetNearestRoom(from,fly,to){
-            let result=this.GetMapperPath(from,fly,to)
-            if (result && result.length>0){
-                return result[result.length-1].Target
+        GetNearestRoom(from, fly, to) {
+            let result = this.GetMapperPath(from, fly, to)
+            if (result && result.length > 0) {
+                return result[result.length - 1].Target
             }
             return null
         }
@@ -311,6 +312,7 @@
                 this.Move = null
                 move.OnFinish(this.Move, this)
                 this.MovePosition.StartNewTerm()
+                this.LastHistory = move.History
             }
         }
         CancelMove() {
