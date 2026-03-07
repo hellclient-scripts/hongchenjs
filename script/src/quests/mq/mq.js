@@ -54,6 +54,7 @@ $.Module(function (App) {
         Last: null,
         last: 0,
         eff: 0,
+        gifts: {},
     }
     MQ.NeedJiqu = (letter) => {
         if (App.Core.Study.Jiqu.Max > 0 && App.QuestParams["mqtihui"] > 0) {
@@ -810,11 +811,13 @@ $.Module(function (App) {
         let eff = MQ.Data.kills > 3 ? MQ.Data.eff.toFixed(0) + "个/小时" : "-"
         let num = MQ.HelpRate()
         let rate = num ? num.toFixed(0) + "%" : "-"
-        return [`MQ-总数:${MQ.Data.kills} 效率:${eff} 线报率:${rate} 当前任务:${MQ.Data.current || 0}`]
+        let gifts = Object.keys(MQ.Data.gifts).map((gift) => `${gift}*${MQ.Data.gifts[gift]}`).join(",")
+        return [`MQ-总数:${MQ.Data.kills} 效率:${eff} 线报率:${rate} 当前任务:${MQ.Data.current || 0}`, `获得师门礼物：${gifts}`]
     }
     let matcherHead = /^你拣起一颗(.+)的人头。$/
     let matcherreward = /^通过这次锻炼你获得了/
     let matcherquestfail = /^([^：()\[\]]{2,5})摆摆手，对你道：你干不了就算了/
+    let matchergift = /^([^：()\[\]]{2,5})微微一笑，从怀中取出一.(.+)交给你。$/
     let planQuest = new App.Plan(App.Quests.Position,
         (task) => {
             task.AddTrigger(matcherHead, (tri, result) => {
@@ -847,6 +850,15 @@ $.Module(function (App) {
                 MQ.Data.LastNPC = null
                 return true
             })
+            task.AddTrigger(matchergift, (tri, result) => {
+                let gift = result[2]
+                if (MQ.Data.gifts[gift]) {
+                    MQ.Data.gifts[gift]++
+                } else {
+                    MQ.Data.gifts[gift] = 1
+                }
+                return true
+            })
         },
     )
     Quest.Start = function (data) {
@@ -875,6 +887,7 @@ $.Module(function (App) {
             start: null,
             current: null,
             eff: 0,
+            gifts: {},
         }
     })
     App.Quests.Register(Quest)

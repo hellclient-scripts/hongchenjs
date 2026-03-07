@@ -97,7 +97,6 @@
         function (result) {
             if (App.Data.Ask.Result == "fail") {
                 App.Fail(`Ask失败 ${App.Data.Ask.Question}，${App.Data.Ask.ID}@${App.Map.Room.Name} ${App.Map.Room.ID}`)
-                world.writelog(JSON.stringify(App.Map.LastHistory))
                 return
             }
             if (App.Data.Ask.Result == "retry") {

@@ -119,9 +119,9 @@
     ).WithWalk(
         function (maze, move, map) {
             cmd = maze.Data.cmd
-            if (cmd != "e" && App.Mapper.CommonExits.indexOf(cmd) >= 0) {
-                cmd = "w"
-            }
+            // if (cmd != "e" && App.Mapper.CommonExits.indexOf(cmd) >= 0) {
+            //     cmd = "w"
+            // }
             maze.Data.Count = maze.Data.Count + 1
             if (true) {
                 App.PushCommands(
@@ -129,7 +129,7 @@
                     App.Commands.NewFunctionCommand(() => {
                         App.Eat(true)
                         App.Send("yun recover;yun regenerate;hp")
-                        map.TrySteps([cmd != maze.Data.Step.Command ? maze.Data.Step.CloneWithCommand(cmd) : maze.Data.Step])
+                        map.TrySteps([maze.Data.Step.CloneWithCommand(cmd)])
                     })
                 )
             } else {

@@ -45,5 +45,6 @@
     App.NamedParams.AddString("Echo", "t").WithName("指令回显").WithDesc("设为f关闭回显")
     App.NamedParams.AddString("DisableNPCD", "").WithName("禁用NPCD出生点路径").WithDesc("设为t使用固定路径")
     App.NamedParams.AddString("YanjiuPot", "2000").WithName("走路研究潜能").WithDesc("设为0关闭走路研究")
+    App.NamedParams.AddString("JiquPause", "t").WithName("汲取暂停，汲取时会每秒halt一下，执行pause指令").WithDesc("设为f关闭汲取暂停")
     App.NamedParams.AddNumber("LogDetail", 0).WithName("日志详细程度").WithDesc("日志详细程度，0为不记录详情，大于0为记录的行数")
 })()

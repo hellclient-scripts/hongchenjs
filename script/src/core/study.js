@@ -587,22 +587,58 @@
             App.Send("yun recover;yun regenerate;hp")
         }
     })
+    let JiquNoPause = () => {
+        App.Commands.PushCommands(
+            App.Move.NewToCommand(App.Params.LocDazuo),
+            App.NewNobusyCommand(),
+            App.Commands.NewDoCommand("yun regenerate;yun recover"),
+            App.Commands.NewDoCommand(App.Random(App.Core.Study.Jiqu.Commands)),
+            App.NewNobusyCommand(),
+            App.Commands.NewDoCommand("hp"),
+            App.NewSyncCommand(),
+        )
+        App.Next()
+    }
+    let JiquPause = () => {
+        App.Commands.PushCommands(
+            App.Move.NewToCommand(App.Params.LocDazuo),
+            App.Commands.NewFunctionCommand(JiquPauseNext)
+        )
+        App.Next()
+    }
+    let matcherJiquFinish = "你将实战中获得的体会心得充分的消化吸收了。"
+    let matcherJiquFail = "似乎没有必要为吸收这点体会下功夫。"
+    let PlanJiqu = new App.Plan(App.Positions["Connect"],
+        function (task) {
+            task.AddTrigger(matcherJiquFinish)
+            task.AddTrigger(matcherJiquFail)
+            task.AddTimer(2100)
+            App.Send(App.Random(App.Core.Study.Jiqu.Commands))
+        }, function (result) {
+            App.Next()
+        })
+
+    let JiquPauseNext = () => {
+        if (App.Data.Player.HP["体会"] > 60) {
+            App.Insert(App.Commands.NewFunctionCommand(JiquPauseNext))
+            App.Commands.PushCommands(
+                App.Commands.NewFunctionCommand(() => {
+                    $.RaiseStage("pause")
+                    App.Next()
+                }),
+                App.Commands.NewDoCommand("yun regenerate;yun recover"),
+                $.Plan(PlanJiqu),
+                App.Commands.NewDoCommand("halt;hp"),
+                App.NewSyncCommand(),
+            )
+        }
+        App.Next()
+    }
     //注册jiqu准备
     App.Proposals.Register("jiqu", App.Proposals.NewProposal(function (proposals, context, exclude) {
         let max = context["JiquMax"] != null ? context["JiquMax"] : App.Core.Study.Jiqu.Max
         if (App.Data.Player.HP["经验"] > 100000 && max && max > 0 && App.Core.Study.Jiqu.Commands.length && App.Data.Player.HP["体会"] > max && App.Data.Player.HP["精气百分比"] > 70) {
-            return function () {
-                App.Commands.PushCommands(
-                    App.Move.NewToCommand(App.Params.LocDazuo),
-                    App.NewNobusyCommand(),
-                    App.Commands.NewDoCommand("yun regenerate;yun recover"),
-                    App.Commands.NewDoCommand(App.Random(App.Core.Study.Jiqu.Commands)),
-                    App.NewNobusyCommand(),
-                    App.Commands.NewDoCommand("hp"),
-                    App.NewSyncCommand(),
-                )
-                App.Next()
-            }
+            return App.Params.JiquPause == "t" ? JiquPause : JiquNoPause
         }
         return null
     }))

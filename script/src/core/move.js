@@ -164,9 +164,14 @@
                                 App.Map.Resend(0)
                                 return
                             }
-                            App.Log("走错路了")
+                            if (!App.Map.Room.Data["wrongwaylogged"]) {
+                                App.Log("走错路了")
+                                App.Map.Room.Data["wrongwaylogged"] = true
+                                world.writelog(JSON.stringify(App.Map.LastHistory))
+                            }
                             App.Map.Room.ID = ""
                             App.Sync(() => {
+                                App.Map.ResetMaze()
                                 App.Map.Retry()
                             })
                             break

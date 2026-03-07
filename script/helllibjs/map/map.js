@@ -279,6 +279,17 @@
                 this.Move.Retry(this.Move, this)
             }
         }
+        ResetMaze() {
+            if (this.Move != null) {
+                this.Move.ResetMaze(this.Move, this)
+            }
+        }
+        InMaze() {
+            if (this.Move != null) {
+                return this.Move.InMaze()
+            }
+            return false
+        }
         TrySteps(steps) {
             if (this.Move != null) {
                 this.Move.TrySteps(this, steps)
@@ -446,11 +457,14 @@
         #walking = []
         Pending = null
         #maze = null
+        InMaze() {
+            return this.#maze != null
+        }
+        ResetMaze(map) {
+            this.#maze = null
+        }
         Walk(map) {
             let steps
-            if (this.#maze && this.#maze.CheckEscaped(this.#maze, this, map)) {
-                this.#maze = null
-            }
             if (this.Pending && this.Pending.length) {
                 steps = this.Pending
                 this.Pending = null
@@ -509,13 +523,18 @@
         StepTimeout(map) {
             return this.OnStepTimeout(this, map)
         }
+        //移动成功，核销移动，一般在进入新房间后调用
         OnWalking(map) {
+            if (this.#maze && this.#maze.CheckEscaped(this.#maze, this, map)) {
+                this.#maze = null
+            }
             if (this.#walking.length == 0) {
                 this.OnArrive(this, map)
                 return
             }
             let step = this.#walking.shift()
-            if (step.Target) {
+            if (step.Target && this.#maze == null) {
+                //这个必须判断下是否在迷宫，因为迷宫的话可能移动结果还没出去，会造成一步错位
                 map.Room.ID = step.Target
             }
             if (this.#maze) {
