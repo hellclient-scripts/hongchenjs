@@ -37,6 +37,11 @@
             world.writelog(`${msg}\n${detail}`)
         }
     }
+    App.Core.Log.LogMore = (msg) => {
+        if (App.Params.LogDetail > 0) {
+            world.writelog(msg.split("\n").map(r => "  " + r).join("\n"))
+        }
+    }
     //别名
     App.Log = App.Core.Log.Append
     //加载日志数据

@@ -22,15 +22,11 @@
                 App.Eat(true)
                 App.Send("hp")
             }
-            // if (cmd == "sw") {
-            //     if (maze.Data.Count < 10) {
-            //         cmd = "e"
-            //     } else {
-            //         // cmd = "ne"
-            //         cmd = "e"
-            //     }
-            // }
             map.TrySteps([cmd != maze.Data.Step.Command ? maze.Data.Step.CloneWithCommand(cmd) : maze.Data.Step])
+        }
+    ).WithGetRoomID(
+        function (maze, move, map) {
+            return App.Core.RoomsByName["南疆沙漠"][0]
         }
     ))
     //戈壁滩
@@ -90,6 +86,10 @@
             let cmd = App.Move.Filterdir(maze.Data.Command)
             map.TrySteps([maze.Data.CloneWithCommand(cmd)])
         }
+    ).WithGetRoomID(
+        function (maze, move, map) {
+            return App.Core.RoomsByName["桃花迷阵"][0]
+        }
     ))
     const MaxDashamoStep = 15
     App.Map.RegisterMaze("大沙漠", App.Map.NewMaze().WithCheckEnter(
@@ -141,6 +141,10 @@
             }
             App.Next()
         }
+    ).WithGetRoomID(
+        function (maze, move, map) {
+            return App.Core.RoomsByName["大沙漠"][0]
+        }
     ))
     App.Map.RegisterMaze("圣湖", App.Map.NewMaze().WithCheckEnter(
         function (maze, move, map, step) {
@@ -159,6 +163,10 @@
             App.Eat(true)
             let cmd = App.Move.Filterdir(maze.Data.Command)
             map.TrySteps([maze.Data.CloneWithCommand(cmd)])
+        }
+    ).WithGetRoomID(
+        function (maze, move, map) {
+            return App.Core.RoomsByName["圣湖"][0]
         }
     ))
 

@@ -538,6 +538,7 @@
                 map.Room.ID = step.Target
             }
             if (this.#maze) {
+                map.Room.ID=this.#maze.GetRoomID(this.#maze, this, map) || map.Room.ID
                 this.#maze.OnStepFinsih(this, map, step)
             } else {
                 this.OnStepFinsih(this, map, step)
@@ -678,6 +679,9 @@
     let DefaultMazeWalk = function (maze, move, map) {
         return
     }
+    let DefaultMazeGetRoomID = function (maze, move, map) {
+        return ""
+    }
     let DefaultMazeMoveOnStepFinish = function (move, map, step) {
         move.OnStepFinsih(move, map, step)
         return
@@ -686,6 +690,7 @@
         Data = null
         CheckEnter = DefaultMazeCheckEnter
         CheckEscaped = DefaultMazeEscaped
+        GetRoomID = DefaultMazeGetRoomID
         Walk = DefaultMazeWalk
         OnStepFinsih = DefaultMazeMoveOnStepFinish
         NextRoom = ""
@@ -702,6 +707,10 @@
         }
         WithWalk(fn) {
             this.Walk = fn
+            return this
+        }
+        WithGetRoomID(fn) {
+            this.GetRoomID = fn
             return this
         }
     }

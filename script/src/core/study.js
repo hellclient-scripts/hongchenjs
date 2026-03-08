@@ -355,7 +355,7 @@
         return (!isNaN(minpot) && App.Data.Player.HP["潜能"] < (minpot - 0)) || App.Data.Player.HP["潜能"] <= 10
     }
     //执行学习
-    App.Core.Study.DoLearn = (context) => {
+    App.Core.Study.JiquPause = (context) => {
         if (!App.Core.Study.HitMinPot()) {
             if (App.Core.Study.CurrentSkill == null) {
                 let skill = App.Core.Study.FilterSkill()
@@ -599,9 +599,10 @@
         )
         App.Next()
     }
+    let JiquPauseContext = {}
+
     let JiquPause = () => {
         App.Commands.PushCommands(
-            App.Move.NewToCommand(App.Params.LocDazuo),
             App.Commands.NewFunctionCommand(JiquPauseNext)
         )
         App.Next()
@@ -622,6 +623,8 @@
         if (App.Data.Player.HP["体会"] > 60) {
             App.Insert(App.Commands.NewFunctionCommand(JiquPauseNext))
             App.Commands.PushCommands(
+                $.Prepare("common", JiquPauseContext),
+                App.Move.NewToCommand(App.Params.LocDazuo),
                 App.Commands.NewFunctionCommand(() => {
                     $.RaiseStage("pause")
                     App.Next()
@@ -638,6 +641,8 @@
     App.Proposals.Register("jiqu", App.Proposals.NewProposal(function (proposals, context, exclude) {
         let max = context["JiquMax"] != null ? context["JiquMax"] : App.Core.Study.Jiqu.Max
         if (App.Data.Player.HP["经验"] > 100000 && max && max > 0 && App.Core.Study.Jiqu.Commands.length && App.Data.Player.HP["体会"] > max && App.Data.Player.HP["精气百分比"] > 70) {
+            JiquPauseContext=Object.create(context)
+            JiquPauseContext.NeiliMin=15
             return App.Params.JiquPause == "t" ? JiquPause : JiquNoPause
         }
         return null
@@ -661,7 +666,7 @@
                 data.NeiliMin = 15
                 return () => {
                     $.PushCommands(
-                        $.Function(() => { App.Core.Study.DoLearn(data) })
+                        $.Function(() => { App.Core.Study.JiquPause(data) })
                     )
                     $.Next()
                 }

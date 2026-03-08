@@ -167,7 +167,7 @@
                             if (!App.Map.Room.Data["wrongwaylogged"]) {
                                 App.Log("走错路了")
                                 App.Map.Room.Data["wrongwaylogged"] = true
-                                world.writelog(JSON.stringify(App.Map.LastHistory))
+                                App.Core.Log.LogMore(JSON.stringify(App.Map.LastHistory))
                             }
                             App.Map.Room.ID = ""
                             App.Sync(() => {

@@ -1,6 +1,8 @@
 $.Module(function (App) {
     let Freequest = {}
     Freequest.Data = {}
+    Freequest.Data.NextAsk = null
+    Freequest.Data.NextAskBefore = 0
     Freequest.Data.PrepareData = {}
     Freequest.Data.PrepareData[App.Core.Assets.PrepareDataKey] = [
         App.Core.Assets.ParseRule("#carry id=baijin he,zijin chui,tie guanyin,qiankun mao,baiyu bi,yu hulu,yu ping,tong xique,sijian ping,jin hulu,yinlou hua,jinlou hua,qingtong ding,tie ruyi,yu dai,jixue shi,ziyun sha,ye guangbei,jin gua"),
@@ -19,7 +21,17 @@ $.Module(function (App) {
     App.Mapper.Database.APIListTraces(App.Mapper.HMM.APIListOption.New().WithKeys(["xiaoer"]))[0].Locations.forEach(item => {
         Freequest.Data.XiaoerList.push(item)
     })
+    Freequest.SetNextAsk = function (cb) {
+        Freequest.Data.NextAsk = cb
+        Freequest.Data.NextAskBefore = Date.now() + 10000
+    }
     Freequest.GoAsk = function () {
+        if (Freequest.Data.NextAsk != null && Date.now() < Freequest.Data.NextAskBefore) {
+            let cb = Freequest.Data.NextAsk
+            Freequest.Data.NextAsk = null
+            cb()
+            return
+        }
         // let loc = App.Random(Freequest.Data.XiaoerList)
         Freequest.Data.Current = {}
         $.PushCommands(
@@ -211,7 +223,7 @@ $.Module(function (App) {
                 if (Freequest.Search(npc1area[1], Freequest.ZhuishaKill)) {
                     return
                 }
-                Note(`未知的区域${npc1area[1]}`)
+                App.Log(`未知的区域${npc1area[1]}`)
                 return
             }
             if (App.Data.Ask.Answers[0].Line.match(matcherZhuishaNPC2)) {
@@ -233,7 +245,7 @@ $.Module(function (App) {
                     if (Freequest.Search(npc1area[1], Freequest.ZhuishaKill)) {
                         return
                     }
-                    Note(`未知的区域${npc1area[1]}`)
+                    App.Log(`未知的区域${npc1area[1]}`)
                     return
                 }
             }
@@ -257,7 +269,7 @@ $.Module(function (App) {
                     if (Freequest.Search(npc1area[1], Freequest.ZhuishaKill)) {
                         return
                     }
-                    Note(`未知的区域${npc1area[1]}`)
+                    App.Log(`未知的区域${npc1area[1]}`)
                     return
                 }
             }
@@ -268,7 +280,10 @@ $.Module(function (App) {
         if (App.Zone.Wanted.ID && App.Map.Room.Data.Objects.FindByName(Freequest.Data.Current.Target).First()) {
             $.Insert(
                 $.Kill(App.Zone.Wanted.ID, App.NewCombat("zhuisha")),
-                $.Function(Freequest.ZhuishaAskNext),
+                $.Function(() => {
+                    Freequest.SetNextAsk(Freequest.ZhuishaAskNext)//避免做完才终止fq
+                    $.Next()
+                }),
             )
         }
         $.Next()
@@ -343,7 +358,7 @@ $.Module(function (App) {
                 if (Freequest.Search(npc1area[1], Freequest.XunzhaoKillKeeper)) {
                     return
                 }
-                Note(`未知的区域${npc1area[1]}`)
+                App.Log(`未知的区域${npc1area[1]}`)
                 return
             }
         }
@@ -380,7 +395,7 @@ $.Module(function (App) {
                 if (Freequest.Search(npc1area[1], Freequest.XunzhaoReturnItem)) {
                     return
                 }
-                Note(`未知的区域${npc1area[1]}`)
+                App.Log(`未知的区域${npc1area[1]}`)
                 return
             }
         }
@@ -435,7 +450,7 @@ $.Module(function (App) {
                 if (Freequest.Search(npc1area[1], Freequest.ZhuishaKill)) {
                     return
                 }
-                Note(`未知的区域${npc1area[1]}`)
+                App.Log(`未知的区域${npc1area[1]}`)
                 return
             }
         }
