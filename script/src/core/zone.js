@@ -97,7 +97,8 @@
         }
         //链式调用
         WithSingleStep(s) {
-            this.SingleStep = App.Params.NumStep <= 1
+            // this.SingleStep = App.Params.NumStep <= 1
+            this.SingleStep=s
             return this
         }
         //链式调用

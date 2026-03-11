@@ -55,6 +55,7 @@ $.Module(function (App) {
         last: 0,
         eff: 0,
         gifts: {},
+        rejected: {},
     }
     MQ.NeedJiqu = (letter) => {
         if (App.Core.Study.Jiqu.Max > 0 && App.QuestParams["mqtihui"] > 0) {
@@ -128,6 +129,9 @@ $.Module(function (App) {
         )
         $.Next()
     }
+    MQ.NeedGift = (name) => {
+        return App.Core.Assets.Gift.Need(name)
+    }
     MQ.CanAccept = () => {
         return false
         if (App.Quests.Stopped) {
@@ -194,7 +198,7 @@ $.Module(function (App) {
                 return true
             })
             task.AddTrigger(reReward, (tri, result) => {
-                App.Send("answer Y")
+                App.Send("answer N")
                 return true
             })
             task.AddTrigger(reStart, (tri, result) => {
@@ -812,12 +816,14 @@ $.Module(function (App) {
         let num = MQ.HelpRate()
         let rate = num ? num.toFixed(0) + "%" : "-"
         let gifts = Object.keys(MQ.Data.gifts).map((gift) => `${gift}*${MQ.Data.gifts[gift]}`).join(",")
-        return [`MQ-总数:${MQ.Data.kills} 效率:${eff} 线报率:${rate} 当前任务:${MQ.Data.current || 0}`, `获得师门礼物：${gifts}`]
+        let rejected = Object.keys(MQ.Data.rejected).map((gift) => `${gift}*${MQ.Data.rejected[gift]}`).join(",")
+        return [`MQ-总数:${MQ.Data.kills} 效率:${eff} 线报率:${rate} 当前任务:${MQ.Data.current || 0}`, `换取师门奖励：${gifts}`, `拒绝师门奖励：${rejected}`]
     }
     let matcherHead = /^你拣起一颗(.+)的人头。$/
     let matcherreward = /^通过这次锻炼你获得了/
     let matcherquestfail = /^([^：()\[\]]{2,5})摆摆手，对你道：你干不了就算了/
     let matchergift = /^([^：()\[\]]{2,5})微微一笑，从怀中取出一.(.+)交给你。$/
+    let matcherAskGift = /^获得(.+)需要消耗你.+点门派贡献，/
     let planQuest = new App.Plan(App.Quests.Position,
         (task) => {
             task.AddTrigger(matcherHead, (tri, result) => {
@@ -839,6 +845,20 @@ $.Module(function (App) {
                 Note(msg)
                 return true
             })
+            task.AddTrigger(matcherAskGift, (tri, result) => {
+                let name = result[1]
+                if (MQ.NeedGift(name)) {
+                    App.Send("answer Y")
+                } else {
+                    if (!MQ.Data.rejected[name]) {
+                        MQ.Data.rejected[name] = 0
+                    }
+                    MQ.Data.rejected[name]++
+                    App.Send("answer N")
+                }
+                return true
+            })
+
             task.AddTrigger(matcherquestfail, (tri, result) => {
                 let npcmsg = ""
                 if (MQ.Data.LastNPC) {
@@ -888,6 +908,7 @@ $.Module(function (App) {
             current: null,
             eff: 0,
             gifts: {},
+            rejected: {},
         }
     })
     App.Quests.Register(Quest)

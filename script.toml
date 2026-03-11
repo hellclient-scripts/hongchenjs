@@ -16,7 +16,7 @@ OnBuffer = ""
 OnSubneg = ""
 OnBufferMin = 0
 OnBufferMax = 0
-Channel = ""
+Channel = "hongchen.js"
 Timers = []
 
 [[Triggers]]
@@ -1634,7 +1634,7 @@ Timers = []
   Name = "mq"
   Enabled = true
   Match = "#mq"
-  Send = "#start lgt||mq||freequest 追杀"
+  Send = "#start lgt||chujian||mq||freequest 追杀"
   Script = ""
   SendTo = 10
   Sequence = 100

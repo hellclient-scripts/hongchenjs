@@ -121,7 +121,7 @@
     })
     // 你距上次退出只有二百九十六秒钟，请稍候再登录。
     let matcherEnter = /^你连线进入.+。$/
-    let matcherReenter = /重新连线完毕。$/
+    let matcherReenter = /^重新连线完毕。$/
     let matcherTooFast = /你距上一次退出时间只有.+秒钟，请稍候再登录。$/
     let matcherTooFast2 = /你不能在.+秒钟之内连续重新连线。$/
     //登录的计划

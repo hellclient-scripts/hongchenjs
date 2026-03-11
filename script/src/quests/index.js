@@ -14,4 +14,6 @@
     App.Include("src/quests/lgt/lgt.js")
     App.Include("src/quests/freequest/freequest.js")
     App.Include("src/quests/mq/mq.js")
+    App.Include("src/quests/chujian/chujian.js")
+
 })(App)

@@ -1,0 +1,170 @@
+$.Module(function (App) {
+
+    //吕文焕对你说道：近有熊建妞在长安城一带活动，武林败类欺我大宋无人，请这位大侠为武林除害！
+    //你喝道：我靠，给我回去再好好练练功夫吧！
+    //熊海静死了。
+    //吕文焕磨了磨牙。
+    // 你向吕文焕打听有关『kill』的消息。
+    // 吕文焕对手中名册一看，说：这位大师,任务皆已发放完毕,不妨先去歇息，汪剑通那里也许需要你。
+
+
+    let Chujian = {}
+    Chujian.Data = {
+        Count: 0,
+        Success: 0,
+        Name: "",
+        City: "",
+        Times: 0,
+        LastExp: 0,
+        Gifts: {},
+    }
+    let matcherTarget = /^吕文焕对你说道：近有(.*)在(.*)一带活动，武林败类欺我大宋无人，请这位大侠为武林除害！$/
+    let matcherLater = /^吕文焕对手中名册一看，说：这位.+,任务皆已发放完毕,不妨先去歇息，汪剑通那里也许需要你。$/
+    let matcherFail = "吕文焕哼了一声。"
+    let matcherMe = "你向吕文焕打听有关『kill』的消息。"
+    let PlanAsk = new App.Plan(
+        App.Positions["Quest"],
+        (task) => {
+            Chujian.Data.Name = ""
+            task.AddTrigger(matcherTarget, (tri, result) => {
+                Chujian.Data.Name = result[1]
+                Chujian.Data.City = result[2].slice(0, 2)
+                Chujian.Data.Times = 0
+            }).WithName("target")
+            task.AddTrigger(matcherLater, (tri, result) => {
+                if (App.History.GetLast(2)[0].Line == matcherMe) {
+                    Note("锄奸冷却中")
+                    return false
+                }
+                return true
+            }).WithName("later")
+            task.AddTrigger(matcherFail, (tri, result) => {
+                if (App.History.GetLast(2)[0].Line == matcherMe) {
+                    return false
+                }
+                return true
+            }).WithName("fangqi")
+            task.AddTimer(5000).WithName("timeout")
+            App.Send("ask lv wenhuan about kill")
+            $.RaiseStage("wait")
+        },
+        (result) => {
+            App.Send("halt")
+            if (Chujian.Data.Name) {
+                Chujian.Data.Count++
+                Chujian.GoKill()
+                return
+            }
+            if (result.Name == "fangqi") {
+                App.Send("ask lv wenhuan about fangqi")
+                App.Insert($.Sync())
+            } else {
+                Quest.Cooldown(40000)
+            }
+            App.Next()
+        }
+    )
+    let matcherGift = /^你得到了一级(.*)。$/
+    let matcherExp = /^你得到了(.+)点武学经验和(.+)点潜能!体会和阅历,贡献也有所提高。$/
+    let PlanCombat = new App.Plan(
+        App.Positions["Combat"],
+        (task) => {
+            task.AddTrigger(`${Chujian.Data.Name}死了。`, (tri, result) => {
+                Chujian.Data.Success++
+                Chujian.Data.Name = ""
+                Quest.Cooldown(40000)
+                return true
+            })
+            task.AddTrigger(matcherGift, (tri, result) => {
+                let skillname = result[1]
+                if (!Chujian.Data.Gifts[skillname]) {
+                    Chujian.Data.Gifts[skillname] = 0
+                }
+                Chujian.Data.Gifts[skillname]++
+                return true
+            })
+            task.AddTrigger(matcherExp, (tri, result) => {
+                Note(result[1])
+                Chujian.Data.LastExp = App.CNumber.ParseNumber(result[1])
+                return true
+            })
+        },
+        (result) => {
+        }
+    )
+    Chujian.GoKill = function () {
+        if (Chujian.Data.Name && Chujian.Data.Times < 3) {
+            Chujian.Data.Times++
+            Note(`第${Chujian.Data.Times}次尝试锄奸`)
+            let wanted = App.NewWanted(Chujian.Data.Name, Chujian.Data.City).WithSingleStep(true)
+            App.Insert(App.Commands.NewFunctionCommand(Chujian.GoKill))
+            App.Commands.PushCommands(
+                App.NewPrepareCommand(""),
+                App.Commands.NewFunctionCommand(function () { App.Zone.Search(wanted) }),
+                App.Commands.NewFunctionCommand(function () {
+                    if (App.Zone.Wanted.Loc && App.Zone.Wanted.ID) {
+                        Chujian.Data.Times = 0
+                        App.Commands.Insert(
+                            App.NewKillCommand(App.Zone.Wanted.ID, App.NewCombat("chujian").WithPlan(PlanCombat))
+                        )
+                    }
+                    App.Next()
+                }),
+            )
+        }
+        App.Next()
+    }
+    Chujian.Go = function () {
+        App.PushCommands(
+            $.Prepare("commonWithExp"),
+            $.To("lv wenhuan"),
+            $.Plan(PlanAsk),
+        )
+        App.Next()
+    }
+    let Quest = App.Quests.NewQuest("chujian")
+    Quest.Name = "锄奸"
+    Quest.Desc = ""
+    Quest.Intro = ""
+    Quest.Help = ""
+    Quest.Group = "chujian"
+    Quest.OnHUD = () => {
+        return [
+            new App.HUD.UI.Word("锄奸:"),
+            new App.HUD.UI.Word(App.HUD.UI.ShortNumber(Chujian.Data.Success), 5, true),
+        ]
+    }
+    Quest.OnSummary = () => {
+        return [
+            new App.HUD.UI.Word("锄:"),
+            new App.HUD.UI.Word(App.HUD.UI.ShortNumber(Chujian.Data.Success), 5, true),
+        ]
+    }
+    Quest.OnReport = () => {
+        let gifts = Object.keys(Chujian.Data.Gifts).map((gift) => `${gift}*${Chujian.Data.Gifts[gift]}`).join(",")
+        return [`锄奸-总数:${Chujian.Data.Count} 成功:${Chujian.Data.Success} 上次Exp:${Chujian.Data.LastExp}`, `锄奸奖励:${gifts}`]
+    }
+    Quest.Start = function (data) {
+        Chujian.Go()
+    }
+    Quest.GetReady = function (q, data) {
+        if (App.Core.QuestLock.Freequest > 0) {
+            return null
+        }
+        return () => { Quest.Start(data) }
+    }
+    App.BindEvent("core.queststart", (e) => {
+        Chujian.Data = {
+            Count: 0,
+            Success: 0,
+            Name: "",
+            City: "",
+            Times: 0,
+            LastExp:0,
+            Gifts: {},
+        }
+    })
+    App.Quests.Register(Quest)
+
+    App.Quest.Chujian = Chujian
+})

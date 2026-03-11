@@ -15,7 +15,7 @@
                 break
             case "":
             case "id"://id 匹配,默认
-                if (!(rule.Data.UserData.includes(asset.Item.ID))) {
+                if (!(rule.Data.UserData.includes(asset.Item.IDLower))) {
                     return
                 }
                 break
@@ -50,7 +50,7 @@
     }
     //将单行文本解析为处理规则
     App.Core.Assets.ParseRule = function (data) {
-        return App.Assets.Parse(data, App.Core.Assets.MatchFunction)
+        return App.Assets.Parse(data.toLowerCase(), App.Core.Assets.MatchFunction)
     }
     //读取变量中的规则列表
     App.Core.Assets.LoadRules = function () {
@@ -92,7 +92,7 @@
                 case "#drop"://丢到客店
                     App.Commands.PushCommands(
                         App.Move.NewToCommand("kd"),
-                        App.Commands.NewDoCommand("drop " + result.Asset.Item.IDLower),
+                        App.Commands.NewDoCommand(`give ${result.Asset.Item.IDLower} to xiao er`),
                         App.Commands.NewDoCommand("i"),
                         App.NewSyncCommand(),
                         App.Commands.NewWaitCommand(1000),
@@ -101,7 +101,7 @@
                 case "#openanddrop"://打开后丢到客店
                     App.Commands.PushCommands(
                         App.Move.NewToCommand("kd"),
-                        App.Commands.NewDoCommand(`open ${result.Asset.Item.IDLower};drop ${result.Asset.Item.IDLower}`),
+                        App.Commands.NewDoCommand(`open ${result.Asset.Item.IDLower};give ${result.Asset.Item.IDLower} to xiao er`),
                         App.Commands.NewDoCommand("i"),
                         App.NewSyncCommand(),
                         App.Commands.NewWaitCommand(1000),

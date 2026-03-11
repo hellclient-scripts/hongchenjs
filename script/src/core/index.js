@@ -37,6 +37,7 @@
     App.Include("src/core/quests.js")
     App.Include("src/core/combat.js")
     App.Include("src/core/assets.js")
+    App.Include("src/core/assets.gift.js")
     App.Include("src/core/goods.js")
     App.Include("src/core/heal.js")
     App.Include("src/core/dispel.js")

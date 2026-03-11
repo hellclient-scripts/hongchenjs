@@ -15,7 +15,7 @@
         }
         report.push(line)
         report.push(`经验:${App.Data.Player.HP["经验"] || "0"} 潜能:${App.Data.Player.HP["潜能"] || "0"} 体会:${App.Data.Player.HP["体会"] || "0"} 阅历:${App.Data.Player.Score["阅历"] || "-"} 当前等级 ${App.Data.Player.HPM["当前等级"]}`)
-        report.push(`门贡:${App.Data.Player.Score["门贡"] || 0} 集资点:${App.Data.Player.Donate || 0}`)
+        report.push(`门派贡献:${App.Data.Player.Score["门派贡献"] || 0} Bug点:${App.Data.Player.BugPoint || 0}`)
 
         report.push(`存款:${App.Data.Player.Score["存款" || 0]}`)
         report.push(`打坐位置:${App.Params.LocDazuo} 睡觉位置:${App.Params.LocSleep} 掌门ID:${App.Params.MasterID || "-"} 掌门位置:${App.Params.LocMaster || "-"}`)
@@ -38,8 +38,15 @@
         }
         let quests = App.Core.Quest.Current ? App.Core.Quest.Current.replaceAll("\n", "||") : "无任务"
         if (!App.Core.Quest.Stopped) {
-            let duration = App.Core.Quest.StartedAt ? App.HUD.UI.FormatTime($.Now() - App.Core.Quest.StartedAt) : 0
-            report.push(`任务已经持续了${duration}。`)
+            let duration = 0
+            if (App.Core.Quest.StartedAt) {
+                let td = $.Now() - App.Core.Quest.StartedAt
+                duration = `${(td / 60000).toFixed()}分钟`
+                if (td > 18000000) {
+                    duration += `(${App.HUD.UI.FormatTime(td)})`
+                }
+            }
+            report.push(`任务已经持续了 ${duration}。`)
         }
 
         report.push(`当前任务:`)
