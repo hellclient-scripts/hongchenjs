@@ -4,7 +4,7 @@ $.Module(function (App) {
     Relogin.Start = (data) => {
         let loc = data.trim()
         if (!loc) {
-            loc = App.Mapper.HouseID ? "ttg" : "kd"
+            loc = App.Mapper.HouseID ? "dazuo" : "kd"
         }
         $.PushCommands(
             $.To(loc),

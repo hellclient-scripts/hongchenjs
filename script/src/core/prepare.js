@@ -255,6 +255,7 @@
         "repair",
         "dropwp",
         "summon",
+        "stab",
     )
     App.Proposals.Register("", common)
     App.Proposals.Register("common", common)

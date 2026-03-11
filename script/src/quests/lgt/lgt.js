@@ -179,7 +179,7 @@ $.Module(function (App) {
     //叫杀
     LGT.Kill = () => {
         let tags = []
-        for (i = 0; i <= LGT.Data.Level; i = i + 10) {
+        for (i = 0; i <= LGT.Data.Level; i = i + 25) {
             tags.push(`lgt-${i}`)
         }
         $.PushCommands(

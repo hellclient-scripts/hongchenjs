@@ -1294,7 +1294,7 @@ Timers = []
   ID = "d1h4jta2fg5t6k6rhnkp0"
   Name = "core.missfail"
   Enabled = true
-  Match = "你穷尽精力，也无法感应到这个物品。"
+  Match = "^(你穷尽精力，也无法感应到这个物品。|你摸着.+，发了半天的呆。)$"
   Send = ""
   ColourChangeType = 0
   Colour = 0
@@ -1307,7 +1307,7 @@ Timers = []
   ExpandVariables = false
   Temporary = false
   OneShot = false
-  Regexp = false
+  Regexp = true
   Repeat = false
   MultiLine = false
   LinesToMatch = 0
@@ -1685,7 +1685,7 @@ Timers = []
 [[RequiredParams]]
   Name = "command"
   Desc = "指令"
-  Intro = "设置在不同场景下发送的指令。\n会在游戏提示触发场景时发送对应的命令。\n比如\n\n#prepare yun powerup;yun shield;#wpoff 2\n#npcfaint #wpoff 1;#wpon 2\n#npcdie #wpoff 2\n#wait #jiqu"
+  Intro = "设置在不同场景下发送的指令。\n会在游戏提示触发场景时发送对应的命令。\n比如\n\n#prepare yun powerup;yun shield;#wpoff 2\n#npcfaint #wpoff 1;#wpon 2\n#npcdie #wpoff 2\n#wait #jiqu\n#moveyanjiu #yanjiu\n#pause #yanjiulian"
 
 [[RequiredParams]]
   Name = "weapon"
@@ -1730,7 +1730,7 @@ Timers = []
 [[RequiredParams]]
   Name = "house"
   Desc = "房屋信息(重新加载起效)"
-  Intro = "设置后会将1933-1949设置为对应的房屋信息\n格式为'机器人工厂 robot 4084'"
+  Intro = "设置后会将1933-1949设置为对应的房屋信息\n格式为'机器人工厂 robot 4084'\n可以在房屋信息前加入c代表彩虹居，d代表独乐居，如\n'd小房子 smallhouse 2785'"
 
 [[RequiredParams]]
   Name = "sell"

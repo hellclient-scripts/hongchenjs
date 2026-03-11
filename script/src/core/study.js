@@ -96,7 +96,7 @@
                         if (App.Params.LocYanjiu) {
                             loc = App.Params.LocYanjiu
                         } else {
-                            loc = App.Mapper.HouseLoc ? "ttg" : App.Params.LocDazuo
+                            loc = App.Params.LocDazuo
                         }
                     }
                     var times = App.Params.YanjiuMax

@@ -268,14 +268,14 @@
             let limit = ""
             let jifa = skill["基本"]
             let wp = App.Core.Weapon.GetWeapon(jifa)
-            if (skill["武器"]) {
+            if (skill["兵器武学"]) {
                 if (wp) {
                     before = `#wpon ${wp.Name}`
                     after = `#wpoff ${wp.Name}`
                 } else {
                     before = `#wpon`
                 }
-            } else if (skill["空手"]) {
+            } else if (skill["空手武学"]) {
                 limit = skill["基本"]
                 jifa = "parry"
                 before = "#unwield"

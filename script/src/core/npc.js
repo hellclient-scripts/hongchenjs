@@ -115,8 +115,8 @@
             Note("门派标签为 " + App.Params.IDPass)
         }
         if (GetVariable("house").trim()) {
-            App.Params.LocDazuo = "ttg"
-            App.Params.LocSleep = "ttg"
+            App.Params.LocDazuo = "dazuo"
+            App.Params.LocSleep = "sleep"
         }
     }
     //根据门派调整移动信息

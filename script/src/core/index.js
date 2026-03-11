@@ -25,6 +25,7 @@
     App.Include("src/core/move.js")
     App.Include("src/core/item.js")
     App.Include("src/core/mapper.js")
+    App.Include("src/core/mapper.house.js")
     App.Include("src/core/rideto.js")
     App.Include("src/core/maze.js")
     App.Include("src/core/response.js")
