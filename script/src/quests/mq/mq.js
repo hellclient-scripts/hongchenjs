@@ -130,7 +130,13 @@ $.Module(function (App) {
         $.Next()
     }
     MQ.NeedGift = (name) => {
-        return App.Core.Assets.Gift.Need(name)
+        switch (App.QuestParams.mqgift) {
+            case "auto":
+                return App.Core.Assets.Gift.Need(name)
+            case "no":
+                return false
+        }
+        return App.QuestParams.mqgift.split(",").indexOf(name) > -1
     }
     MQ.CanAccept = () => {
         return false
