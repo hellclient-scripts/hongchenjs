@@ -96,7 +96,7 @@
         let learn = new App.Word(App.Quests.Stopped ? "停" : (canlearn ? "学" : "满")).WithColor("BrightWhite").WithBackground((App.Quests.Stopped || canlearn) ? "BrightGreen" : "BrightRed")
         let result = [learn, App.HUD.Space]
         App.Quests.Queue.forEach(rq => {
-            if (!dup[rq.ID] && count < 3) {
+            if (!dup[rq.ID] && count < 4) {
                 dup[rq.ID] = true
                 let q = App.Quests.GetQuest(rq.ID)
                 if (q) {

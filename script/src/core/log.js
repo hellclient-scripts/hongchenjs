@@ -30,6 +30,7 @@
     }
     //追加日志的方法
     App.Core.Log.Append = (msg) => {
+        PrintSystem(msg)
         App.Core.Log.Data = App.Core.Log.Data.Next().WithValue(`${App.Core.Log.FormatTime()} ${msg}`)
         App.RaiseEvent(new App.Event("core.onlog", msg))
         if (App.Params.LogDetail > 0) {

@@ -40,6 +40,7 @@ $.Module(function (App) {
             }).WithName("later")
             task.AddTrigger(matcherFail, (tri, result) => {
                 if (App.History.GetLast(2)[0].Line == matcherMe) {
+                    App.Log(`锄奸失败,${Chujian.Data.Name}@${Chujian.Data.City}`)
                     return false
                 }
                 return true
@@ -84,7 +85,6 @@ $.Module(function (App) {
                 return true
             })
             task.AddTrigger(matcherExp, (tri, result) => {
-                Note(result[1])
                 Chujian.Data.LastExp = App.CNumber.ParseNumber(result[1])
                 return true
             })
@@ -122,6 +122,9 @@ $.Module(function (App) {
         )
         App.Next()
     }
+    Chujian.GetEff = function () {
+        return Chujian.Data.Success * 3600 * 1000 / ($.Now() - Chujian.Data.Start)
+    }
     let Quest = App.Quests.NewQuest("chujian")
     Quest.Name = "锄奸"
     Quest.Desc = ""
@@ -130,27 +133,24 @@ $.Module(function (App) {
     Quest.Group = "chujian"
     Quest.OnHUD = () => {
         return [
-            new App.HUD.UI.Word("锄奸:"),
-            new App.HUD.UI.Word(App.HUD.UI.ShortNumber(Chujian.Data.Success), 5, true),
+            new App.HUD.UI.Word("锄奸效率:"),
+            new App.HUD.UI.Word(Chujian.Data.Success > 3 ? Chujian.GetEff().toFixed(0) : "-", 5, true),
         ]
     }
     Quest.OnSummary = () => {
         return [
             new App.HUD.UI.Word("锄:"),
-            new App.HUD.UI.Word(App.HUD.UI.ShortNumber(Chujian.Data.Success), 5, true),
+            new App.HUD.UI.Word(Chujian.Data.Success > 3 ? Chujian.GetEff().toFixed(0) : "-", 5, true),
         ]
     }
     Quest.OnReport = () => {
         let gifts = Object.keys(Chujian.Data.Gifts).map((gift) => `${gift}*${Chujian.Data.Gifts[gift]}`).join(",")
-        return [`锄奸-总数:${Chujian.Data.Count} 成功:${Chujian.Data.Success} 上次Exp:${Chujian.Data.LastExp}`, `锄奸奖励:${gifts}`]
+        return [`锄奸-总数:${Chujian.Data.Count} 成功:${Chujian.Data.Success} 效率:${Chujian.Data.Success > 3 ? Chujian.GetEff().toFixed(0) : "-"} 上次Exp:${Chujian.Data.LastExp}`, `锄奸奖励:${gifts}`]
     }
     Quest.Start = function (data) {
         Chujian.Go()
     }
     Quest.GetReady = function (q, data) {
-        if (App.Core.QuestLock.Freequest > 0) {
-            return null
-        }
         return () => { Quest.Start(data) }
     }
     App.BindEvent("core.queststart", (e) => {
@@ -160,8 +160,9 @@ $.Module(function (App) {
             Name: "",
             City: "",
             Times: 0,
-            LastExp:0,
+            LastExp: 0,
             Gifts: {},
+            Start: $.Now(),
         }
     })
     App.Quests.Register(Quest)

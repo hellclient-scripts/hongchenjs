@@ -472,6 +472,9 @@ $.Module(function (App) {
         Note(`完成fq任务${Freequest.Data.Success}次`)
     }
 
+    Freequest.GetEff = function () {
+        return Freequest.Data.Success * 3600 * 1000 / ($.Now() - Freequest.Data.Start)
+    }
 
 
     let Quest = App.Quests.NewQuest("freequest")
@@ -482,19 +485,19 @@ $.Module(function (App) {
     Quest.Group = ""
     Quest.OnHUD = () => {
         return [
-            new App.HUD.UI.Word("FQ:"),
-            new App.Word(App.HUD.UI.ShortNumber(Freequest.Data.Success), 6, true),
+            new App.HUD.UI.Word("FQ效率:"),
+            new App.HUD.UI.Word(Freequest.Data.Success > 3 ? Freequest.GetEff().toFixed(0) : "-", 5, true),
         ]
 
     }
     Quest.OnSummary = () => {
         return [
             new App.HUD.UI.Word("FQ:"),
-            new App.Word(App.HUD.UI.ShortNumber(Freequest.Data.Success), 5, true),
+            new App.HUD.UI.Word(Freequest.Data.Success > 3 ? Freequest.GetEff().toFixed(0) : "-", 5, true),
         ]
     }
     Quest.OnReport = () => {
-        return [`Freequest-总数:${Freequest.Data.Count} 成功:${Freequest.Data.Success}`]
+        return [`Freequest-总数:${Freequest.Data.Count} 成功:${Freequest.Data.Success} 效率:${Freequest.Data.Success > 3 ? Freequest.GetEff().toFixed(0) : "-"}`]
     }
 
     //你为六大门派排除异己，你获得了三十六点经验、十二点潜能、二十九点
@@ -508,7 +511,7 @@ $.Module(function (App) {
     //历、能力得到了提升。
     let matcherZhuisha = /^你为六大门派(排除|扫清)异己，/
     let matcherFanzei = /^你又做了件[侠|不]义之事，/
-    let matcherXunzhao = /^你拿出[^() ]+\(.+\)给.+/
+    let matcherXunzhao = /^([^：()\[\]]{2,5})大喜过望，对你说道：这位.+，太感谢了，/
     let successCallback = (tri, result) => {
         Freequest.OnSuccess()
         return true
@@ -544,6 +547,7 @@ $.Module(function (App) {
     App.BindEvent("core.queststart", (e) => {
         Freequest.Data.Count = 0
         Freequest.Data.Success = 0
+        Freequest.Data.Start = $.Now()
     })
     App.Quests.Register(Quest)
     App.Quests.Freequest = Freequest

@@ -160,7 +160,7 @@ $.Module(function (App) {
         variable.Value = lines.join("\n")
         App.Mapper.Database.APIInsertVariables([variable])
         App.Tools.HMM.Export()
-        // App.Next()
+        App.Next()
     }
     ScanHouse.DumpHouseList = () => {
         MakeHomeFolder("")

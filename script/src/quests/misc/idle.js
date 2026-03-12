@@ -5,7 +5,7 @@ $.Module(function (App) {
         $.PushCommands(
             $.Prepare(),
             $.Function(() => {
-                if (App.Map.Room.ID != data.trim()) {
+                if (App.Map.Room.ID != $.RID(data.trim())) {
                     $.Insert($.To(data))
                 }
                 $.Next()

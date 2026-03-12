@@ -109,7 +109,7 @@
 
     }
     App.Mapper.AddDule = function (hosuename, houesid, houseloc) {
-        world.Note("在位置 " + houseloc + " 添加=独乐房屋=" + hosuename + "入口(" + houesid + ")")
+        world.Note("在位置 " + houseloc + " 添加=独乐居房屋=" + hosuename + "入口(" + houesid + ")")
         App.Mapper.HouseID = houesid
         App.Mapper.HouseLoc = houseloc
         App.Mapper.HouseType = "dule"
@@ -138,6 +138,45 @@
             return model;
         })())
     }
+    App.Mapper.AddCaihong = function (hosuename, houesid, houseloc) {
+        world.Note("在位置 " + houseloc + " 添加=彩虹居房屋=" + hosuename + "入口(" + houesid + ")")
+        App.Mapper.HouseID = houesid
+        App.Mapper.HouseLoc = houseloc
+        App.Mapper.HouseType = "caihong"
+        App.Mapper.HomeRooms = [
+            App.Mapper.NewRoom("myroom-entry", `${hosuename}小院`, [
+                App.Mapper.NewExit("open gate;n", "myroom-living"),
+                App.Mapper.NewExit("out", houseloc),
+            ]),
+            App.Mapper.NewRoom("myroom-living", `${hosuename}大厅`, [
+                App.Mapper.NewExit("open east;e", "myroom-home"),
+                App.Mapper.NewExit("n", "myroom-yard"),
+                App.Mapper.NewExit("s", "myroom-entry"),
+            ]),
+            App.Mapper.NewRoom("myroom-yard", `${hosuename}后院`, [
+                App.Mapper.NewExit("s", "myroom-living"),
+            ]),
+            App.Mapper.NewRoom("myroom-home", `${hosuename}卧室`, [
+                App.Mapper.NewExit("w", "myroom-living"),
+            ]),
+        ]
+        App.Mapper.Data.BuiltinMarkers["home"] = "myroom-home"
+        Note("添加房间别名 home myroom")
+        App.Mapper.Data.BuiltinMarkers["dazuo"] = "myroom-yard"
+        Note("添加房间别名 dazuo myroom-yard")
+        App.Mapper.Data.BuiltinMarkers["sleep"] = "myroom-yard"
+        Note("添加房间别名 sleep myroom-yard")
+
+        App.Mapper.Paths.push((() => {
+            let model = App.Mapper.HMM.Path.New()
+            model.From = App.Mapper.HouseLoc
+            model.To = "myroom-entry"
+            model.Command = App.Mapper.HouseID
+            model.Conditions = [App.Mapper.NewCondition("streetview", 1, true)]
+            return model;
+        })())
+    }
+
     App.Mapper.Addhouse = function (line) {
         if (line) {
             var data = line.split(" ")
@@ -154,9 +193,14 @@
                 case "D":
                     App.Mapper.AddDule(data[0].slice(1), data[1], data[2])
                     break
+                case "c":
+                case "C":
+                    App.Mapper.AddCaihong(data[0].slice(1), data[1], data[2])
+                    break                    
                 default:
                     App.Mapper.AddPanlong(data[0], data[1], data[2])
             }
+            App.Mapper.HomeRooms.forEach(room =>{App.Mapper.RegisterRoom(room)})
         } else {
             world.Note("变量 house 未设置")
         }

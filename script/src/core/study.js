@@ -613,7 +613,7 @@
         function (task) {
             task.AddTrigger(matcherJiquFinish)
             task.AddTrigger(matcherJiquFail)
-            task.AddTimer(2100)
+            task.AddTimer(1100)
             App.Send(App.Random(App.Core.Study.Jiqu.Commands))
         }, function (result) {
             App.Next()

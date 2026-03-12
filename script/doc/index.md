@@ -1,4 +1,4 @@
-# NEWHELLJS 使用帮助
+# Hongchenjs 使用帮助
 
 本机器是基于newhell修改的hongchen任务机器人。
 

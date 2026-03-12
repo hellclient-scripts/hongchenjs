@@ -12,11 +12,14 @@
     App.Mapper.Database = mapModule.Database
     App.Core.RoomsByName = {}
     App.Mapper.HMM.HMMEncoder.DecodeRoomHook = (room) => {
+        App.Mapper.RegisterRoom(room)
+        return room;
+    }
+    App.Mapper.RegisterRoom = (room) => {
         if (!App.Core.RoomsByName[room.Name]) {
             App.Core.RoomsByName[room.Name] = []
         }
         App.Core.RoomsByName[room.Name].push(room.Key)
-        return room;
     }
     var mappath = "map/hongchen.hmm"
     var maploaded = false;
@@ -37,7 +40,7 @@
     }
     mapModule.Database.APIListMarkers(mapModule.HMM.APIListOption.New()).forEach((marker) => {
         App.Mapper.Data.Markers[marker.Key] = marker.Value
-        if ((marker.Group = "npc")) {
+        if ((marker.Group == "npc")) {
             let data = marker.Message.split("|")
             marker.Name = data[0]
             marker.ID = data[1]

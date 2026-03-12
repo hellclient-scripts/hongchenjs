@@ -7,7 +7,7 @@ wielded>#carry any
 #sell id=chipped diamond,chipped agate,chipped crystal,chipped jade
 #sell id=shenli wan,zenghui dan,zhuanggu fen,fushou gao
 #sell id=handan shi,bixue shi,zijin kuang,wujin kuang,taijin zhu,tiancan yu,qingyu ya,tiangang tan,huandi shenzhu,tongtian cao,zhenlong shi,xuanyin sha,yinjiao si,wucai zhu,xi rang,qinglong ya,ruyi jue,baxian shi,kunlun shi,haoyue jinsha,leihuo hanjing,yinzhu si,tianshan xuantie
-#home id=dimai xuequan
+#home id=dimai xuequan,tixiang yulu
 #home id=bainian renshen,qiannian renshen,shenxin dan
 #sell id=bainian lingzhi,tianshan xuelian,qiannian lingzhi,qiannian xuelian,lingzhi wan,xuelian gao,lingzhi wan
 #sell id=baihu dan,qinglong dan,xuanwu dan,zhuque dan,

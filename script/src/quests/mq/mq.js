@@ -802,17 +802,17 @@ $.Module(function (App) {
     Quest.OnHUD = () => {
         return [
             new App.HUD.UI.Word("任务效率:"),
-            new App.HUD.UI.Word(MQ.Data.kills > 3 ? MQ.Data.eff.toFixed(0) : "-", 5, true),
+            new App.HUD.UI.Word(MQ.Data.kills > 3 ? MQ.GetEff().toFixed(0) : "-", 5, true),
         ]
     }
     Quest.OnSummary = () => {
         return [
             new App.HUD.UI.Word("效:"),
-            new App.HUD.UI.Word(MQ.Data.kills > 3 ? MQ.Data.eff.toFixed(0) : "-", 5, true),
+            new App.HUD.UI.Word(MQ.Data.kills > 3 ? MQ.GetEff().toFixed(0) : "-", 5, true),
         ]
     }
     Quest.OnReport = () => {
-        let eff = MQ.Data.kills > 3 ? MQ.Data.eff.toFixed(0) + "个/小时" : "-"
+        let eff = MQ.Data.kills > 3 ? MQ.GetEff().toFixed(0) + "个/小时" : "-"
         let num = MQ.HelpRate()
         let rate = num ? num.toFixed(0) + "%" : "-"
         let gifts = Object.keys(MQ.Data.gifts).map((gift) => `${gift}*${MQ.Data.gifts[gift]}`).join(",")
@@ -834,13 +834,9 @@ $.Module(function (App) {
             })
             task.AddTrigger(matcherreward, (tri, result) => {
                 let msg = "任务成功"
-                if (MQ.Data.kills == 0) {
-                    MQ.Data.start = $.Now()
-                }
                 MQ.Data.kills++
                 if (MQ.Data.kills > 3) {
-                    MQ.Data.eff = MQ.Data.kills * 3600 * 1000 / ($.Now() - MQ.Data.start)
-                    msg += " 任务效率：" + MQ.Data.eff.toFixed() + " 个/小时,共计" + MQ.Data.kills + "个任务," + "线报率 " + (MQ.Data.helpded * 100 / MQ.Data.kills).toFixed(2) + "%"
+                    msg += " 任务效率：" + MQ.GetEff().toFixed() + " 个/小时,共计" + MQ.Data.kills + "个任务," + "线报率 " + (MQ.Data.helpded * 100 / MQ.Data.kills).toFixed(2) + "%"
                 }
                 Note(msg)
                 return true
@@ -881,6 +877,9 @@ $.Module(function (App) {
             })
         },
     )
+    MQ.GetEff = function () {
+        return MQ.Data.kills * 3600 * 1000 / ($.Now() - MQ.Data.start)
+    }
     Quest.Start = function (data) {
         if (!App.Params.MasterID) {
             PrintSystem("掌门ID " + App.Params.MasterID + " 无效")
@@ -904,7 +903,7 @@ $.Module(function (App) {
         MQ.Data = {
             kills: 0,
             helpded: 0,
-            start: null,
+            start: $.Now(),
             current: null,
             eff: 0,
             gifts: {},

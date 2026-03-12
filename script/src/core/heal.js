@@ -2,7 +2,7 @@
 (function (App) {
     App.Core.Heal = {}
     App.Core.Heal.LastSleep = 0
-    App.Core.Heal.SleepInterval = 121 * 1000
+    App.Core.Heal.SleepInterval = 1 * 1000
     let reSleepFail = /^你想合上眼睛好好睡上一觉，可是/
     //睡觉的计划
     let PlanSleep = new App.Plan(App.Positions["Connect"], function (task) {

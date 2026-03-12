@@ -39,7 +39,7 @@
         App.Core.Player.KnowledgeSkills[data[0]] = data[1]
     })
     //HP的checker
-    let checkerHP = App.Checker.Register("hp", "yun recover;yun regenerate;hp", 5000)
+    let checkerHP = App.Checker.Register("hp", "yun recover;yun regenerate;hp", 10000)
     //≡───────────────────────────────≡
     //【 精 气 】 91935/ 91936 ( 99%)    【 精 力 】 12795 / 12795 (+0)
     //【 气 血 】 132994/ 134802 ( 99%)    【 内 力 】 66275 / 60275 (+3538)
