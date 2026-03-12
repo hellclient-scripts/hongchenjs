@@ -15,8 +15,8 @@
         App.Core.Study.LianMode = 0
     }
     App.Core.Study.LearnMode = 0
-    App.Params.YanjiuMax = 100
-    App.Params.LianMax = 50
+    // App.Params.YanjiuMax = 100
+    // App.Params.LianMax = 50
     App.Core.Study.Learn = []
     App.Core.Study.LianMode = 0
     App.Core.Study.Lian = []
@@ -637,12 +637,15 @@
         }
         App.Next()
     }
+    App.Core.Study.CanJiqu = () => {
+        return App.Data.Player.HP["经验"] > 30000 && App.Core.Player.GetSkillLevenByID("martial-cognize") < App.Data.Player.HPM["当前等级"]
+    }
     //注册jiqu准备
     App.Proposals.Register("jiqu", App.Proposals.NewProposal(function (proposals, context, exclude) {
         let max = context["JiquMax"] != null ? context["JiquMax"] : App.Core.Study.Jiqu.Max
-        if (App.Data.Player.HP["经验"] > 100000 && max && max > 0 && App.Core.Study.Jiqu.Commands.length && App.Data.Player.HP["体会"] > max && App.Data.Player.HP["精气百分比"] > 70) {
-            JiquPauseContext=Object.create(context)
-            JiquPauseContext.NeiliMin=15
+        if (App.Core.Study.CanJiqu() && max && max > 0 && App.Core.Study.Jiqu.Commands.length && App.Data.Player.HP["体会"] > max && App.Data.Player.HP["精气百分比"] > 70) {
+            JiquPauseContext = Object.create(context)
+            JiquPauseContext.NeiliMin = 15
             return App.Params.JiquPause == "t" ? JiquPause : JiquNoPause
         }
         return null

@@ -1735,7 +1735,7 @@ Timers = []
 [[RequiredParams]]
   Name = "sell"
   Desc = "道具处理指令(选填)"
-  Intro = ""
+  Intro = "具体参考帮助中的战利品处理。师门任务的奖励默认也可以通过这个来设置"
 
 [[RequiredParams]]
   Name = "id_pass"

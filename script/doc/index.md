@@ -9,6 +9,7 @@
 * [quest变量设置](quest.md) 设置多个任务的执行规则
 * [别名一览](alias.md) 介绍别名，别名可以在变量中使用
 * [条件变量](condition.md) 变量中用来设置的起效条件
+* [战利品处理](assets.md) 各种奖励道具的处理
 * [地图编辑](map.md) 地图编辑维护
 
 如果需要修改或者二次开发，可以参考 https://forum.hellclient.com/topic/7/ 理解机器人架构

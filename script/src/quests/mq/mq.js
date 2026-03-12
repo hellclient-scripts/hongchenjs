@@ -58,7 +58,7 @@ $.Module(function (App) {
         rejected: {},
     }
     MQ.NeedJiqu = (letter) => {
-        if (App.Core.Study.Jiqu.Max > 0 && App.QuestParams["mqtihui"] > 0) {
+        if (App.Core.Study.Jiqu.Max > 0 && App.QuestParams["mqtihui"] > 0 && App.Core.Study.CanJiqu()) {
             if (!letter && MQ.HelpRate() < 50) {
                 return false
             }

@@ -54,6 +54,22 @@
                     return
                 }
                 break
+            case "contain"://包含匹配
+                if (asset.Item.ID.indexOf(" ") < 0) {
+                    return
+                }
+                var matched = false
+                for (let type of rule.Data.UserData) {
+                    if (asset.Item.GetData().Name.indexOf(type) >= 0) {
+                        matched = true
+                        break
+                    }
+                }
+                if (!matched) {
+                    return
+                }
+                break
+
             default:
                 return
         }
