@@ -125,6 +125,7 @@ $.Module(function (App) {
             return false
         },
         AfterAsk: function () {
+            Note("还未实现")
             $.Next()
         },
     }
@@ -412,21 +413,23 @@ $.Module(function (App) {
     }
     //XXX的事任务
     Freequest.BeiqiAskMore = function () {
-        $.PushCommands(
-            $.Nobusy(),
-            $.Ask("xiao er", `${Freequest.Data.Current.Topic}`),
-            $.Function(Freequest.BeiqiAfterAskMore),
-        )
+        // $.PushCommands(
+        //     $.Nobusy(),
+        //     $.Ask("xiao er", `${Freequest.Data.Current.Topic}`),
+        //     $.Function(Freequest.BeiqiAfterAskMore),
+        // )
+        Note("还未实现")
         $.Next()
     }
     Freequest.BeiqiAfterAskMore = function () {
     }
     Freequest.YunsongAskMore = function () {
-        $.PushCommands(
-            $.Nobusy(),
-            $.Ask("xiao er", `${Freequest.Data.Current.Topic}`),
-            $.Function(Freequest.YunsongAfterAskMore),
-        )
+        // $.PushCommands(
+        //     $.Nobusy(),
+        //     $.Ask("xiao er", `${Freequest.Data.Current.Topic}`),
+        //     $.Function(Freequest.YunsongAfterAskMore),
+        // )
+        Note("还未实现")
         $.Next()
     }
     Freequest.YunsongAfterAskMore = function () {

@@ -51,7 +51,7 @@ $.Module(function (App) {
     }
     MQ.Data = {
         kills: 0,
-        helpded: 0,
+        helped: 0,
         start: null,
         current: null,
         Last: null,
@@ -78,7 +78,7 @@ $.Module(function (App) {
 
     }
     MQ.HelpRate = () => {
-        return MQ.Data.kills > 3 ? (MQ.Data.helpded * 100 / MQ.Data.kills) : 0
+        return MQ.Data.kills > 3 ? (MQ.Data.helped * 100 / MQ.Data.kills) : 0
     }
     MQ.OnNpcDie = function () {
         $.RaiseStage("npcdie")
@@ -807,7 +807,7 @@ $.Module(function (App) {
             }
             if (!MQ.Data.NPC.Loc && !MQ.Data.NPC.Died) {
                 Note("接到线报:" + name + "|" + id + "|" + loc)
-                MQ.Data.helpded++
+                MQ.Data.helped++
                 MQ.Data.NPC.Loc = loc
                 MQ.Data.NPC.SetZone(cites[0])
             }
@@ -861,7 +861,7 @@ $.Module(function (App) {
                 let msg = "任务成功"
                 MQ.Data.kills++
                 if (MQ.Data.kills > 3) {
-                    msg += " 任务效率：" + MQ.GetEff().toFixed() + " 个/小时,共计" + MQ.Data.kills + "个任务," + "线报率 " + (MQ.Data.helpded * 100 / MQ.Data.kills).toFixed(2) + "%"
+                    msg += " 任务效率：" + MQ.GetEff().toFixed() + " 个/小时,共计" + MQ.Data.kills + "个任务," + "线报率 " + (MQ.Data.helped * 100 / MQ.Data.kills).toFixed(2) + "%"
                 }
                 Note(msg)
                 return true
@@ -927,7 +927,7 @@ $.Module(function (App) {
     App.BindEvent("core.queststart", (e) => {
         MQ.Data = {
             kills: 0,
-            helpded: 0,
+            helped: 0,
             start: $.Now(),
             current: null,
             eff: 0,

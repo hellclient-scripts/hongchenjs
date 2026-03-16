@@ -129,7 +129,7 @@ $.Module(function (App) {
     )
     //爬塔时的核心逻辑
     LGT.Check = () => {
-        if (LGT.Data.灵符 >= 2) {
+        if (LGT.Data.灵符 >= 1) {
             LGT.Next()
         } else {
             App.Checker.GetCheck("weaponduration").Force()

@@ -180,7 +180,7 @@ $.Module(function (App) {
         return Chujian.Data.Success * 3600 * 1000 / ($.Now() - Chujian.Data.Start)
     }
     Chujian.HelpRate = () => {
-        return Chujian.Data.Success > 3 ? (Chujian.Data.helpded * 100 / Chujian.Data.Success) : 0
+        return Chujian.Data.Success > 3 ? (Chujian.Data.helped * 100 / Chujian.Data.Success) : 0
     }
     App.BindEvent("core.helpfind.onfound", (event) => {
         let name = event.Data.Name
@@ -192,7 +192,7 @@ $.Module(function (App) {
             }
             if (!Chujian.Data.Loc) {
                 Note("接到线报:" + name + "|" + id + "|" + loc)
-                Chujian.Data.helpded++
+                Chujian.Data.helped++
                 Chujian.Data.Loc = loc
             }
             if (App.Zone.Wanted && App.Zone.Wanted.Target == name) {
@@ -240,7 +240,7 @@ $.Module(function (App) {
             Times: 0,
             LastExp: 0,
             Gifts: {},
-            helpded: 0,
+            helped: 0,
             Start: $.Now(),
         }
     })

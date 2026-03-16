@@ -3,6 +3,7 @@
 本机器是基于newhell修改的hongchen任务机器人。
 
 * [快速上手](quickstart.md) 介绍整个脚本的整体设置
+* [变量设置参考](variable.md) 设置变量的参考
 * [效率优化](eff.md) 怎么设置提升任务效率
 * [combat战斗设置](combat.md) 战斗变量的设置
 * [command变量场景一览](stages.md)  介绍command变量，如何在设置在不同的时间点触发的指令
