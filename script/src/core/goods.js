@@ -78,7 +78,6 @@
                             return
                         }
                         break
-                    case "#fetch"://从qiankun bag拿
                     case "#qu"://从箱子里取
                         break
                     default:
@@ -130,39 +129,29 @@
                         }
                     }
                     break
-                case "#fetch":
-                    var count = App.Data.Item.List.FindByIDLower(item.Data).Sum()
-                    if (count < num) {
-                        let f = App.Data.QiankunBag.FindByID(item.Data).First()
-                        if (f) {
-                            return () => {
-                                fetch(f, item)
-                            }
-                        }
-                    }
-                    break
                 case "#qu":
                     var count = App.Data.Item.List.FindByIDLower(item.Data).Sum()
                     if (count < num) {
-                        let f = App.Data.QiankunBag.FindByID(item.Data).First()
-                        if (f) {
-                            return () => {
-                                fetch(f, item)
+                        return () => {
+                            let num = item.Param - 0
+                            if (isNaN(num) || num < 0) {
+                                num = 1
                             }
-                        } else {
-                            return () => {
-                                let num = item.Param - 0
-                                if (isNaN(num) || num < 0) {
-                                    num = 1
-                                }
-                                App.Commands.PushCommands(
-                                    App.Move.NewToCommand("home"),
-                                    App.Commands.NewDoCommand(`take ${num} ${item.Data};i`),
-                                    App.NewNobusyCommand(),
-                                )
-                                App.Next()
+                            App.Commands.PushCommands(
+                                $.Function(App.Core.Item.CheckBox),
+                                $.Function(() => {
+                                    let boxitem = App.Data.Box.List.FindByID(item.Data).First()
+                                    if (boxitem == null) {
+                                        Note(`箱子里没有${item.Data}了`)
+                                    } else {
+                                        App.Send(`take ${boxitem.Key} ${num};i`)
+                                    }
+                                    $.Next()
+                                }),
+                                App.NewNobusyCommand(),
+                            )
+                            App.Next()
 
-                            }
                         }
                     }
                     break

@@ -381,6 +381,9 @@
         NewMove() {
             return new Move()
         }
+        SingleStep() {
+            return movementModule.SingleStep
+        } 
         RegisterMaze(name, maze) {
             this.Mazes[name] = maze
         }
@@ -538,7 +541,7 @@
                 map.Room.ID = step.Target
             }
             if (this.#maze) {
-                map.Room.ID=this.#maze.GetRoomID(this.#maze, this, map) || map.Room.ID
+                map.Room.ID = this.#maze.GetRoomID(this.#maze, this, map) || map.Room.ID
                 this.#maze.OnStepFinsih(this, map, step)
             } else {
                 this.OnStepFinsih(this, map, step)

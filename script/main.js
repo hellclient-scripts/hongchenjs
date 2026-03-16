@@ -21,7 +21,7 @@ var onHudClick = function () {
     App.RaiseEvent(new App.Event("hudclick").WithType("system"))
 }
 var onBroadcast = function (msg, global, channel) {
-    // App.Core.HelpFind.onBroadcast(msg, global)
+    App.Core.HelpFind.onBroadcast(msg, global)
 }
 
 var onResponse = function (type, id, data) {

@@ -52,6 +52,15 @@
             Loc: loc
         }))
     }
+    App.Core.HelpFind.OnRoom = () => {
+        if (App.Map.Room.ID) {
+            App.Map.Room.Data.Objects.Items.forEach((item) => {
+                if (item.ID.indexOf(" ") > 0 && item.Label.length < 5) {
+                    App.Core.HelpFind.OnNPC(item.Label, item.ID, App.Map.Room.ID)
+                }
+            })
+        }
+    }
     App.Core.HelpFind.OnNPC = (name, id, loc) => {
         if (NoHelp) {
             return

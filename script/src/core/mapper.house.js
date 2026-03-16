@@ -1,5 +1,6 @@
 (function (App) {
-    App.Mapper.AddPanlong = function (hosuename, houesid, houseloc) {
+    App.Mapper.AddPanlong = function (hosuename, houesid, houseloc, pass) {
+        let passcmd = pass ? `typecode ${pass}、push、n。` : `push、n。`
         App.Mapper.HomeRooms = [
             App.Mapper.NewRoom("4199", `${hosuename}大院`, [
                 App.Mapper.NewExit("n", "4200"),
@@ -7,7 +8,7 @@
             ]),
             App.Mapper.NewRoom("4200", `${hosuename}前庭`, [
                 App.Mapper.NewExit("e", "4201"),
-                App.Mapper.NewExit("push、n。", "4203"),
+                App.Mapper.NewExit(passcmd, "4203"),
                 App.Mapper.NewExit("s", "4199"),
                 App.Mapper.NewExit("w", "4202"),
             ]),
@@ -179,15 +180,15 @@
 
     App.Mapper.Addhouse = function (line) {
         if (line) {
-            var data = line.split(" ")
-            if (data.length != 3 || data[0] == "") {
+            var data = line.trim().split(" ")
+            if (data.length < 3 || data[0] == "") {
                 world.Note("解析房屋信息失败，格式应该为 '机器人工厂 robot 4084' ")
                 return
             }
             switch (data[0][0]) {
                 case "p":
                 case "P":
-                    App.Mapper.AddPanlong(data[0].slice(1), data[1], data[2])
+                    App.Mapper.AddPanlong(data[0].slice(1), data[1], data[2] ,data.length>3?data[3]:null)
                     break
                 case "d":
                 case "D":
@@ -196,11 +197,11 @@
                 case "c":
                 case "C":
                     App.Mapper.AddCaihong(data[0].slice(1), data[1], data[2])
-                    break                    
+                    break
                 default:
-                    App.Mapper.AddPanlong(data[0], data[1], data[2])
+                    App.Mapper.AddPanlong(data[0], data[1], data[2] ,data.length>3?data[3]:null)
             }
-            App.Mapper.HomeRooms.forEach(room =>{App.Mapper.RegisterRoom(room)})
+            App.Mapper.HomeRooms.forEach(room => { App.Mapper.RegisterRoom(room) })
         } else {
             world.Note("变量 house 未设置")
         }

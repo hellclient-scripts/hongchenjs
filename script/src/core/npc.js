@@ -14,35 +14,50 @@
     //加载名信息
     App.LoadLines("data/name.txt", "|").forEach((data) => {
         data[1].split("").forEach((char) => {
-            App.Core.NPC["名"][char] = data[0]
+            if (App.Core.NPC["名"][char] == null) {
+                App.Core.NPC["名"][char] = []
+            }
+            App.Core.NPC["名"][char].push(data[0])
         })
     })
     //获取npc名拼音(ask youxun用)
     App.Core.NPC.GetPinyin = function (name) {
-        let result = ""
+        let firstname = ""
+        let resultlastname = []
         if (name.length < 2) {
-            return null
+            return []
         }
         if (App.Core.NPC["姓"][name.slice(0, 2)]) {
-            result = App.Core.NPC["姓"][name.slice(0, 2)] + " "
+            firstname = App.Core.NPC["姓"][name.slice(0, 2)]
             name = name.slice(2)
         } else if (App.Core.NPC["姓"][name.slice(0, 1)]) {
-            result = App.Core.NPC["姓"][name.slice(0, 1)] + " "
+            firstname = App.Core.NPC["姓"][name.slice(0, 1)]
             name = name.slice(1)
         } else {
             App.Log("无法识别的姓氏 " + name)
-            return null
+            return []
         }
         let 名 = name.split("")
         for (var char of 名) {
             if (App.Core.NPC["名"][char]) {
-                result = result + App.Core.NPC["名"][char]
+                resultlastname.push(App.Core.NPC["名"][char])
             } else {
                 App.Log("无法识别的名字 " + char + " in " + name)
-                return null
+                return []
             }
         }
-        return result
+        var last = []
+        var output = [firstname + " "]
+        resultlastname.forEach((chars) => {
+            last = output
+            output = []
+            chars.forEach((char) => {
+                last.forEach((pre) => {
+                    output.push(pre + char)
+                })
+            })
+        })
+        return output
     }
     //检查npc是否还活着
     App.Core.NPC.AskBeichouAnswer = {
@@ -52,20 +67,27 @@
     App.Core.NPC.CheckBeichou = function (name, id) {
         App.Core.NPC.AskBeichouData = {
             Name: name,
-            ID: id ? id : App.Core.NPC.GetPinyin(name),
+            ID: "",
+            IDList: id ? [id] : App.Core.NPC.GetPinyin(name),
             Live: false,
             Silver: false,
         }
-        if (App.Core.NPC.AskBeichouData["ID"] != null) {
+        App.Core.NPC.CheckBeichouNext()
+    }
+    App.Core.NPC.CheckBeichouNext = function () {
+        if (App.Core.NPC.AskBeichouData["IDList"].length) {
+            App.Core.NPC.AskBeichouData.ID = App.Core.NPC.AskBeichouData["IDList"].shift()
             App.Commands.PushCommands(
                 App.Move.NewToCommand("bei chou"),
-                App.NewAskCommand("bei chou", App.Core.NPC.AskBeichouData["ID"], 1),
+                App.NewAskCommand("bei chou", App.Core.NPC.AskBeichouData.ID, 1),
                 App.Commands.NewFunctionCommand(() => {
                     if (App.Data.Ask.Answers.length && App.Core.NPC.AskBeichouAnswer[App.Data.Ask.Answers[0].Line]) {
                         App.Core.NPC.AskBeichouData.Live = true
                         if (App.Data.Ask.Answers[0].Line.includes("白银")) {
                             App.Core.NPC.AskBeichouData.Silver = true
                         }
+                    } else {
+                        App.Insert(App.Commands.NewFunctionCommand(App.Core.NPC.CheckBeichouNext))
                     }
                     App.Next()
                 })

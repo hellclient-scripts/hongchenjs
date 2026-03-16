@@ -8,5 +8,6 @@
     App.QuestNamedParams.AddNumber("mqnopause", 0).WithName("MQ搜索中不会暂停汲取").WithDesc("0为不会，1为会")
     App.QuestNamedParams.AddString("mqgivebeichou", "t").WithName("MQ给北丑黄金设置").WithDesc("t给，不然不给")
     App.QuestNamedParams.AddString("mqgift", "auto").WithName("MQ接受礼物方式").WithDesc("auto为根据战利品规则自动,no为不获取，否则为逗号分割的道具名清单")
+    App.QuestNamedParams.AddString("mqretryfail", "t").WithName("MQ失败后重试").WithDesc("t重试，不然不给")
 
 })()

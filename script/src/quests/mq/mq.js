@@ -3,7 +3,10 @@ $.Module(function (App) {
     class NPC {
         constructor(name) {
             this.Name = name
+            this.Start = $.Now()
         }
+        Start = 0
+        Retry = false
         Name = ""
         ID = ""
         Zone = ""
@@ -184,6 +187,7 @@ $.Module(function (App) {
         App.Positions["Quest"],
         (task) => {
             let fled = false
+            let fail = false
             MQ.Data.NoMaster = false
             MQ.Data.NPC = null
             MQ.Data.last = MQ.Data.current
@@ -207,14 +211,6 @@ $.Module(function (App) {
                 App.Send("answer N")
                 return true
             })
-            task.AddTrigger(reStart, (tri, result) => {
-                if (MQ.Data.NPC) {
-                    MQ.Data.NPC.Zone = result[1].slice(0, 2)
-                    if (fled) {
-                        MQ.Data.NPC.Flee()
-                    }
-                }
-            })
             task.AddTrigger(reFlee, (tri, result) => {
                 if (MQ.Data.NPC && result[1].endsWith(MQ.Data.NPC.Name)) {
                     Note("NPC跑了。")
@@ -223,7 +219,13 @@ $.Module(function (App) {
                 return true
             })
             task.AddTrigger(reFail, () => {
-                App.Send("quest cancel")
+                if (App.QuestParams["mqretryfail"] == "t" && MQ.Data.NPC && MQ.Data.NPC.Start > 0 && $.Now() - MQ.Data.NPC.Start < 120000) {
+                    MQ.Data.NPC.Start = 0
+                    MQ.Data.NPC.Retry = true
+                } else {
+                    fail = true
+                }
+                return true
             })
             task.AddTrigger(reNoMaster, () => {
                 MQ.Data.NoMaster = true
@@ -237,19 +239,33 @@ $.Module(function (App) {
                 App.Core.QuestLock.Freequest = 3
                 return true
             })
+            //reNoQuest和reStart应该会出现一个
             task.AddTrigger(reNoQuest)
-            task.AddTimer(3000)
+            task.AddTrigger(reStart, (tri, result) => {
+                if (fail) {
+                    App.Send("quest cancel")
+                    return false
+                }
+                if (MQ.Data.NPC && !MQ.Data.NPC.Retry) {
+                    MQ.Data.NPC.Zone = result[1].slice(0, 2)
+                    if (fled) {
+                        MQ.Data.NPC.Flee()
+                    }
+                }
+                return false
+            })
+            task.AddTimer(3000).WithName("timeout")
             $.RaiseStage("mqgivehead")
             App.Send("give head to " + App.Params.MasterID + ";drop head")
             $.RaiseStage("mqbefore")
-            App.Sync(() => {
-                App.Send("quest " + App.Params.MasterID)
-                App.Send("quest")
-            })
-
+            App.Send("quest " + App.Params.MasterID)
+            App.Send("quest")
         },
         (result) => {
-            if (result != "cancel") {
+            if (result.Type != "cancel") {
+                if (result.Name == "timeout") {
+                    App.Log("请求quest超时")
+                }
                 $.Next()
             }
         }
@@ -303,13 +319,6 @@ $.Module(function (App) {
                 }
                 return obj
             }
-        }
-        if (App.Map.Room.ID) {
-            App.Map.Room.Data.Objects.Items.forEach((item) => {
-                if (item.ID.indexOf(" ") > 0 && item.Label.length < 5) {
-                    App.Core.HelpFind.OnNPC(item.Label, item.ID, App.Map.Room.ID)
-                }
-            })
         }
         return null
     }
@@ -411,6 +420,14 @@ $.Module(function (App) {
     MQ.Ready = () => {
 
         if (MQ.Data.NPC) {
+            if (MQ.Data.NPC.Retry) {
+                App.Log("尝试再次寻找NPC")
+                MQ.Data.NPC.Retry = false
+                MQ.Data.NPC.Died = false
+                MQ.Data.NPC.Fled = false
+                MQ.Far(true)
+                return
+            }
             if (MQ.Data.NPC.Died) {
                 $.PushCommands(
                     $.Function(App.Check),
@@ -497,8 +514,8 @@ $.Module(function (App) {
         }
         MQ.Far()
     }
-    MQ.Far = () => {
-        if (MQ.Data.NPC.Farlist == null) {
+    MQ.Far = (force) => {
+        if (MQ.Data.NPC.Farlist == null || force) {
             MQ.Data.NPC.Farlist = [...App.Zone.CiteList]
             let exp = App.Data.Player.HP["经验"]
             if (exp < 150000) {
@@ -532,7 +549,9 @@ $.Module(function (App) {
             let rooms = App.Mapper.ExpandRooms([App.Map.Room.ID], 2, true)
             App.Zone.Wanted = $.NewWanted(MQ.Data.NPC.Name, MQ.Data.NPC.Zone).WithChecker(Checker).WithID(MQ.Data.NPC.ID)
             $.PushCommands(
-                $.Rooms(rooms, App.Zone.Finder, MQ.MoveData),
+                $.Function(() => {
+                    App.Zone.SearchRooms(rooms, wanted, MQ.MoveData)
+                }),
                 $.Function(MQ.KillLoc),
             )
         }
@@ -549,7 +568,7 @@ $.Module(function (App) {
                 $.Kill(MQ.Data.NPC.ID, App.NewCombat("mq").WithPlan(PlanCombat).WithKillInGroup(MQ.Data.NPC.NotKilled)),
                 $.Function(() => {
                     if (!(MQ.Data.NPC.Died || MQ.Data.NPC.Fled)) {
-                        $.Append($.Function(MQ.KillNear))
+                        $.Insert($.Function(MQ.KillNear))
                     }
                     App.Next()
                 })
@@ -623,7 +642,7 @@ $.Module(function (App) {
         $.Next()
     }
     MQ.Connect = () => {
-        planQuest.Execute()
+        planOverQuest.Execute()
         $.PushCommands(
             $.Function(App.Core.Emergency.CheckDeath),
             $.Function(() => {
@@ -779,7 +798,7 @@ $.Module(function (App) {
         let id = event.Data.ID
         let loc = event.Data.Loc
         if (MQ.Data.NPC && MQ.Data.NPC.Name == name) {
-            let cites = App.Zone.LocToCity(loc)
+            let cites = App.Zone.LocToCityList[loc]
             if (cites.length == 0) {
                 return
             }
@@ -823,14 +842,14 @@ $.Module(function (App) {
         let rate = num ? num.toFixed(0) + "%" : "-"
         let gifts = Object.keys(MQ.Data.gifts).map((gift) => `${gift}*${MQ.Data.gifts[gift]}`).join(",")
         let rejected = Object.keys(MQ.Data.rejected).map((gift) => `${gift}*${MQ.Data.rejected[gift]}`).join(",")
-        return [`MQ-总数:${MQ.Data.kills} 效率:${eff} 线报率:${rate} 当前任务:${MQ.Data.current || 0}`, `换取师门奖励：${gifts}`, `拒绝师门奖励：${rejected}`]
+        return [`MQ-总数:${MQ.Data.kills} 效率:${eff} 当前任务:${MQ.Data.current || 0} 线报率:${rate}`, `换取师门奖励：${gifts}`, `拒绝师门奖励：${rejected}`]
     }
     let matcherHead = /^你拣起一颗(.+)的人头。$/
     let matcherreward = /^通过这次锻炼你获得了/
     let matcherquestfail = /^([^：()\[\]]{2,5})摆摆手，对你道：你干不了就算了/
     let matchergift = /^([^：()\[\]]{2,5})微微一笑，从怀中取出一.(.+)交给你。$/
     let matcherAskGift = /^获得(.+)需要消耗你.+点门派贡献，/
-    let planQuest = new App.Plan(App.Quests.Position,
+    let planOverQuest = new App.Plan(App.Quests.Position,
         (task) => {
             task.AddTrigger(matcherHead, (tri, result) => {
                 if (MQ.Data.NPC && MQ.Data.NPC.Name == result[1]) {
@@ -896,7 +915,7 @@ $.Module(function (App) {
             return
         }
         MQ.Data.NPC = null
-        planQuest.Execute()
+        planOverQuest.Execute()
         MQ.Prepare()
     }
     Quest.GetReady = function (q, data) {

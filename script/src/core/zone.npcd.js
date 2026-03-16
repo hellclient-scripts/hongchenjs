@@ -112,7 +112,8 @@
     ).WithPaths(
         App.Zone.HousePaths
     )
-    let npcdoptions = App.Mapper.HMM.MapperOptions.New().WithCommandNotContains(["goto ", "ask ", "cross", "yell ", "jump ", "enter ", "ride "])
+    App.Mapper.ExpandOptions = App.Mapper.HMM.MapperOptions.New().WithCommandNotContains(["goto ", "ask ", "cross", "yell ", "jump ", "enter ", "ride "])
+    let npcdoptions = App.Mapper.ExpandOptions
     const NpcdMaxMove = 5
     //npcd最大移动步数
     App.Mapper.Database.APIListTraces(App.Mapper.HMM.APIListOption.New().WithGroups(["npcd"])).forEach((model) => {

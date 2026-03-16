@@ -133,10 +133,7 @@
     App.Mapper.ExcludeRooms = {}
     //扩展房间，第一个参数为房间id数组，第二个参数为膨胀多少格。
     App.Mapper.ExpandRooms = (rooms, expand, common) => {
-        var opt = App.Mapper.HMM.MapperOptions.New()
-        if (common) {
-            opt.WithCommandWhitelist(App.Mapper.CommonExits)
-        }
+        var opt = common ? App.Mapper.ExpandOptions : App.Mapper.HMM.MapperOptions.New()
         return App.Mapper.Database.APIDilate(rooms, expand, App.Mapper.Database.Context, opt)
     }
     App.Mapper.InWinter = function () {
@@ -167,10 +164,17 @@
     let PlanLocate = new App.Plan(
         App.Positions["Room"],
         (task) => {
-            task.AddCatcher("core.onexit")
+            task.AddCatcher("core.roomentry")
             task.AddCatcher("line", function (catcher, event) {
                 if (App.Mapper.Landmarkes.DesclineMap[event.Data.Output]) {
                     catcher.WithData(App.Mapper.Landmarkes.DesclineMap[event.Data.Output])
+                    return false
+                }
+                return true;
+            })
+            task.AddCatcher("line", function (catcher, event) {
+                if (event.Data.Output == "  聚宝箱(ju baoxiang)") {
+                    catcher.WithData(App.Mapper.Data.BuiltinMarkers["home"])
                     return false
                 }
                 return true;

@@ -79,4 +79,34 @@
             App.Map.SetTag("flyup", 1)
         }
     })
+    App.Data.Box = {}
+    App.Data.Box.List = new objectModule.List()
+    let matcherBoxItem = /^\[\s*(\d+)\]\s*(\S+)\((.+)\)\s*(\d+)$/
+
+    let PlanOnBoxItem = new App.Plan(
+        App.Positions["Response"],
+        function (task) {
+            App.Data.Box.List = new objectModule.List()
+            task.AddTrigger(matcherBoxItem, (tri, result) => {
+                let obj = App.Data.Box.List.NewObject(result[2], result[3]).WithKey(result[1])
+                let data = obj.GetData(true)
+                data.Name = result[2]
+                data.Count = result[4] - 0
+                App.Data.Box.List.Append(obj)
+                return true
+            })
+            App.Send("kai ju baoxiang;l ju baoxiang")
+            App.Sync()
+        },
+        function (result) {
+            App.Next()
+        }
+    )
+    App.Core.Item.CheckBox = function () {
+        $.PushCommands(
+            $.To("home"),
+            $.Plan(PlanOnBoxItem),
+        )
+        App.Next()
+    }
 })(App)

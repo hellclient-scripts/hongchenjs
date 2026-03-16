@@ -98,7 +98,7 @@
         //链式调用
         WithSingleStep(s) {
             // this.SingleStep = App.Params.NumStep <= 1
-            this.SingleStep=s
+            this.SingleStep = s
             return this
         }
         //链式调用
@@ -161,6 +161,7 @@
                     Note(wanted.Target + " @ " + wanted.Loc)
                 }
             }
+            App.Core.HelpFind.OnRoom()
         }
         move.OnArrive = function (move, map) {
             if (wanted.Loc) {
@@ -186,7 +187,7 @@
     App.Zone.MazeRooms = App.Mapper.Database.APISearchRooms(filter).map(room => room.Key)
     App.Zone.RoomTags = []
     App.Zone.MazeRooms.forEach(room => {
-        App.Zone.RoomTags.push(App.Map.NewRoomTag(room, "noshortcut", 1))//迷宫在便利禁止飞走，保证探索每个房间
+        App.Zone.RoomTags.push(App.Map.NewRoomTag(room, "noshortcut", 1))//迷宫在遍历禁止飞走，保证探索每个房间
     })
     App.Zone.Tag = App.Map.NewTag("find", 1)
     App.Zone.MoveData = App.Map.NewMoveData("find", true)
