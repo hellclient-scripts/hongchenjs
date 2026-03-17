@@ -11,7 +11,12 @@ $.Module(function (App) {
     LGT.Last = 0
     LGT.Data = {
         Level: 0,
+        Entered: false,
         灵符: 0,
+        Tihui: 0,
+        Count: 0,
+        Current: "",
+        LastTihui: 0,
         Ready: 0,//0需要等待,1可以Check
         Entry: [],
     }
@@ -29,6 +34,9 @@ $.Module(function (App) {
         App.Positions["Quest"],
         (task) => {
             task.AddTrigger(relgtfloor, (tri, result) => {
+                if (!LGT.Data.Entered) {
+                    return true
+                }
                 LGT.Data.Level = App.CNumber.ParseNumber(result[1])
                 LGT.LastLevel = LGT.Data.Level
                 if (LGT.Data.Level == 2) {
@@ -73,7 +81,41 @@ $.Module(function (App) {
                 return true
             })
         }
+
     )
+    LGT.EnterFail = () => {
+        Quest.Cooldown(30 * 60 * 1000)
+        App.PushCommands(
+            $.Do("l"),
+            $.Sync(),
+            $.Function(() => {
+                App.Map.Room.ID = $.RID("fuben|lgtd")
+                $.Next()
+            })
+        )
+        App.Next()
+    }
+    LGT.TryEnter = () => {
+        if (LGT.Data.Entry.length > 0) {
+            LGT.Data.Current = LGT.Data.Entry.shift()
+            App.PushCommands(
+                $.Do(`l ${LGT.Data.Current}`),
+                $.Sync(),
+                $.Function(() => {
+                    if (App.Map.Room.Data.Objects.Items.length == 0) {
+                        $.Insert($.Plan(PlanEnter))
+                    } else {
+                        Note(`[${LGT.Data.Current}]房间有人`)
+                        $.Insert($.Function(LGT.TryEnter))
+                    }
+                    $.Next()
+                })
+            )
+            $.Next()
+        } else {
+            LGT.EnterFail()
+        }
+    }
     //尝试进塔的计划
     let PlanEnter = new App.Plan(
         App.Positions["Response"],
@@ -82,11 +124,13 @@ $.Module(function (App) {
                 task.Data = "nextday"
                 return true
             })
+            LGT.Data.Entered = true
             App.Send("unride")
-            App.Send(LGT.Data.Entry.shift())
+            App.Send(LGT.Data.Current)
             App.Sync()
         },
         (result) => {
+            LGT.Data.Entered = false
             switch (result.Task.Data) {
                 case "nextday":
                     Quest.Cooldown(8 * 60 * 60 * 1000)
@@ -94,36 +138,33 @@ $.Module(function (App) {
                     return
                 default:
                     if (LGT.Data.Level > 0) {
+                        LGT.Data.Entered = true
                         Note("进入成功，等待传送")
                         return
                     } else {
-                        if (LGT.Data.Entry.length > 0) {
-                            $.PushCommands(
-                                $.Nobusy(),
-                                $.Plan(PlanEnter),
-                            )
-                            $.Next()
-                            return
-                        } else {
-                            Quest.Cooldown(30 * 60 * 1000)
-                            App.Next()
-                            return
-                        }
+                        $.PushCommands(
+                            $.Nobusy(),
+                            $.Function(LGT.TryEnter)
+                        )
+                        $.Next()
+                        return
                     }
 
             }
         }
     )
-    let matcherKnockFinish = /$你在灵感西塔上成功敲钟之后，/
+    let matcherKnockFinish = /$你在灵感.+塔上成功敲钟之后，/
     //等待敲钟的计划
     let PlanKnock = new App.Plan(
         App.Map.Position,
         (task) => {
             Note("等待结算")
+            LGT.Data.Entered = false
             task.AddTrigger(matcherKnockFinish)
             App.Send("knock zhong;i")
         },
         (result) => {
+            Quest.Cooldown(8 * 60 * 60 * 1000)
             App.Next()
         }
     )
@@ -137,6 +178,17 @@ $.Module(function (App) {
             $.PushCommands(
                 $.Nobusy(),
                 $.Plan(PlanKnock),
+                $.Do("hp"),
+                $.Sync(),
+                $.Function(() => {
+                    LGT.Data.Count++
+                    LGT.Data.LastTihui = App.Data.Player.HP["体会"]
+                    let tihui = App.Data.Player.HP["体会"] - LGT.Data.LastTihui
+                    if (tihui > 0) {
+                        LGT.Data.Tihui += tihui
+                    }
+                    $.Next()
+                }),
                 $.Prepare(),
             )
             $.Next()
@@ -207,14 +259,22 @@ $.Module(function (App) {
     }
     //准备进塔
     LGT.Go = function () {
-        LGT.Data.Entry = ["ne", "se", "sw", "nw", "wu", "nu", "eu", "su"]
+        LGT.Data.Entry = ["northeast", "southeast", "southwest", "northwest", "westup", "northup", "eastup", "southup", "up"]
+        LGT.Data.Entered = false
+        LGT.Data.Current = ""
         LGT.Data.Level = 0
         LGT.Data.灵符 = 0
         $.PushCommands(
             $.Prepare("", { WeaponDurationMin: 80 }),
             $.To("fuben|lgtd"),
+            $.Do("hp"),
+            $.Sync(),
+            $.Function(() => {
+                LGT.Data.LastTihui = App.Data.Player.HP["体会"]
+                $.Next()
+            }),
             $.Nobusy(),
-            $.Plan(PlanEnter),
+            $.Function(LGT.TryEnter)
         )
         $.Next()
     }
@@ -240,8 +300,21 @@ $.Module(function (App) {
     }
     Quest.OnReport = () => {
         let last = LGT.Last ? App.HUD.UI.FormatTime($.Now() - LGT.Last) : "-"
-        return [`灵感塔-上次爬塔 ${last} 层数 ${LGT.LastLevel}`]
+        return [`灵感塔-上次爬塔:${last} 层数:${LGT.LastLevel} 累计次数:${LGT.Data.Count} 累计体会:${LGT.Data.Tihui}`]
     }
+    App.Core.Quest.AppendInitor((e) => {
+        LGT.Data = {
+            Level: 0,
+            灵符: 0,
+            Tihui: 0,
+            Count: 0,
+            Entered: false,
+            Current: "",
+            LastTihui: 0,
+            Ready: 0,
+            Entry: [],
+        }
+    })
 
     // Quest.GetReady = function (q, data) {
     //     return

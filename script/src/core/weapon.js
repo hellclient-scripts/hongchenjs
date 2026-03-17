@@ -322,7 +322,7 @@
         if (App.Core.Weapon.Touch && App.Data.Item.List.FindByIDLower(App.Core.Weapon.Touch).First() == null) {
             return () => {
                 App.Commands.PushCommands(
-                    App.Commands.NewDoCommand(`summon ${App.Core.Weapon.Wield[0].ID};i`),
+                    App.Commands.NewDoCommand(`summon ${App.Core.Weapon.Touch};i`),
                     App.NewNobusyCommand(),
                 )
                 App.Next()

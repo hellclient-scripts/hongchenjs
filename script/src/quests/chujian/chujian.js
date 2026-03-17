@@ -17,6 +17,8 @@ $.Module(function (App) {
         City: "",
         Times: 0,
         LastExp: 0,
+        Tihui: 0,
+        LastTihui: null,
         Gifts: {},
     }
     let matcherTarget = /^吕文焕对你说道：近有(.*)在(.*)一带活动，武林败类欺我大宋无人，请这位大侠为武林除害！$/
@@ -111,6 +113,7 @@ $.Module(function (App) {
 
     Chujian.GoKill = function () {
         if (Chujian.Data.Name) {
+            Chujian.Data.LastTihui = null
             if (Chujian.Data.Times < 4) {
                 Chujian.Data.Times++
                 Note(`第${Chujian.Data.Times}次尝试锄奸`)
@@ -137,7 +140,9 @@ $.Module(function (App) {
         if (App.Map.Room.Data.Objects.FindByLabel(Chujian.Data.Name).First()) {
             App.Map.Room.Data.Objects.Clear()
             $.Insert(
-                App.NewKillCommand(App.Zone.Wanted.ID, App.NewCombat("chujian").WithPlan(PlanCombat)),
+                $.Do("hp"),
+                App.NewKillCommand(App.Zone.Wanted.ID, App.NewCombat("chujian").WithPlan(PlanCombat).WithBeforeStop(Chujian.BeforeStop)),
+                $.Function(Chujian.CountTihui),
                 $.Function(Chujian.KillNear),
             )
         } else {
@@ -152,20 +157,37 @@ $.Module(function (App) {
         App.Next()
 
     }
-    Chujian.KillNear = () => {
-        if (App.Map.Room.ID && Chujian.Data.Name) {
-            Note("NPC跑了，附近找找")
-            Chujian.Data.Loc = null
-            let rooms = App.Mapper.ExpandRooms([App.Map.Room.ID], 2, true)
-            App.Zone.Wanted = $.NewWanted(Chujian.Data.Name, Chujian.Data.City).WithID(Chujian.Data.ID).WithChecker(Checker)
-            $.PushCommands(
-                $.Function(() => {
-                    App.Zone.SearchRooms(rooms, wanted, App.Map.SingleStep())
-                }),
-                $.Function(Chujian.KillLoc),
-            )
+    Chujian.BeforeStop = function (combat, reason) {
+        Chujian.Data.LastTihui = App.Data.Player.HP["体会"]
+    }
+    Chujian.CountTihui = function () {
+        if (Chujian.Data.Name == "") {
+            Note("结算")
+            let tihui = App.Data.Player.HP["体会"] - Chujian.Data.LastTihui
+            if (tihui > 0) {
+                Chujian.Data.LastTihui = null
+                Note(`体会增加${tihui}`)
+                Chujian.Data.Tihui += tihui
+            }
         }
-        App.Next()
+        $.Next()
+    }
+    Chujian.KillNear = () => {
+        if (Chujian.Data.Name) {
+            if (App.Map.Room.ID) {
+                Note("NPC跑了，附近找找")
+                Chujian.Data.Loc = null
+                let rooms = App.Mapper.ExpandRooms([App.Map.Room.ID], 2, true)
+                App.Zone.Wanted = $.NewWanted(Chujian.Data.Name, Chujian.Data.City).WithID(Chujian.Data.ID).WithChecker(Checker)
+                $.PushCommands(
+                    $.Function(() => {
+                        App.Zone.SearchRooms(rooms, wanted, App.Map.SingleStep())
+                    }),
+                    $.Function(Chujian.KillLoc),
+                )
+            }
+        }
+        $.Next()
     }
 
     Chujian.Go = function () {
@@ -179,6 +201,10 @@ $.Module(function (App) {
     Chujian.GetEff = function () {
         return Chujian.Data.Success * 3600 * 1000 / ($.Now() - Chujian.Data.Start)
     }
+    Chujian.GetTihuiEff = function () {
+        return Chujian.Data.Tihui * 3600 * 1000 / ($.Now() - Chujian.Data.Start)
+    }
+
     Chujian.HelpRate = () => {
         return Chujian.Data.Success > 3 ? (Chujian.Data.helped * 100 / Chujian.Data.Success) : 0
     }
@@ -221,9 +247,10 @@ $.Module(function (App) {
     }
     Quest.OnReport = () => {
         let gifts = Object.keys(Chujian.Data.Gifts).map((gift) => `${gift}*${Chujian.Data.Gifts[gift]}`).join(",")
-        let num=Chujian.HelpRate()
+        let num = Chujian.HelpRate()
         let rate = num ? num.toFixed(0) + "%" : "-"
-        return [`锄奸-总数:${Chujian.Data.Count} 成功:${Chujian.Data.Success} 效率:${Chujian.Data.Success > 3 ? Chujian.GetEff().toFixed(0) : "-"} 上次Exp:${Chujian.Data.LastExp} 线报率:${rate}`, `锄奸奖励:${gifts}`]
+        let avg = Chujian.Data.Success > 0 ? (Chujian.Data.Tihui / Chujian.Data.Success).toFixed(0) : 0
+        return [`锄奸-总数:${Chujian.Data.Count} 成功:${Chujian.Data.Success} 效率:${Chujian.Data.Success > 3 ? Chujian.GetEff().toFixed(0) + "个/小时" : "-"} 体会 ${Chujian.Data.Tihui}  体会效率：${Chujian.Data.Success > 3 ? Chujian.GetTihuiEff().toFixed(0) + "点/小时" : "-"} 平均体会：${avg} 上次Exp:${Chujian.Data.LastExp} 线报率:${rate}`, `锄奸奖励:${gifts}`]
     }
     Quest.Start = function (data) {
         Chujian.Go()
@@ -231,7 +258,7 @@ $.Module(function (App) {
     Quest.GetReady = function (q, data) {
         return () => { Quest.Start(data) }
     }
-    App.BindEvent("core.queststart", (e) => {
+    App.Core.Quest.AppendInitor(() => {
         Chujian.Data = {
             Count: 0,
             Success: 0,
@@ -239,6 +266,8 @@ $.Module(function (App) {
             City: "",
             Times: 0,
             LastExp: 0,
+            LastTihui: null,
+            Tihui: 0,
             Gifts: {},
             helped: 0,
             Start: $.Now(),
@@ -246,5 +275,5 @@ $.Module(function (App) {
     })
     App.Quests.Register(Quest)
 
-    App.Quest.Chujian = Chujian
+    App.Quests.Chujian = Chujian
 })

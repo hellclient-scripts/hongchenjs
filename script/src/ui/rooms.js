@@ -3,12 +3,17 @@
     App.UI.Rooms = {}
     App.UI.Rooms.Grid = Userinput.newdatagrid("房间信息", "rooms.h房间信息")
     App.UI.Rooms.Grid.setonpage("App.UI.Rooms.GridOnPage")
+    App.UI.Rooms.Cache = null
     App.UI.Rooms.Lines = () => {
+        if (App.UI.Rooms.Lines.Cache) {
+            return App.UI.Rooms.Cache
+        }
         let result = App.Mapper.Database.APIListRooms(App.Mapper.HMM.APIListOption.New())
         result.sort((a, b) => {
             if (a.Key * 1 < b.Key * 1) return -1
         })
-        return result.map((room) => `${room.Key}|${room.Name}`)
+        App.UI.Rooms.Cache = result.map((room) => `${room.Key}|${room.Name}`)
+        return App.UI.Rooms.Cache
     }
     App.UI.Rooms.GridOnPage = function (name, id, code, data) {
         if (code == 0 && data) {
@@ -26,6 +31,10 @@
         }
     }
     App.UI.Rooms.Grid.setonview("App.UI.Rooms.GridOnView")
+    App.UI.Rooms.GetRoomKey = function (index) {
+        let line= App.UI.Rooms.Lines()[index - 0]||""
+        return line.split("|")[0]
+    }
     App.UI.Rooms.GridOnView = function (name, id, code, data) {
         if (code == 0 && data) {
             var cmds = data.split(" ")
@@ -34,9 +43,10 @@
                 App.Move.To(cmds[1]);
                 return
             }
-            var list = Userinput.newlist("查看房间", App.UI.Rooms.Lines()[data - 0], false)
-            var result = App.Map.GetRoomExits(data, true, true)
-            list.append("go " + data, "前往该房间")
+            let roomkey=App.UI.Rooms.GetRoomKey(data)
+            var list = Userinput.newlist("查看房间", roomkey, false)
+            var result = App.Map.GetRoomExits(roomkey, true, true)
+            list.append("go " + roomkey, "前往该房间")
             result.forEach(function (exit) {
                 let rooms = App.Mapper.Database.APIListRooms(App.Mapper.HMM.APIListOption.New().WithKeys([exit.To]))
                 if (rooms.length > 0) {

@@ -547,7 +547,7 @@ $.Module(function (App) {
         planQuest.Execute()
         Freequest.GoAsk()
     }
-    App.BindEvent("core.queststart", (e) => {
+    App.Core.Quest.AppendInitor(() => {
         Freequest.Data.Count = 0
         Freequest.Data.Success = 0
         Freequest.Data.Start = $.Now()

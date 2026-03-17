@@ -57,6 +57,7 @@ $.Module(function (App) {
         Last: null,
         last: 0,
         eff: 0,
+        tihui: 0,
         gifts: {},
         rejected: {},
     }
@@ -838,14 +839,16 @@ $.Module(function (App) {
     }
     Quest.OnReport = () => {
         let eff = MQ.Data.kills > 3 ? MQ.GetEff().toFixed(0) + "个/小时" : "-"
+        let tihuieff = MQ.Data.kills > 3 ? MQ.GetTihuiEff().toFixed(0) + "点/小时" : "-"
         let num = MQ.HelpRate()
         let rate = num ? num.toFixed(0) + "%" : "-"
         let gifts = Object.keys(MQ.Data.gifts).map((gift) => `${gift}*${MQ.Data.gifts[gift]}`).join(",")
         let rejected = Object.keys(MQ.Data.rejected).map((gift) => `${gift}*${MQ.Data.rejected[gift]}`).join(",")
-        return [`MQ-总数:${MQ.Data.kills} 效率:${eff} 当前任务:${MQ.Data.current || 0} 线报率:${rate}`, `换取师门奖励：${gifts}`, `拒绝师门奖励：${rejected}`]
+        let avg = MQ.Data.kills > 0 ? (MQ.Data.tihui / MQ.Data.kills).toFixed(0) : 0
+        return [`MQ-总数:${MQ.Data.kills} 效率:${eff} 体会：${MQ.Data.tihui} 体会效率:${tihuieff} 平均体会:${avg} 当前任务:${MQ.Data.current || 0} 线报率:${rate}`, `换取师门奖励：${gifts}`, `拒绝师门奖励：${rejected}`]
     }
     let matcherHead = /^你拣起一颗(.+)的人头。$/
-    let matcherreward = /^通过这次锻炼你获得了/
+    let matcherreward = /^通过这次锻炼你获得了(.+)点经验，(.+)点潜能及(.+)点实战体会。/
     let matcherquestfail = /^([^：()\[\]]{2,5})摆摆手，对你道：你干不了就算了/
     let matchergift = /^([^：()\[\]]{2,5})微微一笑，从怀中取出一.(.+)交给你。$/
     let matcherAskGift = /^获得(.+)需要消耗你.+点门派贡献，/
@@ -860,6 +863,8 @@ $.Module(function (App) {
             task.AddTrigger(matcherreward, (tri, result) => {
                 let msg = "任务成功"
                 MQ.Data.kills++
+                let tihui = App.CNumber.ParseNumber(result[3])
+                MQ.Data.tihui += tihui
                 if (MQ.Data.kills > 3) {
                     msg += " 任务效率：" + MQ.GetEff().toFixed() + " 个/小时,共计" + MQ.Data.kills + "个任务," + "线报率 " + (MQ.Data.helped * 100 / MQ.Data.kills).toFixed(2) + "%"
                 }
@@ -905,6 +910,9 @@ $.Module(function (App) {
     MQ.GetEff = function () {
         return MQ.Data.kills * 3600 * 1000 / ($.Now() - MQ.Data.start)
     }
+    MQ.GetTihuiEff = function () {
+        return MQ.Data.tihui * 3600 * 1000 / ($.Now() - MQ.Data.start)
+    }
     Quest.Start = function (data) {
         if (!App.Params.MasterID) {
             PrintSystem("掌门ID " + App.Params.MasterID + " 无效")
@@ -924,13 +932,14 @@ $.Module(function (App) {
         }
         return () => { Quest.Start(data) }
     }
-    App.BindEvent("core.queststart", (e) => {
+    App.Core.Quest.AppendInitor((e) => {
         MQ.Data = {
             kills: 0,
             helped: 0,
             start: $.Now(),
             current: null,
             eff: 0,
+            tihui: 0,
             gifts: {},
             rejected: {},
         }

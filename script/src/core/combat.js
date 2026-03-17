@@ -27,6 +27,8 @@
         // 打带跑
         HitAndRun = ""
         Ticker = 0
+        //结束前的回调
+        BeforeStop=null
         //链式调用
         WithHitAndRun(val) {
             this.HitAndRun = val
@@ -52,6 +54,11 @@
         //链式调用
         WithPlan(plan) {
             this.Plan = plan
+            return this
+        }
+        //链式调用
+        WithBeforeStop(callback){
+            this.BeforeStop=callback
             return this
         }
     }
@@ -176,6 +183,9 @@
     }
     //战斗结束处理函数
     App.Combat.OnStop = function (combat, reason) {
+        if (combat.Data.BeforeStop) {
+            combat.Data.BeforeStop(combat, reason)
+        }
         if (reason == "fail") {
             App.Send("yun recover;yun regenerate;hp;i")
             App.Fail("战斗失败")
