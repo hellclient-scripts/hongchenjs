@@ -104,6 +104,7 @@
                 this.Next()
             })
         }
+        Last = 0
         OnStart = DefaultOnStart
         OnStop = DefaultOnStop
         OnNext = DefaultOnNext
@@ -187,6 +188,7 @@
                 this.Commands.Next()
                 return
             }
+            this.Last = (new Date()).getTime()
             this.OnNext(this)
             this.Position.StartNewTerm()
             let ready = this.GetReady()
@@ -197,9 +199,12 @@
             this.Loop()
         }
         Loop() {
-            this.Commands.PushCommands(
-                this.Commands.NewWaitCommand(this.Delay),
-            )
+            let now = (new Date()).getTime()
+            if ((now - this.Last) < this.Delay) {
+                this.Commands.PushCommands(
+                    this.Commands.NewWaitCommand(this.Delay),
+                )
+            }
             App.Next()
         }
         StartLine(line) {

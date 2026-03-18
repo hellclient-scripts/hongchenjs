@@ -205,23 +205,27 @@ $.Module(function (App) {
         (task) => {
             let fled = false
             let fail = false
+            let getquest = false
             MQ.Data.NoMaster = false
-            MQ.Data.NPC = null
+            //MQ.Data.NPC = null
             MQ.Data.last = MQ.Data.current
             MQ.Data.current = null
             task.AddTrigger(reQuest, (tri, result) => {
                 MQ.Data.NPC = new NPC(result[2])
                 MQ.Data.LastNPC = MQ.Data.NPC
+                getquest = true
                 return true
             })
             task.AddTrigger(reQuest2, (tri, result) => {
                 MQ.Data.NPC = new NPC(result[2])
                 MQ.Data.LastNPC = MQ.Data.NPC
+                getquest = true
                 return true
             })
             task.AddTrigger(reQuest3, (tri, result) => {
                 MQ.Data.NPC = new NPC(result[1])
                 MQ.Data.LastNPC = MQ.Data.NPC
+                getquest = true
                 return true
             })
             task.AddTrigger(reReward, (tri, result) => {
@@ -260,14 +264,19 @@ $.Module(function (App) {
                 if (fail) {
                     App.Core.Timeslice.Change("")
                     App.Send("quest cancel")
+                    MQ.Data.NPC = null
                     return false
                 }
-                if (MQ.Data.NPC && !MQ.Data.NPC.Retry) {
-                    MQ.Data.NPC.Zone = result[1].slice(0, 2)
-                    MQ.Data.NPC.RawZone = MQ.Data.NPC.Zone
-                    if (fled) {
-                        MQ.Data.NPC.Flee()
+                if (getquest || MQ.Data.NPC.Retry) {
+                    if (MQ.Data.NPC && !MQ.Data.NPC.Retry) {
+                        MQ.Data.NPC.Zone = result[1].slice(0, 2)
+                        MQ.Data.NPC.RawZone = MQ.Data.NPC.Zone
+                        if (fled) {
+                            MQ.Data.NPC.Flee()
+                        }
                     }
+                } else {
+                    MQ.Data.NPC = null
                 }
                 return false
             })
@@ -296,6 +305,7 @@ $.Module(function (App) {
             }),
             $.Timeslice(""),
             $.Do("give head to " + App.Params.MasterID + ";drop head"),
+            $.Sync(),
             // $.Function(MQ.Prepare),
         )
         $.Next()
@@ -687,7 +697,7 @@ $.Module(function (App) {
             task.AddTrigger(matcherDie, (tri, result) => {
                 if (MQ.Data.NPC && MQ.Data.NPC.Name == result[1]) {
                     MQ.Data.NPC.Died = true
-                    App.Send("cut head from corpse;get head")
+                    App.Send("cut head from corpse")
                     App.Send(`get silver from corpse`)
                     MQ.OnNpcDie()
                     App.RaiseEvent(new App.Event("core.combatstop"))
