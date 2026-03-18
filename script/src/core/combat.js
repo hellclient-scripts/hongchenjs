@@ -28,7 +28,7 @@
         HitAndRun = ""
         Ticker = 0
         //结束前的回调
-        BeforeStop=null
+        BeforeStop = null
         //链式调用
         WithHitAndRun(val) {
             this.HitAndRun = val
@@ -57,8 +57,8 @@
             return this
         }
         //链式调用
-        WithBeforeStop(callback){
-            this.BeforeStop=callback
+        WithBeforeStop(callback) {
+            this.BeforeStop = callback
             return this
         }
     }
@@ -77,8 +77,10 @@
     let reDamage = /^【伤害统计】:你对(.+)的气血造成(.+)点伤害! $/
     //战斗是否失败
     App.Core.Combat.Fail = false
+    let matcherNeedJingli=/^你凝视.+许久，悠悠一声长叹。$/
     let Plan = new App.Plan(App.Positions["Combat"],
         function (task) {
+            let lastTouch = 0
             App.Core.Combat.Fail = false
             App.Combat.Position.Term.Set("core.combat.damage", 0)
             //确定战斗是否还在进行
@@ -88,9 +90,15 @@
             })
             //内力不足
             task.AddCatcher("core.needneili", () => {
-                if (App.Core.Weapon.Touch) {
+                if (App.Core.Weapon.Touch && ($.Now() - lastTouch > 1000)) {
+                    lastTouch = $.Now()
                     App.Send(`touch ${App.Core.Weapon.Touch}`)
                 }
+                return true
+            })
+            //精力不足
+            task.AddTrigger(matcherNeedJingli, () => {
+                App.Send("yun refresh")
                 return true
             })
             task.AddTrigger(reDamage, function (trigger, result) {

@@ -63,7 +63,14 @@
     //注册一个eatyao的准备
     App.Proposals.Register("eatyao", App.Proposals.NewProposal(function (proposals, context, exclude) {
         if (App.Data.Player.HP["当前精力"] < App.Params.NumJingliMin && App.Data.Player.HP["精力上限"] > 2 * App.Params.NumJingliMin) {
-            return eatyao("回精")
+            return function () {
+                App.PushCommands(
+                    App.Commands.NewDoCommand("yun refresh;hp"),
+                    App.NewSyncCommand(),
+                )
+                App.Next()
+            }
+            //return eatyao("回精")
         }
         if (App.Data.Player.HP["气血百分比"] <= 20) {
             return eatyao("疗伤")

@@ -182,7 +182,6 @@ $.Module(function (App) {
                 $.Sync(),
                 $.Function(() => {
                     LGT.Data.Count++
-                    LGT.Data.LastTihui = App.Data.Player.HP["体会"]
                     let tihui = App.Data.Player.HP["体会"] - LGT.Data.LastTihui
                     if (tihui > 0) {
                         LGT.Data.Tihui += tihui
