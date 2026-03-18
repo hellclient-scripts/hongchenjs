@@ -5,17 +5,25 @@ $.Module(function (App) {
             this.Name = name
             this.Start = $.Now()
         }
+        RawZone = ""
         Start = 0
         Retry = false
         Name = ""
         ID = ""
         Zone = ""
         Times = 0
+        CombatDuration = 0
         Died = false
         Fled = false
         First = true
+        KilledRoom = ""
         NotKilled = true
         Farlist = null
+        BeichouTimes = 0
+        FleeTimes = 0
+        SearchTimes = 0
+        NearTimes = 0
+        HelpedTimes = 0
         Head = false
         Loc = null
         Flee(onfight) {
@@ -33,6 +41,7 @@ $.Module(function (App) {
             }
             this.First = true
             this.Fled = true
+            this.FleeTimes++
             this.Loc = null
         }
         SetZone(zone) {
@@ -50,6 +59,7 @@ $.Module(function (App) {
         }
     }
     MQ.Data = {
+        SlowLog: [],
         kills: 0,
         helped: 0,
         start: null,
@@ -57,6 +67,8 @@ $.Module(function (App) {
         Last: null,
         last: 0,
         eff: 0,
+        combatDuration: 0,
+        cost: 0,
         tihui: 0,
         gifts: {},
         rejected: {},
@@ -82,6 +94,7 @@ $.Module(function (App) {
         return MQ.Data.kills > 3 ? (MQ.Data.helped * 100 / MQ.Data.kills) : 0
     }
     MQ.OnNpcDie = function () {
+        MQ.Data.NPC.KilledRoom = `${App.Map.Room.Name}(${App.Map.Room.ID})`
         $.RaiseStage("npcdie")
     }
     MQ.LastPause = 0
@@ -249,6 +262,7 @@ $.Module(function (App) {
                 }
                 if (MQ.Data.NPC && !MQ.Data.NPC.Retry) {
                     MQ.Data.NPC.Zone = result[1].slice(0, 2)
+                    MQ.Data.NPC.RawZone = MQ.Data.NPC.Zone
                     if (fled) {
                         MQ.Data.NPC.Flee()
                     }
@@ -462,6 +476,7 @@ $.Module(function (App) {
         App.Positions["Response"],
         (task) => {
             task.AddTrigger(matcherBeichou, (tri, result) => {
+                MQ.Data.NPC.BeichouTimes++
                 task.Data = result[1]
                 return true
             })
@@ -547,6 +562,7 @@ $.Module(function (App) {
         if (App.Map.Room.ID && !MQ.Data.NPC.Fled && !MQ.Data.NPC.Died) {
             Note("NPC跑了，附近找找")
             MQ.Data.NPC.Loc = null
+            MQ.Data.NPC.NearTimes++
             let rooms = App.Mapper.ExpandRooms([App.Map.Room.ID], 2, true)
             App.Zone.Wanted = $.NewWanted(MQ.Data.NPC.Name, MQ.Data.NPC.Zone).WithChecker(Checker).WithID(MQ.Data.NPC.ID)
             $.PushCommands(
@@ -585,7 +601,7 @@ $.Module(function (App) {
         $.Next()
     }
     MQ.GoKill = () => {
-        if (MQ.Data.NPC.Times > 3) {
+        if (!(MQ.Data.NPC.Times <App.QuestParams["mqmaxsearch"])) {
             Note("找不到")
             MQ.CheckBeichou()
             return
@@ -594,6 +610,7 @@ $.Module(function (App) {
         //let zone = MQ.Data.NPC.First ? Cities[MQ.Data.NPC.Zone].Path1 : Cities[MQ.Data.NPC.Zone].Path;
         let zone = MQ.Data.NPC.First ? `${MQ.Data.NPC.Zone}1` : MQ.Data.NPC.Zone
         MQ.Data.NPC.First = false
+        MQ.Data.NPC.SearchTimes++
         let wanted = $.NewWanted(MQ.Data.NPC.Name, zone).
             WithChecker(Checker).WithNext(Next).WithOrdered(true).WithID(MQ.Data.NPC.ID)
         $.PushCommands(
@@ -717,6 +734,9 @@ $.Module(function (App) {
             if (result.Name == "helper") {
                 App.Reconnect(0, MQ.Connect)
             }
+            if (MQ.Data.NPC.Died) {
+                MQ.Data.NPC.CombatDuration = App.Combat.Duration()
+            }
         })
     MQ.AskInfo = function () {
         $.PushCommands(
@@ -809,6 +829,7 @@ $.Module(function (App) {
             if (!MQ.Data.NPC.Loc && !MQ.Data.NPC.Died) {
                 Note("接到线报:" + name + "|" + id + "|" + loc)
                 MQ.Data.helped++
+                MQ.Data.NPC.HelpedTimes++
                 MQ.Data.NPC.Loc = loc
                 MQ.Data.NPC.SetZone(cites[0])
             }
@@ -845,7 +866,18 @@ $.Module(function (App) {
         let gifts = Object.keys(MQ.Data.gifts).map((gift) => `${gift}*${MQ.Data.gifts[gift]}`).join(",")
         let rejected = Object.keys(MQ.Data.rejected).map((gift) => `${gift}*${MQ.Data.rejected[gift]}`).join(",")
         let avg = MQ.Data.kills > 0 ? (MQ.Data.tihui / MQ.Data.kills).toFixed(0) : 0
-        return [`MQ-总数:${MQ.Data.kills} 效率:${eff} 体会：${MQ.Data.tihui} 体会效率:${tihuieff} 平均体会:${avg} 当前任务:${MQ.Data.current || 0} 线报率:${rate}`, `换取师门奖励：${gifts}`, `拒绝师门奖励：${rejected}`]
+        let cost = MQ.Data.kills > 0 ? (MQ.Data.cost / (MQ.Data.kills * 1000)).toFixed(2) + "秒" : 0
+        let combat = MQ.Data.kills > 0 ? (MQ.Data.combatDuration / (MQ.Data.kills * 1000)).toFixed(2) + "秒" : 0
+        let report = [`MQ-总数:${MQ.Data.kills} 效率:${eff} 体会：${MQ.Data.tihui} 体会效率:${tihuieff} 平均体会:${avg} 当前任务:${MQ.Data.current || 0} 线报率:${rate} 平均耗时：${cost} 平均战斗:${combat}`,]
+        if (MQ.Data.SlowLog.length) {
+            report.push("MQ慢日志：")
+            MQ.Data.SlowLog.forEach((log) => {
+                report.push("  " + log.Log)
+            })
+        }
+        report.push(`换取师门奖励：${gifts}`)
+        report.push(`拒绝师门奖励：${rejected}`)
+        return report
     }
     let matcherHead = /^你拣起一颗(.+)的人头。$/
     let matcherreward = /^通过这次锻炼你获得了(.+)点经验，(.+)点潜能及(.+)点实战体会。/
@@ -863,12 +895,16 @@ $.Module(function (App) {
             task.AddTrigger(matcherreward, (tri, result) => {
                 let msg = "任务成功"
                 MQ.Data.kills++
+                let cost = $.Now() - MQ.Data.NPC.Start
+                MQ.Data.cost += cost
                 let tihui = App.CNumber.ParseNumber(result[3])
                 MQ.Data.tihui += tihui
+                MQ.Data.combatDuration += MQ.Data.NPC.CombatDuration
                 if (MQ.Data.kills > 3) {
-                    msg += " 任务效率：" + MQ.GetEff().toFixed() + " 个/小时,共计" + MQ.Data.kills + "个任务," + "线报率 " + (MQ.Data.helped * 100 / MQ.Data.kills).toFixed(2) + "%"
+                    msg += " 任务效率：" + MQ.GetEff().toFixed() + " 个/小时,共计" + MQ.Data.kills + "个任务," + `任务耗时 ${(cost / 1000).toFixed(2)} 秒` + "线报率 " + (MQ.Data.helped * 100 / MQ.Data.kills).toFixed(2) + "%"
                 }
                 Note(msg)
+                MQ.Log(cost)
                 return true
             })
             task.AddTrigger(matcherAskGift, (tri, result) => {
@@ -907,6 +943,18 @@ $.Module(function (App) {
             })
         },
     )
+    MQ.Log = function (cost) {
+        if (App.QuestParams["mqtopslow"] > 0) {
+            MQ.Data.SlowLog.push({
+                Cost: cost,
+                Log: `${App.Core.Log.FormatTime()} 耗时：${(cost / 1000).toFixed(2)}秒 ${MQ.Data.NPC.Name}(${MQ.Data.NPC.ID}) 逃跑次数：${MQ.Data.NPC.FleeTimes} 北丑次数：${MQ.Data.NPC.BeichouTimes} 最终位置：${MQ.Data.NPC.KilledRoom} 战斗时间${(MQ.Data.NPC.CombatDuration / 1000).toFixed(2)}秒 初始区域${MQ.Data.NPC.RawZone} 搜索次数：${MQ.Data.NPC.SearchTimes} 错过次数：${MQ.Data.NPC.NearTimes} 线报次数：${MQ.Data.NPC.HelpedTimes}`
+            })
+            MQ.Data.SlowLog.sort((a, b) => b.Cost - a.Cost)
+            if (MQ.Data.SlowLog.length > App.QuestParams["mqtopslow"]) {
+                MQ.Data.SlowLog = MQ.Data.SlowLog.slice(0, App.QuestParams["mqtopslow"])
+            }
+        }
+    }
     MQ.GetEff = function () {
         return MQ.Data.kills * 3600 * 1000 / ($.Now() - MQ.Data.start)
     }
@@ -934,6 +982,7 @@ $.Module(function (App) {
     }
     App.Core.Quest.AppendInitor((e) => {
         MQ.Data = {
+            SlowLog: [],
             kills: 0,
             helped: 0,
             start: $.Now(),
@@ -941,6 +990,8 @@ $.Module(function (App) {
             eff: 0,
             tihui: 0,
             gifts: {},
+            cost: 0,
+            combatDuration: 0,
             rejected: {},
         }
     })

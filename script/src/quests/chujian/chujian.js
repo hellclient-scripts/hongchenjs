@@ -18,6 +18,9 @@ $.Module(function (App) {
         Times: 0,
         LastExp: 0,
         Tihui: 0,
+        Start: 0,
+        CurrentStart:0,
+        Cost: 0,
         LastTihui: null,
         Gifts: {},
     }
@@ -35,6 +38,10 @@ $.Module(function (App) {
                 Chujian.Data.City = result[2].slice(0, 2)
                 Chujian.Data.Times = 0
             }).WithName("target")
+            task.AddTrigger(matcherMe, (tri, result) => {
+                Chujian.Data.CurrentStart = $.Now()
+                return true
+            })
             task.AddTrigger(matcherLater, (tri, result) => {
                 if (App.History.GetLast(2)[0].Line == matcherMe) {
                     Note("锄奸冷却中")
@@ -76,6 +83,9 @@ $.Module(function (App) {
         (task) => {
             task.AddTrigger(`${Chujian.Data.Name}死了。`, (tri, result) => {
                 Chujian.Data.Success++
+                let cost = $.Now() - Chujian.Data.CurrentStart
+                Note(`耗时${(cost / 1000).toFixed(2)}秒`)
+                Chujian.Data.Cost += cost
                 Chujian.Data.Name = ""
                 Quest.Cooldown(40000)
                 return true
@@ -250,7 +260,7 @@ $.Module(function (App) {
         let num = Chujian.HelpRate()
         let rate = num ? num.toFixed(0) + "%" : "-"
         let avg = Chujian.Data.Success > 0 ? (Chujian.Data.Tihui / Chujian.Data.Success).toFixed(0) : 0
-        return [`锄奸-总数:${Chujian.Data.Count} 成功:${Chujian.Data.Success} 效率:${Chujian.Data.Success > 3 ? Chujian.GetEff().toFixed(0) + "个/小时" : "-"} 体会 ${Chujian.Data.Tihui}  体会效率：${Chujian.Data.Success > 3 ? Chujian.GetTihuiEff().toFixed(0) + "点/小时" : "-"} 平均体会：${avg} 上次Exp:${Chujian.Data.LastExp} 线报率:${rate}`, `锄奸奖励:${gifts}`]
+        return [`锄奸-总数:${Chujian.Data.Count} 成功:${Chujian.Data.Success} 平均耗时${Chujian.Data.Success > 3 ?(Chujian.Data.Cost/Chujian.Data.Success/1000).toFixed(2) + "秒" : "-"} 效率:${Chujian.Data.Success > 3 ? Chujian.GetEff().toFixed(0) + "个/小时" : "-"} 体会 ${Chujian.Data.Tihui}  体会效率：${Chujian.Data.Success > 3 ? Chujian.GetTihuiEff().toFixed(0) + "点/小时" : "-"} 平均体会：${avg} 上次Exp:${Chujian.Data.LastExp} 线报率:${rate}`, `锄奸奖励:${gifts}`]
     }
     Quest.Start = function (data) {
         Chujian.Go()
@@ -263,14 +273,17 @@ $.Module(function (App) {
             Count: 0,
             Success: 0,
             Name: "",
+            Start: 0,
             City: "",
             Times: 0,
             LastExp: 0,
             LastTihui: null,
             Tihui: 0,
+            Cost: 0,
             Gifts: {},
             helped: 0,
             Start: $.Now(),
+            CurrentStart:0,
         }
     })
     App.Quests.Register(Quest)
