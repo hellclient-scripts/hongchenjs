@@ -57,6 +57,9 @@
     let DefaultOnStop = (quests) => {
 
     }
+    let DefaultOnNext = function (quests) {
+    }
+
     let DefaultReadyCreator = (r, exec, q) => {
         return new Ready(r, exec, q)
     }
@@ -103,6 +106,7 @@
         }
         OnStart = DefaultOnStart
         OnStop = DefaultOnStop
+        OnNext = DefaultOnNext
         Running = null
         #nextcommand = null
         Position = null
@@ -178,11 +182,12 @@
         Next() {
             if (this.Stopped) {
                 this.Queue = []
-                this.Running=null
+                this.Running = null
                 this.OnStop(this)
                 this.Commands.Next()
                 return
             }
+            this.OnNext(this)
             this.Position.StartNewTerm()
             let ready = this.GetReady()
             if (ready) {

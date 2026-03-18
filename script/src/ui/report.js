@@ -37,14 +37,26 @@
         let quests = App.Core.Quest.Current ? App.Core.Quest.Current.replaceAll("\n", "||") : "无任务"
         if (!App.Core.Quest.Stopped) {
             let duration = 0
+            let td=0
             if (App.Core.Quest.StartedAt) {
-                let td = $.Now() - App.Core.Quest.StartedAt
+                td = $.Now() - App.Core.Quest.StartedAt
                 duration = `${(td / 60000).toFixed()}分钟`
                 if (td > 18000000) {
                     duration += `(${App.HUD.UI.FormatTime(td)})`
                 }
             }
             report.push(`任务已经持续了 ${duration}。`)
+            if (td){
+                let timeslice=App.Core.Timeslice.List()
+                if (timeslice.length){
+                    report.push("时间切片：")
+                    timeslice.forEach(t=>{
+                      let slicedurtion=App.HUD.UI.FormatTime(t.Time)
+                      let percent=(t.Time/td*100).toFixed(2)
+                      report.push(`  ${t.Name} ${slicedurtion} (${percent}%)`)
+                    })
+                }
+            }
         }
 
         report.push(`当前任务:`)

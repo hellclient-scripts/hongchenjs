@@ -26,6 +26,7 @@ $.Module(function (App) {
         Freequest.Data.NextAskBefore = Date.now() + 10000
     }
     Freequest.GoAsk = function () {
+        App.Core.Timeslice.Change("Freequest")
         if (Freequest.Data.NextAsk != null && Date.now() < Freequest.Data.NextAskBefore) {
             let cb = Freequest.Data.NextAsk
             Freequest.Data.NextAsk = null

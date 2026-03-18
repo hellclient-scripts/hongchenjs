@@ -355,7 +355,7 @@
         return (!isNaN(minpot) && App.Data.Player.HP["潜能"] < (minpot - 0)) || App.Data.Player.HP["潜能"] <= 10
     }
     //执行学习
-    App.Core.Study.JiquPause = (context) => {
+    App.Core.Study.DoLearn = (context) => {
         if (!App.Core.Study.HitMinPot()) {
             if (App.Core.Study.CurrentSkill == null) {
                 let skill = App.Core.Study.FilterSkill()
@@ -381,6 +381,8 @@
                 } else {
                     App.Core.Study.CurrentSkill.Cooldown(120000)
                 }
+            }else{
+                App.Core.Timeslice.Change("")
             }
         }
         App.Next()
@@ -589,6 +591,7 @@
     })
     let JiquNoPause = () => {
         App.Commands.PushCommands(
+            $.Timeslice("汲取"),
             App.Move.NewToCommand(App.Params.LocDazuo),
             App.NewNobusyCommand(),
             App.Commands.NewDoCommand("yun regenerate;yun recover"),
@@ -596,12 +599,14 @@
             App.NewNobusyCommand(),
             App.Commands.NewDoCommand("hp"),
             App.NewSyncCommand(),
+            $.Timeslice(""),
         )
         App.Next()
     }
     let JiquPauseContext = {}
 
     let JiquPause = () => {
+        App.Core.Timeslice.Change("汲取")
         App.Commands.PushCommands(
             App.Commands.NewFunctionCommand(JiquPauseNext)
         )
@@ -634,6 +639,8 @@
                 App.Commands.NewDoCommand("halt;hp"),
                 App.NewSyncCommand(),
             )
+        }else{
+                    App.Core.Timeslice.Change("")
         }
         App.Next()
     }
@@ -668,8 +675,9 @@
                 let data = Object.create(context)
                 data.NeiliMin = 15
                 return () => {
+                    App.Core.Timeslice.Change("学习")
                     $.PushCommands(
-                        $.Function(() => { App.Core.Study.JiquPause(data) })
+                        $.Function(() => { App.Core.Study.DoLearn(data) })
                     )
                     $.Next()
                 }

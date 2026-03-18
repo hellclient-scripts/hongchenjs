@@ -42,6 +42,7 @@
         App.Core.Quest.Initors.push(cb)
     }
     App.Quests.OnStart = () => {
+        App.Core.Timeslice.Reset()
         App.Core.Quest.StartedAt = (new Date()).getTime()
         App.Core.Quest.Initors.forEach(cb => cb())
         App.RaiseEvent(new App.Event("core.queststart"))
@@ -50,6 +51,9 @@
         App.Core.Quest.Current = ""
         App.Core.Stage.ChangeStance("")
         App.RaiseEvent(new App.Event("core.queststop"))
+    }
+    App.Quests.OnNext=(quests)=>{
+        App.Core.Timeslice.Change("")
     }
     App.Quests.ReadyCreator = (r, exec, q) => {
         return new questsModule.Ready(r, () => {

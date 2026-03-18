@@ -8,6 +8,7 @@ $.Module(function (App) {
         RawZone = ""
         Start = 0
         Retry = false
+        Retried = false
         Name = ""
         ID = ""
         Zone = ""
@@ -133,6 +134,7 @@ $.Module(function (App) {
     MQ.Verify = () => {
         if (!App.Quests.Stopped && App.Core.QuestLock.Freequest <= 0) {
             $.PushCommands(
+                $.Timeslice("MQ"),
                 $.To(App.Params.LocMaster),
                 $.Function(MQ.AskQuest),
             )
@@ -190,7 +192,8 @@ $.Module(function (App) {
     let reQuest2 = /^([^：()\[\]]{2,5})对你道：(.*)(这个败类打家劫舍，无恶不作，听说他最近在|这个所谓大侠屡次和我派作对，听说他最近在)/
     let reQuest3 = /^最近(.*)在(.*)作恶多端，你去把他除了，提头来见。$/
     let reStart = /^据说此人前不久曾经在(.*)出没。/
-    let reFlee = /叫(.{2,5})的家伙在(.*)失踪了/
+    //岳不群呆了半晌，这才对你叹道：这事麻烦了，看来只有靠你自己努力了。
+    let reFlee = /^([^：()\[\]]{2,5})呆了半晌，这才对你叹道：这事麻烦了，看来只有靠你自己努力了。$/
     let reFail = /^([^：()\[\]]{2,5})一脸怒容对你道：我不是让你.+前杀了/
     let reNoMaster = "这里没有这个人，你怎么领任务？"
     let reNoQuest = "你现在没有领任何任务！"
@@ -226,16 +229,14 @@ $.Module(function (App) {
                 return true
             })
             task.AddTrigger(reFlee, (tri, result) => {
-                if (MQ.Data.NPC && result[1].endsWith(MQ.Data.NPC.Name)) {
-                    Note("NPC跑了。")
-                    fled = true
-                }
+                Note("NPC跑了。")
+                fled = true
                 return true
             })
             task.AddTrigger(reFail, () => {
-                if (App.QuestParams["mqretryfail"] == "t" && MQ.Data.NPC && MQ.Data.NPC.Start > 0 && $.Now() - MQ.Data.NPC.Start < 120000) {
-                    MQ.Data.NPC.Start = 0
+                if (App.QuestParams["mqretryfail"] == "t" && MQ.Data.NPC && MQ.Data.NPC.Start > 0 && $.Now() - MQ.Data.NPC.Start < 120000 && !MQ.Data.NPC.Retried) {
                     MQ.Data.NPC.Retry = true
+                    MQ.Data.NPC.Retried = true
                 } else {
                     fail = true
                 }
@@ -250,13 +251,14 @@ $.Module(function (App) {
                 return true
             })
             task.AddTrigger(reFreequest, (tri, result) => {
-                App.Core.QuestLock.Freequest = 3
+                App.Core.QuestLock.Freequest = 2
                 return true
             })
             //reNoQuest和reStart应该会出现一个
             task.AddTrigger(reNoQuest)
             task.AddTrigger(reStart, (tri, result) => {
                 if (fail) {
+                    App.Core.Timeslice.Change("")
                     App.Send("quest cancel")
                     return false
                 }
@@ -292,6 +294,7 @@ $.Module(function (App) {
                 $.RaiseStage("mqgivehead")
                 $.Next()
             }),
+            $.Timeslice(""),
             $.Do("give head to " + App.Params.MasterID + ";drop head"),
             // $.Function(MQ.Prepare),
         )
@@ -307,6 +310,7 @@ $.Module(function (App) {
                     Quest.Cooldown(3000000)
                     Note("师傅没了，任务冷却5分钟")
                     App.Log("师傅没了")
+                    App.Core.Timeslice.Change("")
                 } else if (MQ.Data.NPC) {
                     $.Insert($.Function(MQ.Ready))
                 } else {
@@ -601,7 +605,7 @@ $.Module(function (App) {
         $.Next()
     }
     MQ.GoKill = () => {
-        if (!(MQ.Data.NPC.Times <App.QuestParams["mqmaxsearch"])) {
+        if (!(MQ.Data.NPC.Times < App.QuestParams["mqmaxsearch"])) {
             Note("找不到")
             MQ.CheckBeichou()
             return
@@ -691,7 +695,7 @@ $.Module(function (App) {
                 return true
             })
             task.AddTrigger(matcherFaint, (tri, result) => {
-                if (MQ.Data.NPC && MQ.Data.NPC.Name == result[1]) {
+                if (MQ.Data.NPC && result[1].endsWith(MQ.Data.NPC.Name)) {
                     MQ.Data.NPC.Died = true
                     MQ.OnNpcFaint()
                 }
@@ -734,7 +738,7 @@ $.Module(function (App) {
             if (result.Name == "helper") {
                 App.Reconnect(0, MQ.Connect)
             }
-            if (MQ.Data.NPC.Died) {
+            if (MQ.Data.NPC.Died || MQ.Data.NPC.Fled) {
                 MQ.Data.NPC.CombatDuration = App.Combat.Duration()
             }
         })
@@ -861,6 +865,7 @@ $.Module(function (App) {
     Quest.OnReport = () => {
         let eff = MQ.Data.kills > 3 ? MQ.GetEff().toFixed(0) + "个/小时" : "-"
         let tihuieff = MQ.Data.kills > 3 ? MQ.GetTihuiEff().toFixed(0) + "点/小时" : "-"
+        let tihuitimesliceeff = MQ.Data.kills > 3 ? MQ.GetTihuiTimesliceEff().toFixed(0) + "点/小时" : "-"
         let num = MQ.HelpRate()
         let rate = num ? num.toFixed(0) + "%" : "-"
         let gifts = Object.keys(MQ.Data.gifts).map((gift) => `${gift}*${MQ.Data.gifts[gift]}`).join(",")
@@ -868,15 +873,18 @@ $.Module(function (App) {
         let avg = MQ.Data.kills > 0 ? (MQ.Data.tihui / MQ.Data.kills).toFixed(0) : 0
         let cost = MQ.Data.kills > 0 ? (MQ.Data.cost / (MQ.Data.kills * 1000)).toFixed(2) + "秒" : 0
         let combat = MQ.Data.kills > 0 ? (MQ.Data.combatDuration / (MQ.Data.kills * 1000)).toFixed(2) + "秒" : 0
-        let report = [`MQ-总数:${MQ.Data.kills} 效率:${eff} 体会：${MQ.Data.tihui} 体会效率:${tihuieff} 平均体会:${avg} 当前任务:${MQ.Data.current || 0} 线报率:${rate} 平均耗时：${cost} 平均战斗:${combat}`,]
+        let report = [
+            `MQ-总数:${MQ.Data.kills} 效率:${eff}  当前任务:${MQ.Data.current || 0} 线报率:${rate} 平均耗时：${cost} 平均战斗:${combat}`,
+            `MQ-体会:${MQ.Data.tihui} 体会毛效率:${tihuieff} 体会净效率:${tihuitimesliceeff} 平均体会:${avg}`
+        ]
+        report.push(`MQ-换取师门奖励：${gifts}`)
+        report.push(`MQ-拒绝师门奖励：${rejected}`)
         if (MQ.Data.SlowLog.length) {
-            report.push("MQ慢日志：")
+            report.push(`MQ-耗时TOP${MQ.Data.SlowLog.length}`)
             MQ.Data.SlowLog.forEach((log) => {
                 report.push("  " + log.Log)
             })
         }
-        report.push(`换取师门奖励：${gifts}`)
-        report.push(`拒绝师门奖励：${rejected}`)
         return report
     }
     let matcherHead = /^你拣起一颗(.+)的人头。$/
@@ -961,6 +969,11 @@ $.Module(function (App) {
     MQ.GetTihuiEff = function () {
         return MQ.Data.tihui * 3600 * 1000 / ($.Now() - MQ.Data.start)
     }
+    MQ.GetTihuiTimesliceEff = function () {
+        let ts = App.Core.Timeslice.Get("MQ")
+        return ts ? MQ.Data.tihui * 3600 * 1000 / ts : 0
+    }
+
     Quest.Start = function (data) {
         if (!App.Params.MasterID) {
             PrintSystem("掌门ID " + App.Params.MasterID + " 无效")

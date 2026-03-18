@@ -91,7 +91,8 @@ $.Module(function (App) {
             $.Function(() => {
                 App.Map.Room.ID = $.RID("fuben|lgtd")
                 $.Next()
-            })
+            }),
+            $.Timeslice(""),
         )
         App.Next()
     }
@@ -160,6 +161,7 @@ $.Module(function (App) {
         (task) => {
             Note("等待结算")
             LGT.Data.Entered = false
+            App.Core.Timeslice.Change("")
             task.AddTrigger(matcherKnockFinish)
             App.Send("knock zhong;i")
         },
@@ -265,6 +267,7 @@ $.Module(function (App) {
         LGT.Data.灵符 = 0
         $.PushCommands(
             $.Prepare("", { WeaponDurationMin: 80 }),
+            $.Timeslice("灵感塔"),
             $.To("fuben|lgtd"),
             $.Do("hp"),
             $.Sync(),
