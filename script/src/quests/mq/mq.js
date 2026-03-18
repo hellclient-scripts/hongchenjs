@@ -695,7 +695,7 @@ $.Module(function (App) {
                 return true
             })
             task.AddTrigger(matcherFaint, (tri, result) => {
-                if (MQ.Data.NPC && result[1].endsWith(MQ.Data.NPC.Name)) {
+                if (MQ.Data.NPC && result[1] == MQ.Data.NPC.Name) {
                     MQ.Data.NPC.Died = true
                     MQ.OnNpcFaint()
                 }
@@ -703,7 +703,7 @@ $.Module(function (App) {
             })
 
             task.AddTrigger(matcherFlee, (tri, result) => {
-                if (MQ.Data.NPC && MQ.Data.NPC.Name == result[1]) {
+                if (MQ.Data.NPC && result[1].endsWith(MQ.Data.NPC.Name)) {
                     MQ.Data.NPC.Flee(true)
                     Note("NPC跑了。")
                 }
