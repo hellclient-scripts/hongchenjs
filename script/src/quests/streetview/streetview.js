@@ -5,7 +5,7 @@ $.Module(function (App) {
     }
     let nosleep = {
         "群玉楼雅室": true,
-        "土娼馆":true,
+        "土娼馆": true,
     }
     let StreetView = {
         Remain: [],
@@ -66,21 +66,24 @@ $.Module(function (App) {
         },
         (result) => {
             print(App.Core.Room.Current.Data.Desc)
-            if (StreetView.Current != "") {
-                App.Mapper.Database.APITagRoom(StreetView.Current, "室外", result.Task.Data.outdoor ? 1 : 0)
-                App.Mapper.Database.APITagRoom(StreetView.Current, "safe", result.Task.Data.safe ? 1 : 0)
-                App.Mapper.Database.APITagRoom(StreetView.Current, "sleep", result.Task.Data.sleep ? 1 : 0)
-                App.Mapper.Database.APITagRoom(StreetView.Current, "fill", result.Task.Data.fill ? 1 : 0)
+            if (StreetView.Current && StreetView.Current.Key != "") {
+                App.Mapper.Database.APITagRoom(StreetView.Current.Key, "室外", result.Task.Data.outdoor ? 1 : 0)
+                App.Mapper.Database.APITagRoom(StreetView.Current.Key, "safe", result.Task.Data.safe ? 1 : 0)
+                App.Mapper.Database.APITagRoom(StreetView.Current.Key, "sleep", result.Task.Data.sleep ? 1 : 0)
+                App.Mapper.Database.APITagRoom(StreetView.Current.Key, "fill", result.Task.Data.fill ? 1 : 0)
                 if (App.Core.Room.Current.Data.Desc) {
-                    App.Mapper.Database.APITakeSnapshot(StreetView.Current, "desc", App.Core.Room.Current.Data.Desc, "")
+                    App.Mapper.Database.APITakeSnapshot(StreetView.Current.Key, "desc", App.Core.Room.Current.Data.Desc, "")
                 }
                 if (result.Task.Data.Zone.endsWith("略") || result.Task.Data.Zone.endsWith("地") || result.Task.Data.Zone.endsWith("概")) {
                     result.Task.Data.Zone = result.Task.Data.Zone.slice(0, -1)
                 }
-                if (fixedGroup[StreetView.Current]) {
-                    result.Task.Data.Zone = fixedGroup[StreetView.Current]
+                if (fixedGroup[StreetView.Current.Key]) {
+                    result.Task.Data.Zone = fixedGroup[StreetView.Current.Key]
                 }
-                App.Mapper.Database.APIGroupRoom(StreetView.Current, result.Task.Data.Zone)
+                App.Mapper.Database.APIGroupRoom(StreetView.Current.Key, result.Task.Data.Zone)
+                if (App.Map.Room.Name != StreetView.Current.Name) {
+                    App.Log(`房间名称与地图不符，${App.Map.Room.ID} ${StreetView.Current.Name}=>${App.Map.Room.Name}`)
+                }
             }
             NoteJSON(result.Task.Data)
             $.Next()
@@ -92,10 +95,10 @@ $.Module(function (App) {
         start = start.trim()
         StreetView.StartPoint = start
         let rooms = App.Mapper.Database.APIListRooms(App.Mapper.HMM.APIListOption.New())
-        rooms.forEach(room => StreetView.Remain.push(room.Key));
+        rooms.forEach(room => StreetView.Remain.push(room));
         if (start != "") {
             while (StreetView.Remain.length > 0) {
-                if (StreetView.Remain[0] == start) {
+                if (StreetView.Remain[0].Key == start) {
                     break
                 }
                 StreetView.Remain.shift()
@@ -130,22 +133,22 @@ $.Module(function (App) {
     }
     StreetView.ProcessNext = () => {
         StreetView.StartPoint = "";
-        print(`前往 ${StreetView.Current}`)
+        print(`前往 ${StreetView.Current.Key}`)
         App.Commands.PushCommands(
             $.Sync(),
             $.Prepare(),
-            $.To(StreetView.Current, App.Map.NewTag("streetview", 1)),
+            $.To(StreetView.Current.Key, App.Map.NewTag("streetview", 1)),
             $.Function(StreetView.Arrive)
         ).WithFailCommand($.Function(StreetView.Fail))
         $.Next()
 
     }
     StreetView.Fail = () => {
-        print(`处理 ${StreetView.Current} 失败`)
+        print(`处理 ${StreetView.Current.Key} 失败`)
         $.Next()
     }
     StreetView.Arrive = () => {
-        if (App.Map.Room.ID == StreetView.Current) {
+        if (App.Map.Room.ID == StreetView.Current.Key) {
             App.Commands.PushCommands(
                 $.Plan(PlanLook)
             )
@@ -161,11 +164,11 @@ $.Module(function (App) {
     Quest.OnHUD = () => {
         return [
             new App.HUD.UI.Word("扫街进度:"),
-            new App.HUD.UI.Word(StreetView.Remain.length > 0 ? StreetView.Remain.length: "-", 5, true),
+            new App.HUD.UI.Word(StreetView.Remain.length > 0 ? StreetView.Remain.length : "-", 5, true),
         ]
     }
-    Quest.OnReport=function(){
-                return [`扫街进度:${StreetView.Remain.length} / ${StreetView.Count}`]
+    Quest.OnReport = function () {
+        return [`扫街进度:${StreetView.Remain.length} / ${StreetView.Count}`]
     }
     App.Quests.Register(Quest)
 })

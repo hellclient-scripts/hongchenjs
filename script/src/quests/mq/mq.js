@@ -874,7 +874,8 @@ $.Module(function (App) {
     }
     Quest.OnReport = () => {
         let eff = MQ.Data.kills > 3 ? MQ.GetEff().toFixed(0) + "个/小时" : "-"
-        let tihuieff = MQ.Data.kills > 3 ? MQ.GetTihuiEff().toFixed(0) + "点/小时" : "-"
+        let timesliceeff =MQ.Data.kills > 3 ? MQ.GetTimesliceEff().toFixed(0) + "个/小时" : "-"
+            let tihuieff = MQ.Data.kills > 3 ? MQ.GetTihuiEff().toFixed(0) + "点/小时" : "-"
         let tihuitimesliceeff = MQ.Data.kills > 3 ? MQ.GetTihuiTimesliceEff().toFixed(0) + "点/小时" : "-"
         let num = MQ.HelpRate()
         let rate = num ? num.toFixed(0) + "%" : "-"
@@ -884,7 +885,7 @@ $.Module(function (App) {
         let cost = MQ.Data.kills > 0 ? (MQ.Data.cost / (MQ.Data.kills * 1000)).toFixed(2) + "秒" : 0
         let combat = MQ.Data.kills > 0 ? (MQ.Data.combatDuration / (MQ.Data.kills * 1000)).toFixed(2) + "秒" : 0
         let report = [
-            `MQ-总数:${MQ.Data.kills} 效率:${eff}  当前任务:${MQ.Data.current || 0} 线报率:${rate} 平均耗时：${cost} 平均战斗:${combat}`,
+            `MQ-总数:${MQ.Data.kills} 毛效率:${eff} 净效率:${timesliceeff} 当前任务:${MQ.Data.current || 0} 平均耗时：${cost} 平均战斗:${combat} 线报率:${rate}`,
             `MQ-体会:${MQ.Data.tihui} 体会毛效率:${tihuieff} 体会净效率:${tihuitimesliceeff} 平均体会:${avg}`
         ]
         report.push(`MQ-换取师门奖励：${gifts}`)
@@ -975,6 +976,10 @@ $.Module(function (App) {
     }
     MQ.GetEff = function () {
         return MQ.Data.kills * 3600 * 1000 / ($.Now() - MQ.Data.start)
+    }
+    MQ.GetTimesliceEff = function () {
+        let ts = App.Core.Timeslice.Get("MQ")
+        return ts ? MQ.Data.kills * 3600 * 1000 / ts : 0
     }
     MQ.GetTihuiEff = function () {
         return MQ.Data.tihui * 3600 * 1000 / ($.Now() - MQ.Data.start)

@@ -49,7 +49,7 @@
             if (td){
                 let timeslice=App.Core.Timeslice.List()
                 if (timeslice.length){
-                    report.push("时间切片：")
+                    report.push("  时间切片：")
                     timeslice.forEach(t=>{
                       let slicedurtion=App.HUD.UI.FormatTime(t.Time)
                       let percent=(t.Time/td*100).toFixed(2)

@@ -114,6 +114,7 @@
         Commands = null
         Conditions = null
         Queue = []
+        StartAt = 0
         Delay = 1000
         Stopped = true
         ReadyCreator = DefaultReadyCreator
@@ -138,6 +139,7 @@
             return this.Queue == null || this.Queue.length == 0
         }
         StartRunningQuests(quests) {
+            this.StartAt= (new Date()).getTime()
             this.OnStart(this)
             if (quests.length) {
                 this.Stopped = false

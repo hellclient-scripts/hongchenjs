@@ -10,7 +10,7 @@ $.Module(function (App) {
         }
 
         if (!App.Quests.Stopped && !changequest) {
-
+            App.Core.Timeslice.Change("练功")
             let skill = App.Core.Study.FilterLian()
             if (skill) {
                 let context = {}
@@ -25,6 +25,7 @@ $.Module(function (App) {
         } else {
             //不继续练功了，激发技能
             if (Lian.NeedJifa) {
+                App.Core.Timeslice.Change("")
                 $.Append(
                     $.Do("#jifa"),
                 )
@@ -70,6 +71,6 @@ $.Module(function (App) {
     Quest.Start = function () {
         Lian.Start()
     }
-    Quest.Group="lianskill"
+    Quest.Group = "lianskill"
     App.Quests.Register(Quest)
 })

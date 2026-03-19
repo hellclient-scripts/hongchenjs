@@ -1,5 +1,5 @@
 HMM1.0>UTF8
-Info>红尘MUD地图|1773720202|
+Info>红尘MUD地图|1773926902|
 Room>100|柳园||||w,113,,1|
 Room>1007|小树林||||s,1008,,1|
 Room>1008|小树林||||s,1009,,1;n,1007,,1|
@@ -2152,7 +2152,7 @@ Room>324|东门|佛山镇||室外=|e,342,,1;w,349,,1|
 Room>325|马厩|佛山镇||室外=;safe=|n,351,,1;goto hengyang,1137,,20|
 Room>326|南岭山口|佛山镇||室外=|nu,1118,,1;s,327,,1|
 Room>327|北门|佛山镇||室外=|s,347,,1;n,326,,1|
-Room>328|英雄会馆|佛山镇||safe=|open door\&s*,329,,2;n,346,,1|
+Room>328|英雄会馆|佛山镇||safe=|n,346,,1|
 Room>329|英雄会馆后厅|佛山镇||safe=|n,328,,1|
 Room>330|小道|佛山镇||室外=|e,336,,1;nw,1989,,1|
 Room>331|林间道|佛山镇||室外=|ne,332,,1;w,343,,1;se,333,,1|
@@ -2285,7 +2285,7 @@ Room>900|小树林|古墓派||室外=|e,900,,1;w,891,,1;s,900,,1;n,898,,1|
 Room>901|树林|古墓派||室外=|ed,849,,1;s,890,,1;nu,853,,1|
 Room>902|树林|古墓派||室外=|e,841,,1;nw,890,,1|
 Room>903|树林|古墓派||室外=|sd,889,,1;n,841,,1|
-Room>904|太乙池|古墓派||室外=|jump chi,905,,1;su,872,,1|
+Room>904|太乙池|古墓派||室外=|jump chi,905,?^,1;su,872,,1|
 Room>905|太乙池|古墓派||室外=|climb up,904,,1|
 Room>906|小河边|古墓派||室外=|enter,873,,1;n,881,,1|
 Room>913|终南山主峰|古墓派||室外=|sd,874,,1;wd,882,,1|
@@ -4785,7 +4785,7 @@ Marker>tang si|4283|npc||唐思\|tang si
 Marker>tang tian|4279|npc||唐甜\|tang tian
 Marker>tang yang|2098|npc||唐洋\|tang yang
 Marker>tang yu|4334|npc||唐玉\|tang yu
-Marker>teng yilei|3617|npc||腾一雷\|teng yilei
+Marker>teng yilei|3617|npc||滕一雷\|teng yilei
 Marker>tianbai daoren|4015|npc||天柏道人\|tianbai daoren
 Marker>tianlang zi|2857|npc||天狼子\|tianlang zi
 Marker>tiansong daoren|4015|npc||天松道人\|tiansong daoren
