@@ -201,7 +201,7 @@ $.Module(function (App) {
     //汪剑通对你说道:你已经连续完成了二百十六次任务。
     let matcherSuccess = /^汪剑通对你说道:你已经连续完成了(.+)次任务。$/
     let matcherGifts = /^汪剑通给了你一个『(.+)』和『(.+)』，作为奖励。$/
-    let matcherGood = "你吃下一个BUG烧卖，感觉自己BUG点增加了"
+    let matcherGood = /^你吃下一个BUG烧卖，感觉自己BUG点增加了/
     let matcherBad = "你吃下一个BUG烧卖，一股霉味，赶忙吐了出来，看来是过期了。"
     //任务全局计划
     let PlanQuest = new App.Plan(
@@ -224,6 +224,7 @@ $.Module(function (App) {
                 if (result[2] == "库存BUG烧卖") {
                     App.Send("eat shao mai")
                 }
+                App.Send("bug")
                 return true
             })
             task.AddTrigger(matcherGood, (tri, result) => {
