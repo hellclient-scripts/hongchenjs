@@ -23,3 +23,6 @@ wielded>#carry any
 //freequst
 #drop id=baijin he,zijin chui,tie guanyin,qiankun mao,baiyu bi,yu hulu,yu ping,tong xique,sijian ping,jin hulu,yinlou hua,jinlou hua,qingtong ding,tie ruyi,yu dai,jixue shi,ziyun sha,ye guangbei,jin gua
 #openanddrop id=bag
+
+//baohu
+#use id=shao mai

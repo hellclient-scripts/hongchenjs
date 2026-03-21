@@ -171,7 +171,7 @@
                     break
                 case "#use"://直接使用(勋章)
                     App.Commands.PushCommands(
-                        App.Commands.NewDoCommand("use " + result.Asset.Item.IDLower),
+                        App.Commands.NewDoCommand("eat " + result.Asset.Item.IDLower),
                         App.Commands.NewDoCommand("i;bug"),
                         App.NewSyncCommand(),
                     )

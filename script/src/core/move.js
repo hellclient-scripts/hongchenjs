@@ -32,6 +32,10 @@
         }
     }
     App.Move = {}
+    App.Move._OnNextRoom = []
+    App.Move.BindNextRoom = (callback) => {
+        App.Move._OnNextRoom.push(callback)
+    }
     let refilter = /[。·！*]/g;
     App.Move.Filterdir = function (dir) {
         dir = dir.replace(refilter, "");
@@ -250,6 +254,11 @@
     }
     //房间名回显
     App.BindEvent("core.roomentry", function (event) {
+        if (App.Move._OnNextRoom.length > 0) {
+            let cbs=App.Move._OnNextRoom
+            App.Move._OnNextRoom=[]
+            cbs.forEach(callback => callback())
+        }
         event.Context.ProposeLater(function () {
             App.Map.OnWalking()
             if (App.Params.ShowRoomID.trim() == "t") {

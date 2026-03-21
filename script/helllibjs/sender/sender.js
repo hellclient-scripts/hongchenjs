@@ -14,6 +14,9 @@
         TryAlias = module.DefaultTryAlias
         GetterEcho = module.DefaultGetterEcho
         Parser = module.DefaultParser
+        Insert(cmd, Grouped) {
+            Metronome.push(this.Parser(cmd, Grouped), true, this.GetterEcho())
+        }
         Send(cmd, Grouped) {
             let result = this.Parser(cmd, Grouped)
             if (result) {
