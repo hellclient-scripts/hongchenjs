@@ -89,7 +89,7 @@ $.Module(function (App) {
             $.Do("l"),
             $.Sync(),
             $.Function(() => {
-                App.Map.Room.ID = $.RID("fuben|lgtd")
+                App.Map.Room.ID = $.RID("fuben-lgtd")
                 $.Next()
             }),
             $.Timeslice(""),
@@ -268,7 +268,7 @@ $.Module(function (App) {
         $.PushCommands(
             $.Prepare("", { WeaponDurationMin: 80 }),
             $.Timeslice("灵感塔"),
-            $.To("fuben|lgtd"),
+            $.To("fuben-lgtd"),
             $.Do("hp"),
             $.Sync(),
             $.Function(() => {

@@ -25,13 +25,15 @@
         }
     }
     App.Map.AppendInitiator(App.Core.Fuben.OnInitTags)
-    let matcherLine = /^([◎─ ●│]+)$/
     //副本迷宫解析类
     class Maze {
         Prefix = "mazemap"
         Rooms = []
         Paths = []
         Landmark = {}
+        GetRoomID(x,y){
+            return `${this.Prefix}-${x}-${y}`
+        }
         AddRoom(x, y) {
             let room = `${this.Prefix}-${x}-${y}`
             this.Rooms.push(room)
@@ -49,10 +51,10 @@
             this.Paths.push(path)
         }
         Install() {
-            App.Core.Fuben.CurrentRooms=[]
+            App.Core.Fuben.CurrentRooms = []
             this.Rooms.forEach((room) => {
                 App.Core.Fuben.CurrentRooms.push(
-                    App.Mapper.NewRoom(room,"")
+                    App.Mapper.NewRoom(room, "")
                 )
             })
         }
@@ -60,6 +62,10 @@
 
         }
     }
+
+    let matcherLine = /^([◎─ ●│ ]+)$/
+    let matcherMigong = /^([　─│└┴┘★├┼┤┬┴]+)$/
+
     //处理副本地图的计划
     let PlanMazeMap = new App.Plan(
         App.Positions["Response"],
@@ -97,7 +103,6 @@
                     }
                     y++
                 } else {
-                    for (var i = 0; i < data.length; i = i + 2) {
                         let x = 0
                         for (var i = 0; i < data.length; i = i + 2) {
                             if (data[i] == "│") {
@@ -105,11 +110,53 @@
                             }
                             x++
                         }
-                    }
                 }
                 linenum++
                 return true
             })
+            task.AddTrigger(matcherMigong, (tri, result) => {
+                task.Data = "ok"
+                let data = result[0]
+                if (linenum % 2 == 0) {
+                    let x = 0
+                    let pos = data.indexOf("★")
+                    if (pos >= 0) {
+                        App.Core.Fuben.Current.Landmark["current"] = App.Core.Fuben.Current.GetRoomID(((pos - 1) / 2),y)
+                    }
+                    App.History.CurrentOutput.Words.forEach((w) => {
+                        switch (w.Background) {
+                            case "White":
+                                App.Core.Fuben.Current.Landmark["entry"] = App.Core.Fuben.Current.GetRoomID(((x - 1) / 2),y)
+                                break
+                            case "Red":
+                                App.Core.Fuben.Current.Landmark["exit"] = App.Core.Fuben.Current.GetRoomID(((x - 1) / 2),y)
+                                break
+                        }
+                        x += w.Text.length
+                    })
+                    x = 0
+                    for (var i = 1; i < data.length; i = i + 2) {
+                         App.Core.Fuben.Current.AddRoom(x, y)
+                        if (i > 0 && data[i - 1] == "　") {
+                            App.Core.Fuben.Current.AddRoomPath(x - 1, y, x, y, "e", "w")
+                        }
+                        x++
+                    }
+                    y++
+                } else {
+                        let x = 0
+                        for (var i = 1; i < data.length; i = i + 2) {
+                            if (data[i] == "　") {
+                                App.Core.Fuben.Current.AddRoomPath(x, y - 1, x, y, "s", "n")
+                            }
+                            x++
+                        }
+                }
+
+                linenum++
+                return true
+            })
+
             task.AddTrigger("系统气喘嘘地叹道：慢慢来 ....", (tri, result) => {
                 task.Data = "retry"
                 return true

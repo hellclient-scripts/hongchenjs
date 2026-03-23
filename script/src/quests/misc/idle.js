@@ -3,7 +3,7 @@ $.Module(function (App) {
     let Idle = {}
     Idle.Start = (data) => {
         $.PushCommands(
-            $.Timeslice("idle"),
+            $.Timeslice("发呆"),
             $.Prepare(),
             $.Function(() => {
                 if (App.Map.Room.ID != $.RID(data.trim())) {

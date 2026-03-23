@@ -5,6 +5,7 @@
     App.Core.Weapon.Wield = []
     App.Core.Weapon.Named = {}
     App.Core.Weapon.Repair = []
+    App.Core.Weapon.Summon = []
     App.Core.Weapon.Touch = ""
     App.Core.Weapon.Last = 0
     App.Core.Weapon.Duration = {}
@@ -218,6 +219,10 @@
                 App.Core.Weapon.Touch = action.Data.trim()
                 return
             }
+            if (action.Command == "#summon") {
+                App.Core.Weapon.Summon.push(action.Data.trim())
+                return
+            }
             if (action.Command.trim() == "") { action.Command = "#wield" }
             if ((action.Command != "#wield" && action.Command != "#wear") || action.Data.trim() == "") {
                 PrintSystem("无效的武器指令:" + action.Line)
@@ -327,6 +332,17 @@
                 return () => {
                     App.Commands.PushCommands(
                         App.Commands.NewDoCommand(`summon ${App.Core.Weapon.Wield[0].ID};i`),
+                        App.NewNobusyCommand(),
+                    )
+                    App.Next()
+                }
+            }
+        }
+        for (let i = 0; i < App.Core.Weapon.Summon.length; i++) {
+            if (App.Data.Item.List.FindByIDLower(App.Core.Weapon.Summon[i]).First() == null) {
+                return () => {
+                    App.Commands.PushCommands(
+                        App.Commands.NewDoCommand(`summon ${App.Core.Weapon.Summon[i]};i`),
                         App.NewNobusyCommand(),
                     )
                     App.Next()

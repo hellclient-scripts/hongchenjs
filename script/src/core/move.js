@@ -247,7 +247,8 @@
             App.Map.Move.Data["OnMoveBlocker"](name)
             return
         }
-        App.Core.Blocker.KillMoveBlocker(name)
+        App.Map.Resend()
+        // App.Core.Blocker.KillMoveBlocker(name)
     }
     App.Move.NewOnMoveBlocker = function (callback) {
         return App.Map.NewMoveData("OnMoveBlocker", callback)
@@ -255,8 +256,8 @@
     //房间名回显
     App.BindEvent("core.roomentry", function (event) {
         if (App.Move._OnNextRoom.length > 0) {
-            let cbs=App.Move._OnNextRoom
-            App.Move._OnNextRoom=[]
+            let cbs = App.Move._OnNextRoom
+            App.Move._OnNextRoom = []
             cbs.forEach(callback => callback())
         }
         event.Context.ProposeLater(function () {

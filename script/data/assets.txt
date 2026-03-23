@@ -26,3 +26,10 @@ wielded>#carry any
 
 //baohu
 #use id=shao mai
+
+//tianlao
+#home id=magic stone,white silk
+#sell name=〖百变神通〗,〖拳法简介〗,六脉神剑谱
+#drop name=「九阴真经」下册,「金蛇秘芨」上册,「金蛇秘芨」下册
+#sell id=puti zi,baihua gao,guiling gao
+#drop id=wuming hua,jinshe book2

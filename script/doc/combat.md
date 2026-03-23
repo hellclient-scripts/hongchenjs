@@ -38,3 +38,59 @@ perform sword.kuang twice
 下kill后立刻发一个狂风
 
 每秒吸气发狂风
+
+### 复杂副本设置
+```
+#before yun recover;yun regenerate;#wpon
+#start perform finger.chao and strike.qimen
+yun recover
+perform finger.chao and strike.qimen
+
+#block mq
+ctype mq>#apply
+#before yun recover;yun regenerate;#wpon
+#start perform finger.ding twice
+#start perform finger.chao and strike.qimen
+yun recover
+perform finger.ding twice
+perform finger.chao and strike.qimen
+
+#block 巫妖
+ctype xuemo,ctag sklich>#apply
+#before yun recover;yun regenerate;#wpon
+#start perform finger.ding skeleton lich twice
+yun recover
+#start perform finger.ding skeleton lich twice
+perform finger.ding skeleton lich twice
+perform finger.chao and finger.ding skeleton lich
+perform finger.chao and strike.qimen
+
+#block 丁一
+ctype xuemo,ctag boss>#apply
+#before yun recover;yun regenerate;#wpon;
+#start perform finger.ding ding yi twice
+yun recover
+perform finger.chao and finger.ding ding yi
+perform finger.chao and strike.qimen
+
+#block qinling
+ctype qinling>#apply
+#start perform finger.ding qin shihuang twice;perform finger.chao and finger.ding qin shihuang
+```
+
+解释：
+
+普通战斗，一个chao+qimen解决
+
+战斗类别为mq(也就是师门任务)，使用mq block
+具体就是先buy一下，然后chao+qimen,相对安全点
+
+战斗类型为xuemo,战斗标签为sklick的，使用 巫妖 block
+优先busy,优先攻击skeleton lich
+
+战斗类型为xuemo,战斗标签为boss的，使用 丁一 block
+优先攻击丁一
+
+战斗类型为qinling的
+busy+输出秦始皇
+然后只有攻击的一次pfm

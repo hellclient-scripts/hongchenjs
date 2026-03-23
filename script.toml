@@ -1798,6 +1798,29 @@ Timers = []
   OmitFromOutput = false
   OmitFromCommandHistory = false
 
+[[Aliases]]
+  ID = "d1h7saoekq2u2d738rnq7k"
+  Name = ""
+  Enabled = true
+  Match = "#tianlao"
+  Send = "#start tianlao||lianskill||idle"
+  Script = ""
+  SendTo = 10
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = false
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = false
+  Menu = false
+  OmitFromLog = false
+  Variable = ""
+  ReverseSpeedwalk = false
+  OmitFromOutput = false
+  OmitFromCommandHistory = false
+
 [[RequiredParams]]
   Name = "id"
   Desc = "用户的id"
@@ -1846,7 +1869,7 @@ Timers = []
 [[RequiredParams]]
   Name = "weapon"
   Desc = "武器"
-  Intro = "武器相关设置\n\n支持\n#wield 武器ID\n#wear 空手武器ID\n#wield.别名 武器ID\n的格式\n\n以及\n#repair 修理装备id\n#repair 修理装备id * 修理需要的黄金\n的格式\n\n有10 lv的话通过\n\n#touch 武器id\n\n设置touch的武器\n\n注意，如果空手id有做保护等需要进入古墓的任务，建议注册一个\n#wield.sword long sword\n并在item里加入long sword\n这样会装备long sword刺墙"
+  Intro = "武器相关设置\n\n支持\n#wield 武器ID\n#wear 空手武器ID\n#wield.别名 武器ID\n的格式\n\n以及\n#repair 修理装备id\n#repair 修理装备id * 修理需要的黄金\n的格式\n\n有10 lv的话通过\n\n#touch 武器id\n\n设置touch的武器\n\n默认第一把武器和touch的武器不在身上会自动summon,如果需要自动summon其他武器可以使用#summon命令指定，比如\n\n#summon tianzijian\n\n注意，如果空手id有做保护等需要进入古墓的任务，建议注册一个\n#wield.sword long sword\n并在item里加入long sword\n这样会装备long sword刺墙"
 
 [[RequiredParams]]
   Name = "items"
