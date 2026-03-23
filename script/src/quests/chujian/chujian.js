@@ -7,7 +7,7 @@ $.Module(function (App) {
     // 你向吕文焕打听有关『kill』的消息。
     // 吕文焕对手中名册一看，说：这位大师,任务皆已发放完毕,不妨先去歇息，汪剑通那里也许需要你。
 
-
+    let Cooldown=40*1000
     let Chujian = {}
     Chujian.Data = {
         Count: 0,
@@ -63,6 +63,7 @@ $.Module(function (App) {
         (result) => {
             App.Send("halt")
             if (Chujian.Data.Name) {
+                Quest.Cooldown(Cooldown)
                 Chujian.Data.Count++
                 Chujian.GoKill()
                 return
@@ -72,7 +73,7 @@ $.Module(function (App) {
                 App.Send("ask lv wenhuan about fangqi")
                 App.Insert($.Sync())
             } else {
-                Quest.Cooldown(40000)
+                Quest.Cooldown(Cooldown)
             }
             App.Next()
         }
@@ -89,7 +90,7 @@ $.Module(function (App) {
                 Chujian.Data.Cost += cost
                 Chujian.Data.Name = ""
                 App.Quests.GetQuest("baohu").Cooldown(-1)
-                Quest.Cooldown(40000)
+                //Quest.Cooldown(Cooldown)
                 App.Core.Timeslice.Change("")
                 return true
             })

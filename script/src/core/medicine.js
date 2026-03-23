@@ -62,7 +62,7 @@
     App.Core.Medicine.EatYao = eatyao
     //注册一个eatyao的准备
     App.Proposals.Register("eatyao", App.Proposals.NewProposal(function (proposals, context, exclude) {
-        if (App.Data.Player.HP["当前精力"] < App.Params.NumJingliMin) {
+        if (App.Data.Player.HP["精力上限"] > App.Params.NumJingliMin && App.Data.Player.HP["当前精力"] < App.Params.NumJingliMin) {
             return function () {
                 App.PushCommands(
                     App.Commands.NewDoCommand("yun refresh;hp"),

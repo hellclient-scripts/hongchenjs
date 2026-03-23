@@ -13,6 +13,11 @@
         }
         q = GetVariable("quest").trim()
         if (q) {
+            if (q.indexOf("\n") < 0 && q.startsWith("#")) {
+                Note(`执行别名 ${q}`)
+                world.Execute(q)
+                return
+            }
             App.Core.Quest.Exec(q)
             return
         }
@@ -52,7 +57,7 @@
         App.Core.Stage.ChangeStance("")
         App.RaiseEvent(new App.Event("core.queststop"))
     }
-    App.Quests.OnNext=(quests)=>{
+    App.Quests.OnNext = (quests) => {
         App.Core.Timeslice.Change("")
     }
     App.Quests.ReadyCreator = (r, exec, q) => {
@@ -74,10 +79,24 @@
     App.Quests.Conditions.RegisterMatcher(App.Quests.Conditions.NewMatcher("pot", function (data, target) {
         return App.Data.Player.HP["潜能"] >= (data - 0)
     }))
+    //注册tihui 条件
+    App.Quests.Conditions.RegisterMatcher(App.Quests.Conditions.NewMatcher("tihui", function (data, target) {
+        return App.Data.Player.HP["体会"] >= (data - 0)
+    }))
     //注册quest 条件
     App.Quests.Conditions.RegisterMatcher(App.Quests.Conditions.NewMatcher("quest", function (data, target) {
         let rq = App.Quests.Running
         return rq && rq.ID == data
+    }))
+    //注册full 条件
+    App.Quests.Conditions.RegisterMatcher(App.Quests.Conditions.NewMatcher("full", function (data, target) {
+        if (App.Params.FullTihui > 0 && App.Data.Player.HP["体会"] >= App.Params.FullTihui) {
+            return true
+        }
+        if (App.Params.FullPot > 0 && App.Data.Player.HP["潜能"] >= App.Params.FullPot) {
+            return true
+        }
+        return false
     }))
 
 })(App)            

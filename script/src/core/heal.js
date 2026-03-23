@@ -130,7 +130,7 @@
                     App.NewNobusyCommand(),
                     App.Commands.NewDoCommand("yun recover;yun regenerate;hp"),
                     App.NewSyncCommand(),
-                    $.TimesliceIf(ts,"疗伤"),
+                    $.TimesliceIf(ts, "疗伤"),
                 )
                 if (App.Map.Room.ID == App.Params.LocMaster || App.Core.Dispel.Need) {
                     App.Insert(App.Move.NewToCommand(App.Params.LocDazuo),)
@@ -174,7 +174,7 @@
                 App.Commands.PushCommands(
                     App.Commands.NewDoCommand((App.Core.Dispel.Need ? "yun dispel;" : "") + "eat yangjing dan;yun recover;yun regenerate;hp;i"),
                     App.NewNobusyCommand(),
-                    $.TimesliceIf(ts,"吃药"),
+                    $.TimesliceIf(ts, "吃药"),
                 )
                 if (!App.Data.Item.List.FindByIDLower("yangjing dan").First()) {
                     App.Commands.Insert(App.Goods.NewBuyCommand("yangjing dan"))
@@ -308,4 +308,14 @@
             App.Next()
         }
     })
+    App.Core.Heal.TryTouch = function () {
+        if (App.Core.Weapon.Touch) {
+            if ((App.Data.Player.HP["当前内力"] * 100 / App.Data.Player.HP["内力上限"]) <= App.Params.NeiliMin) {//touch
+                App.Send(`touch ${App.Core.Weapon.Touch}`)
+            }
+            if (App.Data.Player.HP["当前精力"] < App.Params.NumJingliMin && App.Data.Player.HP["精力上限"] > 2 * App.Params.NumJingliMin) {
+                App.Send("yun refresh")
+            }
+        }
+    }
 })(App)

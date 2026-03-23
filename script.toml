@@ -1,5 +1,5 @@
 Type = "v8"
-Intro = "快捷指令：\n#mq 自动进行任务，优先级为灵感塔>锄奸>师门>freequest\n#mq2 灵感塔>师门>freequest\n#mq3 师门>freequest\n#stop 停止任务\n#login 输入登录信息"
+Intro = "快捷指令：\n#mq 自动进行任务，优先级为灵感塔>锄奸>师门>freequest\n#mq1  灵感塔>师门>freequest,体会或潜能为full状态时，会在师门前插入保护，锄奸，练功消耗体会和潜能。这个模式建议把command变量 加入#wait jiqu ,#pause #yanjiulian。max_pot和jiqu变量都设0。\n#mq2 灵感塔>师门>freequest\n#mq3 师门>freequest\n#baohu 灵感他>保护>锄奸>练技能\n#stop 停止任务\n#login 输入登录信息"
 Desc = "Mud红尘的机器人脚本"
 OnOpen = "onOpen"
 OnClose = "onClose"
@@ -1445,6 +1445,37 @@ Timers = []
   Italic = false
   Variable = ""
 
+[[Triggers]]
+  ID = "d1h7r2kkfsrc3t6oq40j3"
+  Name = "core.dummy.retry"
+  Enabled = true
+  Match = "没有这个聊天室。"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.FilterLineEvent(\"core.dummy.retry\",\"core.walkbusy\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = false
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
 [[Aliases]]
   ID = "d1fufevcofgvaa73s6n5s7"
   Name = "App.Core.Connect.OnAliasLogin"
@@ -1721,6 +1752,52 @@ Timers = []
   OmitFromOutput = false
   OmitFromCommandHistory = false
 
+[[Aliases]]
+  ID = "d1h7pimhlat0qh722p3i7v"
+  Name = "mq1"
+  Enabled = true
+  Match = "#mq1"
+  Send = "#start lgt||!full>>mq||!full>>freequest 追杀||baohu||chujian||lianskill"
+  Script = ""
+  SendTo = 10
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = false
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = false
+  Menu = false
+  OmitFromLog = false
+  Variable = ""
+  ReverseSpeedwalk = false
+  OmitFromOutput = false
+  OmitFromCommandHistory = false
+
+[[Aliases]]
+  ID = "d1h7r3hvn2vefc6oq4pv1"
+  Name = ""
+  Enabled = true
+  Match = "#dummy"
+  Send = "#start dummy"
+  Script = ""
+  SendTo = 10
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = false
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = false
+  Menu = false
+  OmitFromLog = false
+  Variable = ""
+  ReverseSpeedwalk = false
+  OmitFromOutput = false
+  OmitFromCommandHistory = false
+
 [[RequiredParams]]
   Name = "id"
   Desc = "用户的id"
@@ -1742,9 +1819,19 @@ Timers = []
   Intro = "用来miss的10兵的位置，一行一个格式为\n武器id|位置，比如\n\nhszz|4109\n\nmiss失败会自动stab"
 
 [[RequiredParams]]
+  Name = "house"
+  Desc = "房屋信息(重新加载起效)"
+  Intro = "设置后会将1933-1949设置为对应的房屋信息\n格式为'机器人工厂 robot 4084'\n如有密码，格式为\n'机器人工厂 robot 4084 password'\n可以在房屋信息前加入c代表彩虹居，d代表独乐居，如\n'd小房子 smallhouse 2785'\n'c黑灯工厂 factory 2785'"
+
+[[RequiredParams]]
+  Name = "house_dummy"
+  Desc = "房屋(箱子)大米设置"
+  Intro = "格式为大米id 口令\n如\njarlyyn 123456\n\n有口令的情况下，没钥匙时会找大米要钥匙\n\n大米必须要能够在lu ban哪里ask 钥匙，是房主或者房主配偶。\n大米需要能开chatroom\n大米也需要正确的设置这个变量\n大米需要运行#dummy任务"
+
+[[RequiredParams]]
   Name = "quest"
   Desc = "任务列表"
-  Intro = "#start不带参数会执行这个列表里的任务，一行一个，越上面的越优先。"
+  Intro = "#start不带参数会执行这个列表里的任务，一行一个，越上面的越优先。\n\n如果设置为单行，#开头的，会认为你需要执行预设的别名。"
 
 [[RequiredParams]]
   Name = "combat"
@@ -1795,11 +1882,6 @@ Timers = []
   Name = "lian"
   Desc = "练习指令(选填)"
   Intro = "一行一个练习内容\n格式同学习指令\n技能ID|学习限制|类型|基本功夫|位置|开始指令|结束指令\n可以通过助理按钮初始化，再调整"
-
-[[RequiredParams]]
-  Name = "house"
-  Desc = "房屋信息(重新加载起效)"
-  Intro = "设置后会将1933-1949设置为对应的房屋信息\n格式为'机器人工厂 robot 4084'\n如有密码，格式为\n'机器人工厂 robot 4084 password'\n可以在房屋信息前加入c代表彩虹居，d代表独乐居，如\n'd小房子 smallhouse 2785'\n'c黑灯工厂 factory 2785'"
 
 [[RequiredParams]]
   Name = "sell"

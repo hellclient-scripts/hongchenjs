@@ -15,5 +15,5 @@
     App.Include("src/quests/mq/mq.js")
     App.Include("src/quests/chujian/chujian.js")
     App.Include("src/quests/baohu/baohu.js")
-
+    App.Include("src/quests/dummy/dummy.js")
 })(App)

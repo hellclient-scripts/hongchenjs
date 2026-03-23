@@ -112,6 +112,7 @@ $.Module(function (App) {
             })
         }
     )
+    let baohuwait = 28 * 1000
     let matcherKill = /^你对(.+)的(黑衣人|邪派高手|绝世高手)喝道:大胆狂徒,竟敢在这撒野！！/
     //等待NPC出现的计划
     let PlanProtect = new App.Plan(
@@ -136,22 +137,29 @@ $.Module(function (App) {
                 }
                 Baohu.Data.ID = id
                 Baohu.Data.Type = result[2]
-                $.PushCommands(
-                    $.CounterAttack(`${GetVariable("id")}'s ${id}`, App.NewCombat("baohu").WithTags(`baohu-${result[2]}`).WithPlan(PlanCombat)),
-                    $.Function(Baohu.Finish),
-                )
-                $.Next()
             }).WithName("ok")
-            let wait = Baohu.Data.Start + 28000 - $.Now()
+            let wait = Baohu.Data.Start + baohuwait - $.Now()
             if (wait > 0) {
                 task.AddTimer(wait, (timer) => {
                     Note("准备迎敌")
                     App.Send("halt")
+                    App.Core.Heal.TryTouch()
                     $.RaiseStage("prepare")
                     $.RaiseStage("baohu-ready")
                     return true
                 }).WithNoRepeat(true)
             }
+            task.AddTimer(1100, () => {
+                if (App.Core.Weapon.Touch) {
+                    if (($.Now() - Baohu.Data.Start) < baohuwait) {
+                        App.Send("halt")
+                        App.Core.Heal.TryTouch()
+                        $.RaiseStage("pause")
+                        $.RaiseStage("wait")
+                    }
+                }
+                return true
+            })
             task.AddTimer(3000, () => {
                 let d = (($.Now() - Baohu.Data.Start) / 1000).toFixed(0)
                 Note(`保护开始${d}秒`)
@@ -165,6 +173,11 @@ $.Module(function (App) {
         },
         (result) => {
             if (result.Name == "ok") {
+                $.PushCommands(
+                    $.CounterAttack(`${GetVariable("id")}'s ${Baohu.Data.ID}`, App.NewCombat("baohu").WithTags(`baohu-${Baohu.Data.Type}`).WithPlan(PlanCombat)),
+                    $.Function(Baohu.Finish),
+                )
+                $.Next()
                 return
             }
             App.Send("halt")
@@ -282,7 +295,7 @@ $.Module(function (App) {
         let d = $.Now() - App.Quests.StartAt
         let eff = d > 0 ? (Baohu.Count * 3600 * 1000 / d).toFixed(0) + "个/小时" : "-"
         let gifts = Object.keys(Baohu.Gifts).map((gift) => `${gift}*${Baohu.Gifts[gift]}`).join(",")
-        return [`保护任务- 连续:${Baohu.Continuous} 共计:${Baohu.Count} 毛效率:${eff} 好烧卖:${Baohu.Good} 坏烧卖:${Baohu.Bad}` , `保护奖励:${gifts}`]
+        return [`保护任务- 连续:${Baohu.Continuous} 共计:${Baohu.Count} 毛效率:${eff} 好烧卖:${Baohu.Good} 坏烧卖:${Baohu.Bad}`, `保护奖励:${gifts}`]
     }
 
     Quest.Start = function (data) {
