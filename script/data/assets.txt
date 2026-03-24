@@ -6,7 +6,7 @@ wielded>#carry any
 #sell id=sheli zi,haotian guo,zhu guo,haotian dan,yangsheng dan,huolong guo,puti zi
 #sell id=chipped diamond,chipped agate,chipped crystal,chipped jade
 #sell id=shenli wan,zenghui dan,zhuanggu fen,fushou gao
-#sell id=handan shi,bixue shi,zijin kuang,wujin kuang,taijin zhu,tiancan yu,qingyu ya,tiangang tan,huandi shenzhu,tongtian cao,zhenlong shi,xuanyin sha,yinjiao si,wucai zhu,xi rang,qinglong ya,ruyi jue,baxian shi,kunlun shi,haoyue jinsha,leihuo hanjing,yinzhu si,tianshan xuantie
+#sell id=handan shi,bixue shi,zijin kuang,wujin kuang,taijin zhu,tiancan yu,qingyu ya,tiangang tan,huandi shenzhu,tongtian cao,zhenlong shi,xuanyin sha,yinjiao si,xi rang,baxian shi,kunlun shi,haoyue jinsha,leihuo hanjing,yinzhu si,tianshan xuantie
 #home id=dimai xuequan,tianxiang yulu
 #home id=bainian renshen,qiannian renshen,shenxin dan
 #sell id=bainian lingzhi,tianshan xuelian,qiannian lingzhi,qiannian xuelian,lingzhi wan,xuelian gao,lingzhi wan
@@ -14,7 +14,6 @@ wielded>#carry any
 #sell end=图腾
 #sell name=羊皮碎片
 #home end=残篇
-#sell id=zhuyuan xiandan,tonghui xiandan,wuji xiandan,xisui xiandan
 #sell id=yanluo chou,lihuo yu
 
 //lgt
@@ -28,8 +27,11 @@ wielded>#carry any
 #use id=shao mai
 
 //tianlao
-#home id=magic stone,white silk
+#home id=feicui lan
 #sell name=〖百变神通〗,〖拳法简介〗,六脉神剑谱
-#drop name=「九阴真经」下册,「金蛇秘芨」上册,「金蛇秘芨」下册
-#sell id=puti zi,baihua gao,guiling gao
-#drop id=wuming hua,jinshe book2
+#drop name=「九阴真经」下册,「金蛇秘芨」上册,「金蛇秘芨」下册,阳教主遗信
+#sell id=puti zi,baihua gao,guiling gao,white silk,blade book
+#drop id=wuming hua,jinshe book1,jinshe book2,jinshe book3,jiuyin zhenjing1,jiuyin zhenjing2,,baixiang hua
+
+//san10道具
+#home id=xisui xiandan,tonghui xiandan,zhuyuan xiandan,wuji xiandan,bless water,qinglong ya,ruyi jue,wucai zhu,hua shi,magic stone

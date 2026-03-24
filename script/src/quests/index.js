@@ -9,6 +9,7 @@
     App.Include("src/quests/misc/idle.js")
     App.Include("src/quests/misc/execute.js")
     App.Include("src/quests/misc/try.js")
+    App.Include("src/quests/house/cleanhouse.js")
     //App.Include("src/quests/qinling/qinling.js")
     App.Include("src/quests/tianlao/tianlao.js")
     App.Include("src/quests/lgt/lgt.js")

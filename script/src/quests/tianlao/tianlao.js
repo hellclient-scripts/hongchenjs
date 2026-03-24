@@ -50,7 +50,7 @@ $.Module(function (App) {
     }
     Tianlao.Enter = () => {
         $.PushCommands(
-            $.Prepare(""),
+            $.Prepare("commonWithExp"),
             $.Timeslice("天牢"),
             $.To("fuben-tianlao"),
             $.Plan(PlanEnter)
@@ -164,17 +164,17 @@ $.Module(function (App) {
                 $.Next()
             }),
             $.Function(() => {
-                $.PushCommands(
+                $.Insert(
                     $.Rooms(Tianlao.Data.Migong, App.Map.SingleStep(), Tianlao.Checker),
                 )
                 $.Next()
             }),
             $.Function(() => {
                 Note("搜刮结束，离开")
-                $.PushCommands($.To(App.Core.Fuben.Current.Landmark["exit"], App.Map.SingleStep(), Tianlao.Checker))
+                $.Insert($.To(App.Core.Fuben.Current.Landmark["exit"], App.Map.SingleStep(), Tianlao.Checker))
                 $.Next()
             }),
-            $.Function(Tianlao.Retry.Leave)
+            $.Function(Tianlao.Leave)
         )
         $.Next()
     }
@@ -192,34 +192,34 @@ $.Module(function (App) {
                 $.Next()
             }),
             $.Function(() => {
-                $.PushCommands(
+                $.Insert(
                     $.Rooms(Tianlao.Data.Migong, App.Map.SingleStep(), Tianlao.Checker),
                 )
                 $.Next()
             }),
             $.Function(() => {
                 Note("搜刮结束，离开")
-                $.PushCommands($.To(App.Core.Fuben.Current.Landmark["exit"], App.Map.SingleStep(), Tianlao.Checker))
+                $.Insert($.To(App.Core.Fuben.Current.Landmark["exit"], App.Map.SingleStep(), Tianlao.Checker))
                 $.Next()
             }),
-            $.Function(Tianlao.Retry.Leave)
+            $.Function(Tianlao.Leave)
         )
         $.Next()
     }
-    Tianlao.Retry.Leave = () => {
+    Tianlao.Leave = () => {
         if (App.Map.Room.Exits.indexOf("out") >= 0) {
             App.PushCommands(
                 $.Do("i"),
                 $.Path(["out"]),
                 $.Function(() => {
                     App.Map.Room.ID = $.RID("wm")
+                    Quest.Cooldown(120000)
                     Tianlao.Data.Success++
                     Tianlao.Data.Cost += $.Now() - Tianlao.Data.Start
-                    Quest.Cooldown(120000)
                     App.Next()
                 }),
                 $.Timeslice(""),
-                $.Prepare(),
+                $.Prepare("commonWithExp"),
             )
             App.Next()
             return true
@@ -325,9 +325,12 @@ $.Module(function (App) {
         for (var name in Tianlao.Data.Gifts) {
             gift.push(`${name}:${Tianlao.Data.Gifts[name]}件`)
         }
+
         let cost = Tianlao.Data.Success > 0 ? (Tianlao.Data.Cost / Tianlao.Data.Success / 1000).toFixed() + "秒" : "-"
+        let d = $.Now() - App.Quests.StartAt
+        let eff = d > 0 ? (Tianlao.Data.Success * 3600 * 1000 / d).toFixed(0) + "个/小时" : "-"
         let box = Tianlao.Data.Success > 0 ? (Tianlao.Data.Box / Tianlao.Data.Success).toFixed(2) + "个" : "-"
-        return [`天牢-成功:${Tianlao.Data.Success}次 宝箱:${Tianlao.Data.Box} 平均耗时：${cost} 平均宝箱:${box}`, `天牢-奖励： ${gift.join(" , ")}`]
+        return [`天牢-成功:${Tianlao.Data.Success}次 宝箱:${Tianlao.Data.Box} 毛效率:${eff} 平均耗时：${cost} 平均宝箱:${box}`, `天牢-奖励： ${gift.join(" , ")}`]
     }
     Quest.Start = function (data) {
         Tianlao.Start()
