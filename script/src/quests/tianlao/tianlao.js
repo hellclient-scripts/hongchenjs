@@ -7,6 +7,7 @@ $.Module(function (App) {
         Start: 0,
         Cost: 0,
         Box: 0,
+        GoodBox: 0,
         Migong: [],
     }
     let matcherYanfei = "看起来燕非想杀死你！"
@@ -29,6 +30,7 @@ $.Module(function (App) {
                 if (!Tianlao.Data.Gifts[gift]) {
                     Tianlao.Data.Gifts[gift] = 0
                 }
+                Tianlao.Data.GoodBox++
                 Tianlao.Data.Gifts[gift]++
                 return true
             })
@@ -323,14 +325,16 @@ $.Module(function (App) {
     Quest.OnReport = () => {
         let gift = []
         for (var name in Tianlao.Data.Gifts) {
-            gift.push(`${name}:${Tianlao.Data.Gifts[name]}件`)
+            let rate = (Tianlao.Data.Gifts[name] * 100 / Tianlao.Data.Box).toFixed(2) + "%"
+            gift.push(`${name}:${Tianlao.Data.Gifts[name]}件 (${rate})`)
         }
 
         let cost = Tianlao.Data.Success > 0 ? (Tianlao.Data.Cost / Tianlao.Data.Success / 1000).toFixed() + "秒" : "-"
         let d = $.Now() - App.Quests.StartAt
-        let eff = d > 0 ? (Tianlao.Data.Success * 3600 * 1000 / d).toFixed(0) + "个/小时" : "-"
+        let eff = d > 0 ? (Tianlao.Data.Success * 3600 * 1000 / d).toFixed(0) + "次/小时" : "-"
         let box = Tianlao.Data.Success > 0 ? (Tianlao.Data.Box / Tianlao.Data.Success).toFixed(2) + "个" : "-"
-        return [`天牢-成功:${Tianlao.Data.Success}次 宝箱:${Tianlao.Data.Box} 毛效率:${eff} 平均耗时：${cost} 平均宝箱:${box}`, `天牢-奖励： ${gift.join(" , ")}`]
+        let rate = Tianlao.Data.Box > 0 ? (Tianlao.Data.GoodBox * 100 / Tianlao.Data.Box).toFixed(2) + "%" : "-"
+        return [`天牢-成功:${Tianlao.Data.Success}次 宝箱:${Tianlao.Data.Box} 出货:${Tianlao.Data.GoodBox} 毛效率:${eff} 平均耗时：${cost} 平均宝箱:${box} 出货率:${rate}`, `天牢-奖励： ${gift.join(" , ")}`]
     }
     Quest.Start = function (data) {
         Tianlao.Start()
@@ -343,6 +347,7 @@ $.Module(function (App) {
             Start: 0,
             Cost: 0,
             Box: 0,
+            GoodBox: 0,
             Migong: [],
         }
     })

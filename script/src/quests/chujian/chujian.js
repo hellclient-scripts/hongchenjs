@@ -7,7 +7,7 @@ $.Module(function (App) {
     // 你向吕文焕打听有关『kill』的消息。
     // 吕文焕对手中名册一看，说：这位大师,任务皆已发放完毕,不妨先去歇息，汪剑通那里也许需要你。
 
-    let Cooldown=40*1000
+    let Cooldown = 40 * 1000
     let Chujian = {}
     Chujian.Data = {
         Count: 0,
@@ -33,6 +33,7 @@ $.Module(function (App) {
         (task) => {
             Chujian.Data.Last = Chujian.Data.Name
             Chujian.Data.Name = ""
+            Chujian.Data.Loc = null
             task.AddTrigger(matcherTarget, (tri, result) => {
                 Chujian.Data.Name = result[1]
                 Chujian.Data.City = result[2].slice(0, 2)
@@ -136,7 +137,18 @@ $.Module(function (App) {
                 App.Insert(App.Commands.NewFunctionCommand(Chujian.GoKill))
                 App.Commands.PushCommands(
                     App.NewPrepareCommand(""),
-                    App.Commands.NewFunctionCommand(function () { App.Zone.Search(wanted) }),
+                    $.Function(() => {
+                        $.RaiseStage("prepare")
+                        $.Next()
+                    }),
+                    $.Sync(),
+                    $.Function(() => {
+                        if (Chujian.Data.Loc) {
+                            App.Zone.SearchRooms([Chujian.Data.Loc], wanted)
+                        } else {
+                            App.Zone.Search(wanted)
+                        }
+                    }),
                     App.Commands.NewFunctionCommand(Chujian.KillLoc),
                 )
             } else {
