@@ -32,6 +32,13 @@
         }
     }
     App.Move = {}
+    App.Move.NoFlyUp = false
+    App.Move.OnNoFlyUp = function (event) {
+        App.Move.NoFlyUp = true
+        App.Map.InitTags()
+        App.RaiseEvent(event)
+    }
+    App.Engine.SetFilter("core.noflyup", App.Move.OnNoFlyUp)
     App.Move._OnNextRoom = []
     App.Move.BindNextRoom = (callback) => {
         App.Move._OnNextRoom.push(callback)
