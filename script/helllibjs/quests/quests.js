@@ -113,6 +113,7 @@
         Position = null
         Commands = null
         Conditions = null
+        Data = {}
         Queue = []
         StartAt = 0
         Delay = 1000
@@ -139,7 +140,8 @@
             return this.Queue == null || this.Queue.length == 0
         }
         StartRunningQuests(quests) {
-            this.StartAt= (new Date()).getTime()
+            this.Data = {}
+            this.StartAt = (new Date()).getTime()
             this.OnStart(this)
             if (quests.length) {
                 this.Stopped = false

@@ -13,6 +13,7 @@
         Score: {},
         Skills: {},
         Jifa: {},
+        Bei: {},
     }
     Note("加载基本技能 /data/skills/base.txt")
     App.LoadLines("data/skills/base.txt", ",").forEach(data => {
@@ -321,6 +322,15 @@
         }
         return maxskill
     }
+    App.Core.GetSkillIDByName = function (name) {
+        for (var key in App.Data.Player.Skills) {
+            let skill = App.Data.Player.Skills[key]
+            if (skill["名称"] == name) {
+                return skill["ID"]
+            }
+        }
+        return ""
+    }
     //skills的checker
     let checkerSkills = App.Checker.Register("skills", "cha", 300000)
     App.BindEvent("core.skills", App.Core.OnSkills)
@@ -615,6 +625,68 @@
     }
     App.BindEvent("core.nojifa", App.Core.OnNoJifa)
 
+    App.Core.GetJifaSkills = function () {
+        let skills = []
+        for (let key in App.Data.Player.Jifa) {
+            let id = App.Core.GetSkillIDByName(App.Data.Player.Jifa[key].Skill)
+            if (id) {
+                skills.push([key, id])
+            }
+        }
+        return skills
+    }
+    App.Core.OnBei = function (event) {
+        event.Context.Propose(function () {
+            App.Data.Player.Bei = {}
+            PlanOnBei.Execute()
+        })
+    }
+
+    App.BindEvent("core.bei", App.Core.OnBei)
+
+    //以下是你目前组合中的特殊拳术技能。
+    //拳脚 (unarmed)   浑天宝鉴
+    let matcherBei = /^(\S+) \((\S+)\)\s+(\S+)$/
+    //处理bei结果的计划
+    var PlanOnBei = new App.Plan(App.Positions.Connect,
+        function (task) {
+            task.AddTrigger(matcherBei, function (trigger, result, event) {
+                let bei = {
+                    Label: result[1],
+                    ID: result[2],
+                    Skill: result[3],
+                }
+                App.Data.Player.Bei[bei.ID] = bei
+
+                event.Context.Set("core.player.onbei", true)
+                return true
+            })
+            task.AddCatcher("line", function (catcher, event) {
+                return event.Context.Get("core.player.onbei")
+            })
+            task.AddTimer(5000)
+        },
+        function (result) {
+        })
+
+
+    App.Core.OnNoBei = function (event) {
+        event.Context.Propose(function () {
+            App.Data.Player.Bei = {}
+        })
+    }
+    App.BindEvent("core.nobei", App.Core.OnNoBei)
+
+    App.Core.GetBeiSkills = function () {
+        let skills = []
+        for (let key in App.Data.Player.Bei) {
+            let id = App.Core.GetSkillIDByName(App.Data.Player.Bei[key].Skill)
+            if (id) {
+                skills.push(id)
+            }
+        }
+        return skills
+    }
     //技能升级时重置相关的checker
     App.BindEvent("core.skillimproved", function () {
         checkerHPM.Force()

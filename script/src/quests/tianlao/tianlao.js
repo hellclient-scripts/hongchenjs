@@ -22,8 +22,8 @@ $.Module(function (App) {
             })
             task.AddTrigger(matcherYanfei, (tri, result) => {
                 App.Send("kill yan fei")
-                if (App.Combat){
-                    App.Combat.Target="yan fei"
+                if (App.Combat) {
+                    App.Combat.Target = "yan fei"
                 }
                 return true
             })
@@ -132,7 +132,7 @@ $.Module(function (App) {
                 $.RaiseStage("prepare")
                 $.Next()
             }),
-            $.To(["fuben-tianlao-exit"],App.Map.SingleStep()),
+            $.To(["fuben-tianlao-exit"], App.Map.SingleStep()),
             $.CounterAttack("lao tou", App.NewCombat("tianlao").WithTags("牢头")),
             $.Do("get gold from corpse;get silver from corpse 2;i"),
             $.Sync(),
@@ -327,11 +327,17 @@ $.Module(function (App) {
     }
     Quest.OnReport = () => {
         let gift = []
+        let giftdata = []
         for (var name in Tianlao.Data.Gifts) {
             let rate = (Tianlao.Data.Gifts[name] * 100 / Tianlao.Data.Box).toFixed(2) + "%"
-            gift.push(`${name}:${Tianlao.Data.Gifts[name]}件 (${rate})`)
+            giftdata.push({ label: `${name}:${Tianlao.Data.Gifts[name]}件 (${rate})`, sum: Tianlao.Data.Gifts[name] })
         }
-
+        if (giftdata.length > 0) {
+            giftdata.sort((a, b) => {
+                return b.sum - a.sum
+            })
+            gift = giftdata.map(v => v.label)
+        }
         let cost = Tianlao.Data.Success > 0 ? (Tianlao.Data.Cost / Tianlao.Data.Success / 1000).toFixed() + "秒" : "-"
         let d = $.Now() - App.Quests.StartAt
         let eff = d > 0 ? (Tianlao.Data.Success * 3600 * 1000 / d).toFixed(0) + "次/小时" : "-"
