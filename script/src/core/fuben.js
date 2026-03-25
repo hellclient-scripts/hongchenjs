@@ -16,7 +16,14 @@
         App.Core.Fuben.Current = new Maze()
 
     }
+    App.Core.Fuben.InFuben = (move, map) => {
+        move.Data.InFuben = true
+        move.Option.Fly = false
+    }
     App.Core.Fuben.OnInitTags = (map) => {
+        if (!map.Move || !map.Move.Data.InFuben) {
+            return
+        }
         if (App.Core.Fuben.Current) {
             App.Core.Fuben.Current.Paths.forEach((p) => {
                 map.AddTemporaryPath(p)
@@ -31,7 +38,7 @@
         Rooms = []
         Paths = []
         Landmark = {}
-        GetRoomID(x,y){
+        GetRoomID(x, y) {
             return `${this.Prefix}-${x}-${y}`
         }
         AddRoom(x, y) {
@@ -103,13 +110,13 @@
                     }
                     y++
                 } else {
-                        let x = 0
-                        for (var i = 0; i < data.length; i = i + 2) {
-                            if (data[i] == "│") {
-                                App.Core.Fuben.Current.AddRoomPath(x, y - 1, x, y, "s", "n")
-                            }
-                            x++
+                    let x = 0
+                    for (var i = 0; i < data.length; i = i + 2) {
+                        if (data[i] == "│") {
+                            App.Core.Fuben.Current.AddRoomPath(x, y - 1, x, y, "s", "n")
                         }
+                        x++
+                    }
                 }
                 linenum++
                 return true
@@ -121,22 +128,22 @@
                     let x = 0
                     let pos = data.indexOf("★")
                     if (pos >= 0) {
-                        App.Core.Fuben.Current.Landmark["current"] = App.Core.Fuben.Current.GetRoomID(((pos - 1) / 2),y)
+                        App.Core.Fuben.Current.Landmark["current"] = App.Core.Fuben.Current.GetRoomID(((pos - 1) / 2), y)
                     }
                     App.History.CurrentOutput.Words.forEach((w) => {
                         switch (w.Background) {
                             case "White":
-                                App.Core.Fuben.Current.Landmark["entry"] = App.Core.Fuben.Current.GetRoomID(((x - 1) / 2),y)
+                                App.Core.Fuben.Current.Landmark["entry"] = App.Core.Fuben.Current.GetRoomID(((x - 1) / 2), y)
                                 break
                             case "Red":
-                                App.Core.Fuben.Current.Landmark["exit"] = App.Core.Fuben.Current.GetRoomID(((x - 1) / 2),y)
+                                App.Core.Fuben.Current.Landmark["exit"] = App.Core.Fuben.Current.GetRoomID(((x - 1) / 2), y)
                                 break
                         }
                         x += w.Text.length
                     })
                     x = 0
                     for (var i = 1; i < data.length; i = i + 2) {
-                         App.Core.Fuben.Current.AddRoom(x, y)
+                        App.Core.Fuben.Current.AddRoom(x, y)
                         if (i > 0 && data[i - 1] == "　") {
                             App.Core.Fuben.Current.AddRoomPath(x - 1, y, x, y, "e", "w")
                         }
@@ -144,13 +151,13 @@
                     }
                     y++
                 } else {
-                        let x = 0
-                        for (var i = 1; i < data.length; i = i + 2) {
-                            if (data[i] == "　") {
-                                App.Core.Fuben.Current.AddRoomPath(x, y - 1, x, y, "s", "n")
-                            }
-                            x++
+                    let x = 0
+                    for (var i = 1; i < data.length; i = i + 2) {
+                        if (data[i] == "　") {
+                            App.Core.Fuben.Current.AddRoomPath(x, y - 1, x, y, "s", "n")
                         }
+                        x++
+                    }
                 }
 
                 linenum++

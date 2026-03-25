@@ -132,7 +132,7 @@ $.Module(function (App) {
                 $.RaiseStage("prepare")
                 $.Next()
             }),
-            $.To(["fuben-tianlao-exit"], App.Map.SingleStep()),
+            $.To(["fuben-tianlao-exit"], App.Map.SingleStep(), App.Core.Fuben.InFuben),
             $.CounterAttack("lao tou", App.NewCombat("tianlao").WithTags("牢头")),
             $.Do("get gold from corpse;get silver from corpse 2;i"),
             $.Sync(),
@@ -170,13 +170,13 @@ $.Module(function (App) {
             }),
             $.Function(() => {
                 $.Insert(
-                    $.Rooms(Tianlao.Data.Migong, App.Map.SingleStep(), Tianlao.Checker),
+                    $.Rooms(Tianlao.Data.Migong, App.Map.SingleStep(), Tianlao.Checker, App.Core.Fuben.InFuben),
                 )
                 $.Next()
             }),
             $.Function(() => {
                 Note("搜刮结束，离开")
-                $.Insert($.To(App.Core.Fuben.Current.Landmark["exit"], App.Map.SingleStep(), Tianlao.Checker))
+                $.Insert($.To(App.Core.Fuben.Current.Landmark["exit"], App.Map.SingleStep(), Tianlao.Checker, App.Core.Fuben.InFuben))
                 $.Next()
             }),
             $.Function(Tianlao.Leave)
@@ -198,13 +198,13 @@ $.Module(function (App) {
             }),
             $.Function(() => {
                 $.Insert(
-                    $.Rooms(Tianlao.Data.Migong, App.Map.SingleStep(), Tianlao.Checker),
+                    $.Rooms(Tianlao.Data.Migong, App.Map.SingleStep(), Tianlao.Checker, App.Core.Fuben.InFuben),
                 )
                 $.Next()
             }),
             $.Function(() => {
                 Note("搜刮结束，离开")
-                $.Insert($.To(App.Core.Fuben.Current.Landmark["exit"], App.Map.SingleStep(), Tianlao.Checker))
+                $.Insert($.To(App.Core.Fuben.Current.Landmark["exit"], App.Map.SingleStep(), Tianlao.Checker, App.Core.Fuben.InFuben))
                 $.Next()
             }),
             $.Function(Tianlao.Leave)
