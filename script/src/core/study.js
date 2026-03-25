@@ -381,7 +381,7 @@
                 } else {
                     App.Core.Study.CurrentSkill.Cooldown(120000)
                 }
-            }else{
+            } else {
                 App.Core.Timeslice.Change("")
             }
         }
@@ -406,15 +406,14 @@
             }
         })
         if (App.Core.Study.Jiqu.Max == null) {
-            let skill = App.Data.Player.Skills["martial-cognize"]
-            let level = skill ? skill["等级"] : 0
-            if (level > 500) {
-                App.Core.Study.Jiqu.Max = 500
-            } else if (level > 200) {
-                App.Core.Study.Jiqu.Max = 200
-            } else {
-                App.Core.Study.Jiqu.Max = 100
+            let max = (App.Data.Player.HPM["体会上限"] * 0.5).toFixed(0)
+            if (max < 100) {
+                max = 0
             }
+            if (max > 8000) {
+                max = 8000
+            }
+            App.Core.Study.Jiqu.Max = max
         }
 
         if (App.Core.Study.Jiqu.Commands.length == 0) {
@@ -639,8 +638,8 @@
                 App.Commands.NewDoCommand("halt;hp"),
                 App.NewSyncCommand(),
             )
-        }else{
-                    App.Core.Timeslice.Change("")
+        } else {
+            App.Core.Timeslice.Change("")
         }
         App.Next()
     }

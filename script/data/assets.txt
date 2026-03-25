@@ -29,7 +29,7 @@ wielded>#carry any
 //tianlao
 #home id=feicui lan
 #sell name=〖百变神通〗,〖拳法简介〗,六脉神剑谱
-#drop name=「九阴真经」下册,「金蛇秘芨」上册,「金蛇秘芨」下册,阳教主遗信
+#drop name=阳教主遗信
 #sell id=puti zi,baihua gao,guiling gao,white silk,blade book
 #drop id=wuming hua,jinshe book1,jinshe book2,jinshe book3,jiuyin zhenjing1,jiuyin zhenjing2,,baixiang hua
 

@@ -267,7 +267,7 @@ $.Module(function (App) {
                     MQ.Data.NPC = null
                     return false
                 }
-                if (getquest || MQ.Data.NPC.Retry) {
+                if (getquest || (MQ.Data.NPC&&MQ.Data.NPC.Retry)) {
                     if (MQ.Data.NPC && !MQ.Data.NPC.Retry) {
                         MQ.Data.NPC.Zone = result[1].slice(0, 2)
                         MQ.Data.NPC.RawZone = MQ.Data.NPC.Zone

@@ -22,6 +22,9 @@ $.Module(function (App) {
             })
             task.AddTrigger(matcherYanfei, (tri, result) => {
                 App.Send("kill yan fei")
+                if (App.Combat){
+                    App.Combat.Target="yan fei"
+                }
                 return true
             })
             //统计奖品
@@ -129,7 +132,7 @@ $.Module(function (App) {
                 $.RaiseStage("prepare")
                 $.Next()
             }),
-            $.To(["fuben-tianlao-exit"]),
+            $.To(["fuben-tianlao-exit"],App.Map.SingleStep()),
             $.CounterAttack("lao tou", App.NewCombat("tianlao").WithTags("牢头")),
             $.Do("get gold from corpse;get silver from corpse 2;i"),
             $.Sync(),
@@ -139,7 +142,7 @@ $.Module(function (App) {
             }),
             $.Sync(),
             $.Function(() => {
-                if (App.Map.Room.Data.Objects.FindByID("maze door") == null) {
+                if (App.Map.Room.Data.Objects.FindByID("maze door").First() == null) {
                     App.Next()
                     return
                 }
