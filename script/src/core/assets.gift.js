@@ -11,6 +11,9 @@
     App.Core.Assets.Gift.Load = function (name) {
         return App.Core.Assets.Gift.Items[name]
     }
+    App.Core.Assets.Gift.CanHome = function () {
+        return (App.Data.Item.List.FindByID("key").First() != null || App.Core.Dummy.ID != "" || App.Core.Dummy.ID != null)
+    }
     App.Core.Assets.Gift.Need = function (name) {
         let item = App.Core.Assets.Gift.Load(name)
         if (item == null) {
@@ -22,9 +25,10 @@
         let action = App.Core.Assets.Maintain(obj)
         switch (action && action.Command) {
             case "#store":
-            case "#home":
             case "#carry":
                 return true
+            case "home":
+                return App.Core.Assets.Gift.CanHome()
         }
         return false
     }

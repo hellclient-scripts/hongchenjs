@@ -1991,12 +1991,12 @@ Timers = []
 [[RequiredParams]]
   Name = "house"
   Desc = "房屋信息(重新加载起效)"
-  Intro = "设置后会将1933-1949设置为对应的房屋信息\n格式为'机器人工厂 robot 4084'\n如有密码，格式为\n'机器人工厂 robot 4084 password'\n可以在房屋信息前加入c代表彩虹居，d代表独乐居，如\n'd小房子 smallhouse 2785'\n'c黑灯工厂 factory 2785'"
+  Intro = "设置后添加虚拟房屋信息\n格式为'机器人工厂 robot 4084'\n如有密码，格式为\n'机器人工厂 robot 4084 password'\n可以在房屋信息前加入c代表彩虹居，d代表独乐居，如\n'd小房子 smallhouse 2785'\n'c黑灯工厂 factory 2785'"
 
 [[RequiredParams]]
   Name = "house_dummy"
   Desc = "房屋(箱子)大米设置"
-  Intro = "格式为大米id 口令\n如\njarlyyn 123456\n\n有口令的情况下，没钥匙时会找大米要钥匙\n\n大米必须要能够在lu ban哪里ask 钥匙，是房主或者房主配偶。\n大米需要能开chatroom\n大米也需要正确的设置这个变量\n大米需要运行#dummy任务"
+  Intro = "格式为大米id 口令\n如\njarlyyn 123456\n\n有口令的情况下，没钥匙时会找大米要钥匙\n\n如果没设置房子，在没key时会把物品给大米\n\n大米必须要能够在lu ban哪里ask 钥匙，是房主或者房主配偶。\n大米需要能开chatroom\n大米也需要正确的设置这个变量\n大米需要运行#dummy任务"
 
 [[RequiredParams]]
   Name = "quest"

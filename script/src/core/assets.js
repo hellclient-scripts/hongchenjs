@@ -146,12 +146,21 @@
                     )
                     break
                 case "#home"://放在家里
-                    App.Commands.PushCommands(
-                        App.Move.NewToCommand("home"),
-                        App.Commands.NewDoCommand("store " + result.Asset.Item.IDLower),
-                        App.Commands.NewDoCommand("i"),
-                        App.NewSyncCommand()
-                    )
+                    if (App.Data.Item.List.FindByID("key").First() != null && App.Mapper.HouseID) {
+                        App.Commands.PushCommands(
+                            App.Move.NewToCommand("home"),
+                            App.Commands.NewDoCommand("store " + result.Asset.Item.IDLower),
+                            App.Commands.NewDoCommand("i"),
+                            App.NewSyncCommand()
+                        )
+                    } else {
+                        App.Commands.PushCommands(
+                            App.Move.NewToCommand("chat"),
+                            App.Commands.NewDoCommand(`give ${result.Asset.Item.IDLower} to ${App.Core.Dummy.ID}`),
+                            App.Commands.NewDoCommand("i"),
+                            App.NewSyncCommand()
+                        )
+                    }
                     break
                 case "#pack"://打包带身上
                     if (App.Data.Item.List.FindByID("budai").First()) {
