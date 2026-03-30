@@ -87,9 +87,12 @@
         id = id || ""
         let submit = App.Proposals.Submit(id, context)
         if (submit) {
+            let ts = App.Core.Timeslice.Current()
             App.PushCommands(
+                $.Timeslice("修整"),
                 App.Commands.NewFunctionCommand(submit),
                 App.NewPrepareCommand(id, context),
+                $.TimesliceIf(ts, "修整"),
             )
         }
         App.Next()

@@ -29,7 +29,7 @@ $.Module(function (App) {
                 Baohu.Go(result[1])
                 return
             }
-            App.Core.Timeslice.Change("")
+            // App.Core.Timeslice.Change("")
             if (answer == `汪剑通说道：${App.Data.Player.Score.名字}，你上一次的任务还没完成!`) {
                 App.Log(answer)
                 Baohu.Fail()
@@ -47,7 +47,7 @@ $.Module(function (App) {
         let npc = App.Core.NPC.Other[npcname];
         if (!npc) {
             App.Log(`未知的保护npc${npcname}`)
-            App.Core.Timeslice.Change("")
+            // App.Core.Timeslice.Change("")
             App.Fail()
             return
         }
@@ -173,6 +173,7 @@ $.Module(function (App) {
             $.Wait(2000),
             $.Do("halt;i"),
             $.Sync(),
+            // $.Timeslice(""),
             $.Prepare("commonWithExp"),
         )
         $.Next()

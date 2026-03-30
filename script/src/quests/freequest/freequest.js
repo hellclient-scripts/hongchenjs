@@ -505,7 +505,7 @@ $.Module(function (App) {
         ]
     }
     Quest.OnReport = () => {
-        return [`Freequest-总数:${Freequest.Data.Count} 成功:${Freequest.Data.Success} 毛效率:${Freequest.Data.Success > 3 ? Freequest.GetEff().toFixed(0) : "-" } 净效率:${Freequest.Data.Success > 3 ? Freequest.GetTimesliceEff().toFixed(0) : "-"}`]
+        return [`Freequest-总数:${Freequest.Data.Count} 成功:${Freequest.Data.Success} 毛效率:${Freequest.Data.Success > 3 ? Freequest.GetEff().toFixed(0) : "-"} 净效率:${Freequest.Data.Success > 3 ? Freequest.GetTimesliceEff().toFixed(0) : "-"}`]
     }
 
     //你为六大门派排除异己，你获得了三十六点经验、十二点潜能、二十九点

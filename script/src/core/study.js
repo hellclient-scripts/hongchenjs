@@ -382,7 +382,7 @@
                     App.Core.Study.CurrentSkill.Cooldown(120000)
                 }
             } else {
-                App.Core.Timeslice.Change("")
+                // App.Core.Timeslice.Change("")
             }
         }
         App.Next()
@@ -639,7 +639,7 @@
                 App.NewSyncCommand(),
             )
         } else {
-            App.Core.Timeslice.Change("")
+            // App.Core.Timeslice.Change("")
         }
         App.Next()
     }

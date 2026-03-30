@@ -34,7 +34,7 @@ $.Module(function (App) {
             $.Nobusy(),
             $.Do("yun regenerate;jiaoshui;i"),
             $.Nobusy(),
-            $.Timeslice(""),
+            // $.Timeslice(""),
             $.Prepare("commonWithStudy",preparedata),
         )
         App.Next()

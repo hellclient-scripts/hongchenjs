@@ -69,11 +69,14 @@ $.Module(function (App) {
                 Chujian.GoKill()
                 return
             }
-            App.Core.Timeslice.Change("")
             if (result.Name == "fangqi") {
                 App.Send("ask lv wenhuan about fangqi")
-                App.Insert($.Sync())
+                App.Insert(
+                    $.Sync(),
+                    // $.Timeslice("")
+                )
             } else {
+                // App.Core.Timeslice.Change("")
                 Quest.Cooldown(Cooldown)
             }
             App.Next()
@@ -92,7 +95,6 @@ $.Module(function (App) {
                 Chujian.Data.Name = ""
                 App.Quests.GetQuest("baohu").Cooldown(-1)
                 //Quest.Cooldown(Cooldown)
-                App.Core.Timeslice.Change("")
                 return true
             })
             task.AddTrigger(matcherGift, (tri, result) => {
@@ -152,10 +154,11 @@ $.Module(function (App) {
                     App.Commands.NewFunctionCommand(Chujian.KillLoc),
                 )
             } else {
-                App.Core.Timeslice.Change("")
+                // App.Core.Timeslice.Change("")
                 App.Log(`锄奸失败,放弃${Chujian.Data.Name}@${Chujian.Data.City}`)
             }
         } else {
+            // App.Core.Timeslice.Change("")
             Note("锄奸成功")
         }
         App.Next()

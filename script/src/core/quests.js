@@ -60,6 +60,13 @@
     App.Quests.OnNext = (quests) => {
         App.Core.Timeslice.Change("")
     }
+    App.Quests.DelayFunction = function (quests) {
+        quests.Commands.PushCommands(
+            $.Timeslice("切换任务"),
+            quests.Commands.NewWaitCommand(this.Delay),
+            $.Timeslice(""),
+        )
+    }
     App.Quests.ReadyCreator = (r, exec, q) => {
         return new questsModule.Ready(r, () => {
             App.Core.Stage.ChangeStance(q.Group)

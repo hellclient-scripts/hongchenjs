@@ -80,7 +80,7 @@ $.Module(function (App) {
                 return
             }
             Note("进入失败")
-            App.Core.Timeslice.Change("")
+            // App.Core.Timeslice.Change("")
             Quest.Cooldown(120000)
             App.Fail()
         }
@@ -225,7 +225,7 @@ $.Module(function (App) {
                     Tianlao.Data.Cost += $.Now() - Tianlao.Data.Start
                     App.Next()
                 }),
-                $.Timeslice(""),
+                // $.Timeslice(""),
                 $.Prepare("commonWithExp"),
             )
             App.Next()

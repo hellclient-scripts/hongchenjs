@@ -30,7 +30,7 @@ $.Module(function (App) {
             $.To("job-fish"),
             $.Nobusy(),
             $.Plan(PlanFish),
-            $.Timeslice(""),
+            // $.Timeslice(""),
         )
         App.Next()
     }

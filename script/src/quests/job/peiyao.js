@@ -24,7 +24,7 @@ $.Module(function (App) {
                 }),
                 $.Nobusy(),
                 $.Do("hp;i"),
-                $.Timeslice(""),
+                // $.Timeslice(""),
             )
         }
         App.Next()

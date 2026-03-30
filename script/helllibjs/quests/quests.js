@@ -59,7 +59,11 @@
     }
     let DefaultOnNext = function (quests) {
     }
-
+    let DefaultDelayFunction = function (quests) {
+        quests.Commands.PushCommands(
+            quests.Commands.NewWaitCommand(this.Delay),
+        )
+    }
     let DefaultReadyCreator = (r, exec, q) => {
         return new Ready(r, exec, q)
     }
@@ -108,6 +112,7 @@
         OnStart = DefaultOnStart
         OnStop = DefaultOnStop
         OnNext = DefaultOnNext
+        DelayFunction = DefaultDelayFunction
         Running = null
         #nextcommand = null
         Position = null
@@ -205,9 +210,7 @@
         Loop() {
             let now = (new Date()).getTime()
             if ((now - this.Last) < this.Delay) {
-                this.Commands.PushCommands(
-                    this.Commands.NewWaitCommand(this.Delay),
-                )
+                this.DelayFunction(this)
             }
             App.Next()
         }

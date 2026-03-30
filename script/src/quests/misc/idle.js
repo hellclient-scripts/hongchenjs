@@ -12,7 +12,7 @@ $.Module(function (App) {
                 $.Next()
             }),
             $.Wait(1000),
-            $.Timeslice(""),
+            // $.Timeslice(""),
         )
         App.Next()
     }

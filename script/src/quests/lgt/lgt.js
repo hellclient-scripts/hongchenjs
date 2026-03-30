@@ -92,7 +92,7 @@ $.Module(function (App) {
                 App.Map.Room.ID = $.RID("fuben-lgtd")
                 $.Next()
             }),
-            $.Timeslice(""),
+            // $.Timeslice(""),
         )
         App.Next()
     }
@@ -161,7 +161,7 @@ $.Module(function (App) {
         (task) => {
             Note("等待结算")
             LGT.Data.Entered = false
-            App.Core.Timeslice.Change("")
+            // App.Core.Timeslice.Change("")
             task.AddTrigger(matcherKnockFinish)
             App.Send("knock zhong;i")
         },

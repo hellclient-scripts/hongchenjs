@@ -111,6 +111,9 @@
 
     App.Core.Assets.GoMaintain = function (result) {
         if (result) {
+            let ts = App.Core.Timeslice.Current()
+            App.Core.Timeslice.Change("销赃")
+            $.Insert($.TimesliceIf(ts, "销赃"),)
             switch (result.Command) {
                 case "#sell"://出售
                     App.Commands.PushCommands(
@@ -118,7 +121,8 @@
                         App.Commands.NewDoCommand("sell " + result.Asset.Item.IDLower),
                         App.Commands.NewDoCommand("i"),
                         App.NewSyncCommand(),
-                        App.Commands.NewWaitCommand(1000),)
+                        App.Commands.NewWaitCommand(1000),
+                    )
                     break
                 case "#drop"://丢到客店
                     App.Commands.PushCommands(

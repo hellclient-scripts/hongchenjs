@@ -43,7 +43,7 @@ $.Module(function (App) {
                 $.Next()
             }),
             $.Nobusy(),
-            $.Timeslice(""),
+            // $.Timeslice(""),
             $.Prepare(),
         )
         $.Next()
@@ -53,7 +53,7 @@ $.Module(function (App) {
             $.To("liang xinglu"),
             $.Ask("liang xinglu", "取消"),
             $.Nobusy(),
-            $.Timeslice(""),
+            // $.Timeslice(""),
             $.Prepare(),
         )
         $.Next()
@@ -67,13 +67,13 @@ $.Module(function (App) {
             }
             if (App.Data.Ask.Answers[0].Line == "梁兴禄盯着你看了看，说道：“你刚取消过一次任务，过一分钟再来吧。”") {
                 Quest.Cooldown(60 * 1000)
-                App.Core.Timeslice.Change("")
+                // App.Core.Timeslice.Change("")
                 App.Next();
                 return
             }
             if (App.Data.Ask.Answers[0].Line.match(matcherTooMany)) {
                 Quest.Cooldown(4 * 3600 * 1000)
-                App.Core.Timeslice.Change("")
+                // App.Core.Timeslice.Change("")
                 App.Next();
                 return
             }

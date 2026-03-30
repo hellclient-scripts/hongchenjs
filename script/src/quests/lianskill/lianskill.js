@@ -25,7 +25,7 @@ $.Module(function (App) {
         } else {
             //不继续练功了，激发技能
             if (Lian.NeedJifa) {
-                App.Core.Timeslice.Change("")
+                // App.Core.Timeslice.Change("")
                 $.Append(
                     $.Do("#jifa"),
                 )

@@ -134,16 +134,19 @@ $.Module(function (App) {
     MQ.Verify = () => {
         if (!App.Quests.Stopped && App.Core.QuestLock.Freequest <= 0) {
             $.PushCommands(
-                $.Timeslice("MQ"),
                 $.To(App.Params.LocMaster),
                 $.Function(MQ.AskQuest),
             )
+        } else {
+            // App.Core.Timeslice.Change("")
         }
         $.Next()
     }
     MQ.Prepare = () => {
         $.PushCommands(
+            // $.Timeslice(""),
             $.Prepare("commonWithExp"),
+            $.Timeslice("MQ"),
             $.Function(MQ.Verify),
         )
         $.Next()
@@ -262,12 +265,11 @@ $.Module(function (App) {
             task.AddTrigger(reNoQuest)
             task.AddTrigger(reStart, (tri, result) => {
                 if (fail) {
-                    App.Core.Timeslice.Change("")
                     App.Send("quest cancel")
                     MQ.Data.NPC = null
                     return false
                 }
-                if (getquest || (MQ.Data.NPC&&MQ.Data.NPC.Retry)) {
+                if (getquest || (MQ.Data.NPC && MQ.Data.NPC.Retry)) {
                     if (MQ.Data.NPC && !MQ.Data.NPC.Retry) {
                         MQ.Data.NPC.Zone = result[1].slice(0, 2)
                         MQ.Data.NPC.RawZone = MQ.Data.NPC.Zone
@@ -303,7 +305,6 @@ $.Module(function (App) {
                 $.RaiseStage("mqgivehead")
                 $.Next()
             }),
-            $.Timeslice(""),
             $.Do("give head to " + App.Params.MasterID + ";drop head"),
             $.Sync(),
             // $.Function(MQ.Prepare),
@@ -320,7 +321,7 @@ $.Module(function (App) {
                     Quest.Cooldown(3000000)
                     Note("师傅没了，任务冷却5分钟")
                     App.Log("师傅没了")
-                    App.Core.Timeslice.Change("")
+                    // App.Core.Timeslice.Change("")
                 } else if (MQ.Data.NPC) {
                     $.Insert($.Function(MQ.Ready))
                 } else {
@@ -874,8 +875,8 @@ $.Module(function (App) {
     }
     Quest.OnReport = () => {
         let eff = MQ.Data.kills > 3 ? MQ.GetEff().toFixed(0) + "个/小时" : "-"
-        let timesliceeff =MQ.Data.kills > 3 ? MQ.GetTimesliceEff().toFixed(0) + "个/小时" : "-"
-            let tihuieff = MQ.Data.kills > 3 ? MQ.GetTihuiEff().toFixed(0) + "点/小时" : "-"
+        let timesliceeff = MQ.Data.kills > 3 ? MQ.GetTimesliceEff().toFixed(0) + "个/小时" : "-"
+        let tihuieff = MQ.Data.kills > 3 ? MQ.GetTihuiEff().toFixed(0) + "点/小时" : "-"
         let tihuitimesliceeff = MQ.Data.kills > 3 ? MQ.GetTihuiTimesliceEff().toFixed(0) + "点/小时" : "-"
         let num = MQ.HelpRate()
         let rate = num ? num.toFixed(0) + "%" : "-"
