@@ -8,3 +8,9 @@ long bow|long bow|长弓|buy|dtp|buy long bow from tie jiang|8
 arrow|Arrow|狼牙箭|buy|dtp|buy 50 狼牙箭 from tie jiang|3
 long sword|long sword|长剑|buy|dtp|buy long sword from tie jiang|
 iron blade|iron blade|钢刀|buy|dtp|buy iron blade from tie jiang|
+sleepbag|sleepbag|睡袋|buy|zhp|buy 睡袋 from yang yongfu
+
+diao gan|diao gan|钓竿|buy|liu laoshi|buy 钓竿 from liu laoshi
+yu er|yu er|鱼饵|buy|liu laoshi|buy 100 鱼饵 from liu laoshi
+
+hua zhong|hua zhong|花种|buy|hua nong|buy 花种 from hua nong

@@ -192,12 +192,10 @@
             PlanLocate.Execute()
         }
     })
-    App.Map.AppendInitiator((map) => {
-        for (var key in App.Data.Player.Skills) {
-            let skill = App.Data.Player.Skills[key]
-            if (skill["基本"] == skill.ID) {
-                map.SetTag("skill-" + skill.ID, skill["等级"])
-            }
+    App.Core.SkillTags = ["dodge"]
+    App.Map.AppendInitiator(function () {
+        for (var tag in App.Core.SkillTags) {
+            App.Map.SetTag(`skill-${tag}`, App.Core.Player.GetSkillLevenByID[tag])
         }
     })
 

@@ -8,8 +8,10 @@
         let maxneili = App.Data.Player.HPM["内力上限"]
         let neili = App.Data.Player.HP["内力上限"]
         let line = `当前内力上限${neili} 最大内力上限${maxneili}`
-        if (maxneili != null && neili != null) {
-            line = line + ` 内力可提升${maxneili - neili} `
+        if (maxneili != null && neili != null && maxneili - neili > 180) {
+            let lu = Math.floor((maxneili - neili) / 180)
+            line = line + ` 内力可提升${maxneili - neili} ,折天香玉露 ${lu} 个`
+
         }
         report.push(line)
         report.push(`经验:${App.Data.Player.HP["经验"] || "0"} 潜能:${App.Data.Player.HP["潜能"] || "0"} 体会:${App.Data.Player.HP["体会"] || "0"} 阅历:${App.Data.Player.Score["江湖阅历"] || "-"} 当前等级 ${App.Data.Player.HPM["当前等级"]}`)

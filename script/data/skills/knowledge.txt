@@ -8,3 +8,4 @@ mathematics,f
 jingluo-xue,f
 buddhism,f
 sanscrit,f
+taoism,f

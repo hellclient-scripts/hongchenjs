@@ -1,5 +1,5 @@
 HMM1.0>UTF8
-Info>红尘MUD地图|1774277876|
+Info>红尘MUD地图|1774637924|
 Room>100|柳园||||w,113,,1|
 Room>1007|小树林||||s,1008,,1|
 Room>1008|小树林||||s,1009,,1;n,1007,,1|
@@ -3323,8 +3323,8 @@ Room>3869|鼓楼四层|少林寺|||u,3870,,1;d,3868,,1|
 Room>3870|鼓楼五层|少林寺|||u,3871,,1;d,3869,,1|
 Room>3871|鼓楼六层|少林寺|||u,3872,,1;d,3870,,1|
 Room>3872|鼓楼七层|少林寺|||out,-1,,1;d,3871,,1|
-Room>3873|汉水南岸|少林寺||室外=|yell boat,3874,,10;s,3983,,1;cross,3874,,1|
-Room>3874|汉水北岸|少林寺||室外=|cross,3873,,1;yell boat,3873,,10;n,3906,,1|
+Room>3873|汉水南岸|少林寺||室外=|yell boat,3874,,10;s,3983,,1;cross,3874,skill-dodge^300,1|
+Room>3874|汉水北岸|少林寺||室外=|cross,3873,skill-dodge^300,1;yell boat,3873,,10;n,3906,,1|
 Room>3879|后殿|少林寺||fill=|e,4002,,1;w,4001,,1;s,3863,,1;n*,3967,,1|
 Room>3880|小院|少林寺||室外=|e,3978,,1;ne,3842,,1;nw,3999,,1;n,3979,,1|
 Room>3890|迎宾楼|少林寺||safe=|e,3906,,1;u,3891,,1|
@@ -4333,6 +4333,8 @@ Marker>fuben-lgtd|4191|fuben|灵感塔底|
 Marker>fuben-tianlao|4197|fuben|天牢副本|
 Marker>fuben-tianlao-entry|5002|fuben|副本天牢入口开始处|
 Marker>fuben-tianlao-exit|5003|fuben|副本天牢出口|
+Marker>job-fish|3873|job|钓鱼的位置|
+Marker>job-zhonghua|2302|job|种花的工作|
 Marker>a shi|3654|npc||阿时\|a shi
 Marker>a xiaoran|3654|npc||阿萧染\|a xiaoran
 Marker>a xiu|3066|npc||阿绣\|a xiu
@@ -4852,6 +4854,7 @@ Marker>xiao yuanwai|3784|npc||萧员外\|xiao yuanwai
 Marker>xiao zhao|2153|npc||小昭\|xiao zhao
 Marker>xie xun|2080|npc||谢逊\|xie xun
 Marker>xie yanke|41|npc||谢烟客\|xie yanke
+Marker>xin deguo|2485|npc||信得过\|xin deguo
 Marker>xin ran|2121|npc||辛然\|xin ran
 Marker>xin yan|3134|npc||心砚\|xin yan
 Marker>xingxiu dizi|2856|npc||星宿弟子\|xingxiu dizi

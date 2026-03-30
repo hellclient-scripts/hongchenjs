@@ -16,8 +16,34 @@
             App.Reconnect(App.Params.ReloginDelay, cb)
         })
     }
-
     App.BindEvent("core.faint", App.Core.Emergency.OnFaint)
+
+    App.Core.Emergency.OnGhost = function (event) {
+        for (var key in App.Positions) {
+            App.Positions[key].Discard()
+        }
+        App.Map.Room.ID = ""
+        App.Combat.Discard()
+        App.Commands.Discard()
+        App.Log("死了")
+        $.PushCommands(
+            $.Sync(),
+            $.Do("s;s;s;s"),
+            $.Function(() => {
+                Note("等待复活")
+            })
+        )
+        $.Next()
+    }
+    App.BindEvent("core.ghost", App.Core.Emergency.OnGhost)
+    App.Core.Emergency.OnReborn = function (event) {
+        App.PushCommands(
+            $.Sync(),
+            $.Function(App.Core.Emergency.CheckDeath),
+        )
+        App.Next()
+    }
+    App.BindEvent("core.reborn", App.Core.Emergency.OnReborn)
     //治疗被打
     App.Core.Emergency.OnHealCombat = function () {
         Note("治疗被人打了")
@@ -35,6 +61,7 @@
             App.Positions[key].Discard()
         }
         App.Map.Room.ID = ""
+        App.Map.DiscardMove()
         App.Combat.Discard()
         App.Commands.Discard()
         if (!App.Quests.IsStopped()) {

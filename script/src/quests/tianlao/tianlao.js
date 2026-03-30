@@ -141,6 +141,8 @@ $.Module(function (App) {
                 $.Next()
             }),
             $.Sync(),
+            $.Rest(),
+            $.Nobusy(),
             $.Function(() => {
                 if (App.Map.Room.Data.Objects.FindByID("maze door").First() == null) {
                     App.Next()

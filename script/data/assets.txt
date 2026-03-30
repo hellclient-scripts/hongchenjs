@@ -35,3 +35,6 @@ wielded>#carry any
 
 //san10道具
 #home id=xisui xiandan,tonghui xiandan,zhuyuan xiandan,wuji xiandan,bless water,qinglong ya,ruyi jue,wucai zhu,hua shi,magic stone
+
+//peiyao
+#home id=danyu mo

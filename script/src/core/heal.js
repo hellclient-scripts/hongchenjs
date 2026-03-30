@@ -6,7 +6,7 @@
     let reSleepFail = /^你想合上眼睛好好睡上一觉，可是/
     //睡觉的计划
     let PlanSleep = new App.Plan(App.Positions["Connect"], function (task) {
-        task.AddTrigger("这里不是你能睡的地方！")
+        task.AddTrigger("这里不是你能睡的地方！").WithName("nosleep")
         task.AddTrigger("战斗中不能睡觉！")
         task.AddTrigger("你正忙着呢！")
         task.AddTrigger("你现在接近昏迷，睡不着觉。")
@@ -31,6 +31,9 @@
                     App.NewNobusyCommand()
                 )
                 break
+            case "nosleep":
+                App.Map.Room.Data["core.nosleep"] = true
+                break
         }
         App.Next()
     })
@@ -53,10 +56,16 @@
             }
             if ((new Date()).getTime() - App.Core.Heal.LastSleep > App.Core.Heal.SleepInterval) {//sleep
                 return function () {
-                    App.Commands.PushCommands(
-                        App.Move.NewToCommand(App.Params.LocSleep),
-                        App.Commands.NewPlanCommand(PlanSleep)
-                    )
+                    if (App.Map.Room.Data["core.nosleep"] || App.Data.Item.List.FindByID("sleepbag").First() == null) {
+                        App.Commands.PushCommands(
+                            App.Move.NewToCommand(App.Params.LocSleep),
+                            App.Commands.NewPlanCommand(PlanSleep)
+                        )
+                    } else {
+                        App.Commands.PushCommands(
+                            App.Commands.NewPlanCommand(PlanSleep)
+                        )
+                    }
                     App.Next()
                 }
             } else {

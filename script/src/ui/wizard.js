@@ -158,6 +158,8 @@
             }
             if (touch) {
                 weapon.push("#touch " + touch)
+            } else {
+                App.UI.Wizard.InsertToVariable("items", "sleepbag")
             }
             SetVariable("weapon", weapon.join("\n"))
             App.UI.Wizard.Next()

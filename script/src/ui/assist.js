@@ -4,8 +4,8 @@
     App.UI.Assist.Show = () => {
         var status = App.Quests.Stopped ? "已停止" : "正在进行"
         var list = Userinput.newlist("助理", "当前任务" + status + ",请选择你需要的帮助", false)
-        if (App.UI.Wizard.Check()){
-                list.append("wizard", "设置引导")
+        if (App.UI.Wizard.Check()) {
+            list.append("wizard", "设置引导")
         }
         list.append("report", "工作汇报")
         if (App.Quests.Stopped) {
@@ -16,12 +16,12 @@
         } else {
             list.append("stop", "结束任务")
         }
+        list.append("lian", "初始化练习清单")
         list.append("reload", "重新加载变量设置")
         list.append("npc", "NPC老师清单")
         list.append("rooms", "地图房间")
         list.append("params", "系统参数设置")
         list.append("questparams", "任务参数设置")
-        list.append("lian", "初始化练习清单")
         list.append("advance", "高级设置")
         list.append("push", "推送设置")
         list.append("help", "使用帮助")
