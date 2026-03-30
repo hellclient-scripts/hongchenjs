@@ -10,33 +10,9 @@ $.Module(function (App) {
     //NPC信息
     Baohu.Good = 0
     Baohu.Bad = 0
-    Baohu.NPCs = {}
     Baohu.Data = {}
     Baohu.Gifts = {}
     //加载默认NPC信息
-    App.LoadLines("src/quests/baohu/npc.txt", "|").forEach((data) => {
-        Baohu.NPCs[data[0]] = {
-            Name: data[0],
-            ID: data[1],
-            Loc: data[2].split(",")
-        }
-    })
-    App.Mapper.Data.NPCList.forEach((npc) => {
-        Baohu.NPCs[npc.Name] = {
-            Name: npc.Name,
-            ID: npc.ID,
-            Loc: [npc.Value],
-        }
-    })
-    //失败放弃
-    Baohu.Fail = () => {
-        $.PushCommands(
-            $.To("wang jiantong"),
-            $.Ask("wang jiantong", "放弃保护"),
-            $.Timeslice("")
-        )
-        $.Next()
-    }
     let matcherProtect = /^汪剑通点了点头，对你说道:蒙古人收买了一批武林败类,好象要暗杀(.*)，你去保护他一下。/
     //检查汪的回答
     Baohu.Check = () => {
@@ -68,7 +44,7 @@ $.Module(function (App) {
     }
     //前往NPC位置
     Baohu.Go = (npcname) => {
-        let npc = Baohu.NPCs[npcname];
+        let npc = App.Core.NPC.Other[npcname];
         if (!npc) {
             App.Log(`未知的保护npc${npcname}`)
             App.Core.Timeslice.Change("")

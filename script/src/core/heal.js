@@ -56,14 +56,18 @@
             }
             if ((new Date()).getTime() - App.Core.Heal.LastSleep > App.Core.Heal.SleepInterval) {//sleep
                 return function () {
+                    let ts = App.Core.Timeslice.Current()
+                    App.Core.Timeslice.Change("睡觉")
                     if (App.Map.Room.Data["core.nosleep"] || App.Data.Item.List.FindByID("sleepbag").First() == null) {
                         App.Commands.PushCommands(
                             App.Move.NewToCommand(App.Params.LocSleep),
-                            App.Commands.NewPlanCommand(PlanSleep)
+                            App.Commands.NewPlanCommand(PlanSleep),
+                            $.TimesliceIf(ts, "睡觉")
                         )
                     } else {
                         App.Commands.PushCommands(
-                            App.Commands.NewPlanCommand(PlanSleep)
+                            App.Commands.NewPlanCommand(PlanSleep),
+                            $.TimesliceIf(ts, "睡觉")
                         )
                     }
                     App.Next()

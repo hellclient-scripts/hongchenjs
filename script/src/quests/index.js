@@ -22,5 +22,6 @@
     App.Include("src/quests/job/peiyao.js")
     App.Include("src/quests/job/fish.js")
     App.Include("src/quests/job/zhonghua.js")
+    App.Include("src/quests/changanjob/changanjob.js")
 
 })(App)

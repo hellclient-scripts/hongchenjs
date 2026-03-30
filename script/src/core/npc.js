@@ -168,4 +168,19 @@
             ID: [data[1]],
         }
     })
+    App.Core.NPC.Other = {}
+    App.LoadLines("data/othernpc.txt", "|").forEach((data) => {
+        App.Core.NPC.Other[data[0]] = {
+            Name: data[0],
+            ID: data[1],
+            Loc: data[2].split(",")
+        }
+    })
+    App.Mapper.Data.NPCList.forEach((npc) => {
+        App.Core.NPC.Other[npc.Name] = {
+            Name: npc.Name,
+            ID: npc.ID,
+            Loc: [npc.Value],
+        }
+    })
 })(App)

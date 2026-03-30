@@ -66,6 +66,9 @@
     }
     //击杀拦路npc,然后继续行走
     App.Core.Blocker.KillBlocker = (name, from, to) => {
+        if(App.Map.Move==null) {
+            return
+        }
         let npc = App.Core.Blocker.Npcs[name]
         Note(name + "拦路")
         if (npc && npc.Exp < App.Data.Player.HP["经验"]) {
