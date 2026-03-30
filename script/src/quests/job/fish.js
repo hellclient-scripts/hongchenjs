@@ -26,7 +26,7 @@ $.Module(function (App) {
     Fish.Start = () => {
         $.PushCommands(
             $.Prepare("commonWithQuestFish"),
-            $.Timeslice("钓鱼"),
+            // $.Timeslice("钓鱼"),
             $.To("job-fish"),
             $.Nobusy(),
             $.Plan(PlanFish),

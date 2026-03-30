@@ -235,7 +235,7 @@ $.Module(function (App) {
         PlanQuest.Execute()
         $.PushCommands(
             $.Prepare("", { GoldKeep: 10 }),
-            $.Timeslice("保护"),
+            // $.Timeslice("保护"),
             $.To("wang jiantong"),
             $.Ask("wang jiantong", "保护人质"),
             $.Function(Baohu.Check)
@@ -252,6 +252,7 @@ $.Module(function (App) {
     //任务定义
     let Quest = App.Quests.NewQuest("baohu")
     Quest.Name = "保护任务"
+    Quest.Timeslice="保护"
     Quest.Desc = ""
     Quest.Intro = ""
     Quest.Help = ""

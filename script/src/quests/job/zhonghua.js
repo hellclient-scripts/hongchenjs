@@ -22,7 +22,7 @@ $.Module(function (App) {
 
     Zhonghua.Start = () => {
         $.PushCommands(
-            $.Timeslice("种花"),
+            // $.Timeslice("种花"),
             $.Prepare("commonWithQuestZhonghua", preparedata),
             $.To("job-zhonghua"),
             $.Nobusy(),

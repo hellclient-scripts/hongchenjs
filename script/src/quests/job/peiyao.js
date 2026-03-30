@@ -9,7 +9,7 @@ $.Module(function (App) {
         if (!App.Quests.Stopped) {
             $.PushCommands(
                 $.Prepare("commonWithStudy"),
-                $.Timeslice("配药"),
+                // $.Timeslice("配药"),
                 $.To("ping yizhi"),
                 $.Ask("ping yizhi", "配药"),
                 $.Function(() => {

@@ -146,7 +146,7 @@ $.Module(function (App) {
         $.PushCommands(
             // $.Timeslice(""),
             $.Prepare("commonWithExp"),
-            $.Timeslice("MQ"),
+            // $.Timeslice("MQ"),
             $.Function(MQ.Verify),
         )
         $.Next()
@@ -857,6 +857,7 @@ $.Module(function (App) {
 
     let Quest = App.Quests.NewQuest("mq")
     Quest.Name = "师门任务"
+    Quest.Timeslice="MQ"
     Quest.Desc = ""
     Quest.Intro = ""
     Quest.Help = ""

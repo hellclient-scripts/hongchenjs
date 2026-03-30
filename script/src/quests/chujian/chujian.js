@@ -223,7 +223,7 @@ $.Module(function (App) {
     Chujian.Go = function () {
         App.PushCommands(
             $.Prepare("commonWithExp"),
-            $.Timeslice("锄奸"),
+            // $.Timeslice("锄奸"),
             $.To("lv wenhuan"),
             $.Plan(PlanAsk),
         )

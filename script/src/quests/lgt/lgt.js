@@ -267,7 +267,7 @@ $.Module(function (App) {
         LGT.Data.灵符 = 0
         $.PushCommands(
             $.Prepare("", { WeaponDurationMin: 80 }),
-            $.Timeslice("灵感塔"),
+            // $.Timeslice("灵感塔"),
             $.To("fuben-lgtd"),
             $.Do("hp"),
             $.Sync(),
@@ -282,7 +282,7 @@ $.Module(function (App) {
     }
     //定义任务
     let Quest = App.Quests.NewQuest("lgt")
-    Quest.Name = "灵感塔爬塔"
+    Quest.Name = "灵感塔"
     Quest.Desc = ""
     Quest.Intro = ""
     Quest.Help = ""

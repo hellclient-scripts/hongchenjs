@@ -60,6 +60,11 @@
     App.Quests.OnNext = (quests) => {
         App.Core.Timeslice.Change("")
     }
+    App.Quests.OnExec = (quests, ready) => {
+        let quest=ready.Quest
+        let ts=quest.Timeslice?quest.Timeslice:quest.Name
+        App.Core.Timeslice.Change(ts)
+    }
     App.Quests.DelayFunction = function (quests) {
         quests.Commands.PushCommands(
             $.Timeslice("切换任务"),

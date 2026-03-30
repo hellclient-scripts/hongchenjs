@@ -3,7 +3,7 @@ $.Module(function (App) {
     let Idle = {}
     Idle.Start = (data) => {
         $.PushCommands(
-            $.Timeslice("发呆"),
+            // $.Timeslice("发呆"),
             $.Prepare(),
             $.Function(() => {
                 if (App.Map.Room.ID != $.RID(data.trim())) {
@@ -17,7 +17,7 @@ $.Module(function (App) {
         App.Next()
     }
     let Quest = App.Quests.NewQuest("idle")
-    Quest.Name = "在指定位置发呆"
+    Quest.Name = "发呆"
     Quest.Desc = "在指定位置发呆"
     Quest.Intro = ""
     Quest.Help = ""

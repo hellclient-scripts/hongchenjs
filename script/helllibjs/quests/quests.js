@@ -59,6 +59,9 @@
     }
     let DefaultOnNext = function (quests) {
     }
+    let DefaultOnExec = function (quests, ready) {
+    }
+
     let DefaultDelayFunction = function (quests) {
         quests.Commands.PushCommands(
             quests.Commands.NewWaitCommand(this.Delay),
@@ -112,6 +115,7 @@
         OnStart = DefaultOnStart
         OnStop = DefaultOnStop
         OnNext = DefaultOnNext
+        OnExec = DefaultOnExec
         DelayFunction = DefaultDelayFunction
         Running = null
         #nextcommand = null
@@ -177,6 +181,7 @@
         }
         ExecuteReady(ready) {
             if (ready) {
+                this.OnExec(this, ready)
                 this.Commands.PushCommands(
                     this.Commands.NewFunctionCommand(() => {
                         this.Running = ready.RunningQuest

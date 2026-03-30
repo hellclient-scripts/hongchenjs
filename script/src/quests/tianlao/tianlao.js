@@ -56,7 +56,7 @@ $.Module(function (App) {
     Tianlao.Enter = () => {
         $.PushCommands(
             $.Prepare("commonWithExp"),
-            $.Timeslice("天牢"),
+            // $.Timeslice("天牢"),
             $.To("fuben-tianlao"),
             $.Plan(PlanEnter)
         )
@@ -308,7 +308,7 @@ $.Module(function (App) {
     }
 
     let Quest = App.Quests.NewQuest("tianlao")
-    Quest.Name = "天牢副本"
+    Quest.Name = "天牢"
     Quest.Desc = ""
     Quest.Intro = ""
     Quest.Help = ""

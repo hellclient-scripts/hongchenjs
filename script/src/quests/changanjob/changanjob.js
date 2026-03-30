@@ -19,7 +19,7 @@ $.Module(function (App) {
         }
         $.PushCommands(
             $.Prepare("commonWithStudy"),
-            $.Timeslice("长安"),
+            // $.Timeslice("长安"),
             $.To("liang xinglu"),
             $.Ask("liang xinglu", "任务", 10),
             $.Function(Changan.Check),
