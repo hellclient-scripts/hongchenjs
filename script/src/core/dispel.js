@@ -47,7 +47,7 @@
                     App.Move.NewToCommand(App.Params.LocDazuo),
                     App.Commands.NewDoCommand("yun dispel;hp"),
                     App.NewNobusyCommand(),
-                    $.TimesliceIf(ts,"解毒"),
+                    $.Timeslice(ts),
                 )
                 App.Next()
             }

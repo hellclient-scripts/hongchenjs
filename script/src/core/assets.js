@@ -113,7 +113,7 @@
         if (result) {
             let ts = App.Core.Timeslice.Current()
             App.Core.Timeslice.Change("销赃")
-            $.Insert($.TimesliceIf(ts, "销赃"),)
+            $.Insert($.Timeslice(ts),)
             switch (result.Command) {
                 case "#sell"://出售
                     App.Commands.PushCommands(

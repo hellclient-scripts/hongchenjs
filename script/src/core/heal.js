@@ -62,12 +62,12 @@
                         App.Commands.PushCommands(
                             App.Move.NewToCommand(App.Params.LocSleep),
                             App.Commands.NewPlanCommand(PlanSleep),
-                            $.TimesliceIf(ts, "睡觉")
+                            $.Timeslice(ts)
                         )
                     } else {
                         App.Commands.PushCommands(
                             App.Commands.NewPlanCommand(PlanSleep),
-                            $.TimesliceIf(ts, "睡觉")
+                            $.Timeslice(ts)
                         )
                     }
                     App.Next()
@@ -143,7 +143,7 @@
                     App.NewNobusyCommand(),
                     App.Commands.NewDoCommand("yun recover;yun regenerate;hp"),
                     App.NewSyncCommand(),
-                    $.TimesliceIf(ts, "疗伤"),
+                    $.Timeslice(ts)
                 )
                 if (App.Map.Room.ID == App.Params.LocMaster || App.Core.Dispel.Need) {
                     App.Insert(App.Move.NewToCommand(App.Params.LocDazuo),)
@@ -187,7 +187,7 @@
                 App.Commands.PushCommands(
                     App.Commands.NewDoCommand((App.Core.Dispel.Need ? "yun dispel;" : "") + "eat yangjing dan;yun recover;yun regenerate;hp;i"),
                     App.NewNobusyCommand(),
-                    $.TimesliceIf(ts, "吃药"),
+                    $.Timeslice(ts),
                 )
                 if (!App.Data.Item.List.FindByIDLower("yangjing dan").First()) {
                     App.Commands.Insert(App.Goods.NewBuyCommand("yangjing dan"))

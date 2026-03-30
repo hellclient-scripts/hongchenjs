@@ -980,14 +980,14 @@ $.Module(function (App) {
         return MQ.Data.kills * 3600 * 1000 / ($.Now() - MQ.Data.start)
     }
     MQ.GetTimesliceEff = function () {
-        let ts = App.Core.Timeslice.Get("MQ")
+        let ts = App.Core.Timeslice.Get(Quest.Timeslice)
         return ts ? MQ.Data.kills * 3600 * 1000 / ts : 0
     }
     MQ.GetTihuiEff = function () {
         return MQ.Data.tihui * 3600 * 1000 / ($.Now() - MQ.Data.start)
     }
     MQ.GetTihuiTimesliceEff = function () {
-        let ts = App.Core.Timeslice.Get("MQ")
+        let ts = App.Core.Timeslice.Get(Quest.Timeslice)
         return ts ? MQ.Data.tihui * 3600 * 1000 / ts : 0
     }
 

@@ -589,6 +589,7 @@
         }
     })
     let JiquNoPause = () => {
+        let ts = App.Core.Timeslice.Current()
         App.Commands.PushCommands(
             $.Timeslice("汲取"),
             App.Move.NewToCommand(App.Params.LocDazuo),
@@ -598,8 +599,8 @@
             App.NewNobusyCommand(),
             App.Commands.NewDoCommand("hp"),
             App.NewSyncCommand(),
-            $.Timeslice(""),
-        )
+            $.Timeslice(ts),
+            )
         App.Next()
     }
     let JiquPauseContext = {}

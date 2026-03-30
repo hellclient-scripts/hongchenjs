@@ -233,14 +233,14 @@ $.Module(function (App) {
         return Chujian.Data.Success * 3600 * 1000 / ($.Now() - Chujian.Data.Start)
     }
     Chujian.GetTimesliceEff = function () {
-        let ts = App.Core.Timeslice.Get("锄奸")
+        let ts = App.Core.Timeslice.Get(Quest.Timeslice)
         return ts ? Chujian.Data.Success * 3600 * 1000 / ts : 0
     }
     Chujian.GetTihuiEff = function () {
         return Chujian.Data.Tihui * 3600 * 1000 / ($.Now() - Chujian.Data.Start)
     }
     Chujian.GetTihuiTimesliceEff = function () {
-        let ts = App.Core.Timeslice.Get("锄奸")
+        let ts = App.Core.Timeslice.Get(Quest.Timeslice)
         return ts ? Chujian.Data.Tihui * 3600 * 1000 / ts : 0
     }
 
@@ -268,6 +268,7 @@ $.Module(function (App) {
 
     let Quest = App.Quests.NewQuest("chujian")
     Quest.Name = "锄奸"
+    Quest.Timeslice="锄奸"
     Quest.Desc = ""
     Quest.Intro = ""
     Quest.Help = ""

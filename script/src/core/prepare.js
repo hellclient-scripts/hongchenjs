@@ -92,7 +92,7 @@
                 $.Timeslice("修整"),
                 App.Commands.NewFunctionCommand(submit),
                 App.NewPrepareCommand(id, context),
-                $.TimesliceIf(ts, "修整"),
+                $.Timeslice(ts),
             )
         }
         App.Next()

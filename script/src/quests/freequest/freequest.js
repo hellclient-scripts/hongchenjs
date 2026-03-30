@@ -480,13 +480,14 @@ $.Module(function (App) {
         return Freequest.Data.Success * 3600 * 1000 / ($.Now() - Freequest.Data.Start)
     }
     Freequest.GetTimesliceEff = function () {
-        let ts = App.Core.Timeslice.Get("Freequest")
+        let ts = App.Core.Timeslice.Get(Quest.Timeslice)
         return ts ? Freequest.Data.Success * 3600 * 1000 / ts : 0
     }
 
 
     let Quest = App.Quests.NewQuest("freequest")
     Quest.Name = "公共任务"
+    Quest.Timeslice="Freequest"
     Quest.Desc = ""
     Quest.Intro = ""
     Quest.Help = ""
