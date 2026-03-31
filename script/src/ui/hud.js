@@ -43,7 +43,7 @@
         let result = []
         let count = 0
         App.Quests.Queue.forEach(rq => {
-            if (!dup[rq.ID] && count < 4) {
+            if (!dup[rq.ID] && count < 5) {
                 dup[rq.ID] = true
                 let q = App.Quests.GetQuest(rq.ID)
                 if (q) {

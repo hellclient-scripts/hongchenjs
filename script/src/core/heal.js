@@ -57,7 +57,7 @@
             if ((new Date()).getTime() - App.Core.Heal.LastSleep > App.Core.Heal.SleepInterval) {//sleep
                 return function () {
                     let ts = App.Core.Timeslice.Current()
-                    App.Core.Timeslice.Change("睡觉")
+                    App.Core.Timeslice.Change("修整-睡觉")
                     if (App.Map.Room.Data["core.nosleep"] || App.Data.Item.List.FindByID("sleepbag").First() == null) {
                         App.Commands.PushCommands(
                             App.Move.NewToCommand(App.Params.LocSleep),
@@ -138,7 +138,7 @@
             return function () {
                 let ts = App.Core.Timeslice.Current()
                 App.Commands.PushCommands(
-                    $.Timeslice("疗伤"),
+                    $.Timeslice("修整-疗伤"),
                     App.Commands.NewDoCommand(App.Core.Dispel.Need ? "yun heal;yun dispel" : "yun heal"),//避免因为中毒不吃药卡住
                     App.NewNobusyCommand(),
                     App.Commands.NewDoCommand("yun recover;yun regenerate;hp"),
@@ -183,7 +183,7 @@
         if (App.Data.Player.HP["精气百分比"] <= 50 || (App.Data.Player.HP["精气百分比"] < 100 && App.Data.Player.HP["精气上限"] < 100)) {
             return function () {
                 let ts = App.Core.Timeslice.Current()
-                App.Core.Timeslice.Change("吃药")
+                App.Core.Timeslice.Change("修整-吃药")
                 App.Commands.PushCommands(
                     App.Commands.NewDoCommand((App.Core.Dispel.Need ? "yun dispel;" : "") + "eat yangjing dan;yun recover;yun regenerate;hp;i"),
                     App.NewNobusyCommand(),

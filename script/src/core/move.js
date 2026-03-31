@@ -349,6 +349,55 @@
     App.Move.Load = () => {
         App.Map.Movement.MaxStep = App.Params.NumStep
     }
+    App.Move.Hooks = {}
+    App.Move.HookEnter = (roomid, cb) => {
+        if (!App.Move.Hooks[roomid]) {
+            App.Move.Hooks[roomid] = []
+        }
+        if (!App.Move.Hooks[roomid].Enter) {
+            App.Move.Hooks[roomid].Enter = []
+        }
+        App.Move.Hooks[roomid].Enter.push(cb)
+    }
+    App.Move.HookLeave = (roomid, cb) => {
+        if (!App.Move.Hooks[roomid]) {
+            App.Move.Hooks[roomid] = []
+        }
+        if (!App.Move.Hooks[roomid].Leave) {
+            App.Move.Hooks[roomid].Leave = []
+        }
+        App.Move.Hooks[roomid].Leave.push(cb)
+    }
+
+    App.Move.ColdRooms = {}
+    App.Move.EnterColdRoom = (step) => {
+        if (App.Map.Room.ID && App.Move.ColdRooms[step.Target] && !App.Move.ColdRooms[App.Map.Room.ID]) {
+            if (App.Core.Player.GetSkillLevenByID("force") < 300) {
+                App.Send("yun recover")
+                if ((App.Data.Item.List.FindByID("cutton padded").First() != null)) {
+                    App.Send("remove cloth;wear cutton padded")
+                }
+            }
+        }
+    }
+    App.Move.LeaveColdRoom = (step) => {
+        if (App.Map.Room.ID && !App.Move.ColdRooms[step.Target] && App.Move.ColdRooms[App.Map.Room.ID]) {
+            if (App.Core.Player.GetSkillLevenByID("force") < 300) {
+                App.Send("yun recover")
+                if ((App.Data.Item.List.FindByID("cutton padded").First() != null)) {
+                    App.Send("remove cutton padded;hp")
+                }
+            }
+        }
+    }
+    App.Move.LoadHooks = () => {
+        App.Mapper.Database.APIListTraces(App.Mapper.HMM.APIListOption.New().WithKeys(["coldrooms"]))[0].Locations.forEach(item => {
+            App.Move.ColdRooms[item] = true
+            App.Move.HookEnter(item, App.Move.EnterColdRoom)
+            App.Move.HookLeave(item, App.Move.LeaveColdRoom)
+        })
+    }
+    App.Move.LoadHooks();
     App.Vehicle = new mapModule.Vehicle()
     App.Move.LastVehicleYanjiu = 0
     App.Vehicle.Send = function (step, map) {
@@ -359,7 +408,13 @@
                 $.RaiseStage("moveyanjiu")
             }
         }
+        if (step.Target && App.Move.Hooks[step.Target] && App.Move.Hooks[step.Target].Enter) {
+            App.Move.Hooks[step.Target].Enter.forEach(cb => cb(step))
+        }
         mapModule.DefaultVehicleSend(step, map)
+        if (App.Map.Room.ID && App.Move.Hooks[App.Map.Room.ID] && App.Move.Hooks[App.Map.Room.ID].Leave) {
+            App.Move.Hooks[App.Map.Room.ID].Leave.forEach(cb => cb(step))
+        }
     }
     mapModule.DefaultVehicle = App.Vehicle
 })(App)

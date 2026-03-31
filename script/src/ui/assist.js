@@ -16,8 +16,9 @@
         } else {
             list.append("stop", "结束任务")
         }
-        list.append("lian", "初始化练习清单")
         list.append("reload", "重新加载变量设置")
+        list.append("lian", "初始化练习清单")
+        list.append("learn", "选择师傅初始化学习清单，需要在师傅房间")
         list.append("npc", "NPC老师清单")
         list.append("rooms", "地图房间")
         list.append("params", "系统参数设置")
@@ -67,6 +68,9 @@
                     return
                 }
                 App.UI.Assist.LianShow()
+                break
+            case "learn":
+                App.UI.Assist.LearnShow()
                 break
             case "report":
                 if (App.InitCommad) {
@@ -305,6 +309,59 @@
             Userinput.alert("", "lian变量内容,请设置好开始结束指令后，保存并重新加载变量设置", GetVariable("lian"))
         }
     }
+    App.UI.Assist.LearnShow = () => {
+        if (!App.Map.Room.ID) {
+            Userinput.alert("", "无法识别当前房间", "请用#to npcid 到师傅的房间")
+            return
+        }
+        var list = Userinput.newlist("选择师傅", "选择你的师傅查看技能", true)
+        App.Map.Room.Data.Objects.Items.forEach(
+            (obj) => {
+                if (obj.ID.indexOf(" ") > 0) {
+                    list.append(obj.ID, `${obj.GetData().Name}(${obj.ID})`)
+                }
+            }
+        )
+        list.publish("App.UI.Assist.LearnPickTeacher")
+    }
+    App.UI.Assist.LearnPickTeacher = (name, id, code, data) => {
+        if (code == 0) {
+            $.PushCommands(
+                $.Function(() => {
+                    App.Core.NPC.ChaNPC(data)
+                    
+                }),
+                $.Function(App.UI.Assist.LearnPickSkills),
+            )
+            $.Next()
+        }
+    }
+    App.UI.Assist.LearnPickSkills = () => {
+        let teacherskills = App.Core.NPC.LastChaSkill
+        if (teacherskills.length == 0) {
+            Userinput.alert("", "无法获取技能列表", "无法获取技能列表，请确定你选择了正确的师傅")
+            return
+        }
+        var list = Userinput.newlist("请选择你要学习的技能", "注意，选择后你当前的study变量会清除。请注意备份", true)
+        list.setmutli(true)
+        teacherskills.forEach((skill) => {
+            if (skill.ID == "martial-cognize") {
+                return
+            }
+            var limit = skill["等级"] < 200 ? skill["等级"] : 200;
+            let cmd = `${skill.ID}|${limit}|xue|${App.Core.NPC.LastChaID}|${App.Map.Room.ID}|`
+            list.append(cmd, cmd)
+        })
+        list.publish("App.UI.Assist.LearnOnAction")
+    }
+    App.UI.Assist.LearnOnAction = (name, id, code, data) => {
+        if (code == 0) {
+            let skills = JSON.parse(data)
+            SetVariable("study", skills.join("\n"))
+            Userinput.alert("", "study变量内容,请设置好开始结束指令后，保存并重新加载变量设置", GetVariable("study"))
+        }
+    }
+
     App.UI.Assist.AdvanceShow = () => {
         var list = Userinput.newlist("高级设置", "请选择你感兴趣的高级设置", true)
         list.append("quests", "可用任务一览")

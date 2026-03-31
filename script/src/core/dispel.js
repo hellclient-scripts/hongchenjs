@@ -43,7 +43,7 @@
             return function () {
                 let ts = App.Core.Timeslice.Current()
                 App.Commands.PushCommands(
-                    $.Timeslice("解毒"),
+                    $.Timeslice("修整-解毒"),
                     App.Move.NewToCommand(App.Params.LocDazuo),
                     App.Commands.NewDoCommand("yun dispel;hp"),
                     App.NewNobusyCommand(),

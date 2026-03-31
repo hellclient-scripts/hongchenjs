@@ -322,7 +322,7 @@ $.Module(function (App) {
                     $.Next()
                     return
                 case "timeout":
-                    App.Log("巡逻超时")
+                    App.Log(`巡逻超时，目标位置${Changan.Data.Target[0]},实际位置${App.Map.Room.Name}`)
                     Changan.Fail()
                     return
             }

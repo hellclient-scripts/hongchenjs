@@ -232,4 +232,5 @@
         ]
         Userinput.confirm("", "设置完成", data.join("\n"))
     }
+
 })(App)

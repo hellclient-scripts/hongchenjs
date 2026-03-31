@@ -183,4 +183,59 @@
             Loc: [npc.Value],
         }
     })
+    App.Core.NPC.LastChaID = ""
+    App.Core.NPC.LastChaSkill = []
+    let matcherChaNpc = /^^[^。！：.『』【】…“”？?>.]{2,5}目前所学到的所有技能$/
+    var matcherChaStart = /^≡─+─≡$/
+    var matcherSkills = /^(  |□)([^\(\)]+)\s\((\S+)\)\s+\-\s*(\d+)\/\s*(\d+)%\s*/
+
+    let PlanChaNpc = new App.Plan(App.Positions["Response"],
+        (task) => {
+            let Mode = 0
+            var chastartcount = 0
+            App.Core.NPC.LastChaSkill = []
+            task.AddTrigger(matcherChaNpc, function (trigger, result, event) {
+                Mode = 1
+                return true
+            })
+            task.AddTrigger(matcherChaStart, function (trigger, result, event) {
+                if (Mode == 1) {
+                    chastartcount++
+
+                }
+                return true
+            })
+            task.AddTrigger(matcherSkills, function (trigger, result, event) {
+                if (Mode != 1 || chastartcount != 1) {
+                    return true
+                }
+                let skill = {
+                    "受限经验": true,
+                    "空手武学": false,
+                    "兵器武学": false,
+                    "音乐": false,
+                }
+                skill.ID = result[3]
+                skill["名称"] = result[2].replaceAll(" ", "")
+                skill["激发"] = (result[1].trim() != "")
+                skill["等级"] = result[4] - 0
+                skill["进度"] = result[5] - 0
+                App.Core.NPC.LastChaSkill.push(skill)
+                return true
+            })
+            App.Send(`cha ${App.Core.NPC.LastChaID}`)
+            App.Sync()
+        }, (result) => {
+            Dump(App.Core.NPC.LastChaSkill)
+            $.Next()
+        }
+    )
+    App.Core.NPC.ChaNPC = function (id) {
+        App.Core.NPC.LastChaID = id
+        App.PushCommands(
+            $.Plan(PlanChaNpc)
+        )
+        $.Next()
+
+    }
 })(App)

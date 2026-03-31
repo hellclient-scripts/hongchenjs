@@ -591,7 +591,7 @@
     let JiquNoPause = () => {
         let ts = App.Core.Timeslice.Current()
         App.Commands.PushCommands(
-            $.Timeslice("汲取"),
+            $.Timeslice("修整-汲取"),
             App.Move.NewToCommand(App.Params.LocDazuo),
             App.NewNobusyCommand(),
             App.Commands.NewDoCommand("yun regenerate;yun recover"),
@@ -606,7 +606,7 @@
     let JiquPauseContext = {}
 
     let JiquPause = () => {
-        App.Core.Timeslice.Change("汲取")
+        App.Core.Timeslice.Change("修整-汲取")
         App.Commands.PushCommands(
             App.Commands.NewFunctionCommand(JiquPauseNext)
         )
@@ -678,7 +678,7 @@
                 let data = Object.create(context)
                 data.NeiliMin = 15
                 return () => {
-                    App.Core.Timeslice.Change("学习")
+                    App.Core.Timeslice.Change("修整-学习")
                     $.PushCommands(
                         $.Function(() => { App.Core.Study.DoLearn(data) })
                     )

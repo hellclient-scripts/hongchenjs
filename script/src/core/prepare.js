@@ -89,7 +89,7 @@
         if (submit) {
             let ts = App.Core.Timeslice.Current()
             App.PushCommands(
-                $.Timeslice("修整"),
+                $.Timeslice("修整-其他"),
                 App.Commands.NewFunctionCommand(submit),
                 App.NewPrepareCommand(id, context),
                 $.Timeslice(ts),

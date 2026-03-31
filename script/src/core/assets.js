@@ -112,7 +112,7 @@
     App.Core.Assets.GoMaintain = function (result) {
         if (result) {
             let ts = App.Core.Timeslice.Current()
-            App.Core.Timeslice.Change("销赃")
+            App.Core.Timeslice.Change("修整-销赃")
             $.Insert($.Timeslice(ts),)
             switch (result.Command) {
                 case "#sell"://出售
