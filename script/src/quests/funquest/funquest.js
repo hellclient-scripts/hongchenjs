@@ -36,7 +36,7 @@ $.Module(function (App) {
     //目前薛老板让你把回执交回给甄有庆。
     let matcherLetterQuest2 = /^目前(.+)让你把回执交回给(.+)。$/
     //目前归二娘让你把一个包裹埋到长安城的关洛道去，再把那里的地形画下来交给他。
-    let matcherMapQuest = /^目前(.+)让你把一个包裹埋到(.+)的(.+)去，再把那里的地形画下来交给他。$/
+    let matcherMapQuest = /^目前(.+)让你把一个包裹埋到([^的]+)的(.+)去，再把那里的地形画下来交给他。$/
 
     let matcherSilver = /^目前(.+)让你付给他(.+)两白银换线索。$/
     let PlanFunquest = new App.Plan(App.Positions["Response"],
@@ -221,6 +221,7 @@ $.Module(function (App) {
     let matcherClue = /^([^：()\[\]]{2,5})在你耳边悄悄说道：“你不妨去找.+的(.+)打听打听，他那里可能有些线索。”/;
     let matcherNeedCancel = "紫虚道人盯着你看了看，说道：“你现在有任务在身，要是完成不了就先和我说一声取消。”"
     let matcherCooldown = "紫虚道人盯着你看了看，说道：“你刚取消过一次任务，先喝口水歇会儿再接着领下一个吧。”"
+    let matcherHighExp="紫虚道人盯着你看了看，说道：“您这种身手这种差事不太适合你了，你走吧。”"
     let PlanZixu = new App.Plan(App.Positions["Response"],
         (task) => {
             task.AddTrigger(matcherClue, (tri, result) => {
@@ -233,6 +234,10 @@ $.Module(function (App) {
             })
             task.AddTrigger(matcherCooldown, (tri, result) => {
                 task.Data = "cooldown"
+                return true
+            })
+            task.AddTrigger(matcherHighExp, (tri, result) => {
+                task.Data = "highexp"
                 return true
             })
             App.Send("yun regenerate;ask zixu daoren about 任务")
@@ -248,6 +253,9 @@ $.Module(function (App) {
                     return
                 case "cooldown":
                     Quest.Cooldown(60000)
+                    return
+                case "highexp":
+                    Quest.Cooldown(36000000)
                     return
             }
             App.Log("没有得到线索")
@@ -279,7 +287,6 @@ $.Module(function (App) {
             $.Rooms(npc.Loc, App.Zone.Finder),
             $.Function(() => {
                 if (App.Map.Room.Data.Objects.FindByIDLower(npc.ID).First() == null) {
-
                     App.Log(`没有找到NPC${npcname}`)
                     if (nofail) {
                         App.Commands.Drop()
@@ -342,12 +349,12 @@ $.Module(function (App) {
         }
     }
     Funquest.DoSilver = () => {
-        let sum = App.Data.Item.List.FindByIDLower("silver").Sum()
-        if (sum < Funquest.Data.Amount) {
+        let sum = App.Data.Item.List.FindByIDLower("gold").Sum()
+        if (sum < 1) {
             $.PushCommands(
                 $.Nobusy(),
                 $.To("qz"),
-                $.Do(`qu ${Funquest.Data.Amount} silver`),
+                $.Do(`qu 1 gold`),
                 $.Function(Funquest.DoSilverGive)
             )
             $.Next()
@@ -357,7 +364,7 @@ $.Module(function (App) {
     }
     Funquest.DoSilverGive = () => {
         let npc = Funquest.LoadNPC(Funquest.Data.Publisher);
-        Funquest.Data.Ask = `give ${Funquest.Data.Amount} silver to ${npc.ID.toLowerCase()};i`
+        Funquest.Data.Ask = `give 1 gold to ${npc.ID.toLowerCase()};i`
         $.PushCommands(
             $.Function(() => { Funquest.GoNPC(Funquest.Data.Publisher) }),
             $.Nobusy(),
@@ -570,6 +577,10 @@ $.Module(function (App) {
     let PlanSendFinish = new App.Plan(App.Positions["Response"],
         (task) => {
             task.AddTrigger(matcherSendok)
+            task.AddTimer(2000,(timer,result)=>{
+                Note("等老汉挂")
+                return true
+            })
             task.AddTimer(60000)
         },
         (result) => {

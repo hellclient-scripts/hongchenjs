@@ -61,8 +61,8 @@
         App.Core.Timeslice.Change("")
     }
     App.Quests.OnExec = (quests, ready) => {
-        let quest=ready.Quest
-        let ts=quest.Timeslice?quest.Timeslice:quest.Name
+        let quest = ready.Quest
+        let ts = quest.Timeslice ? quest.Timeslice : quest.Name
         App.Core.Timeslice.Change(ts)
     }
     App.Quests.DelayFunction = function (quests) {
@@ -85,7 +85,7 @@
     }))
     //注册yueli 条件
     App.Quests.Conditions.RegisterMatcher(App.Quests.Conditions.NewMatcher("yueli", function (data, target) {
-        return App.Data.Player.Score["阅历"] >= (data - 0)
+        return App.Data.Player.Score["江湖阅历"] >= (data - 0)
     }))
     //注册pot 条件
     App.Quests.Conditions.RegisterMatcher(App.Quests.Conditions.NewMatcher("pot", function (data, target) {
@@ -102,13 +102,40 @@
     }))
     //注册full 条件
     App.Quests.Conditions.RegisterMatcher(App.Quests.Conditions.NewMatcher("full", function (data, target) {
-        if (App.Params.FullTihui > 0 && App.Data.Player.HP["体会"] >= App.Params.FullTihui) {
+        if (App.Params.FullTihui > 0 && (App.Data.Player.HP["体会"] >= App.Params.FullTihui || App.Data.Player.HP["体会"] >= App.Data.Player.HPM["体会上限"])) {
             return true
         }
         if (App.Params.FullPot > 0 && App.Data.Player.HP["潜能"] >= App.Params.FullPot) {
             return true
         }
         return false
+    }))
+    //注册skill 条件
+    App.Quests.Conditions.RegisterMatcher(App.Quests.Conditions.NewMatcher("skill", function (data, target) {
+        let params = SplitN(data.trim(), " ", 2)
+        let skill = params[0]
+        if (!skill) {
+            PrintSystem(`无效的skill条件 ${data}`)
+            return false
+        }
+        let level = params.length > 1 ? params[1] - 0 : 1
+        return (App.Core.Player.GetSkillLevenByID(skill) || 0) >= level
+    }))
+    //注册Cooldown 条件
+    App.Quests.Conditions.RegisterMatcher(App.Quests.Conditions.NewMatcher("cooldown", function (data, target) {
+        let params = SplitN(data.trim(), " ", 2)
+        let quest = params[0]
+        if (!quest) {
+            PrintSystem(`无效的cooldown条件 ${data}`)
+            return false
+        }
+        let q = App.Quests.GetQuest(quest)
+        if (!q) {
+            PrintSystem(`无法找到任务 ${quest} 的信息`)
+            return false
+        }
+        let duration = params.length > 1 ? params[1] - 0 : 1
+        return $.Now() + duration * 1000 > q.CooldownTo
     }))
 
 })(App)            
