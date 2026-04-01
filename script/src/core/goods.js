@@ -108,9 +108,11 @@
         App.Next()
 
     }
+    App.Core.Goods.PrepareDataKey = "items"
     //注册item的准备
     App.Proposals.Register("item", App.Proposals.NewProposal(function (proposals, context, exclude) {
-        for (item of App.Core.Goods.Items) {
+        let items=App.Core.Goods.Items.concat(context[App.Core.Goods.PrepareDataKey]||[])
+        for (item of items) {
             let num = isNaN(item.Number) ? 1 : (item.Number - 0)
             if (num == 0) {
                 num = 1

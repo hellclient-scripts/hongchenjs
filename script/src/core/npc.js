@@ -226,7 +226,6 @@
             App.Send(`cha ${App.Core.NPC.LastChaID}`)
             App.Sync()
         }, (result) => {
-            Dump(App.Core.NPC.LastChaSkill)
             $.Next()
         }
     )

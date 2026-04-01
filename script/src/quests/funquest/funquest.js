@@ -1,8 +1,10 @@
 $.Module(function (App) {
+    let actionModule = App.RequireModule("helllibjs/conditions/action.js")
+
     let Funquest = {}
     Funquest.Current = 0
     Funquest.Success = 0
-
+    Funquest.Gifts = {}
     class Data {
         Publisher = ""
         Type = ""
@@ -15,7 +17,9 @@ $.Module(function (App) {
         LastRoom = ""
         Ask = ""
     }
-
+    let PrepareContext = {
+        [App.Core.Goods.PrepareDataKey]: [actionModule.Parse("#buy cutton padded").ParseNumber()],
+    }
     //你已经连续完成了 1 个趣味任务，继续加油努力啊！
     let matcherFunquest = /^你已经连续完成了\s+(\d+)\s+个趣味任务，继续加油努力啊！$/
     let matcherNoQuest = "你现在没有领任何趣味任务！"
@@ -50,7 +54,7 @@ $.Module(function (App) {
             task.AddTrigger(matcherCodeQuest, (tri, result) => {
                 Funquest.Data.Type = "code"
                 Funquest.Data.Publisher = result[1]
-                Funquest.Data.Object = result[2]
+                Funquest.Data.Object = result[2].trim()
                 return true
             })
             task.AddTrigger(matcherClueQuest, (tri, result) => {
@@ -122,10 +126,16 @@ $.Module(function (App) {
     App.LoadLines("src/quests/funquest/code.txt", "|").forEach((data) => {
         Funquest.CodeMap[data[0]] = data[1]
     })
+    Funquest.GetPreapreContext = () => {
+        if (App.Core.Player.GetSkillLevenByID("force") < 300) {
+            return PrepareContext
+        }
+        return {}
+    }
     Funquest.Go = () => {
         Funquest.Data = new Data()
         $.PushCommands(
-            $.Prepare("commonWithExp"),
+            $.Prepare("commonWithExp", Funquest.GetPreapreContext()),
             $.Function(Funquest.Check),
             $.Function(() => {
                 switch (Funquest.Data.Type) {
@@ -547,7 +557,7 @@ $.Module(function (App) {
         }
         Note("开始护送")
         $.PushCommands(
-            $.Rooms(
+            $.To(
                 Funquest.Data.Target,
                 App.Map.SingleStep(),
                 App.Map.NoFly(),
@@ -560,7 +570,7 @@ $.Module(function (App) {
     let PlanSendFinish = new App.Plan(App.Positions["Response"],
         (task) => {
             task.AddTrigger(matcherSendok)
-            task.AddTimer(30000)
+            task.AddTimer(60000)
         },
         (result) => {
             $.Next()
@@ -577,6 +587,7 @@ $.Module(function (App) {
     App.Core.Quest.AppendInitor(() => {
         Funquest.Current = 0
         Funquest.Success = 0
+        Funquest.Gifts = {}
     })
     Funquest.GetEff = function () {
         return Funquest.Success * 3600 * 1000 / ($.Now() - App.Quests.StartAt)
@@ -609,10 +620,10 @@ $.Module(function (App) {
         let eff = Funquest.Success > 3 ? Funquest.GetEff().toFixed(0) + "个/小时" : "-"
         let timesliceeff = Funquest.Success > 3 ? Funquest.GetTimesliceEff().toFixed(0) + "个/小时" : "-"
 
-        // let gifts = Object.keys(Changan.Gifts).map((gift) => `${gift}*${Changan.Gifts[gift]}`).join(",")
+        let gifts = Object.keys(Funquest.Gifts).map((gift) => `${gift}*${Funquest.Gifts[gift]}`).join(",")
         return [
             `趣味任务-成功:${Funquest.Success} 当前:${Funquest.Current} 毛效率:${eff} 净效率:${timesliceeff}`,
-            // `趣味任务-奖励:${gifts}`,
+            `趣味任务-奖励:${gifts}`,
         ]
     }
     //慕容染走了过来。
@@ -621,6 +632,7 @@ $.Module(function (App) {
     let matcherSuccess = /^通过这次锻炼，你获得了.+点经验，.+点潜能以及.+点实战体会。$/
     //牛华从怀里掏出一些白银交给你，说道：“这点算是这一路上的车马费。辛苦你了！”
     let matcherSendok = /^(.+)从怀里掏出一些白银交给你，说道：“这点算是这一路上的车马费。辛苦你了！”$/
+    let matcherGift = /^你获得了一.(.+)$/
     let PlanQuest = new App.Plan(
         App.Positions["Quest"],
         (task) => {
@@ -642,7 +654,11 @@ $.Module(function (App) {
                 }
                 return true
             })
-
+            task.AddTrigger(matcherGift, (tri, result) => {
+                let gift = result[1]
+                Funquest.Gifts[gift] = (Funquest.Gifts[gift] || 0) + 1
+                return true
+            })
         })
     Quest.Start = function (data) {
         PlanQuest.Execute()

@@ -227,9 +227,10 @@
             }
             return function () {
                 let ts = App.Core.Timeslice.Current()
+                let loc=App.Core.Dummy.ID?"chat":App.Params.LocDazuo
                 App.Core.Timeslice.Change("修整-放弃")
                 $.PushCommands(
-                    $.To(App.Params.LocDazuo),
+                    $.To(loc),
                     $.Do("fangqi exp;hp"),
                     $.Nobusy(),
                     $.Timeslice(ts),
