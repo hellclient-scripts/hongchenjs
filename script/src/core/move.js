@@ -23,6 +23,10 @@
     App.Sender.RegisterAlias("#l", function (data) {
         App.Look()
     })
+    //注册#sail别名，等到岸
+    App.Sender.RegisterAlias("#sail", function (data) {
+        $.RaiseStage("wait")
+    })
     //移动模块切换指令
     App.Map.OnModeChange = (map, old, mode) => {
         if (mode == "locate") {
@@ -64,7 +68,10 @@
     App.LoadLines("data/walkbusy.txt").forEach(data => {
         App.Move.BusyMessages[data] = true
     })
-
+    App.Move.WalkRetryMessages = {}
+    App.LoadLines("data/walkretry.txt").forEach(data => {
+        App.Move.WalkRetryMessages[data] = true
+    })
     //移动跟踪
     App.Map.Trace = function (map, rid, dir) {
         if (rid == "3527" && dir == "n") {
@@ -130,6 +137,10 @@
                     return true;
                 }
             }).WithName("blocked2")
+            task.AddCatcher("core.boatarrive", (catcher, event) => {
+                App.Send("halt;out")
+                return true
+            }).WithName("boatarrive")
             task.AddCatcher("core.blocked", (catcher, event) => {
                 catcher.WithData(event.Data)
             }).WithName("blocked")
@@ -153,6 +164,10 @@
                     catcher.WithName("blocked")
                     catcher.WithData(App.Move.BlockedMessages[event.Data.Output])
                     return false
+                }
+                if (App.Move.WalkRetryMessages[event.Data.Output]) {
+                    App.Move.RetryStep = true
+                    return true;
                 }
                 return true;
             })
