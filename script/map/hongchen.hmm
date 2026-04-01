@@ -1,5 +1,5 @@
 HMM1.0>UTF8
-Info>红尘MUD地图|1774943311|
+Info>红尘MUD地图|1775020385|
 Room>100|柳园||||w,113,,1|
 Room>1007|小树林||||s,1008,,1|
 Room>1008|小树林||||s,1009,,1;n,1007,,1|
@@ -2194,10 +2194,10 @@ Room>1287|酒肆|福州城||室外=|s,1296,,1|
 Room>1288|闽中大道|福州城||室外=|e,1328,,1;w,1296,,1|
 Room>1289|武夷山道|福州城||室外=|nu,1285,,1;w,1316,,1;su,1290,,1|
 Room>1290|闽浙古道|福州城||室外=|sd,1331,,1;nd,1289,,1|
-Room>1291|闽赣古道|福州城||室外=|ne,1331,,1;sw,1292,,1|
+Room>1291|闽赣古道|福州城||室外=|ne*,1331,,1;sw*,1292,,1|
 Room>1292|闽赣古道|福州城||室外=|ne,1291,,1;wu,1293,,1|
 Room>1293|闽赣古道|福州城||室外=|ed,1292,,1;wd,1294,,1|
-Room>1294|闽赣古道|福州城||室外=|nw,1111,,1;eu,1293,,1|
+Room>1294|闽赣古道|福州城||室外=|nw*,1111,,1;eu*,1293,,1|
 Room>1295|闽江|福州城||室外=|nw,1331,,1;se,1296,,1|
 Room>1296|闽中大道|福州城||室外=|e,1288,,1;nw,1295,,1;n,1287,,1|
 Room>1297|鼓山|福州城||室外=|wd,1312,,1;n,1332,,1|
@@ -2293,9 +2293,9 @@ Room>3584|白河|关外||室外=|e,3613,,1;w,3588,,1;n,3645,,1|
 Room>3585|白云峰|关外||室外=|ed,3635,,1;sw,3650,,1;n,3610,,1|
 Room>3586|北城|关外||室外=|s,3602,,1;w,3644,,1|
 Room>3588|谷草垛|关外||室外=|e,3584,,1;nw,3612,,1|
-Room>3589|船厂|关外||室外=|s*,3649,,1;yell boat,3592,,10;cross,3592,,1|
+Room>3589|船厂|关外||室外=|s*,3649,,1;yell boat,3592,,10;cross,3592,skill-dodge^300,1|
 Room>3591|达门|关外||室外=|nw,3619,,1;sw,3609,,1|
-Room>3592|大门坎子|关外||室外=|se,3594,,1;yell boat,3589,,10;cross,3589,,1|
+Room>3592|大门坎子|关外||室外=|se,3594,,1;yell boat,3589,,10;cross,3589,skill-dodge^300,1|
 Room>3593|东城|关外||室外=|e*,3647,,1;w,3602,,1;s,3641,,1;ne,3599,,1|
 Room>3594|二门坎子|关外||室外=|e,3612,,1;nw,3592,,1|
 Room>3595|伐木场|关外||室外=|su,3610,,1|
@@ -3905,8 +3905,8 @@ Room>257|大雪山口|血刀门||室外=|sd,258,,1;n,256,,1|
 Room>258|雪山山谷|血刀门||室外=|ed,260,,1;nu,257,,1;enter,247,,1|
 Room>259|雪山山谷|血刀门||室外=|e,248,xd^,1;wd,260,,1|
 Room>260|忘忧谷|血刀门||室外=|wu,258,,1;eu,259,,1|
-Room>2957|泊舟坞|燕子坞||室外=|e,2978,,1;nd,2975,,1;yell boat,2968,,10;cross,2968,,1|
-Room>2968|太湖湖畔|燕子坞||室外=|ne,1059,,1;yell boat,2957,,1;cross,2957,,1|
+Room>2957|泊舟坞|燕子坞||室外=|e,2978,,1;nd,2975,,1;yell boat,2968,,10;cross,2968,skill-dodge^300,1|
+Room>2968|太湖湖畔|燕子坞||室外=|ne,1059,,1;yell boat,2957,,1;cross,2957,skill-dodge^300,1|
 Room>2975|木梯|燕子坞||室外=|su,2957,,1;eu,2982,,1|
 Room>2977|内堂|燕子坞|||n,2982,,1|
 Room>2978|品笛庭|燕子坞|||e,2974,mr^,1;w,2957,,1|
@@ -4105,7 +4105,7 @@ Room>3757|群玉楼雅室|长安城|||w,3751,,1|
 Room>3758|群玉楼雅室|长安城|||s,3752,,1|
 Room>3759|群玉楼雅室|长安城|||n,3752,,1|
 Room>3760|群玉楼雅室|长安城|||e,3752,,1|
-Room>3761|群玉楼雅室|长安城|||w,3752,,1;push bed\&enter,3753,die^,2|
+Room>3761|群玉楼雅室|长安城|||w,3752,,1;push bed\&enter,3753,,2|
 Room>3762|关洛道|长安城||室外=|e,3766,,1;nw,3701,,1|
 Room>3763|大官道|长安城||室外=|e,2276,,1;w,3800,,1|
 Room>3764|大官道|长安城||室外=|e,3800,,1;w,3765,,1|
@@ -4314,7 +4314,7 @@ Room>1860|树林|庄内间||室外=|w,1863,,1;nw,1859,,1;se,1861,,1|
 Room>1861|树林|庄内间||室外=|e,1862,,1;nw,1860,,1|
 Room>1862|树林|庄内间||室外=|s,1855,,1;w,1861,,1|
 Room>1863|树林|庄内间||室外=|e,1860,,1;sw,1865,,1|
-Room>1864|太湖|庄内间||室外=|cross,1850,,1;yell boat,1850,,10;n,1855,,1|
+Room>1864|太湖|庄内间||室外=|cross,1850,skill-dodge^300,1;yell boat,1850,,10;n,1855,,1|
 Room>1865|田地|庄内间||室外=|ne,1863,,1;w,1866,,1|
 Room>1866|宜兴|庄内间||室外=|e,1865,,1;nw,1602,,1;s,1852,,1|
 Marker>chat|4176||聊天室|
@@ -4975,6 +4975,22 @@ Marker>zuo lengchan|274|npc||左冷禅\|zuo lengchan
 Marker>zuo zimu|595|npc||左子穆\|zuo zimu
 Marker>public_dazuo|4183|publc||公共打坐
 Marker>public_sleep|4183|public||公共休息
+Marker>shop-baihuzhai|1088|shop|百狐斋|
+Marker>shop-baodaiqiao|1017|shop|宝带桥|
+Marker>shop-baozipu|3661|shop|包子铺|
+Marker>shop-beijiecaishi|3354|shop|北街菜市|
+Marker>shop-chengduyp|1518|shop|济世堂药店|
+Marker>shop-daodian|400|shop|刀店|
+Marker>shop-fuzhouzhp|1334|shop|福州杂货铺|
+Marker>shop-gaoshengcaiguan|3387|shop|高升茶馆|
+Marker>shop-huadian|3702|shop|花店|
+Marker>shop-huichuntang|3404|shop|回春堂|
+Marker>shop-louwailou|2694|shop|楼外楼|
+Marker>shop-shoushidian|3770|shop|首饰店|
+Marker>shop-shuiguodian|2322|shop|水果店|
+Marker>shop-wangxinglou2f|3713|shop|望星楼二楼|
+Marker>shop-wudukefang|1401|shop|五毒客房|
+Marker>shop-xidan|3501|shop|西单|
 Landmark>3128|descline|    这里就是神龙岛了。南边是一望无际的大海；往北则是片||
 Landmark>3858|descline|    这里是少林寺前的广场，整个广场由大块的青石铺成，极为||
 Variable>houselist|bearoom\|4084\|盘龙\|天宫一号\ncmc\|4084\|小院\|神庭\ncmca\|4084\|小院\|太霄\ndaimonroom\|4084\|小院\|小别野\ndgaroom\|4084\|小院\|独孤一居\ndgbroom\|4084\|小院\|独孤二居\ndgcroom\|4084\|小院\|独孤三居\ndgdroom\|4084\|小院\|独孤四居\ndoczroom\|4084\|小院\|护士站\ngdaroom\|4084\|小院\|孤独一居\ngdbroom\|4084\|小院\|孤独二居\ngdcroom\|4084\|小院\|孤独三居\ngddroom\|4084\|小院\|孤独四居\ngderoom\|4084\|小院\|孤独五居\ngdfroom\|4084\|小院\|孤独六居\nljl\|4084\|小院\|老君炉\nmoonhouse\|4084\|小院\|月神居\nrobot\|4084\|盘龙\|机器人工厂\nrou\|4084\|小院\|红烧肉之家\nstrikeroom\|4084\|小院\|千与千寻居\ntaobao\|4084\|小院\|淘宝\nthanksyu\|4084\|盘龙\|博雅居\nzhi\|4084\|小院\|知孚里\ncat\|3321\|小院\|海天一色\nimebz\|3321\|小院\|帝王宝藏\nsxf\|3321\|小院\|清风轩\nxxo\|3321\|小院\|人渣集散地\nxxoo\|3321\|小院\|运师附小\ndong\|3322\|小院\|虫洞\nlongfa\|3322\|盘龙\|龙凤\nmmj\|3322\|盘龙\|酒吧\nqyl\|3322\|盘龙\|群玉楼\nsanerck\|3322\|小院\|散二仓库\nxxyy\|3322\|盘龙\|潇湘夜雨\nyao\|3322\|小院\|药庐\nbbh\|1787\|小院\|贝贝居\nbugs\|1787\|盘龙\|八哥居\ncaixia\|1787\|小院\|彩云之居\ndalishi\|1787\|小院\|青山\ndmidbroom\|1787\|小院\|天乙家\ndxk\|1787\|盘龙\|侠隐居\nfangzi\|1787\|小院\|天上人间\nfangzier\|1787\|小院\|天上人间二号\nfangzisan\|1787\|小院\|天上人间三号\nhbtwo\|1787\|盘龙\|无为观\nhhdgd\|1787\|盘龙\|涵涵打工屋\nhhz\|1787\|小院\|简居\nhhzz\|1787\|盘龙\|大平层\nitem\|1787\|盘龙\|萌新集中营\njuelszz\|1787\|小院\|牧场\nkkk\|1787\|小院\|西关小院\nlaoban\|1787\|小院\|地狱深渊\nlongfei\|1787\|小院\|南海明珠\nluk\|1787\|小院\|陆可\nlzza\|1787\|盘龙\|紫月居\nlzzd\|1787\|小院\|毒巢\nmufang\|1787\|小院\|木头房\npanlong\|1787\|盘龙\|盘龙居\nqianyelian\|1787\|小院\|千叶莲居\nqinglong\|1787\|小院\|华夏总盟\nrenzha\|1787\|小院\|人渣批发市场\nsglm\|1787\|小院\|三国联盟\nsglma\|1787\|盘龙\|三国联盟基地\nshjy\|1787\|小院\|盛合嘉园\nssd\|1787\|小院\|山水渡\ntgxy\|1787\|小院\|无相居\ntjxb\|1787\|盘龙\|筑剑小屋\ntrees\|1787\|盘龙\|大树洞\nttrees\|1787\|小院\|小树林\ntylg\|1787\|盘龙\|太原理工大学\nvea\|1787\|小院\|星河\nvingi\|1787\|小院\|苍月居\nvvv\|1787\|小院\|小宇宙\nwoyao\|1787\|小院\|要不完\nwsmjzb\|1787\|小院\|七彩云南\nxbb\|1787\|小院\|北一环蜗居\nxiaoyao\|1787\|小院\|逍遥居\nxlqy\|1787\|小院\|仙旅奇缘\nyoyoh\|1787\|小院\|哟哟小屋\nzhonghua\|1787\|盘龙\|华夏总舵\ncaihong\|1059\|小院\|彩虹\nworoom\|1059\|盘龙\|蜗居\nxingshi\|1059\|盘龙\|醒世轩\nazure\|1050\|小院\|蔚蓝海岸\nbaoshi\|1050\|盘龙\|紫云山庄\nbingbu\|1050\|盘龙\|兵部\nbucuochat\|1050\|盘龙\|爽歪歪之家\neastroom\|1050\|小院\|东厂\nfang\|1050\|盘龙\|芳草地\nfisher\|1050\|小院\|独乐\nfishhome\|1050\|小院\|鱼窝\ngwt\|1050\|小院\|恒大歌舞团\nhpsla\|1050\|盘龙\|和平之家\nhpslb\|1050\|小院\|神二局\nlaas\|1050\|小院\|一米居\nlotuss\|1050\|盘龙\|莲蓬\nmichell\|1050\|小院\|贝塔\nmin\|1050\|盘龙\|山水云间\nmoon\|1050\|小院\|广寒宫\nswordhouse\|1050\|小院\|试剑居\nvvj\|1050\|盘龙\|酒吧\nxiang\|1050\|小院\|尚香宫\nyqg\|1050\|盘龙\|太微玉清宫\nabao\|2785\|小院\|宝窝\nabaoa\|2785\|盘龙\|大院子\ndarkly\|2785\|小院\|九重紫\ndpc\|2785\|小院\|大平层\nfactory\|2785\|小院\|黑灯工厂\nfeb\|2785\|小院\|离火宫\nshg\|2785\|盘龙\|神水宫\nsmallhouse\|2785\|小院\|小房子\ntay\|2785\|小院\|药佬居\nvichz\|2785\|小院\|独栋别墅\nhdq\|1051\|小院\|红灯区\nlsf\|1051\|小院\|洛神赋\nrsj\|1051\|盘龙\|人世间\nxiehui\|1051\|盘龙\|江南武林协会\nyuan\|1051\|小院\|百花苑\nbluecat\|1052\|小院\|猫窝\nbluechat\|1052\|小院\|猫的仓库\nbluestore\|1052\|盘龙\|猫店\nbucuohouse\|1052\|小院\|逍遥居\nhlt\|1052\|小院\|潇湘\nbucuoroom\|3239\|盘龙\|天下第一楼\npanlong\|3239\|盘龙\|沧海一声笑\nwarehouse\|3239\|小院\|沧澜居||房屋信息变量，通过ScanHouse收集
@@ -5085,7 +5101,7 @@ Trace>扬州|npcd||2441;2450;2506;2530|
 Trace>长安|npcd||3656;3663;3678;3735;3741;3778|
 Trace>中州|npcd||470;473;490;509;512;545|
 Trace>终南|npcd||633;635;643;703;709;717;890;904|
-Shortcut>flyup|fly|使用 fly bag的flyup|!noshortcut=|flyup|4177|flyup=|2
+Shortcut>flyup|fly|使用 fly bag的flyup|!noshortcut=|flyup*|4177|flyup=|2
 Shortcut>rideto baituo|ride||!noshortcut=|rideto baituo|773|ride=|2
 Shortcut>rideto beijing|ride||!noshortcut=|rideto beijing|3475|ride=|2
 Shortcut>rideto changan|ride||!noshortcut=|rideto changan|3676|ride=|2

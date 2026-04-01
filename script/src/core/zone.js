@@ -258,5 +258,15 @@
         uq.Commands.Next()
     })
 
-
+    App.Zone.FilterRoomnameInZone = (zonename, roomname) => {
+        zonename = zonename.slice(0, 2)
+        let zone = App.Zone.Maps[zonename]
+        if (zone == null) {
+            App.Log(`未知的区域: ${zonename}`)
+            return
+        }
+        let filter = App.Mapper.HMM.RoomFilter.New()
+        filter.HasAnyName = [roomname]
+        return App.Mapper.Database.APIFilterRooms(zone.Rooms, filter).map(r => r.Key)
+    }
 })(App)

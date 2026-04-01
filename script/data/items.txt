@@ -1,17 +1,207 @@
 shui dai|shui dai|牛皮水袋|buy|zxl|buy shui dai from xiao er|
 gan liang|gan liang|干粮|buy|zxl|buy 5 gan liang from xiao er|
 jin chuangyao|jin chuangyao|金创药|buy|yp|buy 金创药 from yaopu huoji|
-yangjing dan|yangjing dan|养精丹|buy|yp|buy 养精丹 from yaopu huoji|
+//yangjing dan|yangjing dan|养精丹|buy|yp|buy 养精丹 from yaopu huoji|
 yuchi zhou|yuchi zhou|鱼翅粥|buy|zxl|buy 100 yuchi zhou from xiao er|
-fire|fire|火折|buy|zhp|buy 火折 from yang yongfu|
-cutton padded|cutton padded|棉衣|buy|zhp|buy 棉衣 from yang yongfu|
-long bow|long bow|长弓|buy|dtp|buy long bow from tie jiang|8
+//fire|fire|火折|buy|zhp|buy 火折 from yang yongfu|
+//long bow|long bow|长弓|buy|dtp|buy long bow from tie jiang|8
 arrow|Arrow|狼牙箭|buy|dtp|buy 50 狼牙箭 from tie jiang|3
-long sword|long sword|长剑|buy|dtp|buy long sword from tie jiang|
-iron blade|iron blade|钢刀|buy|dtp|buy iron blade from tie jiang|
-sleepbag|sleepbag|睡袋|buy|zhp|buy 睡袋 from yang yongfu
+//long sword|long sword|长剑|buy|dtp|buy long sword from tie jiang|
+//iron blade|iron blade|钢刀|buy|dtp|buy iron blade from tie jiang|
+//sleepbag|sleepbag|睡袋|buy|zhp|buy 睡袋 from yang yongfu
 
-diao gan|diao gan|钓竿|buy|liu laoshi|buy 钓竿 from liu laoshi
-yu er|yu er|鱼饵|buy|liu laoshi|buy 100 鱼饵 from liu laoshi
+//diao gan|diao gan|钓竿|buy|liu laoshi|buy 钓竿 from liu laoshi
 
 hua zhong|hua zhong|花种|buy|hua nong|buy 花种 from hua nong
+
+wandao|wandao|阿拉伯弯刀|buy|shop-daodian|buy 阿拉伯弯刀
+hulu|hulu|葫芦|buy|shop-baodaiqiao|buy 葫芦
+zhubang|zhubang|竹棒|buy|shop-baodaiqiao|buy 竹棒
+zhujian|zhujian|竹剑|buy|shop-baodaiqiao|buy 竹剑
+caixia tu|caixia tu|彩霞图腾|buy|shop-baihuzhai|buy 彩霞图腾
+canyue tu|canyue tu|残月图腾|buy|shop-baihuzhai|buy 残月图腾
+daofeng tu|daofeng tu|刀锋图腾|buy|shop-baihuzhai|buy 刀锋图腾
+fengyu tu|fengyu tu|凤羽图腾|buy|shop-baihuzhai|buy 凤羽图腾
+hudie tu|hudie tu|蝴蝶图腾|buy|shop-baihuzhai|buy 蝴蝶图腾
+huiyan tu|huiyan tu|慧眼图腾|buy|shop-baihuzhai|buy 慧眼图腾
+huoyan tu|huoyan tu|火焰图腾|buy|shop-baihuzhai|buy 火焰图腾
+huzhao tu|huzhao tu|虎爪图腾|buy|shop-baihuzhai|buy 虎爪图腾
+kulou tu|kulou tu|骷髅图腾|buy|shop-baihuzhai|buy 骷髅图腾
+longya tu|longya tu|龙牙图腾|buy|shop-baihuzhai|buy 龙牙图腾
+longzhao tu|longzhao tu|龍爪图腾|buy|shop-baihuzhai|buy 龍爪图腾
+meigui tu|meigui tu|玫瑰图腾|buy|shop-baihuzhai|buy 玫瑰图腾
+qingshe tu|qingshe tu|青蛇图腾|buy|shop-baihuzhai|buy 青蛇图腾
+shandian tu|shandian tu|闪电图腾|buy|shop-baihuzhai|buy 闪电图腾
+taiji tu|taiji tu|太极图腾|buy|shop-baihuzhai|buy 太极图腾
+wugong tu|wugong tu|蜈蚣图腾|buy|shop-baihuzhai|buy 蜈蚣图腾
+xiezi tu|xiezi tu|蝎子图腾|buy|shop-baihuzhai|buy 蝎子图腾
+yanlei tu|yanlei tu|眼泪图腾|buy|shop-baihuzhai|buy 眼泪图腾
+yanzi tu|yanzi tu|燕子图腾|buy|shop-baihuzhai|buy 燕子图腾
+yujian tu|yujian tu|羽箭图腾|buy|shop-baihuzhai|buy 羽箭图腾
+flower shoes|flower shoes|绣花小鞋|buy|shop-fuzhouzhp|buy 绣花小鞋
+golden necklace|golden necklace|金项链|buy|shop-fuzhouzhp|buy 金项链
+golden ring|golden ring|金戒指|buy|shop-fuzhouzhp|buy 金戒指
+pink cloth|pink cloth|粉红绸衫|buy|shop-fuzhouzhp|buy 粉红绸衫
+xiuhua zhen|xiuhua zhen|绣花针|buy|shop-fuzhouzhp|buy 绣花针
+ningbing dan|ningbing dan|凝冰丹|buy|shop-wudukefang|buy 凝冰丹
+feihuang shi|feihuang shi|飞蝗石|buy|tang huai|buy 飞蝗石
+flower leaf|flower leaf|花瓣|buy|tang huai|buy 花瓣
+tea leaf|tea leaf|茶叶|buy|tang huai|buy 茶叶
+tie lianzi|tie lianzi|铁莲子|buy|tang huai|buy 铁莲子
+bican fen|bican fen|碧蚕粉|buy|shop-chengduyp|buy 碧蚕粉
+biyan hu|biyan hu|翡翠鼻烟壶|buy|han yun|buy 翡翠鼻烟壶
+biyu cima|biyu cima|碧玉瓷马|buy|han yun|buy 碧玉瓷马
+feitian pei|feitian pei|玲珑飞天佩|buy|han yun|buy 玲珑飞天佩
+guanyin xiang|guanyin xiang|白瓷观音像|buy|han yun|buy 白瓷观音像
+lianhua zuo|lianhua zuo|八宝莲花座|buy|han yun|buy 八宝莲花座
+moyun dou|moyun dou|七窍墨云斗|buy|han yun|buy 七窍墨云斗
+puti shu|puti shu|淡朱菩提树|buy|han yun|buy 淡朱菩提树
+qingtian jue|qingtian jue|碧海青天爵|buy|han yun|buy 碧海青天爵
+mu dao|mu dao|木刀|buy|lu kai|buy 木刀
+qimei gun|qimei gun|齐眉棍|buy|lu kai|buy 齐眉棍
+lizhi|lizhi|荔枝|buy|shop-shuiguodian|buy 荔枝
+xigua|xigua|西瓜|buy|shop-shuiguodian|buy 西瓜
+xiangjiao|xiangjiao|香蕉|buy|shop-shuiguodian|buy 香蕉
+baitianmu ciwan|baitianmu ciwan|白天目磁碗|buy|qin zhanggui|buy 白天目磁碗
+bibo hai|bibo hai|胭脂碧波瓠|buy|qin zhanggui|buy 胭脂碧波瓠
+luowen hai|luowen hai|淡青螺纹醢|buy|qin zhanggui|buy 淡青螺纹醢
+doufu|doufu|翡翠豆腐|buy|aqing sao|buy 翡翠豆腐
+huasheng|huasheng|五香花生|buy|aqing sao|buy 五香花生
+armor|armor|铁甲|buy|dtp|buy 铁甲
+arrow2|arrow|羽箭|buy|dtp|buy 羽箭
+dagger|dagger|普通匕首|buy|dtp|buy 普通匕首
+hammer|hammer|铁锤|buy|dtp|buy 铁锤
+iron|iron|百炼精铁|buy|dtp|buy 百炼精铁
+iron blade|iron blade|钢刀|buy|dtp|buy 钢刀
+knife|knife|屠刀|buy|dtp|buy 屠刀
+long bow|long bow|长弓|buy|dtp|buy 长弓|8
+long sword|long sword|长剑|buy|dtp|buy 长剑
+short bow|short bow|短弓|buy|dtp|buy 短弓
+staff|staff|铁杖|buy|dtp|buy 铁杖
+tiegun|tiegun|铁棍|buy|dtp|buy 铁棍
+//狼牙箭|狼牙箭|狼牙箭|buy|dtp|buy 狼牙箭
+baoshi yaodai|baoshi yaodai|蓝宝石腰带|buy|zeng rou|buy 蓝宝石腰带
+bu xie|bu xie|布鞋|buy|zeng rou|buy 布鞋
+danyan sha|danyan sha|梨芯淡烟纱|buy|zeng rou|buy 梨芯淡烟纱
+guihua shan|guihua shan|桂花浮玉衫|buy|zeng rou|buy 桂花浮玉衫
+jiaoyue shang|jiaoyue shang|琼花皎月裳|buy|zeng rou|buy 琼花皎月裳
+jiehun lifu|jiehun lifu|结婚礼服|buy|zeng rou|buy 结婚礼服
+jinshen ao|jinshen ao|彩缎紧身袄|buy|zeng rou|buy 彩缎紧身袄
+kongque yuyi|kongque yuyi|孔雀羽衣|buy|zeng rou|buy 孔雀羽衣
+ma gua|ma gua|浅蓝色马褂|buy|zeng rou|buy 浅蓝色马褂
+nihong qun|nihong qun|霓红连衣裙|buy|zeng rou|buy 霓红连衣裙
+ningxiang yi|ningxiang yi|艳露凝香衣|buy|zeng rou|buy 艳露凝香衣
+piaoxue shang|piaoxue shang|梨花飘雪裳|buy|zeng rou|buy 梨花飘雪裳
+qicai yi|qicai yi|七彩霞云衣|buy|zeng rou|buy 七彩霞云衣
+ruanjin sudai|ruanjin sudai|软金束带|buy|zeng rou|buy 软金束带
+shaxiang qun|shaxiang qun|紫绫纱湘裙|buy|zeng rou|buy 紫绫纱湘裙
+tuanjin gua|tuanjin gua|富贵团金褂|buy|zeng rou|buy 富贵团金褂
+wucai qun|wucai qun|五彩绣花裙|buy|zeng rou|buy 五彩绣花裙
+xiaofang jin|xiaofang jin|绣花小方巾|buy|zeng rou|buy 绣花小方巾
+xiaoyao jin|xiaoyao jin|一字逍遥巾|buy|zeng rou|buy 一字逍遥巾
+xiucai zhuang|xiucai zhuang|淡烟秀才装|buy|zeng rou|buy 淡烟秀才装
+xiuhua xie|xiuhua xie|绣花鞋|buy|zeng rou|buy 绣花鞋
+xuanse ao|xuanse ao|玄色紧身袄|buy|zeng rou|buy 玄色紧身袄
+yangpi xue|yangpi xue|羊皮靴|buy|zeng rou|buy 羊皮靴
+yingwu fu|yingwu fu|翠柳鹦鹉服|buy|zeng rou|buy 翠柳鹦鹉服
+yingzi mao|yingzi mao|缨子帽|buy|zeng rou|buy 缨子帽
+bajiao shan|bajiao shan|芭蕉扇|buy|liu susu|buy 芭蕉扇
+chouwu shan|chouwu shan|绸舞扇|buy|liu susu|buy 绸舞扇
+shanshang book|shanshang book|「扇赏」|buy|liu susu|buy 「扇赏」
+tanxiang shan|tanxiang shan|檀香扇|buy|liu susu|buy 檀香扇
+tuan shan|tuan shan|团扇|buy|liu susu|buy 团扇
+yuban shan|yuban shan|玉版扇|buy|liu susu|buy 玉版扇
+yumao shan|yumao shan|羽毛扇|buy|liu susu|buy 羽毛扇
+zhe shan|zhe shan|折扇|buy|liu susu|buy 折扇
+book1|book1|「三字经」|buy|zhu xi|buy 「三字经」
+book2|book2|「百家姓」|buy|zhu xi|buy 「百家姓」
+book3|book3|「千字文」|buy|zhu xi|buy 「千字文」
+tangshi xuanji|tangshi xuanji|「唐诗选辑」|buy|zhu xi|buy 「唐诗选辑」
+dust|dust|化尸粉|buy|yp|buy 化尸粉
+jinchuang yao|jinchuang yao|金创药|buy|yp|buy 金创药
+quchuang fen|quchuang fen|祛疮粉|buy|yp|buy 祛疮粉
+shanghan chou|shanghan chou|伤寒愁|buy|yp|buy 伤寒愁
+she xiang|she xiang|麝香|buy|yp|buy 麝香
+tuishao ling|tuishao ling|退烧灵|buy|yp|buy 退烧灵
+xiaoshu wan|xiaoshu wan|消暑丸|buy|yp|buy 消暑丸
+xionghuang|xionghuang|雄黄|buy|yp|buy 雄黄
+yanbo|yanbo|研钵|buy|yp|buy 研钵
+yangjing dan|yangjing dan|养精丹|buy|yp|buy 养精丹
+zhike yao|zhike yao|止咳药|buy|yp|buy 止咳药
+boots|boots|皮靴|buy|zhp|buy 皮靴
+brush|brush|刷子|buy|zhp|buy 刷子
+budai|budai|麻布袋|buy|zhp|buy 麻布袋
+cutton padded|cutton padded|棉衣|buy|zhp|buy 棉衣
+dan gong|dan gong|弹弓|buy|zhp|buy 弹弓
+finger|finger|指套|buy|zhp|buy 指套
+fire|fire|火折|buy|zhp|buy 火折
+gloves|gloves|皮手套|buy|zhp|buy 皮手套
+helmet|helmet|头盔|buy|zhp|buy 头盔
+iron hand|iron hand|铁手掌|buy|zhp|buy 铁手掌
+jinsi jia|jinsi jia|金丝甲|buy|zhp|buy 金丝甲
+leather shield|leather shield|牛皮盾|buy|zhp|buy 牛皮盾
+neck-cycle|neck-cycle|武者项圈|buy|zhp|buy 武者项圈
+pi beixin|pi beixin|皮背心|buy|zhp|buy 皮背心
+sandals|sandals|草鞋|buy|zhp|buy 草鞋
+shi zi|shi zi|石子|buy|zhp|buy 石子
+shoeshine|shoeshine|鞋油|buy|zhp|buy 鞋油
+silk|silk|缠魂丝|buy|zhp|buy 缠魂丝
+sleepbag|sleepbag|睡袋|buy|zhp|buy 睡袋
+surcoat|surcoat|肚带|buy|zhp|buy 肚带
+waist|waist|护腰|buy|zhp|buy 护腰
+wood|wood|木材|buy|zhp|buy 木材
+wrists|wrists|护腕|buy|zhp|buy 护腕
+Guihua geng|Guihua geng|桂花鲜栗羹|buy|shop-louwailou|buy 桂花鲜栗羹
+baozi|baozi|百果油包|buy|shop-louwailou|buy 百果油包
+chicken|chicken|叫化童鸡|buy|shop-louwailou|buy 叫化童鸡
+fish|fish|西湖醋鱼|buy|shop-louwailou|buy 西湖醋鱼
+jiuping|jiuping|酒瓶|buy|shop-louwailou|buy 酒瓶
+pork|pork|东坡肉|buy|shop-louwailou|buy 东坡肉
+shrimp|shrimp|龙井虾仁|buy|shop-louwailou|buy 龙井虾仁
+bai cai|bai cai|白菜|buy|shop-beijiecaishi|buy 白菜
+da cong|da cong|大葱|buy|shop-beijiecaishi|buy 大葱
+hu luobo|hu luobo|胡萝卜|buy|shop-beijiecaishi|buy 胡萝卜
+luobo|luobo|萝卜|buy|shop-beijiecaishi|buy 萝卜
+tu dou|tu dou|土豆|buy|shop-beijiecaishi|buy 土豆
+gaiwan tea|gaiwan tea|盖碗茶|buy|shop-gaoshengcaiguan|buy 盖碗茶
+longjing cha|longjing cha|一级龙井茶|buy|shop-gaoshengcaiguan|buy 一级龙井茶
+longjing tea|longjing tea|龙井茶|buy|shop-gaoshengcaiguan|buy 龙井茶
+wulong tea|wulong tea|乌龙茶|buy|shop-gaoshengcaiguan|buy 乌龙茶
+yu er|yu er|鱼饵|buy|liu laoshi|buy 100 鱼饵 from liu laoshi
+gaoyao|gaoyao|膏药|buy|shop-huichuntang|buy 膏药
+huichun wan|huichun wan|回春丸|buy|shop-huichuntang|buy 回春丸
+jiudai|jiudai|花雕酒袋|buy|cheng laoban|buy 花雕酒袋
+kaoya|kaoya|全聚德烤鸭|buy|cheng laoban|buy 全聚德烤鸭
+bingtang hulu|bingtang hulu|冰糖葫芦|buy|shop-xidan|buy 冰糖葫芦
+haixian baozi|haixian baozi|海鲜包子|buy|shop-baozipu|buy 海鲜包子
+sucai baozi|sucai baozi|素菜包子|buy|shop-baozipu|buy 素菜包子
+zhurou baozi|zhurou baozi|猪肉包子|buy|shop-baozipu|buy 猪肉包子
+hami gua|hami gua|哈密瓜|buy|zhang lanxiang|buy 哈密瓜
+ju zi|ju zi|桔子|buy|zhang lanxiang|buy 桔子
+ping guo|ping guo|苹果|buy|zhang lanxiang|buy 苹果
+bai chahua|bai chahua|白茶花|buy|shop-huadian|buy 白茶花
+hei mudan|hei mudan|黑牡丹|buy|shop-huadian|buy 黑牡丹
+hong meigui|hong meigui|红玫瑰|buy|shop-huadian|buy 红玫瑰
+huang meigui|huang meigui|黄玫瑰|buy|shop-huadian|buy 黄玫瑰
+lan tiane|lan tiane|蓝天鹅|buy|shop-huadian|buy 蓝天鹅
+zi luolan|zi luolan|紫罗兰|buy|shop-huadian|buy 紫罗兰
+blade book|blade book|〖刀法简介〗|buy|shu chi|buy 〖刀法简介〗
+unarmed book|unarmed book|〖拳法简介〗|buy|shu chi|buy 〖拳法简介〗
+luohan jiyu|luohan jiyu|罗汉鲫鱼|buy|shop-wangxinglou2f|buy 罗汉鲫鱼
+sunuan xiangji|sunuan xiangji|素暖香鸡|buy|shop-wangxinglou2f|buy 素暖香鸡
+zui xunfeng|zui xunfeng|醉熏风|buy|shop-wangxinglou2f|buy 醉熏风
+daoxiao mian|daoxiao mian|刀削面|buy|lao zhang|buy 刀削面
+mian tang|mian tang|面汤|buy|lao zhang|buy 面汤
+niurou mian|niurou mian|牛肉面|buy|lao zhang|buy 牛肉面
+paigu mian|paigu mian|排骨面|buy|lao zhang|buy 排骨面
+bai jie|bai jie|白金戒指|buy|shop-shoushidian|buy 白金戒指
+bao jie|bao jie|宝石戒指|buy|shop-shoushidian|buy 宝石戒指
+yin jie|yin jie|银戒指|buy|shop-shoushidian|buy 银戒指
+zuan jie|zuan jie|钻石戒指|buy|shop-shoushidian|buy 钻石戒指
+diao gan|diao gan|钓竿|buy|liu laoshi|buy 钓竿
+muqin|muqin|木琴|buy|liu laoshi|buy 木琴
+shexiang fen|shexiang fen|麝香粉|buy|liu laoshi|buy 麝香粉
+yanwu dan|yanwu dan|烟雾弹|buy|liu laoshi|buy 烟雾弹
+baijin xiangquan|baijin xiangquan|白金项圈|buy|jin fuhuan|buy 白金项圈
+liujin wanlian|liujin wanlian|鎏金腕链|buy|jin fuhuan|buy 鎏金腕链
+zijin jiezhi|zijin jiezhi|紫金戒指|buy|jin fuhuan|buy 紫金戒指

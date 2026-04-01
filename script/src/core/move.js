@@ -254,8 +254,12 @@
             App.Map.Move.Data["OnMoveBlocker"](name)
             return
         }
-        App.Map.Resend()
-        // App.Core.Blocker.KillMoveBlocker(name)
+        App.Map.Room.Data["core.moveblocked"] = (App.Map.Room.Data["core.moveblocked"] || 0) + 1
+        if (App.Map.Room.Data["core.moveblocked"] < 5) {
+            App.Map.Resend()
+        } else {
+            App.Core.Blocker.KillMoveBlocker(name)
+        }
     }
     App.Move.NewOnMoveBlocker = function (callback) {
         return App.Map.NewMoveData("OnMoveBlocker", callback)

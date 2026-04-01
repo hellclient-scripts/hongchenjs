@@ -226,10 +226,13 @@
                 }
             }
             return function () {
+                let ts = App.Core.Timeslice.Current()
+                App.Core.Timeslice.Change("修整-放弃")
                 $.PushCommands(
                     $.To(App.Params.LocDazuo),
                     $.Do("fangqi exp;hp"),
                     $.Nobusy(),
+                    $.Timeslice(ts),
                 )
                 App.Next()
             }

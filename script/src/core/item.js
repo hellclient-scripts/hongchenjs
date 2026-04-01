@@ -75,7 +75,7 @@
         },
     )
     App.Map.AppendInitiator((map) => {
-        if (App.Data.Item.List.FindByID("fly bag").First() != null) {
+        if (App.Data.Item.List.FindByID("fly bag").First() != null && !App.Move.NoFlyUp) {
             App.Map.SetTag("flyup", 1)
         }
     })
@@ -88,7 +88,7 @@
         function (task) {
             App.Data.Box.List = new objectModule.List()
             task.AddTrigger(matcherBoxItem, (tri, result) => {
-                let obj = App.Data.Box.List.NewObject(result[2], result[3],result[2]).WithKey(result[1])
+                let obj = App.Data.Box.List.NewObject(result[2], result[3], result[2]).WithKey(result[1])
                 let data = obj.GetData(true)
                 data.Name = result[2]
                 data.Count = result[4] - 0

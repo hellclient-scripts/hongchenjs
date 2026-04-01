@@ -10,7 +10,6 @@ $.Module(function (App) {
         }
 
         if (!App.Quests.Stopped && !changequest) {
-            App.Core.Timeslice.Change("练功")
             let skill = App.Core.Study.FilterLian()
             if (skill) {
                 let context = {}
@@ -37,6 +36,7 @@ $.Module(function (App) {
     //定义任务
     let Quest = App.Quests.NewQuest("lianskill")
     Quest.Name = "练技能"
+    Quest.Timeslice="练功"
     Quest.Desc = "练习lian变量中设置的技能"
     Quest.Intro = ""
     Quest.Help = ""

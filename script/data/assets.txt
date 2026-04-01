@@ -21,7 +21,7 @@ wielded>#carry any
 
 //freequst
 #drop id=baijin he,zijin chui,tie guanyin,qiankun mao,baiyu bi,yu hulu,yu ping,tong xique,sijian ping,jin hulu,yinlou hua,jinlou hua,qingtong ding,tie ruyi,yu dai,jixue shi,ziyun sha,ye guangbei,jin gua
-#openanddrop id=bag
+#openanddrop name=包裹
 
 //baohu
 #use id=shao mai
@@ -38,3 +38,8 @@ wielded>#carry any
 
 //peiyao
 #home id=danyu mo
+//funquest
+drop name=小布包
+drop id=letter
+drop id=receipt
+drop id=paper

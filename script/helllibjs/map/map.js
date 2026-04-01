@@ -200,14 +200,6 @@
             this.Context.WithRooms(this.#temporaryRooms)
             this.Context.WithPaths(this.#temporaryPaths)
         }
-        UpdateMapperOption(option) {
-            if (option.blockedpath == null) {
-                option.blockedpath = []
-            }
-            this.#blocked.forEach(val => {
-                option.blockedpath.push(val)
-            })
-        }
         filterpath(path) {
             let result = []
             path.forEach(step => {
@@ -218,14 +210,14 @@
             return result
 
         }
-        GetMapperPath(from, fly, to) {
+        GetMapperPath(from, fly, to, options) {
             if (typeof (to) != "object") {
                 to = [to]
             }
             if (to.length == 0) {
                 return []
             }
-            let result = module.Database.APIQueryPathAny([from], to, this.Context, this.GetMapperOptions(!fly))
+            let result = module.Database.APIQueryPathAny([from], to, this.Context, this.#GetMapperOptions(!fly, options))
 
             if (result == null) {
                 return null
@@ -236,15 +228,15 @@
             })
             return this.filterpath(path)
         }
-        GetNearestRoom(from, fly, to) {
-            let result = this.GetMapperPath(from, fly, to)
+        GetNearestRoom(from, fly, to, options) {
+            let result = this.GetMapperPath(from, fly, to, options)
             if (result && result.length > 0) {
                 return result[result.length - 1].Target
             }
             return null
         }
-        GetMapperWalkAll(rooms, fly, distance) {
-            let result = module.Database.APIQueryPathAll(rooms[0], rooms, this.Context, this.GetMapperOptions(!fly).WithMaxTotalCost(distance))
+        GetMapperWalkAll(rooms, fly, distance, options) {
+            let result = module.Database.APIQueryPathAll(rooms[0], rooms, this.Context, this.#GetMapperOptions(!fly, options).WithMaxTotalCost(distance))
             if (result == null) {
                 return null
             }
@@ -257,7 +249,7 @@
         }
         GetMapperWalkOrdered(from, rooms, fly) {
             let path = []
-            let result = module.Database.APIQueryPathOrdered(from, rooms, this.Context, this.GetMapperOptions(!fly))
+            let result = module.Database.APIQueryPathOrdered(from, rooms, this.Context, this.#GetMapperOptions(!fly))
             if (result == null) {
                 return null
             }
@@ -383,15 +375,21 @@
         }
         SingleStep() {
             return movementModule.SingleStep
-        } 
+        }
+        NoFly() {
+            return NoFly
+        }
         RegisterMaze(name, maze) {
             this.Mazes[name] = maze
         }
         GetRoomExits(rid, withouttemp = false, withoutfly = false) {
             return module.Database.APIGetRoomExits(rid, !withouttemp ? this.Context : hmm.Context.New(), this.GetMapperOptions(withoutfly))
         }
-        GetMapperOptions(withoutfly) {
-            return hmm.MapperOptions.New().WithDisableShortcuts(withoutfly)
+        #GetMapperOptions(withoutfly, base) {
+            if (base == null) {
+                base = hmm.MapperOptions.New()
+            }
+            return base.WithDisableShortcuts(withoutfly)
         }
     }
     class Step {
@@ -434,7 +432,7 @@
     let DefaultOnStepTimeout = function (move, map) {
         return true
     }
-    let DefaultMapperOptionCreator = function (move, map) {
+    let DefaultMapperOptionsCreator = function (move, map) {
         return null
     }
     class Move {
@@ -455,7 +453,7 @@
         OnInitTags = DefaultOnInitTags
         OnStepTimeout = DefaultOnStepTimeout
         OnStepFinsih = DefaultMoveOnStepFinish
-        MapperOptionCreator = DefaultMapperOptionCreator
+        MapperOptionsCreator = DefaultMapperOptionsCreator
         Option = new Option()
         #walking = []
         Pending = null
@@ -516,11 +514,11 @@
             return map.GetMapperWalkOrdered(from, rooms, this.Option.Fly, this.GetMapperOptions(map))
         }
         GetMapperOptions(map) {
-            let opt = this.MapperOptionCreator(this, map)
+            let opt = this.MapperOptionsCreator(this, map)
             if (opt == null) {
-                opt = {}
+                opt = hmm.MapperOptions.New()
             }
-            map.UpdateMapperOption(opt)
+            this.Option.UpdateMapperOption(this, map, opt)
             return opt
         }
         StepTimeout(map) {
@@ -603,6 +601,8 @@
     module.MultipleStepSplit = function (paths) {
         return paths
     }
+    //抽象的移动选项
+    //在从hellclient的mapper到hmm的mapper迁移时做了封装，所以有有些地方有点别扭
     class Option {
         constructor() {
             this.MultipleStep = module.MultipleStep
@@ -612,11 +612,20 @@
         Fly = false
         Tags = {}
         RoomTags = []
+        CommandWhitelist=[]
+        CommandNotContains=[]
         ApplyTo(move, map) {
             move.Option = this
         }
-
+        UpdateMapperOption(move, map, options) {
+            options.CommandWhitelist=this.CommandWhitelist
+            options.CommandNotContains=this.CommandNotContains
+        }
     }
+    var NoFly = (move, map) => {
+        move.Option.Fly = false
+    }
+
     class Tag {
         constructor(key = "", value = 1) {
             this.Key = key;

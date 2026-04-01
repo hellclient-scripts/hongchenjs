@@ -66,7 +66,6 @@
                 App.UI.Wizard.ShowCommand()
                 break
             default:
-                Dump("wizard finished")
                 App.UI.Wizard.ShowFinish()
                 break
         }
@@ -104,7 +103,6 @@
     }
     App.UI.Wizard.OnJifa = function (name, id, code, data) {
         if (code == 0) {
-            Dump(data)
             SetVariable("jifa", App.UI.Wizard.JifaData)
             App.UI.Wizard.Next()
         }
@@ -178,7 +176,7 @@
             if (data == "shot") {
                 App.UI.Wizard.InsertToVariable("items", "long bow")
                 App.UI.Wizard.InsertToVariable("items", "arrow * 30")
-                SetVariable("combat", ["#before yun regenerate;yun recover", "#start $wpon;shot $1 with arrow", "shot $1 with arrow"].join("\n"))
+                SetVariable("combat", ["#before yun regenerate;yun recover", "#start $wpon;hand bow;shot $1 with arrow", "shot $1 with arrow"].join("\n"))
             } else {
                 SetVariable("combat", [`yun recover`, `#start $wpon;${data}`, `${data}`].join("\n"))
             }
@@ -189,7 +187,7 @@
         let commands = []
         if (GetVariable("combat").indexOf("with arrow") >= 0) {
             commands = [
-                "#prepare hand bow",
+                "#prepare ",
                 "#wait jiqu"
             ]
         } else if (App.Core.Weapon.Touch) {

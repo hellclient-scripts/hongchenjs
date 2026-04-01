@@ -47,7 +47,7 @@
     App.NamedParams.AddString("YanjiuPot", "2000").WithName("走路研究潜能").WithDesc("设为0关闭走路研究")
     App.NamedParams.AddString("JiquPause", "t").WithName("汲取暂停，汲取时会每秒halt一下，执行pause指令").WithDesc("设为f关闭汲取暂停")
     App.NamedParams.AddNumber("LogDetail", 0).WithName("日志详细程度").WithDesc("日志详细程度，0为不记录详情，大于0为记录的行数")
-    App.NamedParams.AddNumber("FullTihui", 5000).WithName("Full的体会").WithDesc("体会超过多少进入Full状态，小于等于0不会进入Full")
+    App.NamedParams.AddNumber("FullTihui", 7000).WithName("Full的体会").WithDesc("体会超过多少进入Full状态，小于等于0不会进入Full")
     App.NamedParams.AddNumber("FullPot", 0).WithName("Full的潜能").WithDesc("潜能超过多少进入Full状态，小于等于0不会进入Full")
 
 })()
