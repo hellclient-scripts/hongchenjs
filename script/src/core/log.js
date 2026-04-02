@@ -64,5 +64,11 @@
         }
         return result
     }
-
+    App.Core.Log.LogCurrent = (data) => {
+        App.Core.Log.Data = App.Core.Log.Data.Next().WithValue(`${App.Core.Log.FormatTime()} ${data}`)
+        world.writelog(data + "\n")
+    }
+    App.BindEvent("core.transfer", (event) => {
+        App.Core.Log.LogCurrent(event.Data.Output)
+    })
 })(App)

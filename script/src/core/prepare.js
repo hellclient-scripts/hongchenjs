@@ -13,6 +13,35 @@
     App.NewPrepareCommand = function (id, data) {
         return App.Commands.NewCommand("prepare", { ID: id, Data: data })
     }
+
+    let PlanMoney = new App.Plan(App.Positions["Response"],
+        (task) => {
+            task.Data = ""
+            task.AddTrigger("你存的钱不够取。", (tri, result) => {
+                Note("生活费不够")
+                task.Data = "nomoney"
+                return true
+            })
+            App.Send(App.Core.PrepareMoneyCmd)
+            App.Send("score")
+            App.Sync()
+        },
+        (result) => {
+            if (result.Task.Data == "nomoney") {
+                if (App.Core.Dummy.ID && App.Core.Dummy.Password) {
+                    App.Send(`tell ${App.Core.Dummy.ID} money ${App.Core.Dummy.Password}`)
+                    $.Insert(
+                        App.Commands.NewWaitCommand(10000),
+                    )
+                } else {
+                    $.Insert(
+                        App.Commands.NewWaitCommand(1000),
+                    )
+                }
+            }
+            $.Next()
+        })
+    App.Core.PrepareMoneyCmd = ""
     //准备钱的函数
     App.PrepareMoney = function (num) {
         if (!num) { num = 0 }
@@ -25,11 +54,10 @@
             } else {
                 cmd = "qu " + diff + " gold;i"
             }
+            App.Core.PrepareMoneyCmd = cmd
             App.Commands.PushCommands(
                 App.Move.NewToCommand(App.Params.LocBank),
-                App.Commands.NewDoCommand(cmd),
-                App.NewSyncCommand(),
-                App.Commands.NewWaitCommand(1000),
+                $.Plan(PlanMoney),
                 App.NewPrepareMoneyCommand(num),
             )
         }
@@ -139,13 +167,12 @@
         let num = gold ? gold.GetData().Count : 0
         let goldmax = context.GoldMax != null ? context.GoldMax : App.Params.GoldMax
         let goldkeep = context.GoldKeep != null ? context.GoldKeep : App.Params.GoldKeep
+        App.Core.PrepareMoneyCmd = "qu " + Math.floor(((goldmax + goldkeep) / 2 - num)) + " gold;i;score"
         if (num < goldkeep) {
             return function () {
                 App.Commands.PushCommands(
                     App.Move.NewToCommand(App.Params.LocBank),
-                    App.Commands.NewDoCommand("qu " + Math.floor(((goldmax + goldkeep) / 2 - num)) + " gold;i;score"),
-                    App.NewSyncCommand(),
-                    App.Commands.NewWaitCommand(1000),
+                    $.Plan(PlanMoney),
                 )
                 App.Next()
             }
@@ -227,7 +254,7 @@
             }
             return function () {
                 let ts = App.Core.Timeslice.Current()
-                let loc=App.Core.Dummy.ID?"chat":App.Params.LocDazuo
+                let loc = App.Core.Dummy.ID ? "chat" : App.Params.LocDazuo
                 App.Core.Timeslice.Change("修整-放弃")
                 $.PushCommands(
                     $.To(loc),
