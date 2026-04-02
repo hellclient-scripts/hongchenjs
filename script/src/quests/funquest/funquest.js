@@ -201,10 +201,19 @@ $.Module(function (App) {
                 task.Data = "retry";
                 return true
             })
+            Task.AddTrigger(matcherRest, (tri, result) => {
+                task.Data = "rest"
+                return true
+            })
             App.Send("yun regenerate")
             App.Send(`${Funquest.Data.Ask}`)
             App.Sync()
         }, (result) => {
+            if (result.Task.Data == "rest") {
+                Quest.Cooldown(4 * 60 * 60 * 1000)
+                App.Fail()
+                return
+            }
             if (result.Task.Data == "retry") {
                 Note("等待重试")
                 $.RaiseStage("wait")
@@ -219,6 +228,7 @@ $.Module(function (App) {
     )
 
     let matcherClue = /^([^：()\[\]]{2,5})在你耳边悄悄说道：“你不妨去找.+的(.+)打听打听，他那里可能有些线索。”/;
+    let matcherRest = /^([^：()\[\]]{2,5})盯着你看了看，说道：“对不起，.+小时内只能做.+个任务！”$/
     let matcherNeedCancel = "紫虚道人盯着你看了看，说道：“你现在有任务在身，要是完成不了就先和我说一声取消。”"
     let matcherCooldown = "紫虚道人盯着你看了看，说道：“你刚取消过一次任务，先喝口水歇会儿再接着领下一个吧。”"
     let matcherHighExp = "紫虚道人盯着你看了看，说道：“您这种身手这种差事不太适合你了，你走吧。”"
@@ -236,6 +246,11 @@ $.Module(function (App) {
                 task.Data = "cooldown"
                 return true
             })
+            task.AddTrigger(matcherRest, (tri, result) => {
+                task.Data = "rest"
+                return true
+            })
+
             task.AddTrigger(matcherHighExp, (tri, result) => {
                 task.Data = "highexp"
                 return true
@@ -251,11 +266,17 @@ $.Module(function (App) {
                 case "cancel":
                     Funquest.Fail()
                     return
+                case "rest":
+                    Quest.Cooldown(4 * 60 * 60 * 1000)
+                    $.Next()
+                    return
                 case "cooldown":
                     Quest.Cooldown(60000)
+                    $.Next()
                     return
                 case "highexp":
-                    Quest.Cooldown(36000000)
+                    Quest.Cooldown(10 * 60 * 60 * 1000)
+                    $.Next()
                     return
             }
             App.Log("没有得到线索")
@@ -283,8 +304,8 @@ $.Module(function (App) {
         App.Zone.Wanted = $.NewIDLowerWanted(npc.ID)
         $.PushCommands(
             $.Nobusy(),
-            $.To(npc.Loc[0],App.Core.HelpFind.Hepler),
-            $.Rooms(npc.Loc, App.Zone.Finder,App.Core.HelpFind.Hepler),
+            $.To(npc.Loc[0], App.Core.HelpFind.Hepler),
+            $.Rooms(npc.Loc, App.Zone.Finder, App.Core.HelpFind.Hepler),
             $.Function(() => {
                 if (App.Map.Room.Data.Objects.FindByIDLower(npc.ID).First() == null) {
                     App.Log(`没有找到NPC${npcname}`)
@@ -460,7 +481,7 @@ $.Module(function (App) {
             $.Nobusy(),
             $.Buy("paper"),
             $.Nobusy(),
-            $.To(result[0],App.Core.HelpFind.Hepler),
+            $.To(result[0], App.Core.HelpFind.Hepler),
             $.Do("bury bag"),
             $.Nobusy(),
             $.Do("draw here"),
@@ -508,7 +529,7 @@ $.Module(function (App) {
         Note("NPC跟丢了")
         App.Commands.Drop()
         $.PushCommands(
-            $.To(Funquest.Data.LastRoom,App.Core.HelpFind.Hepler),
+            $.To(Funquest.Data.LastRoom, App.Core.HelpFind.Hepler),
             $.Function(() => {
                 $.RaiseStage("wait")
                 $.Next()

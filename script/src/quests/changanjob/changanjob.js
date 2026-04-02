@@ -58,7 +58,7 @@ $.Module(function (App) {
         )
         $.Next()
     }
-    let matcherTooMany = /^梁兴禄盯着你看了看，说道：“对不起，2.+内只能领取.+个任务！$/
+    let matcherTooMany = /^梁兴禄盯着你看了看，说道：“对不起，.+内只能领取.+个任务！$/
     Changan.Check = function () {
         if (App.Data.Ask.Answers.length) {
             if (App.Data.Ask.Answers[0].Line == "梁兴禄对你说道：本府不是已经给你派发了差事，完不成的话就先跟我取消。") {
