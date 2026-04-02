@@ -10,6 +10,8 @@
     App.QuestNamedParams.AddString("mqgift", "auto").WithName("MQ接受礼物方式").WithDesc("auto为根据战利品规则自动,no为不获取，否则为逗号分割的道具名清单")
     App.QuestNamedParams.AddString("mqretryfail", "t").WithName("MQ失败后重试").WithDesc("t重试，不然不给")
     App.QuestNamedParams.AddNumber("mqtopslow", 5).WithName("MQ记录的最慢日志数量").WithDesc("0为不记录，其他为记录的慢日志数量")
-    App.QuestNamedParams.AddNumber("mqmaxsearch", 2).WithName("MQ最大搜索次数").WithDesc("M最大尝试的搜索次数")
+    App.QuestNamedParams.AddNumber("mqmaxsearch", 2).WithName("MQ最大搜索次数").WithDesc("MQ最大尝试的搜索次数")
+    App.QuestNamedParams.AddNumber("dummytransfergold", 500).WithName("Dummy生活费转账金额").WithDesc("每次有ID要生活费时转多少gold")
+    App.QuestNamedParams.AddNumber("dummyminkey", 15).WithName("Dummy钥匙囤积数量").WithDesc("大米保持身上至少有多少把钥匙")
 
 })()

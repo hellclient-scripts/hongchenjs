@@ -1,9 +1,7 @@
 $.Module(function (App) {
     let Dummy = {}
     Dummy.WaitDuration = 60 * 1000
-    Dummy.TransferGold = 500
     Dummy.Target = ""
-    Dummy.MinKey = 15
     Dummy.NextAskLuban = 0
     //杰二修(Jarlyynb)告诉你：key 123
     let matcheraskkey = /^([^：()\[\]]{2,5})\((.+)\)告诉你：key (.+)$/
@@ -31,7 +29,7 @@ $.Module(function (App) {
                 let pass = result[3]
                 Note(`收到${name}(${id}）的打生活费要求 密码:${pass}`)
                 if (pass != "" && pass == App.Core.Dummy.Password) {
-                    if (App.Data.Player.Score["存款"] > Dummy.TransferGold) {
+                    if (App.Data.Player.Score["存款"] > App.QuestParams["dummytransfergold"]) {
                         Dummy.Target = id
                         return false
                     } else {
@@ -53,7 +51,7 @@ $.Module(function (App) {
         $.PushCommands(
             $.To("qz"),
             $.Nobusy(),
-            $.Do(`transfer ${Dummy.TransferGold} gold to ${Dummy.Target};score;`),
+            $.Do(`transfer ${App.QuestParams["dummytransfergold"]} gold to ${Dummy.Target};score;`),
             $.Nobusy(),
         )
         $.Next()
@@ -99,7 +97,7 @@ $.Module(function (App) {
 
     App.Proposals.Register("quest.dummy", App.Proposals.NewProposal(function (proposals, context, exclude) {
         if (App.Mapper.HouseID) {
-            if (App.Data.Item.List.FindByID("key").Sum() < Dummy.MinKey && $.Now() > Dummy.NextAskLuban) {
+            if (App.Data.Item.List.FindByID("key").Sum() < App.QuestParams["dummyminkey"] && $.Now() > Dummy.NextAskLuban) {
                 return function () {
                     Dummy.AskKey()
                 }

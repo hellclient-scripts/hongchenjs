@@ -201,7 +201,7 @@ $.Module(function (App) {
                 task.Data = "retry";
                 return true
             })
-            Task.AddTrigger(matcherRest, (tri, result) => {
+            task.AddTrigger(matcherRest, (tri, result) => {
                 task.Data = "rest"
                 return true
             })
