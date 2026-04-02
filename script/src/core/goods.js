@@ -111,7 +111,7 @@
     App.Core.Goods.PrepareDataKey = "items"
     //注册item的准备
     App.Proposals.Register("item", App.Proposals.NewProposal(function (proposals, context, exclude) {
-        let items=App.Core.Goods.Items.concat(context[App.Core.Goods.PrepareDataKey]||[])
+        let items = App.Core.Goods.Items.concat(context[App.Core.Goods.PrepareDataKey] || [])
         for (item of items) {
             let num = isNaN(item.Number) ? 1 : (item.Number - 0)
             if (num == 0) {
@@ -139,19 +139,29 @@
                             if (isNaN(num) || num < 0) {
                                 num = 1
                             }
-                            App.Commands.PushCommands(
-                                $.Function(App.Core.Item.CheckBox),
-                                $.Function(() => {
-                                    let boxitem = App.Data.Box.List.FindByID(item.Data).First()
-                                    if (boxitem == null) {
-                                        Note(`箱子里没有${item.Data}了`)
-                                    } else {
-                                        App.Send(`take ${boxitem.Key} ${num};i`)
-                                    }
-                                    $.Next()
-                                }),
-                                App.NewNobusyCommand(),
-                            )
+                            if (App.Data.Item.List.FindByID("key").First() != null && App.Mapper.HouseID) {
+
+                                App.Commands.PushCommands(
+                                    $.Function(App.Core.Item.CheckBox),
+                                    $.Function(() => {
+                                        let boxitem = App.Data.Box.List.FindByID(item.Data).First()
+                                        if (boxitem == null) {
+                                            Note(`箱子里没有${item.Data}了`)
+                                        } else {
+                                            App.Send(`take ${boxitem.Key} ${num};i`)
+                                        }
+                                        $.Next()
+                                    }),
+                                    App.NewNobusyCommand(),
+                                )
+                            } else {
+                                App.Commands.PushCommands(
+                                    App.Move.NewToCommand("chat"),
+                                    App.Commands.NewDoCommand(`get ${num} ${item.Data}`),
+                                    App.Commands.NewDoCommand("i"),
+                                    App.NewSyncCommand()
+                                )
+                            }
                             App.Next()
 
                         }
