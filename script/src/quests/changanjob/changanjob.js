@@ -268,7 +268,7 @@ $.Module(function (App) {
         $.PushCommands(
             $.Nobusy(),
             $.Prepare(),
-            $.To(rooms),
+            $.To(rooms,App.Core.HelpFind.Hepler),
             $.Nobusy(),
             $.Plan(PlanAmbush),
         )
@@ -341,7 +341,7 @@ $.Module(function (App) {
         $.PushCommands(
             $.Nobusy(),
             $.Prepare(),
-            $.To(rooms),
+            $.To(rooms,App.Core.HelpFind.Hepler),
             $.Nobusy(),
             $.Plan(PlanPatrol),
         )
@@ -358,7 +358,7 @@ $.Module(function (App) {
         $.PushCommands(
             $.Nobusy(),
             $.To(npc.Loc[0]),
-            $.Rooms(npc.Loc, App.Zone.Finder),
+            $.Rooms(npc.Loc, App.Zone.Finder,App.Core.HelpFind.Hepler),
             $.Function(function () {
                 App.Send(`whisper ${Changan.Data.Code} to ${npc.ID}`);
                 Changan.Finish()

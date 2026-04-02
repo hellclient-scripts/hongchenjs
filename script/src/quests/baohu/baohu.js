@@ -55,7 +55,7 @@ $.Module(function (App) {
         App.Zone.Wanted = $.NewIDLowerWanted(npc.ID)
         $.PushCommands(
             $.To(npc.Loc[0]),
-            $.Rooms(npc.Loc, App.Zone.Finder),
+            $.Rooms(npc.Loc, App.Zone.Finder,App.Core.HelpFind.Hepler),
             $.Function(Baohu.Arrive)
         )
         $.Next()

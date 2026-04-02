@@ -52,6 +52,13 @@
             Loc: loc
         }))
     }
+    App.Core.HelpFind.Hepler = function (move, map) {
+        let rawOnRoom = move.OnRoom
+        move.OnRoom = function (move, map, step) {
+            App.Core.HelpFind.OnRoom()
+            rawOnRoom(move, map, step)
+        }
+    }
     App.Core.HelpFind.OnRoom = () => {
         if (App.Map.Room.ID) {
             App.Map.Room.Data.Objects.Items.forEach((item) => {

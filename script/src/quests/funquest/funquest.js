@@ -283,8 +283,8 @@ $.Module(function (App) {
         App.Zone.Wanted = $.NewIDLowerWanted(npc.ID)
         $.PushCommands(
             $.Nobusy(),
-            $.To(npc.Loc[0]),
-            $.Rooms(npc.Loc, App.Zone.Finder),
+            $.To(npc.Loc[0],App.Core.HelpFind.Hepler),
+            $.Rooms(npc.Loc, App.Zone.Finder,App.Core.HelpFind.Hepler),
             $.Function(() => {
                 if (App.Map.Room.Data.Objects.FindByIDLower(npc.ID).First() == null) {
                     App.Log(`没有找到NPC${npcname}`)
@@ -460,7 +460,7 @@ $.Module(function (App) {
             $.Nobusy(),
             $.Buy("paper"),
             $.Nobusy(),
-            $.To(result[0]),
+            $.To(result[0],App.Core.HelpFind.Hepler),
             $.Do("bury bag"),
             $.Nobusy(),
             $.Do("draw here"),
@@ -508,7 +508,7 @@ $.Module(function (App) {
         Note("NPC跟丢了")
         App.Commands.Drop()
         $.PushCommands(
-            $.To(Funquest.Data.LastRoom),
+            $.To(Funquest.Data.LastRoom,App.Core.HelpFind.Hepler),
             $.Function(() => {
                 $.RaiseStage("wait")
                 $.Next()
@@ -565,6 +565,7 @@ $.Module(function (App) {
                 App.Map.SingleStep(),
                 App.Map.NoFly(),
                 Funquest.SendNPCOption,
+                App.Core.HelpFind.Hepler,
             ),
             $.Function(Funquest.SendNPCWalkFinsh)
         )
