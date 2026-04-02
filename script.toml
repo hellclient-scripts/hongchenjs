@@ -1724,6 +1724,37 @@ Timers = []
   Italic = false
   Variable = ""
 
+[[Triggers]]
+  ID = "d1h8k0pu0p5kl461aabpo"
+  Name = "core.noflyupnow"
+  Enabled = true
+  Match = "你无法在战斗中使用飞行包！"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.FilterLineEvent(\"core.noflyupnow\",\"core.walkretry\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
 [[Aliases]]
   ID = "d1fufevcofgvaa73s6n5s7"
   Name = "App.Core.Connect.OnAliasLogin"
@@ -2097,7 +2128,7 @@ Timers = []
   Name = "noob"
   Enabled = true
   Match = "#noob"
-  Send = "#start skill drawing 30,maxexp 3000000,yueli 500>>funquest||maxexp 3000000,!maxexp 50000>>changanjob||maxexp 300000>>peiyao||lianskill||idle"
+  Send = "#start study drawing|31|xue|lu ban|lu ban||skill drawing 30,maxexp 3000000,yueli 500>>funquest||maxexp 3000000,!maxexp 50000>>changanjob||maxexp 300000>>peiyao||lianskill||idle"
   Script = ""
   SendTo = 10
   Sequence = 100

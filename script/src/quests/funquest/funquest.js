@@ -24,13 +24,13 @@ $.Module(function (App) {
     let matcherFunquest = /^你已经连续完成了\s+(\d+)\s+个趣味任务，继续加油努力啊！$/
     let matcherNoQuest = "你现在没有领任何趣味任务！"
     //目前钱眼开让你猜个谜语:半局残棋对一（猜一字）你必须在五分钟内回答！
-    let matcherCodeQuest = /^目前(.+)让你猜个谜语:(.+)[（\()].+[）]你必须在.+分钟内回答！$/
+    let matcherCodeQuest = /^目前(.+)让你猜个谜语:(.+)你必须在.+分钟内回答！$/
     //目前张德贵让你去找大理薛记成衣铺的薛老板打听线索。
     let matcherClueQuest = /^目前(.+)让你去找[^的]+的(.+)打听线索。$/
     //目前薛老板让你帮他去找竹棒。
     let matcherItemQuest = /^目前(.+)让你帮他去找(.+)。$/
     //目前刘素素让你把他的远房亲戚薛虹步带去衡山的南天门。
-    let matcherSendQuest = /^目前(.+)让你把他的远房亲戚(.+)带去(.+)的(.+)。$/
+    let matcherSendQuest = /^目前(.+)让你把他的远房亲戚(.+)带去([^的]+)的(.+)。$/
     //目前甄有庆让你把一封信交到大理薛记成衣铺的薛老板手里。
     let matcherLetterQuest = /^目前(.+)让你把一封信交到[^的]+的(.+)手里。$/
     //目前薛老板让你把回执交回给甄有庆。
@@ -123,7 +123,7 @@ $.Module(function (App) {
     Funquest.Data = new Data()
     Funquest.LastData = null
     Funquest.CodeMap = {}
-    App.LoadLines("src/quests/funquest/code.txt", "|").forEach((data) => {
+    App.LoadLines("src/quests/funquest/code.txt", ":").forEach((data) => {
         Funquest.CodeMap[data[0]] = data[1]
     })
     Funquest.GetPreapreContext = () => {
@@ -195,11 +195,11 @@ $.Module(function (App) {
             }
             task.AddTrigger(matcherReask, (tri, result) => {
                 task.Data = "retry";
-                return
+                return true
             })
             task.AddTrigger(matcherRegive, (tri, result) => {
                 task.Data = "retry";
-                return
+                return true
             })
             App.Send("yun regenerate")
             App.Send(`${Funquest.Data.Ask}`)
@@ -221,7 +221,7 @@ $.Module(function (App) {
     let matcherClue = /^([^：()\[\]]{2,5})在你耳边悄悄说道：“你不妨去找.+的(.+)打听打听，他那里可能有些线索。”/;
     let matcherNeedCancel = "紫虚道人盯着你看了看，说道：“你现在有任务在身，要是完成不了就先和我说一声取消。”"
     let matcherCooldown = "紫虚道人盯着你看了看，说道：“你刚取消过一次任务，先喝口水歇会儿再接着领下一个吧。”"
-    let matcherHighExp="紫虚道人盯着你看了看，说道：“您这种身手这种差事不太适合你了，你走吧。”"
+    let matcherHighExp = "紫虚道人盯着你看了看，说道：“您这种身手这种差事不太适合你了，你走吧。”"
     let PlanZixu = new App.Plan(App.Positions["Response"],
         (task) => {
             task.AddTrigger(matcherClue, (tri, result) => {
@@ -401,7 +401,7 @@ $.Module(function (App) {
             return
         }
         let npc = Funquest.LoadNPC(Funquest.Data.Publisher);
-        Funquest.Data.Ask = `give ${item.ID} to ${npc.ID.toLowerCase()};give ${item.ID.toLowerCase()} to ${npc.ID.toLowerCase()};i`
+        Funquest.Data.Ask = `remove ${item.ID};unwield ${item.ID};remove ${item.ID.toLowerCase()};unwield ${item.ID.toLowerCase()};give ${item.ID} to ${npc.ID.toLowerCase()};give ${item.ID.toLowerCase()} to ${npc.ID.toLowerCase()};i`
         $.PushCommands(
             $.Function(() => { Funquest.GoNPC(Funquest.Data.Publisher) }),
             $.Plan(PlanAsk),
@@ -458,8 +458,7 @@ $.Module(function (App) {
         Funquest.Data.Ask = `give paper to ${npc.ID.toLowerCase()}; i`
         $.PushCommands(
             $.Nobusy(),
-            $.To("lu ban"),
-            $.Do("ask lu ban about paper"),
+            $.Buy("paper"),
             $.Nobusy(),
             $.To(result[0]),
             $.Do("bury bag"),
@@ -503,7 +502,7 @@ $.Module(function (App) {
     }
     Funquest.SendNPCOption = (move, map) => {
         move.OnArrive = Funquest.SendNPCArrive
-        // move.Option.CommandNotContains = ["goto "]
+        move.Option.CommandNotContains = ["cross", "jump ", "enter "]
     }
     Funquest.ResendNPC = () => {
         Note("NPC跟丢了")
@@ -521,9 +520,6 @@ $.Module(function (App) {
         $.Next()
     }
     Funquest.SendNPCArrive = (move, map) => {
-        if (App.Map.Room.ID) {
-            Funquest.Data.Target = Funquest.Data.Target.filter(v => v != App.Map.Room.ID)
-        }
         Note("检查")
         let snap = App.Map.Snap()
         $.Insert(
@@ -577,13 +573,26 @@ $.Module(function (App) {
     let PlanSendFinish = new App.Plan(App.Positions["Response"],
         (task) => {
             task.AddTrigger(matcherSendok)
-            task.AddTimer(2000,(timer,result)=>{
+            task.AddTimer(2000, (timer, result) => {
                 Note("等老汉挂")
                 return true
             })
-            task.AddTimer(60000)
+            task.AddTimer(10000).WithName("timeout")
+            $.RaiseStage("wait")
         },
         (result) => {
+            App.Send("halt")
+            if (result.Name == "timeout") {
+                App.Send("funquest");
+                App.Look()
+                $.PushCommands(
+                    $.Sync(),
+                    $.Function(() => {
+                        App.Log('趣味任务老汉碰瓷了')
+                        $.Next()
+                    })
+                )
+            }
             $.Next()
         }
     )
@@ -609,8 +618,8 @@ $.Module(function (App) {
     }
 
     let Quest = App.Quests.NewQuest("funquest")
-    Quest.Name = "趣味"
-    Quest.Timeslice = "趣味"
+    Quest.Name = "趣味任务"
+    Quest.Timeslice = "趣味任务"
     Quest.Desc = ""
     Quest.Intro = ""
     Quest.Help = ""

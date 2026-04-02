@@ -43,6 +43,12 @@
         App.RaiseEvent(event)
     }
     App.Engine.SetFilter("core.noflyup", App.Move.OnNoFlyUp)
+    App.Move.OnNoFlyUpNow = function (event) {
+        App.Map.Room.Data["core.noflyup"] = true
+        App.Map.InitTags()
+        App.RaiseEvent(event)
+    }
+    App.Engine.SetFilter("core.noflyupnow", App.Move.OnNoFlyUpNow)
     App.Move._OnNextRoom = []
     App.Move.BindNextRoom = (callback) => {
         App.Move._OnNextRoom.push(callback)

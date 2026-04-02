@@ -14,6 +14,8 @@ arrow|Arrow|狼牙箭|buy|dtp|buy 50 狼牙箭 from tie jiang|3
 
 hua zhong|hua zhong|花种|buy|hua nong|buy 花种 from hua nong
 
+paper|papar|纸张|buy|zhp|buy 纸张 from yang yongfu
+
 wandao|wandao|阿拉伯弯刀|buy|shop-daodian|buy 阿拉伯弯刀
 hulu|hulu|葫芦|buy|shop-baodaiqiao|buy 葫芦
 zhubang|zhubang|竹棒|buy|shop-baodaiqiao|buy 竹棒
@@ -76,7 +78,7 @@ iron blade|iron blade|钢刀|buy|dtp|buy 钢刀
 knife|knife|屠刀|buy|dtp|buy 屠刀
 long bow|long bow|长弓|buy|dtp|buy 长弓|8
 long sword|long sword|长剑|buy|dtp|buy 长剑
-short bow|short bow|短弓|buy|dtp|buy 短弓
+short bow|short bow|短弓|buy|dtp|buy 短弓|2
 staff|staff|铁杖|buy|dtp|buy 铁杖
 tiegun|tiegun|铁棍|buy|dtp|buy 铁棍
 //狼牙箭|狼牙箭|狼牙箭|buy|dtp|buy 狼牙箭
@@ -115,9 +117,9 @@ yumao shan|yumao shan|羽毛扇|buy|liu susu|buy 羽毛扇
 zhe shan|zhe shan|折扇|buy|liu susu|buy 折扇
 book1|book1|「三字经」|buy|zhu xi|buy 「三字经」
 book2|book2|「百家姓」|buy|zhu xi|buy 「百家姓」
-book3|book3|「千字文」|buy|zhu xi|buy 「千字文」
+book3|book3|「千字文」|buy|zhu xi|buy 「千字文」|2
 tangshi xuanji|tangshi xuanji|「唐诗选辑」|buy|zhu xi|buy 「唐诗选辑」
-dust|dust|化尸粉|buy|yp|buy 化尸粉
+dust|dust|化尸粉|buy|yp|buy 化尸粉|5
 jinchuang yao|jinchuang yao|金创药|buy|yp|buy 金创药
 quchuang fen|quchuang fen|祛疮粉|buy|yp|buy 祛疮粉
 shanghan chou|shanghan chou|伤寒愁|buy|yp|buy 伤寒愁
@@ -181,7 +183,7 @@ ju zi|ju zi|桔子|buy|zhang lanxiang|buy 桔子
 ping guo|ping guo|苹果|buy|zhang lanxiang|buy 苹果
 bai chahua|bai chahua|白茶花|buy|shop-huadian|buy 白茶花
 hei mudan|hei mudan|黑牡丹|buy|shop-huadian|buy 黑牡丹
-hong meigui|hong meigui|红玫瑰|buy|shop-huadian|buy 红玫瑰
+hong meigui|hong meigui|红玫瑰|buy|shop-huadian|buy 红玫瑰|10
 huang meigui|huang meigui|黄玫瑰|buy|shop-huadian|buy 黄玫瑰
 lan tiane|lan tiane|蓝天鹅|buy|shop-huadian|buy 蓝天鹅
 zi luolan|zi luolan|紫罗兰|buy|shop-huadian|buy 紫罗兰
@@ -200,7 +202,7 @@ yin jie|yin jie|银戒指|buy|shop-shoushidian|buy 银戒指
 zuan jie|zuan jie|钻石戒指|buy|shop-shoushidian|buy 钻石戒指
 diao gan|diao gan|钓竿|buy|liu laoshi|buy 钓竿
 muqin|muqin|木琴|buy|liu laoshi|buy 木琴
-shexiang fen|shexiang fen|麝香粉|buy|liu laoshi|buy 麝香粉
+shexiang fen|shexiang fen|麝香粉|buy|liu laoshi|buy 麝香粉|10
 yanwu dan|yanwu dan|烟雾弹|buy|liu laoshi|buy 烟雾弹
 baijin xiangquan|baijin xiangquan|白金项圈|buy|jin fuhuan|buy 白金项圈
 liujin wanlian|liujin wanlian|鎏金腕链|buy|jin fuhuan|buy 鎏金腕链

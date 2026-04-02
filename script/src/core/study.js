@@ -41,6 +41,9 @@
         , (result) => {
         }
     )
+    App.Core.Study.NewLearn = (data, type) => {
+        return new Learn(data, type)
+    }
     //学习的基本结构
     class Learn {
         constructor(line, defaultType) {
@@ -318,14 +321,17 @@
         return null
 
     }
+    App.Core.Study.GetLearnSkills = () => {
+        return (App.Quests.Data.Study || []).concat(App.Core.Study.Learn)
+    }
     //按类型过滤技能
     App.Core.Study.FilterSkill = (type) => {
-        return filterskill(App.Core.Study.Learn, App.Core.Study.LearnMode, type)
+        return filterskill(App.Core.Study.GetLearnSkills(), App.Core.Study.LearnMode, type)
     }
     //获取所有可以学习的技能
     App.Core.Study.AllCanLearn = () => {
         let result = []
-        App.Core.Study.Learn.forEach(learn => {
+        App.Core.Study.GetLearnSkills().forEach(learn => {
             if (learn.Check()) {
                 result.push(learn)
             }
@@ -600,7 +606,7 @@
             App.Commands.NewDoCommand("hp"),
             App.NewSyncCommand(),
             $.Timeslice(ts),
-            )
+        )
         App.Next()
     }
     let JiquPauseContext = {}

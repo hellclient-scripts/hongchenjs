@@ -75,7 +75,7 @@
         },
     )
     App.Map.AppendInitiator((map) => {
-        if (App.Data.Item.List.FindByID("fly bag").First() != null && !App.Move.NoFlyUp) {
+        if (App.Data.Item.List.FindByID("fly bag").First() != null && !App.Move.NoFlyUp&&!App.Map.Room.Data["core.noflyup"]) {
             App.Map.SetTag("flyup", 1)
         }
     })

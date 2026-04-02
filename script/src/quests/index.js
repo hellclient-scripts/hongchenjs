@@ -19,6 +19,7 @@
     App.Include("src/quests/baohu/baohu.js")
     App.Include("src/quests/dummy/dummy.js")
     App.Include("src/quests/control/nojiqu.js")
+    App.Include("src/quests/control/study.js")
     App.Include("src/quests/job/peiyao.js")
     App.Include("src/quests/job/fish.js")
     App.Include("src/quests/job/zhonghua.js")

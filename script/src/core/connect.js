@@ -138,10 +138,12 @@
                 case "trigger":
                     switch (result.Name) {
                         case "enter":
+                            App.Map.EnterNewRoom()
                             App.RaiseEvent(new App.Event("core.entermud", false).WithType("system"))
                             App.RaiseEvent(new App.Event("core.relogin", false).WithType("system"))
                             break
                         case "reenter":
+                            App.Map.EnterNewRoom()
                             App.RaiseEvent(new App.Event("core.entermud", true).WithType("system"))
                             App.RaiseEvent(new App.Event("core.reconnect", false).WithType("system"))
                             break

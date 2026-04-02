@@ -1,4 +1,6 @@
-* 加入changanjob,peiyao,zhonghua等新人任务
+* 助理根据师傅的技能设置学习列表的功能
+* 加入 #noob 指令,制动执行funquest,changanjob,peiyao,并自动学drawing到31
+* 加入funquest,changanjob,peiyao,zhonghua等新人任务
 * 助理加入根据师傅武功初始化学习列表的功能
 * 时间切片统计优化
 * 其他修正

@@ -124,8 +124,9 @@
         Conditions = null
         Data = {}
         Queue = []
+        Processing = -1
         StartAt = 0
-        Delay = 1000
+        Delay = 500
         Stopped = true
         ReadyCreator = DefaultReadyCreator
         Parser = module.DefaultParser
@@ -165,6 +166,7 @@
         }
         GetReady() {
             for (let i in this.Queue) {
+                this.Processing = i
                 let r = this.Queue[i]
                 let q = this.#registered[r.ID]
                 if (q == null) {
@@ -202,6 +204,7 @@
                 this.Commands.Next()
                 return
             }
+            this.Processing=-1
             this.Last = (new Date()).getTime()
             this.OnNext(this)
             this.Position.StartNewTerm()
