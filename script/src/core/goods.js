@@ -60,9 +60,12 @@
     //     App.Eat()
     // })
     App.Core.Goods.Items = []
+    App.Core.Goods.NoBox = false
+
     //加载道具设置
     App.Core.Goods.Load = function () {
         App.Core.Goods.Items = []
+        App.Core.Goods.NoBox = false
         let items = []
         App.Core.Assets.GoodsRules = []
         App.LoadVariable("items").forEach(data => {
@@ -72,6 +75,9 @@
                     item.Command = "#buy"
                 }
                 switch (item.Command) {
+                    case "#nobox":
+                        App.Core.Goods.NoBox = true
+                        return
                     case "#buy"://购买
                         if (App.Goods.GetGood(item.Data) == null) {
                             Note("物品 " + item.Data + " 未找到。")
@@ -139,7 +145,7 @@
                             if (isNaN(num) || num < 0) {
                                 num = 1
                             }
-                            if (App.Data.Item.List.FindByID("key").First() != null && App.Mapper.HouseID) {
+                            if (App.Data.Item.List.FindByID("key").First() != null && App.Mapper.HouseID && !App.Core.Goods.NoBox) {
 
                                 App.Commands.PushCommands(
                                     $.Function(App.Core.Item.CheckBox),

@@ -613,6 +613,7 @@
 
     let JiquPause = () => {
         App.Core.Timeslice.Change("修整-汲取")
+        App.Core.Study.LastTihui=App.Data.Player.HP["体会"] 
         App.Commands.PushCommands(
             App.Commands.NewFunctionCommand(JiquPauseNext)
         )
@@ -620,6 +621,7 @@
     }
     let matcherJiquFinish = "你将实战中获得的体会心得充分的消化吸收了。"
     let matcherJiquFail = "似乎没有必要为吸收这点体会下功夫。"
+    let matcherFull="你感觉自己的实战经验还有欠缺，还无法领会更高境界的武学修养。"
     let PlanJiqu = new App.Plan(App.Positions["Connect"],
         function (task) {
             task.AddTrigger(matcherJiquFinish)
@@ -631,7 +633,7 @@
         })
 
     let JiquPauseNext = () => {
-        if (App.Data.Player.HP["体会"] > 60) {
+        if (App.Data.Player.HP["体会"] > 60 && App.Core.Study.CanJiqu()) {
             App.Insert(App.Commands.NewFunctionCommand(JiquPauseNext))
             App.Commands.PushCommands(
                 $.Prepare("common", JiquPauseContext),

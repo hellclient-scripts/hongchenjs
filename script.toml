@@ -395,7 +395,7 @@ Timers = []
   ID = "d1fvsfoh9l5c0n720l52mg"
   Name = "core.unwield"
   Enabled = true
-  Match = "^(请不要装备武器。|张翠山喝道：各色人等，到解剑岩都需解剑，千百年来概无例外！|冷谦拦住你说道：这位.+请放下兵刃。我教教规严厉，外客不|闻万夫身形一展，挡住你道：凌霄城历年来的规矩，外人入城不得佩带兵刃。)"
+  Match = "^(兵刃。佛门清静之地，不便随意舞刀弄剑。还请施主鉴谅。|请不要装备武器。|张翠山喝道：各色人等，到解剑岩都需解剑，千百年来概无例外！|冷谦拦住你说道：这位.+请放下兵刃。我教教规严厉，外客不|闻万夫身形一展，挡住你道：凌霄城历年来的规矩，外人入城不得佩带兵刃。)"
   Send = ""
   ColourChangeType = 0
   Colour = 0
@@ -2159,7 +2159,7 @@ Timers = []
   Name = "noob"
   Enabled = true
   Match = "#noob"
-  Send = "#start study drawing|31|xue|lu ban|lu ban||skill drawing 30,maxexp 3000000,yueli 500>>funquest||maxexp 800000,!maxexp 50000>>changanjob||maxexp 300000>>peiyao||lianskill||idle"
+  Send = "#start study drawing|31|xue|lu ban|lu ban||maxexp 80000>>tianlao||skill drawing 30,yueli 500,!maxexp 50000>>funquest||maxexp 100000,!maxexp 50000>>changanjob||maxexp 300000>>peiyao||lianskill||idle"
   Script = ""
   SendTo = 10
   Sequence = 100
@@ -2276,7 +2276,7 @@ Timers = []
 [[RequiredParams]]
   Name = "items"
   Desc = "物品配置"
-  Intro = "一行一个物品id。\n需要多个可以 id * 数量\n如：\nfire\nlong sword\nlong bow\narrow * 30\n#qu.10 jiuhua wan *5\n\n\n#qu为从箱子里取。小数点后是一次拿几个。\n未设置房间或者没钥匙时,#qu会尝试在聊天室地上拿道具。\n支持吃药，包括回阳无极丹，修罗无常丹，罗刹无常丹，玉洞黑石丹，无常丹，九花玉露丸，白虎夺命丹，天王保命丹，生生造化丹，九转熊蛇丸。\n带身上会自动吃"
+  Intro = "一行一个物品id。\n需要多个可以 id * 数量\n如：\nfire\nlong sword\nlong bow\narrow * 30\n#qu.10 jiuhua wan *5\n#nobox\n\n#qu为从箱子里取。小数点后是一次拿几个。\n设置#nobox或未设置房间或者没钥匙时,#qu会尝试在聊天室地上拿道具。\n支持吃药，包括回阳无极丹，修罗无常丹，罗刹无常丹，玉洞黑石丹，无常丹，九花玉露丸，白虎夺命丹，天王保命丹，生生造化丹，九转熊蛇丸。\n带身上会自动吃"
 
 [[RequiredParams]]
   Name = "max_exp"
