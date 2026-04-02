@@ -65,6 +65,12 @@ $.Module(function (App) {
                 Changan.Fail();
                 return;
             }
+            if (App.Data.Ask.Answers[0].Line == "梁兴禄对你说道：你的江湖经验已经很高了，再在衙门里也混不出个名堂了。") {
+                Quest.Cooldown(10 * 60 * 60 * 1000)
+                App.Next();
+                return
+
+            }
             if (App.Data.Ask.Answers[0].Line == "梁兴禄盯着你看了看，说道：“你刚取消过一次任务，过一分钟再来吧。”") {
                 Quest.Cooldown(60 * 1000)
                 // App.Core.Timeslice.Change("")
@@ -268,7 +274,7 @@ $.Module(function (App) {
         $.PushCommands(
             $.Nobusy(),
             $.Prepare(),
-            $.To(rooms,App.Core.HelpFind.Hepler),
+            $.To(rooms, App.Core.HelpFind.Hepler),
             $.Nobusy(),
             $.Plan(PlanAmbush),
         )
@@ -341,7 +347,7 @@ $.Module(function (App) {
         $.PushCommands(
             $.Nobusy(),
             $.Prepare(),
-            $.To(rooms,App.Core.HelpFind.Hepler),
+            $.To(rooms, App.Core.HelpFind.Hepler),
             $.Nobusy(),
             $.Plan(PlanPatrol),
         )
@@ -358,7 +364,7 @@ $.Module(function (App) {
         $.PushCommands(
             $.Nobusy(),
             $.To(npc.Loc[0]),
-            $.Rooms(npc.Loc, App.Zone.Finder,App.Core.HelpFind.Hepler),
+            $.Rooms(npc.Loc, App.Zone.Finder, App.Core.HelpFind.Hepler),
             $.Function(function () {
                 App.Send(`whisper ${Changan.Data.Code} to ${npc.ID}`);
                 Changan.Finish()
