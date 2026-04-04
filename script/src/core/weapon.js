@@ -51,7 +51,7 @@
         function (task) {
             App.Core.Weapon.Duration = {}
             let current = null
-            let duration = null
+            let duration = 0
             let level = null
             let name = null
             task.AddTrigger(reLevel, function (trigger, result) {
@@ -89,7 +89,7 @@
             }
             task.AddCatcher("core.echo.core.weapon.duration", function (catcher, event) {
                 setduration()
-                duration = null
+                duration = 0
                 level = null
                 damage = null
                 name = null
@@ -101,7 +101,7 @@
             })
             App.Core.Weapon.Repair.forEach((repair, index) => {
                 App.Echo("core.weapon.duration", "" + index)
-                App.Send("l " + repair.ID + " of me")
+                App.Send(`look1 ${repair.ID} of me`)
             })
             App.Echo("core.weapon.duration.end")
         },

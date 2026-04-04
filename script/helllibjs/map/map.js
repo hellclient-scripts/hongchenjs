@@ -8,6 +8,9 @@
     module.Database = new hmm.MapDatabase()
     module.DefaultOnModeChange = (map, oldmode, newmode) => {
     }
+    module.DefaultOnMoveDiscard = (move, map) => {
+
+    }
     class Room {
         ID = ""
         Name = ""
@@ -95,6 +98,7 @@
             }
         }
         OnModeChange = module.DefaultOnModeChange
+        OnMoveDiscard = module.DefaultOnMoveDiscard
         Mazes = {}
         Trace = DefaultTrace
         AppendInitiator(fn) {
@@ -330,6 +334,7 @@
             if (this.Move) {
                 this.Move = null
                 this.MovePosition.StartNewTerm()
+                this.OnMoveDiscard(this.Move, this)
             }
         }
         Snap() {
@@ -338,6 +343,7 @@
                 snap.Move = this.Move
                 this.Move = null
                 snap.Term = this.MovePosition.Snap()
+                this.OnMoveDiscard(this.Move, this)
                 return snap
             }
             return null
@@ -612,14 +618,14 @@
         Fly = false
         Tags = {}
         RoomTags = []
-        CommandWhitelist=[]
-        CommandNotContains=[]
+        CommandWhitelist = []
+        CommandNotContains = []
         ApplyTo(move, map) {
             move.Option = this
         }
         UpdateMapperOption(move, map, options) {
-            options.CommandWhitelist=this.CommandWhitelist
-            options.CommandNotContains=this.CommandNotContains
+            options.CommandWhitelist = this.CommandWhitelist
+            options.CommandNotContains = this.CommandNotContains
         }
     }
     var NoFly = (move, map) => {

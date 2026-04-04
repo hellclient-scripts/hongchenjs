@@ -114,11 +114,16 @@
             let ts = App.Core.Timeslice.Current()
             App.Core.Timeslice.Change("修整-销赃")
             $.Insert($.Timeslice(ts),)
+            let num = result.Data.Param - 0
+            if (isNaN(num) || num < 0) {
+                num = 0
+            }
+            let numcmd = num > 0 ? `${num} ` : ""
             switch (result.Command) {
                 case "#sell"://出售
                     App.Commands.PushCommands(
                         App.Move.NewToCommand("dp"),
-                        App.Commands.NewDoCommand("sell " + result.Asset.Item.IDLower),
+                        App.Commands.NewDoCommand(`sell ${numcmd}${result.Asset.Item.IDLower}`),
                         App.Commands.NewDoCommand("i"),
                         App.NewSyncCommand(),
                         App.Commands.NewWaitCommand(1000),
@@ -127,7 +132,7 @@
                 case "#drop"://丢到客店
                     App.Commands.PushCommands(
                         App.Move.NewToCommand("kd"),
-                        App.Commands.NewDoCommand(`give ${result.Asset.Item.IDLower} to xiao er`),
+                        App.Commands.NewDoCommand(`give ${numcmd}${result.Asset.Item.IDLower} to xiao er`),
                         App.Commands.NewDoCommand("i"),
                         App.NewSyncCommand(),
                         App.Commands.NewWaitCommand(1000),
@@ -136,7 +141,7 @@
                 case "#openanddrop"://打开后丢到客店
                     App.Commands.PushCommands(
                         App.Move.NewToCommand("kd"),
-                        App.Commands.NewDoCommand(`open ${result.Asset.Item.IDLower};give ${result.Asset.Item.IDLower} to xiao er`),
+                        App.Commands.NewDoCommand(`open ${result.Asset.Item.IDLower};give ${numcmd}${result.Asset.Item.IDLower} to xiao er`),
                         App.Commands.NewDoCommand("i"),
                         App.NewSyncCommand(),
                         App.Commands.NewWaitCommand(1000),
@@ -144,23 +149,23 @@
                     break
                 case "#drophere"://原地丢
                     App.Commands.PushCommands(
-                        App.Commands.NewDoCommand("drop " + result.Asset.Item.IDLower),
+                        App.Commands.NewDoCommand(`drop ${numcmd}${result.Asset.Item.IDLower}`),
                         App.Commands.NewDoCommand("i"),
                         App.NewSyncCommand(),
                     )
                     break
                 case "#home"://放在家里
-                    if (App.Data.Item.List.FindByID("key").First() != null && App.Mapper.HouseID&&!App.Core.Goods.NoBox) {
+                    if (App.Data.Item.List.FindByID("key").First() != null && App.Mapper.HouseID && !App.Core.Goods.NoBox) {
                         App.Commands.PushCommands(
                             App.Move.NewToCommand("home"),
-                            App.Commands.NewDoCommand("store " + result.Asset.Item.IDLower),
+                            App.Commands.NewDoCommand(`store ${numcmd}${result.Asset.Item.IDLower}`),
                             App.Commands.NewDoCommand("i"),
                             App.NewSyncCommand()
                         )
                     } else {
                         App.Commands.PushCommands(
                             App.Move.NewToCommand("chat"),
-                            App.Commands.NewDoCommand(`give ${result.Asset.Item.IDLower} to ${App.Core.Dummy.ID}`),
+                            App.Commands.NewDoCommand(`give ${numcmd}${result.Asset.Item.IDLower} to ${App.Core.Dummy.ID}`),
                             App.Commands.NewDoCommand("i"),
                             App.NewSyncCommand()
                         )
@@ -169,14 +174,14 @@
                 case "#pack"://打包带身上
                     if (App.Data.Item.List.FindByID("budai").First()) {
                         App.Commands.PushCommands(
-                            App.Commands.NewDoCommand("put " + result.Asset.Item.IDLower + " in budai"),
+                            App.Commands.NewDoCommand(`put ${numcmd}${result.Asset.Item.IDLower} in budai`),
                             App.Commands.NewDoCommand("i"),
                             App.NewSyncCommand(),
                         )
                     } else {
                         App.Commands.PushCommands(
                             App.Goods.NewBuyCommand("budai"),
-                            App.Commands.NewDoCommand("put " + result.Asset.Item.IDLower + "in budai"),
+                            App.Commands.NewDoCommand(`put ${numcmd}${result.Asset.Item.IDLower} in budai`),
                             App.Commands.NewDoCommand("i"),
                             App.NewSyncCommand(),
                         )
@@ -184,7 +189,7 @@
                     break
                 case "#use"://直接使用(勋章)
                     App.Commands.PushCommands(
-                        App.Commands.NewDoCommand("eat " + result.Asset.Item.IDLower),
+                        App.Commands.NewDoCommand(`eat ${result.Asset.Item.IDLower}`),
                         App.Commands.NewDoCommand("i;bug"),
                         App.NewSyncCommand(),
                     )
@@ -204,12 +209,18 @@
         for (item of App.Data.Item.List.Items) {
             let result = App.Core.Assets.Maintain(item, context[App.Core.Assets.PrepareDataKey] || [])
             if (result && result.Command != "" && result.Command != "#carry") {
-                if (canStore || result.Command != "#store") {
-                    return function () {
-                        App.Core.Assets.GoMaintain(result)
-                    }
+                let num = isNaN(result.Data.Number) ? 0 : (result.Data.Number - 0)
+                if (num < 0) {
+                    num = 0
                 }
-                return
+                if (item.GetData().Count > num) {
+                    if (canStore || result.Command != "#store") {
+                        return function () {
+                            App.Core.Assets.GoMaintain(result)
+                        }
+                    }
+                    return
+                }
             }
         }
         return null

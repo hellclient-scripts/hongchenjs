@@ -30,42 +30,46 @@
         }
     ))
     //戈壁滩
-    // App.Map.RegisterMaze("戈壁滩", App.Map.NewMaze().WithCheckEnter(
-    //     function (maze, move, map, step) {
-    //         if (map.Room.Name == "戈壁滩") {
-    //             maze.Data = { Step: step, Count: 0 }
-    //             return true
-    //         }
-    //         return false
-    //     }
-    // ).WithCheckEscaped(
-    //     function (maze, move, map) {
-    //         return map.Room.Name != "戈壁滩"
-    //     }
-    // ).WithWalk(
-    //     function (maze, move, map) {
-    //         let cmd = App.Move.Filterdir(App.Move.Filterdir(maze.Data.Step.Command))
-    //         if (cmd == "e") {
-    //             if (maze.Data.Count < 2) {
-    //                 cmd = "s"
-    //             } else if (maze.Data.Count % 2) {
-    //                 cmd = "e"
-    //             } else {
-    //                 cmd = "s"
-    //             }
-    //         } else if (cmd == "w") {
-    //             if (maze.Data.Count < 2) {
-    //                 cmd = "w"
-    //             } else if (maze.Data.Count % 2) {
-    //                 cmd = "n"
-    //             } else {
-    //                 cmd = "w"
-    //             }
-    //         }
-    //         maze.Data.Count = maze.Data.Count + 1
-    //         map.TrySteps([cmd != maze.Data.Step.Command ? maze.Data.Step.CloneWithCommand(cmd) : maze.Data.Step])
-    //     }
-    // ))
+    App.Map.RegisterMaze("戈壁滩", App.Map.NewMaze().WithCheckEnter(
+        function (maze, move, map, step) {
+            if (map.Room.Name == "戈壁滩") {
+                maze.Data = { Step: step, Count: 0 }
+                return true
+            }
+            return false
+        }
+    ).WithCheckEscaped(
+        function (maze, move, map) {
+            return map.Room.Name != "戈壁滩"
+        }
+    ).WithWalk(
+        function (maze, move, map) {
+            let cmd = App.Move.Filterdir(maze.Data.Step.Command)
+            if (cmd == "e") {
+                if (maze.Data.Count < 2) {
+                    cmd = "s"
+                } else if (maze.Data.Count % 2) {
+                    cmd = "e"
+                } else {
+                    cmd = "s"
+                }
+            } else if (cmd == "w") {
+                if (maze.Data.Count < 2) {
+                    cmd = "w"
+                } else if (maze.Data.Count % 2) {
+                    cmd = "n"
+                } else {
+                    cmd = "w"
+                }
+            }
+            maze.Data.Count = maze.Data.Count + 1
+            map.TrySteps([cmd != maze.Data.Step.Command ? maze.Data.Step.CloneWithCommand(cmd) : maze.Data.Step])
+        }
+    ).WithGetRoomID(
+        function (maze, move, map) {
+            return App.Core.RoomsByName["戈壁滩"][0]
+        }
+    ))
 
     //桃花迷阵
     App.Map.RegisterMaze("桃花迷阵", App.Map.NewMaze().WithCheckEnter(

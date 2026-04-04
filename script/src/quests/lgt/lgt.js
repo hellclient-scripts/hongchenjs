@@ -13,6 +13,7 @@ $.Module(function (App) {
         Level: 0,
         Entered: false,
         灵符: 0,
+        Gifts: {},
         Tihui: 0,
         Count: 0,
         Current: "",
@@ -29,6 +30,8 @@ $.Module(function (App) {
         )
         $.Next()
     }
+    //你在灵感西北塔获得了一两黄金的奖励！
+    let matcherGift = /^你在灵感.*塔获得了(.+)的奖励！$/
     //任务全局计划
     let PlanQuest = new App.Plan(
         App.Positions["Quest"],
@@ -46,6 +49,12 @@ $.Module(function (App) {
                     LGT.Data.Ready = 0
                 }
                 return true
+            })
+            task.AddTrigger(matcherGift, (tri, result) => {
+                let gift = result[1]
+                LGT.Data.Gifts[gift] = (LGT.Data.Gifts[gift] || 0) + 1
+                return true
+
             })
             task.AddTrigger(matcherWuchi, (tri, result) => {
                 // App.Reconnect(0, LGT.Connect)
@@ -80,9 +89,7 @@ $.Module(function (App) {
                 // LGT.Check()
                 return true
             })
-        }
-
-    )
+        })
     LGT.EnterFail = () => {
         Quest.Cooldown(30 * 60 * 1000)
         App.PushCommands(
@@ -302,7 +309,11 @@ $.Module(function (App) {
     }
     Quest.OnReport = () => {
         let last = LGT.Last ? App.HUD.UI.FormatTime($.Now() - LGT.Last) : "-"
-        return [`灵感塔-上次爬塔:${last} 层数:${LGT.LastLevel} 累计次数:${LGT.Data.Count} 累计体会:${LGT.Data.Tihui}`]
+        let gifts = Object.keys(LGT.Data.Gifts).map((gift) => `${gift}*${LGT.Data.Gifts[gift]}`).join(",")
+        return [
+            `灵感塔-上次爬塔:${last} 层数:${LGT.LastLevel} 累计次数:${LGT.Data.Count} 累计体会:${LGT.Data.Tihui}`,
+            `灵感塔- 奖励:${gifts}`,
+        ]
     }
     App.Core.Quest.AppendInitor((e) => {
         LGT.Data = {
@@ -315,6 +326,7 @@ $.Module(function (App) {
             LastTihui: 0,
             Ready: 0,
             Entry: [],
+            Gifts: {},
         }
     })
 

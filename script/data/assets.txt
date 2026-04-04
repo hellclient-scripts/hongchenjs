@@ -17,7 +17,7 @@ wielded>#carry any
 #sell id=yanluo chou,lihuo yu
 
 //lgt
-#home id=jiuzhuan jindan,renshen wan,tower crystal,god light,tianyi water,magic water,Fly knife
+#home id=jiuzhuan jindan,renshen wan,tower crystal,god light,tianyi water,magic water,Fly knife,tian jing
 
 //freequst
 #drop id=baijin he,zijin chui,tie guanyin,qiankun mao,baiyu bi,yu hulu,yu ping,tong xique,sijian ping,jin hulu,yinlou hua,jinlou hua,qingtong ding,tie ruyi,yu dai,jixue shi,ziyun sha,ye guangbei,jin gua

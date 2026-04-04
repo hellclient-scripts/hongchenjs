@@ -35,6 +35,9 @@
             App.Send("set brief")
         }
     }
+    App.Map.OnMoveDiscard = (move, map) => {
+        App.RaiseEvent(new App.Event("core.movediscard"))
+    }
     App.Move = {}
     App.Move.NoFlyUp = false
     App.Move.OnNoFlyUp = function (event) {
@@ -118,15 +121,25 @@
     App.Map.StepPlan = new App.Plan(
         App.Map.Position,
         function (task) {
+            task.Data = {
+                logs: [],
+            }
             App.Move.RetryStep = false
             let tt = task.AddTimer(App.Map.StepTimeout, function (timer) {
                 return App.Map.OnStepTimeout()
             }).WithName("timeout")
-            task.AddCatcher("core.longtimestep", function () {
-                tt.Reset(App.Move.LongtimeStepDelay)
-                return true
-            })
-
+            task.AddTimer(App.Move.LongtimeStepDelay, function (timer) {
+                if (!App.Map.Move){
+                    return true;
+                }
+                let lastStep = App.Map.Move.GetLastStep()
+                if (lastStep) {
+                    if (lastStep.Command == "#sail") {
+                        return true
+                    }
+                }
+                return false
+            }).WithName("timeout")
             task.AddCatcher("core.retrymove", function () {
                 App.Move.RetryStep = true
                 return true
@@ -155,6 +168,9 @@
             }).WithName("moveblocked")
             task.AddCatcher("core.needrest").WithName("needrest")
             task.AddCatcher("line", function (catcher, event) {
+                if (App.Params.LogDetail > 0 && task.Data.logs.length < App.Params.LogDetail) {
+                    task.Data.logs.push(event.Data.Output)
+                }
                 if (App.Move.BusyMessages[event.Data.Output]) {
                     catcher.WithName("walkbusy")
                     return false
@@ -177,7 +193,7 @@
                 }
                 return true;
             })
-
+            task.AddCatcher("core.movediscard").WithName("movediscard")
         },
         function (result) {
             switch (result.Type) {
@@ -185,7 +201,14 @@
                     break
                 default:
                     switch (result.Name) {
+                        case "movediscard":
+                            break
                         case "timeout":
+                            if (!App.Map.Room.Data["timeoutlogged"]) {
+                                App.Map.Room.Data["timeoutlogged"] = true
+                                App.Core.Log.LogCurrent("移动超时", result.Task.Data.logs.join("\n"))
+                            }
+                            App.Map.Resend(0)
                             break
                         case "movereset":
                             App.Map.Room.ID = ""

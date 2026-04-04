@@ -155,7 +155,7 @@ $.Module(function (App) {
     //紫虚道人盯着你看了看，说道：“一小时内只能取消五次任务！”
     let matcherCancelTooMany = /^紫虚道人盯着你看了看，说道：“一小时内只能取消.+次任务！”$/
     let matcherCancel = "紫虚道人盯着你看了看，说道：“嗯，有那么几次挫折是很正常的，"
-
+    let matcherYueli = "紫虚道人盯着你看了看，说道：“这差事经验和阅历缺一不可，还是以后再来吧。”"
     let PlanCancel = new App.Plan(App.Positions["Response"],
         (task) => {
             task.AddTrigger(matcherCancelTooMany, (tri, result) => {
@@ -167,6 +167,11 @@ $.Module(function (App) {
                 Quest.Cooldown(60000)
                 return true
             })
+            task.AddTrigger(matcherYueli, (tri, result) => {
+                Quest.Cooldown(60000)
+                return true
+            })
+
             App.Send("yun regenerate;ask zixu daoren about 取消;score")
             App.Sync()
         }
@@ -481,7 +486,7 @@ $.Module(function (App) {
             $.Nobusy(),
             $.Buy("paper"),
             $.Nobusy(),
-            $.To(result[0], App.Core.HelpFind.Hepler),
+            $.To(result, App.Core.HelpFind.Hepler),
             $.Do("bury bag"),
             $.Nobusy(),
             $.Do("draw here"),

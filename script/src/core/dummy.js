@@ -44,7 +44,7 @@
         App.RaiseEvent(event)
     })
     App.Proposals.Register("key", App.Proposals.NewProposal(function (proposals, context, exclude) {
-        if (App.Mapper.HouseID && App.Core.Dummy.ID && App.Core.Dummy.Password) {
+        if (App.Mapper.HouseID && App.Core.Dummy.ID && App.Core.Dummy.Password&&!App.Core.Goods.NoBox) {
             if (App.Data.Item.List.FindByID("key").First() == null) {
                 return function () {
                     if (App.Core.Dummy.ID == GetVariable("id").trim()) {

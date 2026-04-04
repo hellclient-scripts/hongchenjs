@@ -37,6 +37,15 @@
         }
         App.Next()
     })
+    App.Core.Heal.IsRoomCanSleep = function () {
+        return !(App.Map.Room.Data["core.nosleep"] || App.Data.Item.List.FindByID("sleepbag").First() == null)
+    }
+    App.Core.Heal.SleepHere = () => {
+        App.Commands.PushCommands(
+            App.Commands.NewPlanCommand(PlanSleep),
+        )
+        $.Next()
+    }
     //打坐(恢复内力)的准备
     App.Proposals.Register("dazuo", App.Proposals.NewProposal(function (proposals, context, exclude) {
         let neimin = context.NeiliMin || App.Params.NeiliMin
@@ -58,7 +67,7 @@
                 return function () {
                     let ts = App.Core.Timeslice.Current()
                     App.Core.Timeslice.Change("修整-睡觉")
-                    if (App.Map.Room.Data["core.nosleep"] || App.Data.Item.List.FindByID("sleepbag").First() == null) {
+                    if (!App.Core.Heal.IsRoomCanSleep()) {
                         App.Commands.PushCommands(
                             App.Move.NewToCommand(App.Params.LocSleep),
                             App.Commands.NewPlanCommand(PlanSleep),
@@ -255,6 +264,10 @@
                         App.Core.Heal.NewRestCommand(),
                     )
                     App.Next()
+                    return
+                }
+                if (App.Core.Heal.IsRoomCanSleep()) {
+                    App.Core.Heal.SleepHere()
                     return
                 }
                 let jifaForce = App.Data.Player.Jifa["force"] ? App.Data.Player.Jifa["force"].Level : 0

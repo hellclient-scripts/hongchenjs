@@ -236,7 +236,7 @@
     var matcherScoreEnd = /^≡─+[^─]+─+─≡$/
     var matcherScoreMe = /^ 【(.+)】([^「」]+)(「(.+)」)?\s+(\S+)\((.+?)\)$/
     var matcherScoreGender = /^  你是.+([男|女])性，.+年.+生。$/
-    var matcherScoreBank = /^  你目前的存款：(.+)两黄金.+。$/
+    var matcherScoreBank = /^  你目前的存款：(.+)两黄金.*。$/
     var matcherScoreExp = /^  实战经验：\s+(\d+)\s+门派贡献：\s+(\d+)$/
     var matcherScoreYueli = /^  江湖阅历：\s+(\d+)\s+江湖威望：\s+(\d+)$/
     var matcherScoreZhengqi = /^  (正|邪)\s+气：\s+(\d+)\s+灵\s+慧：\s*(\d+)\s*$/

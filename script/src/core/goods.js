@@ -141,9 +141,9 @@
                     var count = App.Data.Item.List.FindByIDLower(item.Data).Sum()
                     if (count < num) {
                         return () => {
-                            let num = item.Param - 0
-                            if (isNaN(num) || num < 0) {
-                                num = 1
+                            let takenum = item.Param - 0
+                            if (isNaN(takenum) || takenum < 0) {
+                                takenum = 1
                             }
                             if (App.Data.Item.List.FindByID("key").First() != null && App.Mapper.HouseID && !App.Core.Goods.NoBox) {
 
@@ -154,16 +154,17 @@
                                         if (boxitem == null) {
                                             Note(`箱子里没有${item.Data}了`)
                                         } else {
-                                            App.Send(`take ${boxitem.Key} ${num};i`)
+                                            App.Send(`take ${boxitem.Key} ${takenum};i`)
                                         }
                                         $.Next()
                                     }),
                                     App.NewNobusyCommand(),
                                 )
                             } else {
+                                let takecmd=takenum>0?`get ${takenum} ${item.Data}`:`get ${item.Data}`
                                 App.Commands.PushCommands(
                                     App.Move.NewToCommand("chat"),
-                                    App.Commands.NewDoCommand(`get ${num} ${item.Data}`),
+                                    App.Commands.NewDoCommand(takecmd),
                                     App.Commands.NewDoCommand("i"),
                                     App.NewSyncCommand()
                                 )
