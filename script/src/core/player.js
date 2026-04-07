@@ -698,7 +698,7 @@
         let expmax = GetVariable("max_exp").trim()
         if (expmax.startsWith("+")) {
             expmax = expmax.slice(1) - 0
-            if (!isNaN(expmax)) {
+            if (isNaN(expmax)) {
                 return 0
             }
             let skill = App.Core.GetMaxSkillLevel()
