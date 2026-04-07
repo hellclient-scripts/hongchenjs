@@ -132,7 +132,7 @@
     //检查是否挂了
     App.Core.Emergency.CheckDeath = function () {
         App.Commands.PushCommands(
-            App.Commands.NewDoCommand("hp;i;cha force"),
+            App.Commands.NewDoCommand("yun recover;hp;i;cha force"),
             App.Commands.NewPlanCommand(PlanCheckDeath),
         )
         App.Next()

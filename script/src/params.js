@@ -26,6 +26,7 @@
     App.NamedParams.AddNumber("LianMax", 100).WithName("练习次数").WithDesc("每次练技能的最大次数")
     App.NamedParams.AddNumber("InspireBelow", 85).WithName("精气下限").WithDesc("低于这个值会疗精")
     App.NamedParams.AddNumber("WeaponDurationMin", 40).WithName("武器最小耐久").WithDesc("武器耐久低于这个值会去修理")
+    App.NamedParams.AddNumber("CheckWeaponInterval", 60).WithName("检查武器间隔").WithDesc("以秒为单位的检查武器间隔")
     App.NamedParams.AddNumber("NumDazuo", 0).WithName("打坐数值").WithDesc("每次打坐时的打坐数量，为0会自动判断")
     App.NamedParams.AddNumber("NumTuna", 0).WithName("吐纳数值").WithDesc("每次吐纳时的吐纳数量，为0会自动判断")
     App.NamedParams.AddNumber("NeiliMin", 40).WithName("最小内力百分比").WithDesc("判断打坐睡觉的内力百分比比率")

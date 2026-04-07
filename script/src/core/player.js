@@ -696,6 +696,16 @@
     //获取最大经验设置
     App.Core.GetMaxExp = () => {
         let expmax = GetVariable("max_exp").trim()
+        if (expmax.startsWith("+")) {
+            expmax = expmax.slice(1) - 0
+            if (!isNaN(expmax)) {
+                return 0
+            }
+            let skill = App.Core.GetMaxSkillLevel()
+            let safelevel = skill ? (skill["等级"] - 3) : 0
+            safelevel = safelevel + 3
+            return safelevel / 10 * safelevel * safelevel
+        }
         return (expmax && !isNaN(expmax)) ? expmax - 0 : 0
     }
     //离开pkd的计划

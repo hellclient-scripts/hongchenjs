@@ -196,6 +196,33 @@
                     )
                     $.Next()
                     break
+                case "du":
+                    if (!this.Loc) {
+                        PrintSystem("未知的学习位置 " + this.Loc)
+                        return
+                    }
+                    if (!this.From) {
+                        PrintSystem("未知的读目标 " + this.From)
+                        return
+                    }
+                    var cmds = [this.From]
+                    if (this.Before) { cmds.unshift(this.Before) }
+                    if (this.After) { cmds.push(this.After) }
+                    $.PushCommands(
+                        $.To(this.Loc),
+                        $.Function(() => { PlanStudy.Execute(); App.Next() }),
+                        $.Do(cmds.join(";")),
+                        $.Function(()=>{
+                            $.RaiseStage("wait")
+                            $.next()
+                        }),
+                        $.Wait(1000),
+                        $.Do("hp"),
+                        $.Sync(),
+                    )
+                    $.Next()
+                    break
+
                 default:
                     PrintSystem("未知的学习指令 " + this.Type)
                     return

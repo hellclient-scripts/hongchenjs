@@ -252,6 +252,13 @@ $.Module(function (App) {
         let id = event.Data.ID
         let loc = event.Data.Loc
         if (Chujian.Data.Name == name) {
+            let cites = App.Zone.LocToCityList[loc] || []
+            if (cites.length == 0) {
+                return
+            }
+            if (cites.indexOf(Chujian.Data.City) < 0) {
+                return
+            }
             if (!Chujian.Data.ID && id) {
                 Chujian.Data.ID = id.toLowerCase()
             }
@@ -268,7 +275,7 @@ $.Module(function (App) {
 
     let Quest = App.Quests.NewQuest("chujian")
     Quest.Name = "锄奸"
-    Quest.Timeslice="锄奸"
+    Quest.Timeslice = "锄奸"
     Quest.Desc = ""
     Quest.Intro = ""
     Quest.Help = ""

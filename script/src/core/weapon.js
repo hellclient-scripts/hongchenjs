@@ -114,7 +114,7 @@
         PlanDuation.Execute()
     }
     //检查武器耐久的checker
-    let checkerDuration = App.Checker.Register("weaponduration", App.Core.Weapon.CheckDuration, 3 * 60 * 1000)
+    let checkerDuration = App.Checker.Register("weaponduration", App.Core.Weapon.CheckDuration, App.Params.CheckWeaponInterval * 1000)
     //捡起并装备第一个武器
     App.Core.Weapon.PickWeapon = function () {
         if (App.Core.Weapon.Wield.length) {
@@ -198,6 +198,7 @@
     }
     //加载设置
     App.Core.Weapon.Load = function () {
+        checkerDuration.WithInterval(App.Params.CheckWeaponInterval * 1000)
         App.Core.Weapon.Wield = []
         App.Core.Weapon.Named = {}
         App.Core.Weapon.Touch = ""

@@ -174,3 +174,18 @@
 凤一鸣|feng yiming|328
 胖商人|pang shangren|352
 瘦商人|shou shangren|352
+//songxin
+忽伦大虎|da hu|3623
+忽伦二虎|er hu|3624
+忽伦四虎|si hu|3624
+忽伦三虎|san hu|3625
+哑妇|yafu|625
+偏将|pian jia|2551
+刘国轩|liu guoxuan|4146
+玉真子|yuzhen zi|3616
+吴天德|wu tiande|1502
+侍从|shi cong|1502
+管家|guan jia|2718
+一品堂武士|wu shi|438
+牙将|ya jiang|2651
+侯人英|huo renying|121

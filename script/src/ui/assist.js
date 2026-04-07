@@ -329,7 +329,7 @@
             $.PushCommands(
                 $.Function(() => {
                     App.Core.NPC.ChaNPC(data)
-                    
+
                 }),
                 $.Function(App.UI.Assist.LearnPickSkills),
             )
@@ -348,7 +348,7 @@
             if (skill.ID == "martial-cognize") {
                 return
             }
-            var limit = skill["等级"] < 200 ? skill["等级"] : 200;
+            var limit = skill["等级"] < 200 || App.Core.Player.KnowledgeSkills[skill.ID] == "f" ? skill["等级"] : 200;
             let cmd = `${skill.ID}|${limit}|xue|${App.Core.NPC.LastChaID}|${App.Map.Room.ID}|`
             list.append(cmd, cmd)
         })
