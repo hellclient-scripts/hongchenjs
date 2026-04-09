@@ -32,7 +32,17 @@
         App.Core.Miss.Mode = App.Core.Miss.ModeNeedStab
         App.RaiseEvent(event)
     })
+    App.Move.OnMissNoJing = function (event) {
+        App.Map.Room.Data["nomiss"] = true
+        App.RaiseEvent(event)
+    }
+
+    App.Engine.SetFilter("core.missnojing", App.Move.OnMissNoJing)
+
     App.Core.Miss.CanMiss = function () {
+        if (App.Map.Room.Data["nomiss"]) {
+            return 0
+        }
         return App.Core.Miss.Mode == App.Core.Miss.ModeNormal ? 1 : 0
     }
     App.Map.AppendInitiator(function () {

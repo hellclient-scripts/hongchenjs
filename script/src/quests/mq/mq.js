@@ -67,12 +67,14 @@ $.Module(function (App) {
     MQ.Data = {
         SlowLog: [],
         kills: 0,
+        WrongKills: 0,
         helped: 0,
         start: null,
         current: null,
         Last: null,
         last: 0,
         eff: 0,
+        fail: false,
         combatDuration: 0,
         cost: 0,
         tihui: 0,
@@ -165,6 +167,10 @@ $.Module(function (App) {
         }
         return App.QuestParams.mqgift.split(",").indexOf(name) > -1
     }
+    MQ.CancelAtBeichou = () => {
+        if (App.QuestParams["mqbeichoucanceltihui"] <= 0) { return false }
+        return App.Data.Player.HP["体会"] > App.QuestParams["mqbeichoucanceltihui"]
+    }
     MQ.CanAccept = () => {
         return false
         if (App.Quests.Stopped) {
@@ -212,7 +218,7 @@ $.Module(function (App) {
         App.Positions["Quest"],
         (task) => {
             let fled = false
-            let fail = false
+            MQ.Data.fail = false
             let getquest = false
             MQ.Data.NoMaster = false
             //MQ.Data.NPC = null
@@ -246,11 +252,11 @@ $.Module(function (App) {
                 return true
             })
             task.AddTrigger(reFail, () => {
-                if (App.QuestParams["mqretryfail"] == "t" && MQ.Data.NPC && MQ.Data.NPC.Start > 0 && $.Now() - MQ.Data.NPC.Start < 120000 && !MQ.Data.NPC.Retried) {
+                if (App.QuestParams["mqretryfail"] == "t" && MQ.Data.NPC && MQ.Data.NPC.Start > 0 && ($.Now() - MQ.Data.NPC.Start < 240000) && !MQ.Data.NPC.Retried) {
                     MQ.Data.NPC.Retry = true
                     MQ.Data.NPC.Retried = true
                 } else {
-                    fail = true
+                    MQ.Data.fail = true
                 }
                 return true
             })
@@ -269,8 +275,10 @@ $.Module(function (App) {
             //reNoQuest和reStart应该会出现一个
             task.AddTrigger(reNoQuest)
             task.AddTrigger(reStart, (tri, result) => {
-                if (fail) {
-                    App.Send("quest cancel")
+                if (MQ.Data.fail) {
+                    if (!MQ.CancelAtBeichou()) {
+                        App.Send("quest cancel")
+                    }
                     MQ.Data.NPC = null
                     return false
                 }
@@ -304,6 +312,32 @@ $.Module(function (App) {
             }
         }
     )
+    MQ.LogFail = () => {
+        let npcmsg = ""
+        if (MQ.Data.LastNPC) {
+            npcmsg = `NPC:${MQ.Data.LastNPC.Name}(${MQ.Data.LastNPC.ID}) 位置:${MQ.Data.LastNPC.Zone} ${MQ.Data.LastNPC.Fled ? "逃跑" : "未逃跑"} ${MQ.Data.LastNPC.Died ? "死亡" : "未死亡"}`
+        } else {
+            npcmsg = "无NPC信息"
+        }
+        App.Log(`任务失败，当前任务:${MQ.Data.last || 0} ${npcmsg}`)
+
+    }
+    MQ.BeichouCancel = () => {
+        $.PushCommands(
+            $.To("bei chou"),
+            $.Ask("bei chou", "cancel"),
+            $.Function(() => {
+                if (App.Data.Ask.Answers.length) {
+                    if (App.Data.Ask.Answers[0].Line == "北丑说道：好了！") {
+                        MQ.LogFail()
+                        MQ.Data.LastNPC = null
+                    }
+                }
+                $.Next()
+            })
+        )
+        $.Next()
+    }
     MQ.GiveHead = () => {
         $.PushCommands(
             $.To(App.Params.LocMaster),
@@ -323,6 +357,10 @@ $.Module(function (App) {
             $.To(App.Params.LocMaster),
             $.Plan(PlanQuest),
             $.Function(() => {
+                if (MQ.Data.fail && MQ.CancelAtBeichou()) {
+                    MQ.BeichouCancel()
+                    return
+                }
                 if (MQ.Data.NoMaster) {
                     Quest.Cooldown(3000000)
                     Note("师傅没了，任务冷却5分钟")
@@ -898,7 +936,7 @@ $.Module(function (App) {
         let cost = MQ.Data.kills > 0 ? (MQ.Data.cost / (MQ.Data.kills * 1000)).toFixed(2) + "秒" : 0
         let combat = MQ.Data.kills > 0 ? (MQ.Data.combatDuration / (MQ.Data.kills * 1000)).toFixed(2) + "秒" : 0
         let report = [
-            `MQ-总数:${MQ.Data.kills} 毛效率:${eff} 净效率:${timesliceeff} 当前任务:${MQ.Data.current || 0} 平均耗时：${cost} 平均战斗:${combat} 线报率:${rate}`,
+            `MQ-总数:${MQ.Data.kills} 毛效率:${eff} 净效率:${timesliceeff} 当前任务:${MQ.Data.current || 0} 平均耗时：${cost} 平均战斗:${combat} 线报率:${rate} 误杀次数:${MQ.Data.WrongKills}`,
             `MQ-体会:${MQ.Data.tihui} 体会毛效率:${tihuieff} 体会净效率:${tihuitimesliceeff} 平均体会:${avg}`
         ]
         report.push(`MQ-换取师门奖励：${gifts}`)
@@ -914,6 +952,8 @@ $.Module(function (App) {
     let matcherHead = /^你拣起一颗(.+)的人头。$/
     let matcherreward = /^通过这次锻炼你获得了(.+)点经验，(.+)点潜能及(.+)点实战体会。/
     let matcherquestfail = /^([^：()\[\]]{2,5})摆摆手，对你道：你干不了就算了/
+    let matcherquestwrongkill = /^([^：()\[\]]{2,5})点点头，对你道：算了，听说这人/
+
     let matchergift = /^([^：()\[\]]{2,5})微微一笑，从怀中取出一.(.+)交给你。$/
     let matcherAskGift = /^获得(.+)需要消耗你.+点门派贡献，/
     let planOverQuest = new App.Plan(App.Quests.Position,
@@ -952,15 +992,12 @@ $.Module(function (App) {
                 }
                 return true
             })
-
+            task.AddTrigger(matcherquestwrongkill, (tri, result) => {
+                MQ.Data.WrongKills++
+                return true
+            })
             task.AddTrigger(matcherquestfail, (tri, result) => {
-                let npcmsg = ""
-                if (MQ.Data.LastNPC) {
-                    npcmsg = `NPC:${MQ.Data.LastNPC.Name}(${MQ.Data.LastNPC.ID}) 位置:${MQ.Data.LastNPC.Zone} ${MQ.Data.LastNPC.Fled ? "逃跑" : "未逃跑"} ${MQ.Data.LastNPC.Died ? "死亡" : "未死亡"}`
-                } else {
-                    npcmsg = "无NPC信息"
-                }
-                App.Log(`任务失败，当前任务:${MQ.Data.last || 0} ${npcmsg}`)
+                MQ.LogFail()
                 MQ.Data.LastNPC = null
                 return true
             })
@@ -1032,6 +1069,7 @@ $.Module(function (App) {
             tihui: 0,
             gifts: {},
             cost: 0,
+            WrongKills: 0,
             combatDuration: 0,
             rejected: {},
         }

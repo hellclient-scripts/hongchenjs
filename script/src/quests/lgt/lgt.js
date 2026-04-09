@@ -31,7 +31,7 @@ $.Module(function (App) {
         $.Next()
     }
     //你在灵感西北塔获得了一两黄金的奖励！
-    let matcherGift = /^你在灵感.*塔获得了(.+)的奖励！$/
+    let matcherGift = /^你在灵感.*塔获得了一.(.+)的奖励！$/
     //任务全局计划
     let PlanQuest = new App.Plan(
         App.Positions["Quest"],

@@ -388,7 +388,8 @@
         })
     })
     App.BindEvent("core.disarmed", (e) => {
-        App.Core.Weapon.PickWeapon()
+        // App.Core.Weapon.PickWeapon()
+        App.Core.Combat.Pend("#pickwp")
     })
     App.BindEvent("core.onhurt", (e) => {
         App.Core.Combat.Pend("#pickwp")

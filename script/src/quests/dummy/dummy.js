@@ -4,6 +4,7 @@ $.Module(function (App) {
     Dummy.Target = ""
     Dummy.NextAskLuban = 0
     //杰二修(Jarlyynb)告诉你：key 123
+    //你拿出杰林修家的钥匙(key)给胖胖泡面。
     let matcheraskkey = /^([^：()\[\]]{2,5})\((.+)\)告诉你：key (.+)$/
     let matchermoney = /^([^：()\[\]]{2,5})\((.+)\)告诉你：money (.+)$/
     let PlanWait = new App.Plan(
@@ -12,6 +13,10 @@ $.Module(function (App) {
             task.AddTimer(Dummy.WaitDuration, () => {
                 return false
             }).WithName("finish")
+            task.AddTrigger(matchergivekey, (tri, result) => {
+                App.Log(result[0])
+                return true
+            })
             task.AddTrigger(matcheraskkey, (tri, result) => {
                 let name = result[1]
                 let id = result[2].toLowerCase()
@@ -106,7 +111,15 @@ $.Module(function (App) {
         return null
     }))
     App.Proposals.Register("commonWithQuestDummy", App.Proposals.NewProposalGroup("common", "quest.dummy"))
-
+    let matchergivekey = /^你拿出.+家的钥匙\(key\)给.+。$/
+    let PlanQuest = new App.Plan(
+        App.Positions["Quest"],
+        (task) => {
+            task.AddTrigger(matchergivekey, (tri, result) => {
+                App.Log(result[0])
+                return true
+            })
+        })
     let Quest = App.Quests.NewQuest("dummy")
     Quest.Name = "聊天大米"
     Quest.Desc = ""
@@ -116,6 +129,7 @@ $.Module(function (App) {
     App.Quests.Register(Quest)
 
     Quest.Start = function (data) {
+        PlanQuest.Execute()
         Dummy.Start(data)
     }
     Quest.GetReady = function (q, data) {

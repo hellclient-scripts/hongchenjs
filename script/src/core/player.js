@@ -702,9 +702,13 @@
                 return 0
             }
             let skill = App.Core.GetMaxSkillLevel()
-            let safelevel = skill ? (skill["等级"] - 3) : 0
+            let safelevel = skill ? (skill["等级"] + 3) : 0
             safelevel = safelevel + 3
-            return safelevel / 10 * safelevel * safelevel
+            expmax = safelevel / 10 * safelevel * safelevel + expmax
+            if (expmax < 499000) {
+                expmax = 499000
+            }
+            return expmax
         }
         return (expmax && !isNaN(expmax)) ? expmax - 0 : 0
     }

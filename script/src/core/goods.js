@@ -154,7 +154,7 @@
                                         if (boxitem == null) {
                                             Note(`箱子里没有${item.Data}了`)
                                         } else {
-                                            App.Send(`take ${boxitem.Key} ${takenum};i`)
+                                            App.Send(`take ${boxitem.Key} ${takenum<1?1:takenum};i`)
                                         }
                                         $.Next()
                                     }),

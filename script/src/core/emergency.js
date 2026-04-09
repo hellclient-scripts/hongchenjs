@@ -67,6 +67,7 @@
         if (!App.Quests.IsStopped()) {
             App.Commands.Append(
                 App.Commands.NewWaitCommand(2000),
+                $.Nobusy(),
                 App.Commands.NewFunctionCommand(() => {
                     Note("重新执行任务队列")
                     App.Quests.Restart()

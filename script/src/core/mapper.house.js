@@ -103,7 +103,7 @@
             let model = App.Mapper.HMM.Path.New()
             model.From = App.Mapper.HouseLoc
             model.To = "4199"
-            model.Command = App.Mapper.HouseID
+            model.Command = `go ${App.Mapper.HouseID}`
             model.Conditions = [App.Mapper.NewCondition("streetview", 1, true)]
             return model;
         })())
@@ -134,7 +134,7 @@
             let model = App.Mapper.HMM.Path.New()
             model.From = App.Mapper.HouseLoc
             model.To = "myroom-entry"
-            model.Command = App.Mapper.HouseID
+            model.Command = `go ${App.Mapper.HouseID}`
             model.Conditions = [App.Mapper.NewCondition("streetview", 1, true)]
             return model;
         })())
@@ -172,7 +172,7 @@
             let model = App.Mapper.HMM.Path.New()
             model.From = App.Mapper.HouseLoc
             model.To = "myroom-entry"
-            model.Command = App.Mapper.HouseID
+            model.Command = `go ${App.Mapper.HouseID}`
             model.Conditions = [App.Mapper.NewCondition("streetview", 1, true)]
             return model;
         })())

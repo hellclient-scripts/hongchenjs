@@ -214,7 +214,7 @@
                         $.Do(cmds.join(";")),
                         $.Function(()=>{
                             $.RaiseStage("wait")
-                            $.next()
+                            $.Next()
                         }),
                         $.Wait(1000),
                         $.Do("hp"),
@@ -236,7 +236,7 @@
         Check() {
             let skill = App.Data.Player.Skills[this.SkillID]
             if (skill) {
-                if (skill["受限经验"] && skill["等级"] >= (App.Data.Player.HPM["当前等级"] - 1)) {
+                if (skill["受限经验"] && skill["等级"] >= (App.Data.Player.HPM["当前等级"])) {
                     return false
                 }
             }

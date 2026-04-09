@@ -52,6 +52,11 @@
         App.RaiseEvent(event)
     }
     App.Engine.SetFilter("core.noflyupnow", App.Move.OnNoFlyUpNow)
+    App.Move.OnBlocked2 = function (event) {
+        event.Data=event.Data.Wildcards["0"]
+        App.RaiseEvent(event)
+    }
+    App.Engine.SetFilter("core.blocked2", App.Move.OnBlocked2)
     App.Move._OnNextRoom = []
     App.Move.BindNextRoom = (callback) => {
         App.Move._OnNextRoom.push(callback)
@@ -66,8 +71,8 @@
         return dir
     }
     App.Move.FailedMessages = {}
-    App.LoadLines("data/walkfailed.txt").forEach(data => {
-        App.Move.FailedMessages[data] = true
+    App.LoadLines("data/walkfailed.txt", "|").forEach(data => {
+        App.Move.FailedMessages[data[1]] = data[0]
     })
     App.Move.BlockedMessages = {}
     App.LoadLines("data/walkblocked.txt", "|").forEach(data => {
@@ -115,7 +120,7 @@
     App.Move.NewOrdered = function (rooms, ...initiators) {
         return App.Map.NewRoute(new App.Map.Movement.Ordered(rooms), ...initiators)
     }
-    App.Move.LongtimeStepDelay = 60 * 1000
+    App.Move.LongtimeStepDelay = 30 * 1000
     App.Move.RetryStep = false
     //移动的计划，移动失败处理
     App.Map.StepPlan = new App.Plan(
@@ -129,7 +134,7 @@
                 return App.Map.OnStepTimeout()
             }).WithName("timeout")
             task.AddTimer(App.Move.LongtimeStepDelay, function (timer) {
-                if (!App.Map.Move){
+                if (!App.Map.Move) {
                     return true;
                 }
                 let lastStep = App.Map.Move.GetLastStep()
@@ -155,6 +160,7 @@
                 if (App.Core.Room.Current.ID == "") {
                     return true;
                 }
+                catcher.WithData(event.Data)
             }).WithName("blocked2")
             task.AddCatcher("core.boatarrive", (catcher, event) => {
                 App.Send("halt;out")
@@ -175,11 +181,11 @@
                     catcher.WithName("walkbusy")
                     return false
                 }
-                if (App.Move.FailedMessages[event.Data.Output]) {
+                if (App.Move.FailedMessages[event.Data.Output] != undefined) {
                     if (App.Core.Room.Current.ID == "") {
                         return true;
                     }
-                    catcher.WithName("blocked2")
+                    catcher.WithName("blocked2").WithData(App.Move.FailedMessages[event.Data.Output])
                     return false
                 }
                 if (App.Move.BlockedMessages[event.Data.Output]) {
@@ -253,6 +259,10 @@
                             App.Move.OnMoveBlocker(result.Data)
                             break
                         case "blocked2":
+                            if (result.Data != "" && App.Map.Move.Data["core.killblockers"] && App.Map.Move.Data["core.killblockers"].includes(result.Data)) {
+                                App.Move.OnBlocker(result.Data)
+                                break
+                            }
                             App.Core.Blocker.BlockStepRetry()
                             break
                         case "needrest":
@@ -307,6 +317,9 @@
     }
     App.Move.NewOnMoveBlocker = function (callback) {
         return App.Map.NewMoveData("OnMoveBlocker", callback)
+    }
+    App.Move.KillBlockers = function (npclist) {
+        return App.Map.NewMoveData("core.killblockers", npclist)
     }
     //房间名回显
     App.BindEvent("core.roomentry", function (event) {

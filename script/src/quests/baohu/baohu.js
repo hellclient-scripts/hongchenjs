@@ -12,6 +12,15 @@ $.Module(function (App) {
     Baohu.Bad = 0
     Baohu.Data = {}
     Baohu.Gifts = {}
+    //失败放弃
+    Baohu.Fail = () => {
+        $.PushCommands(
+            $.To("wang jiantong"),
+            $.Ask("wang jiantong", "放弃保护"),
+            $.Timeslice("")
+        )
+        $.Next()
+    }
     //加载默认NPC信息
     let matcherProtect = /^汪剑通点了点头，对你说道:蒙古人收买了一批武林败类,好象要暗杀(.*)，你去保护他一下。/
     //检查汪的回答
@@ -55,7 +64,7 @@ $.Module(function (App) {
         App.Zone.Wanted = $.NewIDLowerWanted(npc.ID)
         $.PushCommands(
             $.To(npc.Loc[0]),
-            $.Rooms(npc.Loc, App.Zone.Finder,App.Core.HelpFind.Hepler),
+            $.Rooms(npc.Loc, App.Zone.Finder, App.Core.HelpFind.Hepler),
             $.Function(Baohu.Arrive)
         )
         $.Next()
@@ -163,6 +172,8 @@ $.Module(function (App) {
     )
     //任务成功，交任务
     Baohu.Finish = () => {
+        //强制检查毒
+        App.Core.Dispel.Need = true
         $.PushCommands(
             $.To("wang jiantong"),
             $.Ask("wang jiantong", "保护完成"),
@@ -252,7 +263,7 @@ $.Module(function (App) {
     //任务定义
     let Quest = App.Quests.NewQuest("baohu")
     Quest.Name = "保护任务"
-    Quest.Timeslice="保护"
+    Quest.Timeslice = "保护"
     Quest.Desc = ""
     Quest.Intro = ""
     Quest.Help = ""

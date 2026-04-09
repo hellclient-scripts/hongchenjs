@@ -10,7 +10,6 @@ wielded>#carry any
 #home id=dimai xuequan,tianxiang yulu
 #home id=bainian renshen,qiannian renshen,shenxin dan
 #sell id=bainian lingzhi,tianshan xuelian,qiannian lingzhi,qiannian xuelian,lingzhi wan,xuelian gao,lingzhi wan
-#sell id=baihu dan,qinglong dan,xuanwu dan,zhuque dan,
 #sell end=图腾
 #sell name=羊皮碎片
 #home end=残篇
@@ -32,6 +31,9 @@ wielded>#carry any
 #drop name=阳教主遗信
 #sell id=puti zi,baihua gao,guiling gao,white silk,blade book
 #drop id=wuming hua,jinshe book1,jinshe book2,jinshe book3,jiuyin zhenjing1,jiuyin zhenjing2,,baixiang hua
+
+//忘忧无花果
+#home id=baihu dan,qinglong dan,xuanwu dan,zhuque dan,
 
 //san10道具
 #home id=xisui xiandan,tonghui xiandan,zhuyuan xiandan,wuji xiandan,bless water,qinglong ya,ruyi jue,wucai zhu,hua shi,magic stone

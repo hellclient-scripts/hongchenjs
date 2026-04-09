@@ -116,6 +116,9 @@
             if (data.startsWith("wield ")) {
                 App.UI.Wizard.WieldCmd = "#wield"
                 App.UI.Wizard.WieldID = data.slice(6).trim()
+                if (App.UI.Wizard.WieldID == "long sword") {
+                    App.UI.Wizard.NeedLongSword = true
+                }
                 App.UI.Wizard.ShowTouch()
                 return
             } else if (data.startsWith("wear ")) {

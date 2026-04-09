@@ -1,6 +1,7 @@
 $.Module(function (App) {
     var Changan = {}
     Changan.Data = {
+        Giveup: false,
         Type: "",
         Target: [],
         Name: "",
@@ -12,6 +13,7 @@ $.Module(function (App) {
     Changan.Current = 0
     Changan.Go = function () {
         Changan.Data = {
+            Giveup: false,
             Type: "",
             Target: [],
             Name: "",
@@ -206,6 +208,12 @@ $.Module(function (App) {
             }
             switch (result.Task.Data.Type) {
                 case "ambush":
+                    if (App.QuestParams["changanjobnoambush"].trim() == "t") {
+                        Note("放弃")
+                        Changan.Data.Giveup = true
+                        Changan.Fail()
+                        return
+                    }
                     Changan.Data.Type = "ambush"
                     Changan.Data.Target = Changan.FormatTarget(result.Task.Data.Target)
                     Changan.DoAmbush()
@@ -420,7 +428,11 @@ $.Module(function (App) {
                 return true
             })
             task.AddTrigger(matcherFail, function (tri, result) {
-                App.Log("长安任务失败")
+                if (Changan.Data.Giveup) {
+                    Note("主动放弃")
+                } else {
+                    App.Log("长安任务失败")
+                }
                 return true
             })
             task.AddTrigger(matcherGift, function (tri, result) {
