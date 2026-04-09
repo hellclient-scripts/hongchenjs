@@ -21,8 +21,10 @@
         move.Option.Fly = false
     }
     App.Core.Fuben.OnInitTags = (map) => {
-        if (!map.Move || !map.Move.Data.InFuben) {
-            return
+        if (!((App.Map.Room.ID || "").startsWith(`${this.Prefix}-`))) {
+            if (!map.Move || !map.Move.Data.InFuben) {
+                return
+            }
         }
         if (App.Core.Fuben.Current) {
             App.Core.Fuben.Current.Paths.forEach((p) => {

@@ -2384,7 +2384,7 @@ Timers = []
 [[RequiredParams]]
   Name = "items"
   Desc = "物品配置"
-  Intro = "一行一个物品id。\n需要多个可以 id * 数量\n如：\nfire\nlong sword\nlong bow\narrow * 30\n#qu.10 Huogu lingyao * 5\n#qu feicui lan\n#nobox\n\n#qu为从箱子里取。小数点后是一次拿几个。\n设置#nobox或未设置房间或者没钥匙时,#qu会尝试在聊天室地上拿道具。\n支持吃药，包括回阳无极丹，修罗无常丹，罗刹无常丹，玉洞黑石丹，无常丹，九花玉露丸，白虎夺命丹，天王保命丹，生生造化丹，九转熊蛇丸。\n带身上会自动吃"
+  Intro = "一行一个物品id。\n需要多个可以 id * 数量\n如：\nfire\nlong sword\nlong bow\narrow * 30\n#qu.10 Huogu lingyao * 5\n#qu feicui lan\n#nobox\n\n#qu为从箱子里取。小数点后是一次拿几个。\n设置#nobox或未设置房间或者没钥匙时,#qu会尝试在聊天室地上拿道具。\n支持吃药，包括活骨灵药，翡翠兰，回阳无极丹，修罗无常丹，罗刹无常丹，玉洞黑石丹，无常丹，九花玉露丸，白虎夺命丹，天王保命丹，生生造化丹，九转熊蛇丸。\n带身上会自动吃"
 
 [[RequiredParams]]
   Name = "max_exp"

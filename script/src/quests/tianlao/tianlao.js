@@ -134,7 +134,7 @@ $.Module(function (App) {
             }),
             $.To(["fuben-tianlao-exit"], App.Map.SingleStep(), App.Core.Fuben.InFuben),
             $.CounterAttack("lao tou", App.NewCombat("tianlao").WithTags("牢头")),
-            $.Do("get gold from corpse;get silver from corpse 2;i"),
+            $.Do("get gold from corpse;get silver from corpse 2"),
             $.Sync(),
             $.Function(() => {
                 App.Look()

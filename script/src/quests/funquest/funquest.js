@@ -402,23 +402,23 @@ $.Module(function (App) {
         $.Next()
     }
     Funquest.DoItem = () => {
-        let item = App.Data.Item.List.FindByName(Funquest.Data.Object).First()
-        if (item == null) {
-            let goods = App.Goods.GetGoodsByName(Funquest.Data.Object)
-            if (!goods.length) {
-                App.Log("无法购买的物品：" + Funquest.Data.Object)
-                Funquest.Fail()
-                return
-            }
-            $.Insert(
-                $.Nobusy(),
-                $.Buy(goods[0].Key),
-                $.Function(Funquest.DoItemGive)
-            );
-            $.Next()
+        // let item = App.Data.Item.List.FindByName(Funquest.Data.Object).First()
+        // if (item == null) {
+        let goods = App.Goods.GetGoodsByName(Funquest.Data.Object)
+        if (!goods.length) {
+            App.Log("无法购买的物品：" + Funquest.Data.Object)
+            Funquest.Fail()
             return
         }
-        Funquest.DoItemGive()
+        $.Insert(
+            $.Nobusy(),
+            $.Buy(goods[0].Key),
+            $.Function(Funquest.DoItemGive)
+        );
+        $.Next()
+        return
+        // }
+        // Funquest.DoItemGive()
     }
     Funquest.DoItemGive = () => {
         let item = App.Data.Item.List.FindByName(Funquest.Data.Object).First()
@@ -432,6 +432,9 @@ $.Module(function (App) {
             $.Function(() => { Funquest.GoNPC(Funquest.Data.Publisher) }),
             $.Plan(PlanAsk),
             $.Nobusy(),
+            $.To("kd"),
+            $.Nobusy(),
+            $.Do(`give ${item.ID} to xiao er;give ${item.ID.toLowerCase()} to xiao er;i`)
         )
         $.Next()
     }
@@ -528,7 +531,7 @@ $.Module(function (App) {
     }
     Funquest.SendNPCOption = (move, map) => {
         move.OnArrive = Funquest.SendNPCArrive
-        move.Option.CommandNotContains = ["cross", "jump ", "enter ","qian"]
+        move.Option.CommandNotContains = ["cross", "jump ", "enter ", "qian"]
     }
     Funquest.ResendNPC = () => {
         Note("NPC跟丢了")
