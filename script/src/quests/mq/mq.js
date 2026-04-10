@@ -209,6 +209,7 @@ $.Module(function (App) {
     //岳不群呆了半晌，这才对你叹道：这事麻烦了，看来只有靠你自己努力了。
     let reFlee = /^([^：()\[\]]{2,5})呆了半晌，这才对你叹道：这事麻烦了，看来只有靠你自己努力了。$/
     let reFail = /^([^：()\[\]]{2,5})一脸怒容对你道：我不是让你.+前杀了/
+    let reLilian = /^.{2,5}摆摆手，对你道：我现在这里倒是有一些事情，不过待你外出历练段时间后再说吧！/
     let reNoMaster = "这里没有这个人，你怎么领任务？"
     let reNoQuest = "你现在没有领任何任务！"
     let reCurrent = /^师长交给你的任务，你已经连续完成了 (\d+) 个。$/
@@ -224,6 +225,10 @@ $.Module(function (App) {
             //MQ.Data.NPC = null
             MQ.Data.last = MQ.Data.current
             MQ.Data.current = null
+            task.AddTrigger(reLilian, (tri, result) => {
+                App.Send(`ask ${App.Params.MasterID} about 历练`)
+                return true
+            })
             task.AddTrigger(reQuest, (tri, result) => {
                 MQ.Data.NPC = new NPC(result[2])
                 MQ.Data.LastNPC = MQ.Data.NPC
@@ -936,7 +941,7 @@ $.Module(function (App) {
         let cost = MQ.Data.kills > 0 ? (MQ.Data.cost / (MQ.Data.kills * 1000)).toFixed(2) + "秒" : 0
         let combat = MQ.Data.kills > 0 ? (MQ.Data.combatDuration / (MQ.Data.kills * 1000)).toFixed(2) + "秒" : 0
         let report = [
-            `MQ-总数:${MQ.Data.kills} 毛效率:${eff} 净效率:${timesliceeff} 当前任务:${MQ.Data.current || 0} 平均耗时：${cost} 平均战斗:${combat} 线报率:${rate} 误杀次数:${MQ.Data.WrongKills}`,
+            `MQ-总数:${MQ.Data.kills} 毛效率:${eff} 净效率:${timesliceeff} 当前任务:${MQ.Data.current || 0} 平均耗时：${cost} 平均战斗:${combat} 线报率:${rate} 交头失败次数:${MQ.Data.WrongKills}`,
             `MQ-体会:${MQ.Data.tihui} 体会毛效率:${tihuieff} 体会净效率:${tihuitimesliceeff} 平均体会:${avg}`
         ]
         report.push(`MQ-换取师门奖励：${gifts}`)

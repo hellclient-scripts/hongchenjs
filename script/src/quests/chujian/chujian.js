@@ -23,6 +23,7 @@ $.Module(function (App) {
         Cost: 0,
         LastTihui: null,
         Gifts: {},
+        GiveUp: false,
     }
     let matcherTarget = /^吕文焕对你说道：近有(.*)在(.*)一带活动，武林败类欺我大宋无人，请这位大侠为武林除害！$/
     let matcherLater = /^吕文焕对手中名册一看，说：这位.+,任务皆已发放完毕,不妨先去歇息，汪剑通那里也许需要你。$/
@@ -34,6 +35,7 @@ $.Module(function (App) {
             Chujian.Data.Last = Chujian.Data.Name
             Chujian.Data.Name = ""
             Chujian.Data.Loc = null
+            Chujian.Data.GiveUp = false
             task.AddTrigger(matcherTarget, (tri, result) => {
                 Chujian.Data.Name = result[1]
                 Chujian.Data.City = result[2].slice(0, 2)
@@ -52,6 +54,7 @@ $.Module(function (App) {
             }).WithName("later")
             task.AddTrigger(matcherFail, (tri, result) => {
                 if (App.History.GetLast(2)[0].Line == matcherMe) {
+                    Chujian.Data.LastExp = 0
                     App.Log(`锄奸失败,${Chujian.Data.Last}@${Chujian.Data.City}`)
                     return false
                 }
@@ -64,6 +67,16 @@ $.Module(function (App) {
         (result) => {
             App.Send("halt")
             if (Chujian.Data.Name) {
+                if (App.QuestParams.chujiancancelat >= 0 && Chujian.Data.LastExp >= App.QuestParams.chujiancancelat) {
+                    Note("放弃")
+                    Chujian.Data.GiveUp = true
+                    App.Send("ask lv wenhuan about fangqi")
+                    App.Insert(
+                        $.Sync(),
+                    )
+                    $.Next()
+                    return
+                }
                 Quest.Cooldown(Cooldown)
                 Chujian.Data.Count++
                 Chujian.GoKill()
@@ -325,6 +338,7 @@ $.Module(function (App) {
             helped: 0,
             Start: $.Now(),
             CurrentStart: 0,
+            GiveUp: false,
         }
     })
     App.Quests.Register(Quest)

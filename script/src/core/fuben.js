@@ -21,7 +21,7 @@
         move.Option.Fly = false
     }
     App.Core.Fuben.OnInitTags = (map) => {
-        if (!((App.Map.Room.ID || "").startsWith(`${this.Prefix}-`))) {
+        if (!((App.Map.Room.ID || "").startsWith(`mazemap-`))) {
             if (!map.Move || !map.Move.Data.InFuben) {
                 return
             }

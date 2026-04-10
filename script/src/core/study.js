@@ -653,6 +653,9 @@
         function (task) {
             task.AddTrigger(matcherJiquFinish)
             task.AddTrigger(matcherJiquFail)
+            task.AddTrigger(matcherFull,(tir,result)=>{
+                App.Send("hp -m;cha")
+            })
             task.AddTimer(1100)
             App.Send(App.Random(App.Core.Study.Jiqu.Commands))
         }, function (result) {

@@ -6,6 +6,9 @@
 * item变量加入#nobox,确保不会从百宝箱存取东西
 * lian变量支持去三味书屋读书
 * 加入钥匙储备，防止鲁班出问题后无法Ask钥匙
+* 加入任务参数changanjobnoambush ,没战斗力时不做ambush任务
+* 加入任务参数tianlaonosearch，天牢任务放弃遍历房间之间去出口，适合不需要资源保年龄/气血的ID
+* 加入任务参数chujiancancelat,锄奸放弃设定，配合保护用
 * 加入要生活费和大米自动转账的功能
 * 助理根据师傅的技能设置学习列表的功能
 * 加入 #noob 指令,制动执行funquest,changanjob,peiyao,并自动学drawing到31

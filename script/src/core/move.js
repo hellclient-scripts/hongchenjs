@@ -222,7 +222,7 @@
                             break
                         case "wrongway":
                             if (App.Move.RetryStep) {
-                                App.Map.Resend(0)
+                                App.Map.Resend()
                                 return
                             }
                             if (!App.Map.Room.Data["wrongwaylogged"]) {

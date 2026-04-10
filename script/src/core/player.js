@@ -705,8 +705,8 @@
             let safelevel = skill ? (skill["等级"] + 3) : 0
             safelevel = safelevel + 3
             expmax = safelevel / 10 * safelevel * safelevel + expmax
-            if (expmax < 499000) {
-                expmax = 499000
+            if (expmax < 299000) {
+                expmax = 299000
             }
             return expmax
         }

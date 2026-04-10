@@ -171,9 +171,13 @@ $.Module(function (App) {
                 $.Next()
             }),
             $.Function(() => {
-                $.Insert(
-                    $.Rooms(Tianlao.Data.Migong, App.Map.SingleStep(), Tianlao.Checker, App.Core.Fuben.InFuben),
-                )
+                if (App.QuestParams.tianlaonosearch.trim() != "t") {
+                    $.Insert(
+                        $.Rooms(Tianlao.Data.Migong, App.Map.SingleStep(), Tianlao.Checker, App.Core.Fuben.InFuben),
+                    )
+                } else {
+                    Note("跳过搜索，直接离开")
+                }
                 $.Next()
             }),
             $.Function(() => {
@@ -199,9 +203,13 @@ $.Module(function (App) {
                 $.Next()
             }),
             $.Function(() => {
-                $.Insert(
-                    $.Rooms(Tianlao.Data.Migong, App.Map.SingleStep(), Tianlao.Checker, App.Core.Fuben.InFuben),
-                )
+                if (App.QuestParams.tianlaonosearch.trim() != "t") {
+                    $.Insert(
+                        $.Rooms(Tianlao.Data.Migong, App.Map.SingleStep(), Tianlao.Checker, App.Core.Fuben.InFuben),
+                    )
+                } else {
+                    Note("跳过搜索，直接离开")
+                }
                 $.Next()
             }),
             $.Function(() => {

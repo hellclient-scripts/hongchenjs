@@ -594,6 +594,7 @@ $.Module(function (App) {
                 App.Map.SingleStep(),
                 App.Map.NoFly(),
                 Funquest.SendNPCOption,
+                App.Map.NewTag("find", 1)
                 //send npc容易被同名误杀
                 // App.Core.HelpFind.Hepler,
             ),
