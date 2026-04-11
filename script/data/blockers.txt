@@ -7,3 +7,6 @@
 康府侍卫|shi wei|50000
 衙役|ya yi|50000
 管家|guan jia|50000
+道明小师父|daoming|50000
+道一禅师|daoyi chanshi|50000
+慧真尊者|huizhen zunzhe|50000
