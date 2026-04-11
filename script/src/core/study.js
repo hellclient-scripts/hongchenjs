@@ -212,7 +212,7 @@
                         $.To(this.Loc),
                         $.Function(() => { PlanStudy.Execute(); App.Next() }),
                         $.Do(cmds.join(";")),
-                        $.Function(()=>{
+                        $.Function(() => {
                             $.RaiseStage("wait")
                             $.Next()
                         }),
@@ -261,7 +261,7 @@
                         return false
                     }
                 }
-                let data = limit.trim().split(" ")
+                let data = SplitN(limit.trim(), " ", 2)
                 //limit可以有特殊设置
                 switch (data[0]) {
                     case "":
@@ -274,21 +274,30 @@
                         }
                     default://相对其他技能限制,可以用 skill +100 或者 skill-100 的形式
                         let tskill = App.Data.Player.Skills[data[0]]
-                        if (data[1] == null || isNaN(data[1])) {
-                            data[1] = "0"
-                        }
-                        if (tskill && !isNaN(data[1])) {
+                        if (tskill) {
                             let level = data[1] ? data[1].trim() : "0"
-                            let abs = 1
-                            if (level[0] == "+") {
+                            if (level[0] == "*") {
                                 level = level.slice(1)
-                            } else if (level[0] == "-") {
-                                abs = -1
-                                level = level.slice(1)
-                            }
-                            let offset = level * abs
-                            if (skill["等级"] >= tskill["等级"] + offset) {
-                                return false
+                                if (skill["等级"] >= tskill["等级"] * (level - 0)) {
+                                    return false
+                                }
+                            } else {
+                                if (data[1] == null || isNaN(data[1])) {
+                                    data[1] = "0"
+                                }
+                                if (!isNaN(data[1])) {
+                                    let abs = 1
+                                    if (level[0] == "+") {
+                                        level = level.slice(1)
+                                    } else if (level[0] == "-") {
+                                        abs = -1
+                                        level = level.slice(1)
+                                    }
+                                    let offset = level * abs
+                                    if (skill["等级"] >= tskill["等级"] + offset) {
+                                        return false
+                                    }
+                                }
                             }
                         }
                 }
@@ -640,7 +649,7 @@
 
     let JiquPause = () => {
         App.Core.Timeslice.Change("修整-汲取")
-        App.Core.Study.LastTihui=App.Data.Player.HP["体会"] 
+        App.Core.Study.LastTihui = App.Data.Player.HP["体会"]
         App.Commands.PushCommands(
             App.Commands.NewFunctionCommand(JiquPauseNext)
         )
@@ -648,12 +657,12 @@
     }
     let matcherJiquFinish = "你将实战中获得的体会心得充分的消化吸收了。"
     let matcherJiquFail = "似乎没有必要为吸收这点体会下功夫。"
-    let matcherFull="你感觉自己的实战经验还有欠缺，还无法领会更高境界的武学修养。"
+    let matcherFull = "你感觉自己的实战经验还有欠缺，还无法领会更高境界的武学修养。"
     let PlanJiqu = new App.Plan(App.Positions["Connect"],
         function (task) {
             task.AddTrigger(matcherJiquFinish)
             task.AddTrigger(matcherJiquFail)
-            task.AddTrigger(matcherFull,(tir,result)=>{
+            task.AddTrigger(matcherFull, (tir, result) => {
                 App.Send("hp -m;cha")
             })
             task.AddTimer(1100)

@@ -5,11 +5,13 @@ wielded>#carry any
 #sell id=jin kuai,fei cui,yu shi,zhen zhu,ma nao,zuan shi
 #sell id=sheli zi,haotian guo,zhu guo,haotian dan,yangsheng dan,huolong guo,puti zi
 #sell id=chipped diamond,chipped agate,chipped crystal,chipped jade
-#sell id=shenli wan,zenghui dan,zhuanggu fen,fushou gao
+#sell id=shenli wan,zenghui dan,zhuanggu fen
 #sell id=handan shi,bixue shi,zijin kuang,wujin kuang,taijin zhu,tiancan yu,qingyu ya,tiangang tan,huandi shenzhu,tongtian cao,zhenlong shi,xuanyin sha,yinjiao si,xi rang,baxian shi,kunlun shi,haoyue jinsha,leihuo hanjing,yinzhu si,tianshan xuantie
 #home id=dimai xuequan,tianxiang yulu
 #home id=bainian renshen,qiannian renshen,shenxin dan
 #sell id=bainian lingzhi,tianshan xuelian,qiannian lingzhi,qiannian xuelian,lingzhi wan,xuelian gao,lingzhi wan
+//悟性图腾
+#home name=烛龙图腾,青龙图腾,鸀鸟图腾
 #sell end=图腾
 #sell name=羊皮碎片
 #home end=残篇
@@ -26,7 +28,7 @@ wielded>#carry any
 #use id=shao mai
 
 //tianlao
-#home id=feicui lan
+#home id=feicui lan,fushou gao
 #sell name=〖百变神通〗,〖拳法简介〗,六脉神剑谱
 #drop name=阳教主遗信
 #sell id=puti zi,baihua gao,guiling gao,white silk,blade book

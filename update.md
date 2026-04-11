@@ -5,6 +5,7 @@
 * sell变量的#home指令加入最大持有数量，配合item变量的#qu
 * item变量加入#nobox,确保不会从百宝箱存取东西
 * lian变量支持去三味书屋读书
+* lian和study变量的等级限制支持 参考技能*比例的格式，方便控制部分高难度系数技能脱节
 * 加入钥匙储备，防止鲁班出问题后无法Ask钥匙
 * 加入任务参数changanjobnoambush ,没战斗力时不做ambush任务
 * 加入任务参数tianlaonosearch，天牢任务放弃遍历房间之间去出口，适合不需要资源保年龄/气血的ID
