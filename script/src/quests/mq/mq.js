@@ -350,7 +350,15 @@ $.Module(function (App) {
                 $.RaiseStage("mqgivehead")
                 $.Next()
             }),
-            $.Do("give head to " + App.Params.MasterID + ";drop head"),
+            $.Function(() => {
+                App.Send(`give head to ${App.Params.MasterID};drop head`)
+                var headcount = App.Data.Item.List.FindByID("head").Sum()
+                for (var i = 2; i <= headcount; i++) {
+                    App.Send(`give head to ${App.Params.MasterID};drop head`)
+                }
+                App.Send("i")
+                $.Next()
+            }),
             $.Sync(),
             // $.Function(MQ.Prepare),
         )
@@ -638,6 +646,15 @@ $.Module(function (App) {
         }
         App.Next()
     }
+    MQ.CheckHead = () => {
+        if (MQ.Data.NPC.Died && !MQ.Data.NPC.Head) {
+            for (var i = 1; i <= 5; i++) {
+                App.Send(`cut head from corpse ${i}`)
+            }
+            App.Send("i")
+        }
+        $.Next()
+    }
     MQ.KillLoc = () => {
         if (!MQ.Data.NPC.ID && App.Zone.Wanted.ID) {
             MQ.Data.NPC.ID = App.Zone.Wanted.ID
@@ -647,6 +664,7 @@ $.Module(function (App) {
             App.Map.Room.Data.Objects.Clear()
             $.Insert(
                 $.Kill(MQ.Data.NPC.ID, App.NewCombat("mq").WithPlan(PlanCombat).WithKillInGroup(MQ.Data.NPC.NotKilled)),
+                $.Function(MQ.CheckHead),
                 $.Function(() => {
                     if (!(MQ.Data.NPC.Died || MQ.Data.NPC.Fled)) {
                         $.Insert($.Function(MQ.KillNear))
@@ -871,7 +889,8 @@ $.Module(function (App) {
         if (MQ.Data.NPC && MQ.Data.NPC.Name == name) {
             App.Commands.Drop()
             $.PushCommands(
-                $.Kill(MQ.Data.NPC.ID, App.NewCombat("mq").WithPlan(PlanCombat).WithKillInGroup(MQ.Data.NPC.NotKilled)),
+                $.Kill(MQ.Data.NPC.ID, App.NewCombat("mq").WithPlan(PlanCombat).WithKillInGroup(MQ.Data.NPC.NotKilled)), 
+                $.Function(MQ.CheckHead),
                 $.Function(MQ.Ready),
             )
             App.Next()

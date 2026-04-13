@@ -48,13 +48,13 @@ $.Module(function (App) {
             task.AddTrigger(matcherLater, (tri, result) => {
                 if (App.History.GetLast(2)[0].Line == matcherMe) {
                     Note("锄奸冷却中")
+                    App.Quests.GetQuest("baohu").Cooldown(-1)
                     return false
                 }
                 return true
             }).WithName("later")
             task.AddTrigger(matcherFail, (tri, result) => {
                 if (App.History.GetLast(2)[0].Line == matcherMe) {
-                    Chujian.Data.LastExp = 0
                     App.Log(`锄奸失败,${Chujian.Data.Last}@${Chujian.Data.City}`)
                     return false
                 }
@@ -69,6 +69,7 @@ $.Module(function (App) {
             if (Chujian.Data.Name) {
                 if (App.QuestParams.chujiancancelat >= 0 && Chujian.Data.LastExp >= App.QuestParams.chujiancancelat) {
                     Note("放弃")
+                    Chujian.Data.LastExp = 0
                     Chujian.Data.GiveUp = true
                     App.Send("ask lv wenhuan about fangqi")
                     App.Insert(
@@ -97,9 +98,34 @@ $.Module(function (App) {
     )
     let matcherGift = /^你得到了一级(.*)。$/
     let matcherExp = /^你得到了(.+)点武学经验和(.+)点潜能!体会和阅历,贡献也有所提高。$/
+    //( 牛晚已经陷入半昏迷状态，随时都可能摔倒晕去。)
+    let matcherHit = /^\( (.+)(似乎有些疲惫，但是仍然十分有活力。|看起来可能有些累了。|动作似乎有点不太灵光，但仍然有条不紊。|气喘嘘嘘，看起来状况并不太好。|似乎十分疲惫，看来需要好好休息了。|招架已然散乱，正勉力支撑著不倒下去。|看起来已经力不从心了。|歪歪斜斜地站都站立不稳，眼看就要倒地。|已经陷入半昏迷状态，随时都可能摔倒晕去。)\)$/
+    Chujian.CancelCombat = () => {
+        App.Reconnect(2000, Chujian.Connect)
+    }
+    Chujian.Connect = () => {
+        App.Reconnect(2000, Chujian.Connect2)
+    }
+    Chujian.Connect2 = () => {
+        $.PushCommands(
+            $.Function(App.Core.Emergency.CheckDeath),
+            $.Function(() => {
+                App.Core.Weapon.PickWeapon()
+                $.Next()
+            }),
+            $.Function(() => {
+                App.Commands.Drop()
+                Chujian.Data.Name = ""
+                Chujian.Data.GiveUp = true
+                $.Next()
+            })
+        )
+        $.Next()
+    }
     let PlanCombat = new App.Plan(
         App.Positions["Combat"],
         (task) => {
+            let hit = false
             task.AddTrigger(`${Chujian.Data.Name}死了。`, (tri, result) => {
                 Chujian.Data.Success++
                 let cost = $.Now() - Chujian.Data.CurrentStart
@@ -110,6 +136,15 @@ $.Module(function (App) {
                 //Quest.Cooldown(Cooldown)
                 return true
             })
+            task.AddTrigger(matcherHit, (tri, result) => {
+                if (result[1] == Chujian.Data.Name) {
+                    if (hit == false) {
+                        Note("成功命中NPC")
+                        hit = true
+                    }
+                }
+                return true
+            })
             task.AddTrigger(matcherGift, (tri, result) => {
                 let skillname = result[1]
                 if (!Chujian.Data.Gifts[skillname]) {
@@ -118,6 +153,23 @@ $.Module(function (App) {
                 Chujian.Data.Gifts[skillname]++
                 return true
             })
+            if (App.QuestParams.chujiannohitfor >= 0) {
+                task.AddTimer(App.QuestParams.chujiannohitfor * 1000, () => {
+                    if (hit == false) {
+                        Note("无法命中NPC，放弃")
+                        Chujian.CancelCombat()
+                        return
+                    }
+                    return true
+                }).WithNoRepeat(true)
+            }
+            if (App.QuestParams.chujianmaxcombat >= 0) {
+                task.AddTimer(App.QuestParams.chujianmaxcombat * 1000, () => {
+                    Note("战斗时间过长，放弃")
+                    Chujian.CancelCombat()
+                    return false
+                }).WithNoRepeat(true)
+            }
             task.AddTrigger(matcherExp, (tri, result) => {
                 Chujian.Data.LastExp = App.CNumber.ParseNumber(result[1])
                 return true
@@ -171,8 +223,14 @@ $.Module(function (App) {
                 App.Log(`锄奸失败,放弃${Chujian.Data.Name}@${Chujian.Data.City}`)
             }
         } else {
+            $.Insert($.Prepare("commonWithExp"))
             // App.Core.Timeslice.Change("")
-            Note("锄奸成功")
+            if (Chujian.Data.GiveUp) {
+                Note("放弃锄奸")
+            } else {
+                Note("锄奸成功")
+
+            }
         }
         App.Next()
     }
@@ -204,6 +262,20 @@ $.Module(function (App) {
         Chujian.Data.LastTihui = App.Data.Player.HP["体会"]
     }
     Chujian.CountTihui = function () {
+        if (Chujian.Data.GiveUp) {
+            App.Commands.Drop()
+            $.Insert(
+                $.To("lv wenhuan"),
+                $.Function(() => {
+                    App.Send("ask lv wenhuan about fangqi")
+                    App.Insert(
+                        $.Sync(),
+                    )
+                    $.Next()
+                }))
+            $.Next()
+            return
+        }
         if (Chujian.Data.Name == "") {
             Note("结算")
             let tihui = App.Data.Player.HP["体会"] - Chujian.Data.LastTihui

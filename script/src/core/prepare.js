@@ -258,7 +258,7 @@
                 App.Core.Timeslice.Change("修整-放弃")
                 $.PushCommands(
                     $.To(loc),
-                    $.Do("fangqi exp;hp"),
+                    $.Do("yun regenerate;fangqi exp;hp"),
                     $.Nobusy(),
                     $.Timeslice(ts),
                 )
