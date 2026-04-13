@@ -38,6 +38,7 @@
         var cmd = GetVariable("cmd_ride") || ""
         cmd = cmd.trim()
         if ((Mode == 0 || canretry()) && cmd) {
+            LastTry = (new Date()).getTime()
             Mode = 1
             App.Send(cmd + ";yun regenerate;whistle;" + cmd)
             App.RaiseEvent(event)

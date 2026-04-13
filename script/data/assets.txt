@@ -10,10 +10,10 @@ wielded>#carry any
 #home id=dimai xuequan,tianxiang yulu
 #home id=bainian renshen,qiannian renshen,shenxin dan
 #sell id=bainian lingzhi,tianshan xuelian,qiannian lingzhi,qiannian xuelian,lingzhi wan,xuelian gao,lingzhi wan
+#home name=羊皮碎片
 //悟性图腾
 #home name=烛龙图腾,青龙图腾,鸀鸟图腾
 #sell end=图腾
-#sell name=羊皮碎片
 #home end=残篇
 #sell id=yanluo chou,lihuo yu
 

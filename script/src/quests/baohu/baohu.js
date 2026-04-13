@@ -17,7 +17,6 @@ $.Module(function (App) {
         $.PushCommands(
             $.To("wang jiantong"),
             $.Ask("wang jiantong", "放弃保护"),
-            $.Timeslice("")
         )
         $.Next()
     }

@@ -1,5 +1,5 @@
 Type = "v8"
-Intro = "机器特性\n\n机器的物资流转是围绕房子的百宝箱运转的，所以需要长期挂机的ID都要设置房屋信息，并带着房子的钥匙。\n可以挂一个#dummy的钥匙大米，自动发钥给正确的置了house_dummy的id\n\n快捷指令：\n#dummy 拿钥匙大米，需要能自建聊天室以及能在lu ban那里ask key。需要正确设置house_dummy属性。会自动给设置了house_dummy的id房子钥匙。\n#mq 自动进行任务，优先级为灵感塔>锄奸>师门>freequest\n#mq1  灵感塔>师门>freequest,体会或潜能为full状态时，会在师门前插入保护，锄奸，练功消耗体会和潜能。这个模式建议把command变量 加入#wait jiqu ,#pause #yanjiulian。\n#mq2 灵感塔>师门>freequest\n#mq3 师门>freequest\n#baohu 灵感塔>保护>锄奸>练技能\n#tianlao 天牢>练功>发呆\n#noob 长安>配药>练功>发呆，建议先ask gift,再拜师，学点特殊内功，设置好学习\n#stop 停止任务\n#login 输入登录信息"
+Intro = "机器特性\n\n机器的物资流转是围绕房子的百宝箱运转的，所以需要长期挂机的ID都要设置房屋信息，并带着房子的钥匙。\n可以挂一个#dummy的钥匙大米，自动发钥给正确的置了house_dummy的id\n\n快捷指令：\n#dummy 拿钥匙大米，需要能自建聊天室以及能在lu ban那里ask key。需要正确设置house_dummy属性。会自动给设置了house_dummy的id房子钥匙。\n#mq 自动进行任务，优先级为灵感塔>锄奸>师门>freequest\n#mq1  灵感塔>师门>freequest,体会或潜能为full状态时，会在师门前插入保护，锄奸，练功消耗体会和潜能。这个模式建议把command变量 加入#wait jiqu ,#pause #yanjiulian。\n#mq0 灵感塔>锄奸>师门>fq>保护。和#mq的区别是优先锄奸还是师门\n#mq2 灵感塔>师门>freequest\n#mq3 练功>师门>freequest,适合没10lv的小号\n#baohu 灵感塔>保护>锄奸>练技能\n#tianlao 天牢>练功>发呆\n#noob FQ>长安>配药>练功>送信>发呆，建议先ask gift,再拜师，学点特殊内功，设置好学习\n#stop 停止任务\n#login 输入登录信息"
 Desc = "Mud红尘的机器人脚本"
 OnOpen = "onOpen"
 OnClose = "onClose"
@@ -302,7 +302,7 @@ Timers = []
   ID = "d1fvnph7bgrsb672ocigh6"
   Name = "core.needdispel"
   Enabled = true
-  Match = "^(你只觉毒气攻心，顿时感到一股莫名的恶心，全身瘫软无力！|忽然你觉得四肢百赅是似乎有无数小虫在游走，麻痒难忍|忽然一股寒流夹着一阵灼热涌上心来，你中的生死符发作了|忽然浑身一阵剧痛，你中的化骨绵掌毒发了|你感到胸口处传来阵阵刺痛，全身血液竟似要凝结住一般。|你只觉丹田处有如火焚，便似有千万钢针一齐扎入体内。|你只觉蟾蛊毒攻心，头晕目眩，一阵说不出的恶心。|只觉得自己精神不济，疲惫不堪，看来是受到达摩伤神剑的干扰。|忽然觉得一阵难受，心虚气短，看来是受到达摩乱气剑的干扰。|你中的蛇毒发作了。|你只觉全身灼热无比，身体上燃起的碧焰直焚心髓。|丹田处一阵火起，忽又变得冰凉，想必是受到达摩折元剑的干扰。|你只觉全身肌肤便似腐烂了一般，散发出一股极难闻的恶臭。|你只觉全身灼热无比，身体上燃起的碧焰直焚心髓。)"
+  Match = "^(你只觉毒气攻心，顿时感到一股莫名的恶心，全身瘫软无力！|忽然你觉得四肢百赅是似乎有无数小虫在游走，麻痒难忍|忽然一股寒流夹着一阵灼热涌上心来，你中的生死符发作了|忽然浑身一阵剧痛，你中的化骨绵掌毒发了|你感到胸口处传来阵阵刺痛，全身血液竟似要凝结住一般。|你只觉丹田处有如火焚，便似有千万钢针一齐扎入体内。|你只觉蟾蛊毒攻心，头晕目眩，一阵说不出的恶心。|只觉得自己精神不济，疲惫不堪，看来是受到达摩伤神剑的干扰。|忽然觉得一阵难受，心虚气短，看来是受到达摩乱气剑的干扰。|你中的蛇毒发作了。|你只觉全身灼热无比，身体上燃起的碧焰直焚心髓。|丹田处一阵火起，忽又变得冰凉，想必是受到达摩折元剑的干扰。|你只觉全身肌肤便似腐烂了一般，散发出一股极难闻的恶臭。|你只觉全身灼热无比，身体上燃起的碧焰直焚心髓。|你惊慌失措，连忙后退，然而没能避开，被他这一爪抓得鲜血淋漓！|你只觉得脸上、胸前一痛，而后是奇痒难熬。|你一个不慎，火星顿时溅到|你只闻一股恶臭传来，大惊之下难以招|你见滔天热浪扑面涌来，只觉眼前一片通红，|你\"只闻一股恶臭传来，大惊之下难以招|只听你惨叫一声，只感两耳轰鸣，目不视物，喷出一大口鲜血，软软瘫倒。|只听你一声惨嚎，几柱鲜血射出，剑伤|你只觉.+掌劲穿胸而过，一时说不出的难受，呕出一大口黑血。|结果只听扑的一声，你被.+一掌拍中，只觉得全身暖洋洋的，感到有点轻飘无力。|你急忙后退，然而这指何等玄妙，正好点中你胸前，|你闪避不及，登被.+抓出五道血痕，伤口竟渗出黑血，隐隐|只见你被.+一掌拍中，紧接着身子一颤|霎时间你忽觉一股奇寒散入七经八脉|你只觉得一股如山的劲力顺指尖猛攻过来，只觉得全身毒气狂窜，“哇”的一声|你惊慌失措，连忙后退，然而没能避开，|你见拳势变换莫测，只是微微一愣，已被|只听你惨叫一声，被.+这一掌拍个正着，顿时毒气攻心|霎那间你已被.+阴寒掌劲拂中要害|只听嗤的一声，.+右掌如击败革，正中你胸口，|结果只听你一声惨嚎，被攻个正着，透骨针极寒之劲攻心|只见你被.+一掌拍中，倒退几步，却见脸色已微微泛黑。|你正欲闪躲，却见.+突然绕到你身后，|你但见.+右掌已攻出，正欲反击。|你只见眼前紫影晃动，突然间胸口一震，已知大势|你稍不留神，已被.+一指点中，阴寒之劲顿时侵入三焦六脉。|结果只听你一声惨嚎，全身几处要穴同时被阴风寒劲砍中|只见.+这一招疾如电、猛如火，你心中惊疑不定)"
   Send = ""
   ColourChangeType = 0
   Colour = 0
@@ -643,7 +643,7 @@ Timers = []
   ID = "d1g15b03lrsvhl73hcepds"
   Name = "core.disarmed"
   Enabled = true
-  Match = "^你(手腕一麻|觉得眼前眼花缭乱|只觉周围气流涌动)，手中(.*)脱手"
+  Match = "^你(手腕一麻|觉得眼前眼花缭乱|只觉周围气流涌动|顿时觉得眼前一花|只觉眼花缭乱，全然无法洞察先机|只见眼前无数寒光颤跃闪动|只觉手腕一阵刺痛|只见眼前白芒暴涨，登时右手一轻)"
   Send = ""
   ColourChangeType = 0
   Colour = 0
@@ -705,7 +705,7 @@ Timers = []
   ID = "d1g1nfmk2a6lu5723hlbia"
   Name = "core.needneili"
   Enabled = true
-  Match = "^(你现在真气不够|你现在内力太弱|你的内力不够|你现在内力不够|你的真气不足|你现在的真气不够)"
+  Match = "^(你现在真气不够|你现在内力太弱|你的内力不够|你现在内力不够|你的真气不足|你现在的真气不够|你的真气不够)"
   Send = ""
   ColourChangeType = 0
   Colour = 0
@@ -1848,6 +1848,37 @@ Timers = []
   Italic = false
   Variable = ""
 
+[[Triggers]]
+  ID = "d1h9auh7f80tb772b9cns5"
+  Name = "disarmed3"
+  Enabled = true
+  Match = "^(只听“嗤啦”一声，|只听“当”的一声，.+正打在|霎时间)你"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent(\"core.disarmed\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = true
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
 [[Aliases]]
   ID = "d1fufevcofgvaa73s6n5s7"
   Name = "App.Core.Connect.OnAliasLogin"
@@ -2083,7 +2114,7 @@ Timers = []
   Name = "m3"
   Enabled = true
   Match = "#mq3"
-  Send = "#start mq||freequest 追杀"
+  Send = "#start lianskill||mq||freequest 追杀"
   Script = ""
   SendTo = 10
   Sequence = 100
@@ -2221,7 +2252,7 @@ Timers = []
   Name = "noob"
   Enabled = true
   Match = "#noob"
-  Send = "#start study !drawing|31|xue|lu ban|lu ban||maxexp 50000>>tianlao||skill drawing 30,yueli 2000,!maxexp 50000>>funquest||maxexp 100000,!maxexp 50000,yueli 20>>letter||maxexp 100000,!maxexp 50000>>changanjob||maxexp 300000>>peiyao||lianskill||idle"
+  Send = "#start study !drawing|31|xue|lu ban|lu ban||maxexp 50000>>tianlao||skill drawing 30,yueli 2000,!maxexp 50000>>funquest||maxexp 100000,!maxexp 50000,yueli 20>>letter||maxexp 800000,!maxexp 50000>>changanjob||maxexp 300000>>peiyao||lianskill||idle"
   Script = ""
   SendTo = 10
   Sequence = 100
@@ -2410,6 +2441,11 @@ Timers = []
   Intro = "一行一个物品id。\n需要多个可以 id * 数量\n如：\nfire\nlong sword\nlong bow\narrow * 30\n#qu.10 Huogu lingyao * 5\n#qu feicui lan\n#nobox\n\n#qu为从箱子里取。小数点后是一次拿几个。\n设置#nobox或未设置房间或者没钥匙时,#qu会尝试在聊天室地上拿道具。\n支持吃药，包括活骨灵药，翡翠兰，回阳无极丹，修罗无常丹，罗刹无常丹，玉洞黑石丹，无常丹，九花玉露丸，白虎夺命丹，天王保命丹，生生造化丹，九转熊蛇丸。\n带身上会自动吃"
 
 [[RequiredParams]]
+  Name = "jifa"
+  Desc = "激发指令(选填，实时生效)"
+  Intro = "用于设置jifa和bei的指令\n用于练习结束后，或者通过#jifa指令手动调用。\n确保使用正确的武功做任务\n#lian和#yanjiulian指令会根据这个变量的设置，在练习后激活正确的技能"
+
+[[RequiredParams]]
   Name = "max_exp"
   Desc = "最大经验"
   Intro = "部分任务中超过这个会放弃。\n留空或小于等于0不放弃"
@@ -2430,11 +2466,6 @@ Timers = []
   Intro = ""
 
 [[RequiredParams]]
-  Name = "jifa"
-  Desc = "激发指令(选填，实时生效)"
-  Intro = "用于设置jifa和bei的指令\n用于练习结束后，或者通过#jifa指令手动调用。\n确保使用正确的武功做任务\n#lian和#yanjiulian指令会根据这个变量的设置，在练习后激活正确的技能"
-
-[[RequiredParams]]
   Name = "lian"
   Desc = "练习指令(选填)"
   Intro = "一行一个练习内容\n格式同学习指令\n技能ID|学习限制|类型|基本功夫|位置|开始指令|结束指令\n可以通过助理按钮初始化，再调整\n\n也支持读书，比如\n\nforce|200|du|du zhenjing taben 50|4186\n\n的格式去指定位置读书"
@@ -2442,7 +2473,7 @@ Timers = []
 [[RequiredParams]]
   Name = "sell"
   Desc = "道具处理指令(选填)"
-  Intro = "具体参考帮助中的战利品处理。师门任务的奖励默认也可以通过这个来设置\n\n特别，对于items里#qu的道具，可以设置一个最大持有数量\n\n比如\n\n#home.10 id=huogu lingyao * 20\n\n最多带20个huogu lingyao,超过了去存10个"
+  Intro = "具体参考帮助中的战利品处理。师门任务的奖励默认也可以通过这个来设置\n\n特别，对于items里#qu的道具，可以设置一个最大持有数量\n\n比如\n\n#home.10 id=huogu lingyao * 20\n最多带20个huogu lingyao,超过了去存10个\n\n#home id=feicui lan * 2\n最多带2个翡翠兰(lan不能堆叠)"
 
 [[RequiredParams]]
   Name = "id_pass"

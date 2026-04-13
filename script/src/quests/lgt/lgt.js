@@ -337,6 +337,13 @@ $.Module(function (App) {
     Quest.Start = function (data) {
         LGT.Start(data)
     }
+    Quest.GetReady = function (q, data) {
+        if (App.Data.Player.Score["转生次数"] < 2) {
+            return null
+        }
+        return () => { Quest.Start(data) }
+    }
+
     App.Quests.Register(Quest)
     App.Quests.LGT = LGT
 })

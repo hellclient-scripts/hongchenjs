@@ -208,7 +208,7 @@ $.Module(function (App) {
             }
             switch (result.Task.Data.Type) {
                 case "ambush":
-                    if (App.QuestParams["changanjobnoambush"].trim() == "t") {
+                    if (Changan.RejectAmbush()) {
                         Note("放弃")
                         Changan.Data.Giveup = true
                         Changan.Fail()
@@ -229,6 +229,17 @@ $.Module(function (App) {
             return
         }
     )
+    Changan.RejectAmbush = function () {
+        switch (App.QuestParams["changanjobnoambush"].trim()) {
+            case "t":
+                return true;
+            case "":
+                return !App.Core.Weapon.Touch;
+            default:
+                return false;
+
+        }
+    }
     Changan.LoadRooms = function (name) {
         let filter = App.Mapper.HMM.RoomFilter.New()
         filter.HasAnyName = [name]

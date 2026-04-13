@@ -240,6 +240,7 @@
     var matcherScoreExp = /^  实战经验：\s+(\d+)\s+门派贡献：\s+(\d+)$/
     var matcherScoreYueli = /^  江湖阅历：\s+(\d+)\s+江湖威望：\s+(\d+)$/
     var matcherScoreZhengqi = /^  (正|邪)\s+气：\s+(\d+)\s+灵\s+慧：\s*(\d+)\s*$/
+    var matcherReborn = /^  转生次数：\s+(\S+)\s+转生灵魂：\s+(\d+)\s*$/
     //响应score指令的计划
     var PlanOnScore = new App.Plan(App.Positions.Connect,
         function (task) {
@@ -288,6 +289,11 @@
                     App.Data.Player.Score["正气"] = -App.Data.Player.Score["正气"]
                 }
                 App.Data.Player.Score["灵慧"] = result[3] - 0
+                return true
+            })
+            task.AddTrigger(matcherReborn, function (trigger, result, event) {
+                App.Data.Player.Score["转生次数"] = result[1] == "无" ? 0 : App.CNumber.ParseNumber(result[1])
+                App.Data.Player.Score["转生灵魂"] = result[2] - 0
                 return true
             })
             task.AddTimer(5000)

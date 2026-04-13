@@ -10,6 +10,7 @@
         App.Core.Study.Load()
         App.Core.Stage.Load()
         App.Core.Dummy.Load()
+        App.Core.Assets.LoadRules()
         //App.Core.Params.Load最后覆盖设置
         App.Core.Params.Load()
     }
