@@ -1,3 +1,4 @@
+* mq加入防鞭尸
 * 锄奸引入chujiannohitfor和chujianmaxcombat参数，遇到无法破防和打不动的敌人时自动放弃
 * 优化mq砍头逻辑
 2026/04/14

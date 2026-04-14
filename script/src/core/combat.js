@@ -29,6 +29,8 @@
         Ticker = 0
         //结束前的回调
         BeforeStop = null
+        //停止perform
+        NoPerform = false
         //链式调用
         WithHitAndRun(val) {
             this.HitAndRun = val
@@ -77,7 +79,7 @@
     let reDamage = /^【伤害统计】:你对(.+)的气血造成(.+)点伤害! $/
     //战斗是否失败
     App.Core.Combat.Fail = false
-    let matcherNeedJingli=/^你凝视.+许久，悠悠一声长叹。$/
+    let matcherNeedJingli = /^你凝视.+许久，悠悠一声长叹。$/
     let Plan = new App.Plan(App.Positions["Combat"],
         function (task) {
             let lastTouch = 0
@@ -166,6 +168,9 @@
             App.Send(c)
         })
         App.Core.Combat.Pending = {}
+        if (App.Combat.Data.NoPerform) {
+            return
+        }
         App.Core.Combat.FilterActions("#send", "#wpon", "wpoff").forEach(action => {
             switch (action.Command) {
                 case "#send":
@@ -173,7 +178,7 @@
                     return
                 case "#wpoff":
                 case "#wpon":
-                    App.Send(action.Command + action.Data ? (" " + action.Data) : "")
+                    App.Send(action.Command + (action.Data ? (" " + action.Data) : ""))
                     return
             }
         })

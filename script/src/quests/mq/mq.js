@@ -353,8 +353,8 @@ $.Module(function (App) {
             $.Function(() => {
                 App.Send(`give head to ${App.Params.MasterID};drop head`)
                 var headcount = App.Data.Item.List.FindByID("head").Sum()
-                for (var i = 2; i <= headcount; i++) {
-                    App.Send(`give head to ${App.Params.MasterID};drop head`)
+                for (var i = headcount; i > 1; i--) {
+                    App.Send(`give head ${i} to ${App.Params.MasterID};drop head`)
                 }
                 App.Send("i")
                 $.Next()
@@ -758,10 +758,23 @@ $.Module(function (App) {
     let matcherFlee2 = /^你连连进击，眼看便要得手，接连数招，让(.+)已是避/
     let matcherFlee3 = /^在你一阵狂攻之下，(.+)只有招架之功，哪里还有/
     let matcherFlee = /^(.+)(摇摇欲坠|身负重伤|狂叫一声|晃了两下|再退一步|已是避|深吸一口气，神色略微好了)(.*)/
+    // /( 鲜于昌夫已经陷入半昏迷状态，随时都可能摔倒晕去。)
+    let matcherHurt = /^\( (.+)已经陷入半昏迷状态，随时都可能摔倒晕去。\)$/
     let matcherHelper = /^看起来(.+)想杀死你！$/
     let PlanCombat = new App.Plan(
         App.Positions["Combat"],
         (task) => {
+            let hurt = 0
+            task.AddTrigger(matcherHurt, (tri, result) => {
+                if (MQ.Data.NPC && result[1] == MQ.Data.NPC.Name) {
+                    hurt++
+                    if (hurt > 2 && App.Combat.Duration() < 1000 && !App.Combat.Data.NoPerform) {
+                        Note("秒了")
+                        App.Combat.Data.NoPerform = true
+                    }
+                }
+                return true
+            })
             task.AddTrigger(matcherDie, (tri, result) => {
                 if (MQ.Data.NPC && MQ.Data.NPC.Name == result[1]) {
                     MQ.Data.NPC.Died = true
@@ -774,6 +787,7 @@ $.Module(function (App) {
             })
             task.AddTrigger(matcherFaint, (tri, result) => {
                 if (MQ.Data.NPC && result[1] == MQ.Data.NPC.Name) {
+                    App.Combat.Data.NoPerform = true
                     MQ.Data.NPC.Died = true
                     MQ.OnNpcFaint()
                 }
@@ -889,7 +903,7 @@ $.Module(function (App) {
         if (MQ.Data.NPC && MQ.Data.NPC.Name == name) {
             App.Commands.Drop()
             $.PushCommands(
-                $.Kill(MQ.Data.NPC.ID, App.NewCombat("mq").WithPlan(PlanCombat).WithKillInGroup(MQ.Data.NPC.NotKilled)), 
+                $.Kill(MQ.Data.NPC.ID, App.NewCombat("mq").WithPlan(PlanCombat).WithKillInGroup(MQ.Data.NPC.NotKilled)),
                 $.Function(MQ.CheckHead),
                 $.Function(MQ.Ready),
             )

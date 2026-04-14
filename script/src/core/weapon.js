@@ -120,6 +120,7 @@
         if (App.Core.Weapon.Wield.length) {
             App.Send("get " + App.Core.Weapon.Wield[0].ID)
             App.Send(App.Core.Weapon.OnCommand())
+            App.Send(`summon ${App.Core.Weapon.Wield[0].ID};i`)
         }
     }
     //打印武器设置
