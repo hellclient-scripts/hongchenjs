@@ -48,6 +48,7 @@
     }
     App.Quests.OnStart = () => {
         App.Core.Timeslice.Reset()
+        App.Core.Analytics.Reset()
         App.Core.Quest.StartedAt = (new Date()).getTime()
         App.Core.Quest.Initors.forEach(cb => cb())
         App.RaiseEvent(new App.Event("core.queststart"))
@@ -77,8 +78,16 @@
             App.Core.Stage.ChangeStance(q.Group)
             exec()
         }, q)
-
     }
+    let matcherGiftBouns = /^(?<prompt>.+)，你获得了((?<exp>.+)点经验、)?((?<pot>.+)点潜能、)?((?<tihui>.+)点实战体会、)?((?<zhen>.+)点正神、)?((?<fu>.+)点负神、)?((?<yueli>.+)点江湖阅历、)?((?<weiwang>.+)点江湖威望、)?(你所在同盟的威望提升了.+点、)?能力得到了提升。$/
+    App.Engine.SetFilter("core.giftbouns", function (event) {
+        let result = matcherGiftBouns.exec(event.Data.Wildcards["0"].replace("\n", ""))
+        if (result) {
+            let giftevent = new App.Event("core.giftbouns", result.groups)
+            App.RaiseEvent(giftevent)
+        }
+    })
+
     //注册maxexp 条件
     App.Quests.Conditions.RegisterMatcher(App.Quests.Conditions.NewMatcher("maxexp", function (data, target) {
         return App.Data.Player.HP["经验"] <= (data - 0)

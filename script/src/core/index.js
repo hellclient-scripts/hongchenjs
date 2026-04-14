@@ -54,6 +54,7 @@
     App.Include("src/core/dummy.js")
     App.Include("src/core/questlock.js")
     App.Include("src/core/timeslice.js")
+    App.Include("src/core/analytics.js")
     App.Core.Params.Load()
 
 })(App)

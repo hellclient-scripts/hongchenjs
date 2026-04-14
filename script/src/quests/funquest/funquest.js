@@ -681,7 +681,7 @@ $.Module(function (App) {
     //慕容染走了过来。
     let matcherNpcFollow = /^(.+)走了过来。$/
     //通过这次锻炼，你获得了二百六十二点经验，一百四十四点潜能以及十点实战体会。
-    let matcherSuccess = /^通过这次锻炼，你获得了.+点经验，.+点潜能以及.+点实战体会。$/
+    let matcherSuccess = /^通过这次锻炼，你获得了(.+)点经验，(.+)点潜能以及(.+)点实战体会。$/
     //牛华从怀里掏出一些白银交给你，说道：“这点算是这一路上的车马费。辛苦你了！”
     let matcherSendok = /^(.+)从怀里掏出一些白银交给你，说道：“这点算是这一路上的车马费。辛苦你了！”$/
     let matcherGift = /^你获得了一.(.+)$/
@@ -691,6 +691,7 @@ $.Module(function (App) {
             task.AddTrigger(matcherSuccess, (tri, result) => {
                 Funquest.Success++
                 Funquest.Current++
+                App.Core.Analytics.Add(Quest.ID, App.CNumber.ParseNumber(result[1]), App.CNumber.ParseNumber(result[2]), App.CNumber.ParseNumber(result[3]))
                 return true
             })
             task.AddTrigger(matcherNpcFollow, (tri, result) => {
@@ -730,4 +731,6 @@ $.Module(function (App) {
         App.Next()
     }
     App.Quests.Funquest = Funquest
+    App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)
+
 })

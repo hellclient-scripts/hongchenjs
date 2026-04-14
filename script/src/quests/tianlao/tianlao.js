@@ -13,9 +13,18 @@ $.Module(function (App) {
     let matcherYanfei = "看起来燕非想杀死你！"
     let matcherGift = /^你从打开的宝箱中拿出一.(.+)。/
     let matcherBox = "你把宝箱打开了。"
+    //通过这次锻炼，你获得了一百四十九点经验、七十四点潜能、三十七点实通过这次锻炼，你获得了一百四十九点经验、七十四点潜能、三十七点实
+    //战体会、能力得到了提升。
+    //通过这次锻炼，你获得了二百六十九点经验、一百三十四点潜能、六十七点实战体会、能力得到了提升。
     let PlanQuest = new App.Plan(
         App.Positions["Quest"],
         (task) => {
+            task.AddCatcher("core.giftbouns", (catcher, event) => {
+                if (event.Data.prompt == "通过这次锻炼") {
+                    App.Core.Analytics.Add(Quest.ID, App.CNumber.ParseNumber(event.Data.exp), App.CNumber.ParseNumber(event.Data.pot), App.CNumber.ParseNumber(event.Data.tihui))
+                }
+                return true
+            })
             task.AddTrigger(matcherBox, (tri, result) => {
                 Tianlao.Data.Box++
                 return true
@@ -373,4 +382,6 @@ $.Module(function (App) {
 
     App.Quests.Register(Quest)
     App.Quests.Tianlao = Tianlao
+    App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)
+
 })

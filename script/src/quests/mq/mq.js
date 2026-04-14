@@ -1015,6 +1015,7 @@ $.Module(function (App) {
                 }
                 Note(msg)
                 MQ.Log(cost)
+                App.Core.Analytics.Add(Quest.ID, App.CNumber.ParseNumber(result[1]), App.CNumber.ParseNumber(result[2]), App.CNumber.ParseNumber(result[3]))
                 return true
             })
             task.AddTrigger(matcherAskGift, (tri, result) => {
@@ -1113,5 +1114,6 @@ $.Module(function (App) {
         }
     })
     App.Quests.Register(Quest)
+    App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)
     App.Quests.MQ = MQ
 })

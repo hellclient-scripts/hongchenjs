@@ -85,6 +85,7 @@ $.Module(function (App) {
             }
             if (result.Name == "fangqi") {
                 App.Send("ask lv wenhuan about fangqi")
+                Quest.Cooldown(-1)
                 App.Insert(
                     $.Sync(),
                     // $.Timeslice("")
@@ -99,7 +100,7 @@ $.Module(function (App) {
     let matcherGift = /^你得到了一级(.*)。$/
     let matcherExp = /^你得到了(.+)点武学经验和(.+)点潜能!体会和阅历,贡献也有所提高。$/
     //( 牛晚已经陷入半昏迷状态，随时都可能摔倒晕去。)
-    let matcherHit = /^\( (.+)(似乎有些疲惫，但是仍然十分有活力。|看起来可能有些累了。|动作似乎有点不太灵光，但仍然有条不紊。|气喘嘘嘘，看起来状况并不太好。|似乎十分疲惫，看来需要好好休息了。|招架已然散乱，正勉力支撑著不倒下去。|看起来已经力不从心了。|歪歪斜斜地站都站立不稳，眼看就要倒地。|已经陷入半昏迷状态，随时都可能摔倒晕去。)\)$/
+    let matcherHit = /^\(\s*(.+)(似乎有些疲惫，但是仍然十分有活力。|看起来可能有些累了。|动作似乎有点不太灵光，但仍然有条不紊。|气喘嘘嘘，看起来状况并不太好。|似乎十分疲惫，看来需要好好休息了。|招架已然散乱，正勉力支撑著不倒下去。|看起来已经力不从心了。|歪歪斜斜地站都站立不稳，眼看就要倒地。|已经陷入半昏迷状态，随时都可能摔倒晕去。)\)$/
     Chujian.CancelCombat = () => {
         App.Reconnect(2000, Chujian.Connect)
     }
@@ -171,6 +172,7 @@ $.Module(function (App) {
                 }).WithNoRepeat(true)
             }
             task.AddTrigger(matcherExp, (tri, result) => {
+                App.Core.Analytics.Add(Quest.ID, App.CNumber.ParseNumber(result[1]), App.CNumber.ParseNumber(result[2]), 0)
                 Chujian.Data.LastExp = App.CNumber.ParseNumber(result[1])
                 return true
             })
@@ -268,6 +270,7 @@ $.Module(function (App) {
                 $.To("lv wenhuan"),
                 $.Function(() => {
                     App.Send("ask lv wenhuan about fangqi")
+                    Quest.Cooldown(-1)
                     App.Insert(
                         $.Sync(),
                     )
@@ -283,6 +286,7 @@ $.Module(function (App) {
                 Chujian.Data.LastTihui = null
                 Note(`体会增加${tihui}`)
                 Chujian.Data.Tihui += tihui
+                App.Core.Analytics.Add(Quest.ID, 0, 0, tihui)
             }
         }
         $.Next()
@@ -416,4 +420,6 @@ $.Module(function (App) {
     App.Quests.Register(Quest)
 
     App.Quests.Chujian = Chujian
+    App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)
+
 })

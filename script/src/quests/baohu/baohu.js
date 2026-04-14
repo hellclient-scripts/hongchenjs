@@ -198,6 +198,12 @@ $.Module(function (App) {
         Note("找不到NPC,尝试等待")
         PlanProtect.Execute()
     }
+    // 你被奖励了：
+    // 一千零三十四点实战经验
+    // 五百七十八点潜能
+    // 二百二十六点体会
+    // 汪剑通对你说道:你已经连续完成了三百七十九次任务。
+    let matcherReward = /^你被奖励了：(.+)点实战经验(.+)点潜能(.+)点体会$/
     //汪剑通对你说道:你已经连续完成了二百十六次任务。
     let matcherSuccess = /^汪剑通对你说道:你已经连续完成了(.+)次任务。$/
     let matcherGifts = /^汪剑通给了你一个『(.+)』和『(.+)』，作为奖励。$/
@@ -213,6 +219,12 @@ $.Module(function (App) {
                 Baohu.Continuous = App.CNumber.ParseNumber(result[1])
                 Note(Baohu.Continuous)
                 Baohu.Count++
+                var expresult = matcherReward.exec(App.History.GetLast(5).slice(0,-1).map(v => v.Line).join(""))
+                if (expresult) {
+                    App.Core.Analytics.Add(Quest.ID, App.CNumber.ParseNumber(expresult[1]), App.CNumber.ParseNumber(expresult[2]), App.CNumber.ParseNumber(expresult[3]))
+                }else{
+                    App.Log("保护没有抓到奖励信息")
+                }
                 return true
             })
             task.AddTrigger(matcherGifts, (tri, result) => {
@@ -292,4 +304,6 @@ $.Module(function (App) {
     }
     App.Quests.Register(Quest)
     App.Quests.Baohu = Baohu
+    App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)
+
 })

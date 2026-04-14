@@ -423,10 +423,11 @@ $.Module(function (App) {
         ]
     }
     // 通过这次锻炼，
-    // 你获得了二百九十七点经验，二百四十四点潜能，以及一点实战体会。
     // 门派贡献、江湖阅历以及威望也都有了不同程度的提高。
     //你已经连续完成了 37 个长安府任务，继续加油努力啊！
     let matcherSuccess = "梁兴禄对你道：嗯，这次任务完成得不错，本府现下便给你赏赐。"
+    //你获得了四百六十二点经验，三百十八点潜能，以及三十九点实战体会。
+    let matcherReward = /^你获得了(.+)点经验，(.+)点潜能，以及(.+)点实战体会。$/
     let matcherFail = "梁兴禄对你道：这点小事都办不好，你可太没用了。"
     let matcherGift = /^梁兴禄对你道：此次本府额外赏赐你一.(.+)，以资鼓励。$/
     let matcherCurrentQuest = /^你已经连续完成了\s+(\d+)\s+个长安府任务，继续加油努力啊！$/
@@ -434,6 +435,10 @@ $.Module(function (App) {
     let PlanQuest = new App.Plan(
         App.Positions["Quest"],
         (task) => {
+            task.AddTrigger(matcherReward, (tri, result) => {
+                App.Core.Analytics.Add(Quest.ID, App.CNumber.ParseNumber(result[1]), App.CNumber.ParseNumber(result[2]), App.CNumber.ParseNumber(result[3]))
+                return true
+            })
             task.AddTrigger(matcherSuccess, function (tri, result) {
                 Changan.Success++;
                 return true
@@ -469,5 +474,6 @@ $.Module(function (App) {
         return () => { Quest.Start(data) }
     }
     App.Quests.Register(Quest)
+    App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)
 
 })

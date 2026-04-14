@@ -264,7 +264,7 @@ $.Module(function (App) {
                     App.Log("师傅没了")
                     // App.Core.Timeslice.Change("")
                 } else if (MQ.Data.NPC) {
-                    $.Insert($.Nobusy(),$.Function(MQ.Ready))
+                    $.Insert($.Nobusy(), $.Function(MQ.Ready))
                 } else {
                     $.Insert(
                         $.Wait(1000),
@@ -614,6 +614,7 @@ $.Module(function (App) {
             task.AddTrigger(matcherreward, (tri, result) => {
                 let msg = "任务成功"
                 Note(msg)
+                App.Core.Analytics.Add(Quest.ID, App.CNumber.ParseNumber(result[1]), App.CNumber.ParseNumber(result[2]), App.CNumber.ParseNumber(result[3]))
                 return true
             })
             task.AddTrigger(matcherAskGift, (tri, result) => {
@@ -715,4 +716,5 @@ $.Module(function (App) {
     })
     App.Quests.Register(Quest)
     App.Quests.MQ = MQ
+    App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)
 })

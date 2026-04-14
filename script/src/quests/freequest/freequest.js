@@ -487,7 +487,7 @@ $.Module(function (App) {
 
     let Quest = App.Quests.NewQuest("freequest")
     Quest.Name = "公共任务"
-    Quest.Timeslice="Freequest"
+    Quest.Timeslice = "Freequest"
     Quest.Desc = ""
     Quest.Intro = ""
     Quest.Help = ""
@@ -518,8 +518,6 @@ $.Module(function (App) {
     //夏侯反沁掏出了一些黄金双手奉上，感激道：一点薄礼，不成敬意，不成敬意！
     //通过这次锻炼，你获得了三十七点经验、二十八点潜能、四十五点江湖阅
     //历、能力得到了提升。
-    let matcherZhuisha = /^你为六大门派(排除|扫清)异己，/
-    let matcherFanzei = /^你又做了件[侠|不]义之事，/
     let matcherXunzhao = /^([^：()\[\]]{2,5})大喜过望，对你说道：这位.+，太感谢了，/
     let successCallback = (tri, result) => {
         Freequest.OnSuccess()
@@ -527,12 +525,25 @@ $.Module(function (App) {
     }
     let planQuest = new App.Plan(App.Quests.Position,
         (task) => {
-            task.AddTrigger(matcherZhuisha, successCallback)
-            task.AddTrigger(matcherFanzei, successCallback)
             task.AddTrigger(matcherXunzhao, successCallback)
         },
     )
-
+    App.BindEvent("core.giftbouns", (event) => {
+        switch (event.Data.prompt) {
+            case "你为六大门派排除异己":
+                break
+            case "你为六大门派扫清异己":
+                break
+            case "你又做了件侠义之事":
+                break
+            case "你又做了件不义之事":
+                break
+            default:
+                return
+        }
+        Freequest.OnSuccess()
+        App.Core.Analytics.Add(Quest.ID, App.CNumber.ParseNumber(event.Data.exp||""), App.CNumber.ParseNumber(event.Data.pot||""), App.CNumber.ParseNumber(event.Data.tihui||""))
+    })
     Quest.Start = function (data) {
         data = data || ""
         data = data.trim()
@@ -560,4 +571,6 @@ $.Module(function (App) {
     })
     App.Quests.Register(Quest)
     App.Quests.Freequest = Freequest
+    App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)
+
 })

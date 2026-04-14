@@ -29,6 +29,19 @@ $.Module(function (App) {
         }
         App.Next()
     }
+    //你获得了十一点经验和潜能。
+    let matcherReward = /^你获得了(.+)点经验和潜能。$/
+    let PlanQuest = new App.Plan(
+        App.Positions["Quest"],
+        (task) => {
+            task.AddTrigger(matcherReward, (tri, result) => {
+                let exp = App.CNumber.ParseNumber(result[1])
+                App.Core.Analytics.Add(Quest.ID, exp, exp, 0)
+                return true
+            })
+        }
+    )
+
     let Quest = App.Quests.NewQuest("peiyao")
     Quest.Name = "配药"
     Quest.Desc = "新人配药任务"
@@ -51,8 +64,10 @@ $.Module(function (App) {
     }
 
     Quest.Start = function (data) {
+        PlanQuest.Execute()
         Peiyao.Start()
     }
     App.Quests.Register(Quest)
+    App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)
 
 })

@@ -111,5 +111,6 @@ $.Module(function (App) {
         Songxin.Start()
     }
     App.Quests.Register(Quest)
+    App.Core.Analytics.RegisterTask(Quest.ID,Quest.Name,Quest.Timeslice ? Quest.Timeslice : Quest.Name)
 
 })

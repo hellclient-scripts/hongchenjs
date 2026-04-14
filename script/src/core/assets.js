@@ -91,6 +91,12 @@
         })
     }
     App.Core.Assets.LoadRules()
+    //读取覆盖配置
+    if (HasFile("overwrite/assets.txt")) {
+        App.LoadLines("overwrite/assets.txt").forEach(data => {
+            App.Core.Assets.StaticRules.push(App.Core.Assets.ParseRule(data))
+        })
+    }
     //读取默认配置
     App.LoadLines("data/assets.txt").forEach(data => {
         App.Core.Assets.StaticRules.push(App.Core.Assets.ParseRule(data))
