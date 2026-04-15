@@ -144,6 +144,7 @@ $.Module(function (App) {
             switch (result.Task.Data) {
                 case "nextday":
                     Quest.Cooldown(8 * 60 * 60 * 1000)
+                    $.Insert($.Nobusy())
                     App.Next()
                     return
                 default:
@@ -319,7 +320,7 @@ $.Module(function (App) {
         let last = LGT.Last ? App.HUD.UI.FormatTime($.Now() - LGT.Last) : "-"
         let gifts = Object.keys(LGT.Data.Gifts).map((gift) => `${gift}*${LGT.Data.Gifts[gift]}`).join(",")
         return [
-            `灵感塔-上次爬塔:${last} 层数:${LGT.LastLevel} 累计次数:${LGT.Data.Count} 累计体会:${LGT.Data.Tihui}`,
+            `灵感塔-上次爬塔:${last} 层数:${LGT.LastLevel} 累计次数:${LGT.Data.Count}`,
             `灵感塔- 奖励:${gifts}`,
         ]
     }

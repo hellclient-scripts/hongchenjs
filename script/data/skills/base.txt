@@ -19,7 +19,7 @@ club,2
 hammer,2
 whip,2
 throwing,2
-chuixiao-jifa,9
+chuixiao-jifa,4
 tanqin-jifa,4
 guzheng-jifa,4
 medical,0

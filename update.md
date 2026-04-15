@@ -1,4 +1,7 @@
-* 加入overwrite目录，方便用户自己更新配置
+* 配合新版本客户端，可以加载game/hongchejs/shared/下的assets.txt和items.txt配置
+* 加入参数JiquMaxAhead，控制自动经验时武学最多领先其他武学多少等级，避免初期武学脱节
+* 吃喝流程优化
+* 整合所有任务的经验，潜能，体会到成长汇报模块
 * mq加入防鞭尸
 * 锄奸引入chujiannohitfor和chujianmaxcombat参数，遇到无法破防和打不动的敌人时自动放弃
 * 优化mq砍头逻辑

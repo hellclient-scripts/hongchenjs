@@ -20,6 +20,18 @@
         let newlength = str.length + offset
         return front ? str.padStart(newlength, " ") : str.padEnd(newlength, " ")
     }
+    module.CountDisplayLength = (str) => {
+        str = str || ""
+        let count = 0
+        for (var i = 0; i < str.length; i++) {
+            if (str.charCodeAt(i) < 256) {
+                count += 1
+            } else {
+                count += 2
+            }
+        }
+        return count
+    }
     module.Cut = (str, length, overflowtoken) => {
         str = str || ""
         length = length || 1

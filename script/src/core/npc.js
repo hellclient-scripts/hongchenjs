@@ -136,7 +136,7 @@
         if (App.Params.IDPass) {
             Note("门派标签为 " + App.Params.IDPass)
         }
-        if (GetVariable("house").trim()) {
+        if (App.Mapper.HouseID) {
             App.Params.LocDazuo = "dazuo"
             App.Params.LocSleep = "sleep"
         }

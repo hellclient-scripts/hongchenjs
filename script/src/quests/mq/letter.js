@@ -653,18 +653,6 @@ $.Module(function (App) {
             })
         },
     )
-    MQ.Log = function (cost) {
-        if (App.QuestParams["mqtopslow"] > 0) {
-            MQ.Data.SlowLog.push({
-                Cost: cost,
-                Log: `${App.Core.Log.FormatTime()} 耗时：${(cost / 1000).toFixed(2)}秒 ${MQ.Data.NPC.Name}(${MQ.Data.NPC.ID}) 逃跑次数：${MQ.Data.NPC.FleeTimes} 北丑次数：${MQ.Data.NPC.BeichouTimes} 最终位置：${MQ.Data.NPC.KilledRoom} 战斗时间${(MQ.Data.NPC.CombatDuration / 1000).toFixed(2)}秒 初始区域${MQ.Data.NPC.RawZone} 搜索次数：${MQ.Data.NPC.SearchTimes} 错过次数：${MQ.Data.NPC.NearTimes} 线报次数：${MQ.Data.NPC.HelpedTimes}`
-            })
-            MQ.Data.SlowLog.sort((a, b) => b.Cost - a.Cost)
-            if (MQ.Data.SlowLog.length > App.QuestParams["mqtopslow"]) {
-                MQ.Data.SlowLog = MQ.Data.SlowLog.slice(0, App.QuestParams["mqtopslow"])
-            }
-        }
-    }
     MQ.GetEff = function () {
         return MQ.Data.kills * 3600 * 1000 / ($.Now() - MQ.Data.start)
     }
@@ -672,14 +660,6 @@ $.Module(function (App) {
         let ts = App.Core.Timeslice.Get(Quest.Timeslice)
         return ts ? MQ.Data.kills * 3600 * 1000 / ts : 0
     }
-    MQ.GetTihuiEff = function () {
-        return MQ.Data.tihui * 3600 * 1000 / ($.Now() - MQ.Data.start)
-    }
-    MQ.GetTihuiTimesliceEff = function () {
-        let ts = App.Core.Timeslice.Get(Quest.Timeslice)
-        return ts ? MQ.Data.tihui * 3600 * 1000 / ts : 0
-    }
-
     Quest.Start = function (data) {
         if (!App.Params.MasterID) {
             PrintSystem("掌门ID " + App.Params.MasterID + " 无效")

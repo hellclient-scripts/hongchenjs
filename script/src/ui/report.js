@@ -1,5 +1,7 @@
 // 工作汇报代码
 (function (App) {
+    let uiModule = App.RequireModule("helllibjs/utils/ui.js")
+
     App.UI.Report = {}
     App.UI.Report.Show = () => {
         let report = []
@@ -39,7 +41,7 @@
         let quests = App.Core.Quest.Current ? App.Core.Quest.Current.replaceAll("\n", "||") : "无任务"
         if (!App.Core.Quest.Stopped) {
             let duration = 0
-            let td=0
+            let td = 0
             if (App.Core.Quest.StartedAt) {
                 td = $.Now() - App.Core.Quest.StartedAt
                 duration = `${(td / 60000).toFixed()}分钟`
@@ -48,16 +50,45 @@
                 }
             }
             report.push(`任务已经持续了 ${duration}。`)
-            if (td){
-                let timeslice=App.Core.Timeslice.List()
-                if (timeslice.length){
-                    report.push("  时间切片：")
-                    timeslice.forEach(t=>{
-                      let slicedurtion=App.HUD.UI.FormatTime(t.Time)
-                      let percent=(t.Time/td*100).toFixed(2)
-                      report.push(`  ${t.Name} ${slicedurtion} (${percent}%)`)
+            if (td) {
+                let timeslice = App.Core.Timeslice.List()
+                if (timeslice.length) {
+                    report.push("时间切片：")
+                    let tsdata = [
+                    ]
+                    let maxName = 0
+                    let maxDuration = 0
+                    let maxPercent = 0
+                    timeslice.forEach(t => {
+                        let item = [
+                            t.Name,
+                            App.HUD.UI.FormatTime(t.Time),
+                            (t.Time / td * 100).toFixed(2) + "%"
+                        ]
+                        let nameLength = uiModule.CountDisplayLength(item[0])
+                        if (nameLength > maxName) {
+                            maxName = nameLength
+                        }
+                        let durationLength = uiModule.CountDisplayLength(item[1])
+                        if (durationLength > maxDuration) {
+                            maxDuration = durationLength
+                        }
+                        let percentLength = uiModule.CountDisplayLength(item[2])
+                        if (percentLength > maxPercent) {
+                            maxPercent = percentLength
+                        }
+                        tsdata.push(item)
+                    })
+                    tsdata.forEach(t => {
+                        t[0] = uiModule.Pad(t[0], maxName, true)
+                        t[1] = uiModule.Pad(t[1], maxDuration, true)
+                        t[2] = uiModule.Pad(t[2], maxPercent, true)
+                        report.push(`  ${t[0]}  ${t[1]}  ( ${t[2]} )`)
                     })
                 }
+            }
+            if (td) {
+                report.push(...App.Core.Analytics.Report())
             }
         }
 

@@ -213,6 +213,25 @@
         }
         return null
     }))
+    App.Proposals.Register("eat", App.Proposals.NewProposal(function (proposals, context, exclude) {
+        if (App.Params.FoodBusy && App.NeedEat) {
+            return function () {
+                let ts = App.Core.Timeslice.Current()
+                $.PushCommands(
+                    $.Timeslice("修整-吃喝"),
+                    $.Function(function () {
+                        App.Eat()
+                        $.Next()
+                    }),
+                    $.Nobusy(),
+                    $.Timeslice(ts),
+                )
+                App.Next()
+            }
+        }
+        return null
+    }))
+
     //注册买食物的准备
     App.Proposals.Register("food", App.Proposals.NewProposal(function (proposals, context, exclude) {
         let item = App.Data.Item.List.FindByIDLower(App.Params.Food).First()
@@ -279,6 +298,7 @@
         "yangjingdan",
         "food",
         "drink",
+        "eat",
         "key",
         "inspire",
         "dazuo",

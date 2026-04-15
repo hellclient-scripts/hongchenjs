@@ -2,6 +2,8 @@
 (function (App) {
     print("加载脚本")
     App.Data = {}
+    App.Include("src/shared.js")
+    App.Include("src/version.js")
     App.Include("src/params.js")
     App.Include("src/questparams.js")
     App.RequireModule("helllibjs/history/history.js").Install(100) //加载历史信息组件,并定义大小

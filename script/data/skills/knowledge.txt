@@ -10,3 +10,4 @@ buddhism,f
 sanscrit,f
 taoism,f
 idle-force,f
+martial-cognize,t

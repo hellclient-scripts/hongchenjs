@@ -325,13 +325,6 @@ $.Module(function (App) {
         let ts = App.Core.Timeslice.Get(Quest.Timeslice)
         return ts ? Chujian.Data.Success * 3600 * 1000 / ts : 0
     }
-    Chujian.GetTihuiEff = function () {
-        return Chujian.Data.Tihui * 3600 * 1000 / ($.Now() - Chujian.Data.Start)
-    }
-    Chujian.GetTihuiTimesliceEff = function () {
-        let ts = App.Core.Timeslice.Get(Quest.Timeslice)
-        return ts ? Chujian.Data.Tihui * 3600 * 1000 / ts : 0
-    }
 
     Chujian.HelpRate = () => {
         return Chujian.Data.Success > 3 ? (Chujian.Data.helped * 100 / Chujian.Data.Success) : 0
@@ -387,8 +380,7 @@ $.Module(function (App) {
         let rate = num ? num.toFixed(0) + "%" : "-"
         let avg = Chujian.Data.Success > 0 ? (Chujian.Data.Tihui / Chujian.Data.Success).toFixed(0) : 0
         return [
-            `锄奸-总数:${Chujian.Data.Count} 成功:${Chujian.Data.Success} 毛效率:${Chujian.Data.Success > 3 ? Chujian.GetEff().toFixed(0) + "个/小时" : "-"} 净效率:${Chujian.Data.Success > 3 ? Chujian.GetTimesliceEff().toFixed(0) + "个/小时" : "-"} 平均耗时:${Chujian.Data.Success > 3 ? (Chujian.Data.Cost / Chujian.Data.Success / 1000).toFixed(2) + "秒" : "-"}  上次Exp:${Chujian.Data.LastExp} 线报率:${rate}`,
-            `锄奸-体会 ${Chujian.Data.Tihui}  体会毛效率：${Chujian.Data.Success > 3 ? Chujian.GetTihuiEff().toFixed(0) + "点/小时" : "-"} 体会净效率:${Chujian.Data.Success > 3 ? Chujian.GetTihuiTimesliceEff().toFixed(0) + "点/小时" : "-"} 平均体会:${avg} `,
+            `锄奸-总数:${Chujian.Data.Count} 成功:${Chujian.Data.Success} 毛效率:${Chujian.Data.Success > 3 ? Chujian.GetEff().toFixed(0) + "个/小时" : "-"} 净效率:${Chujian.Data.Success > 3 ? Chujian.GetTimesliceEff().toFixed(0) + "个/小时" : "-"} 平均体会:${avg} 平均耗时:${Chujian.Data.Success > 3 ? (Chujian.Data.Cost / Chujian.Data.Success / 1000).toFixed(2) + "秒" : "-"}  上次Exp:${Chujian.Data.LastExp} 线报率:${rate}`,
             `锄奸-奖励:${gifts}`
         ]
     }

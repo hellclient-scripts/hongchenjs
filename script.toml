@@ -2470,12 +2470,12 @@ Timers = []
 [[RequiredParams]]
   Name = "house"
   Desc = "房屋信息(重新加载起效)"
-  Intro = "设置后添加虚拟房屋信息\n格式为'机器人工厂 robot 4084'\n如有密码，格式为\n'机器人工厂 robot 4084 password'\n可以在房屋信息前加入c代表彩虹居，d代表独乐居，如\n'd小房子 smallhouse 2785'\n'c黑灯工厂 factory 2785'"
+  Intro = "设置后添加虚拟房屋信息\n格式为'机器人工厂 robot 4084'\n如有密码，格式为\n'机器人工厂 robot 4084 password'\n可以在房屋信息前加入c代表彩虹居，d代表独乐居，如\n'd小房子 smallhouse 2785'\n'c黑灯工厂 factory 2785'\n\n可通过game/shared/hongchenjs/house.txt进行全局设置"
 
 [[RequiredParams]]
   Name = "house_dummy"
   Desc = "房屋(箱子)大米设置"
-  Intro = "格式为大米id 口令\n如\njarlyyn 123456\n\n有口令的情况下，没钥匙时会找大米要钥匙\n\n如果没设置房子，在没key时会把物品给大米\n\n大米必须要能够在lu ban哪里ask 钥匙，是房主或者房主配偶。\n大米需要能开chatroom\n大米也需要正确的设置这个变量\n大米需要运行#dummy任务"
+  Intro = "格式为大米id 口令\n如\njarlyyn 123456\n\n有口令的情况下，没钥匙时会找大米要钥匙\n\n如果没设置房子，在没key时会把物品给大米\n\n大米必须要能够在lu ban哪里ask 钥匙，是房主或者房主配偶。\n大米需要能开chatroom\n大米也需要正确的设置这个变量\n大米需要运行#dummy任务\n\n可通过game/shared/hongchenjs/house_dummy.txt全局设置"
 
 [[RequiredParams]]
   Name = "quest"
@@ -2500,7 +2500,7 @@ Timers = []
 [[RequiredParams]]
   Name = "items"
   Desc = "物品配置"
-  Intro = "一行一个物品id。\n需要多个可以 id * 数量\n如：\nfire\nlong sword\nlong bow\narrow * 30\n#qu.10 Huogu lingyao * 5\n#qu feicui lan\n#nobox\n\n#qu为从箱子里取。小数点后是一次拿几个。\n设置#nobox或未设置房间或者没钥匙时,#qu会尝试在聊天室地上拿道具。\n支持吃药，包括活骨灵药，翡翠兰，回阳无极丹，修罗无常丹，罗刹无常丹，玉洞黑石丹，无常丹，九花玉露丸，白虎夺命丹，天王保命丹，生生造化丹，九转熊蛇丸。\n带身上会自动吃"
+  Intro = "一行一个物品id。\n需要多个可以 id * 数量\n如：\nfire\nlong sword\nlong bow\narrow * 30\n#qu.10 Huogu lingyao * 5\n#qu feicui lan\n#nobox\n\n#qu为从箱子里取。小数点后是一次拿几个。\n设置#nobox或未设置房间或者没钥匙时,#qu会尝试在聊天室地上拿道具。\n支持吃药，包括活骨灵药，翡翠兰，回阳无极丹，修罗无常丹，罗刹无常丹，玉洞黑石丹，无常丹，九花玉露丸，白虎夺命丹，天王保命丹，生生造化丹，九转熊蛇丸。\n带身上会自动吃\n可通过game/shared/hongchenjs/items.txt全局设置"
 
 [[RequiredParams]]
   Name = "jifa"
@@ -2535,7 +2535,7 @@ Timers = []
 [[RequiredParams]]
   Name = "sell"
   Desc = "道具处理指令(选填)"
-  Intro = "具体参考帮助中的战利品处理。师门任务的奖励默认也可以通过这个来设置\n\n特别，对于items里#qu的道具，可以设置一个最大持有数量\n\n比如\n\n#home.10 id=huogu lingyao * 20\n最多带20个huogu lingyao,超过了去存10个\n\n#home id=feicui lan * 2\n最多带2个翡翠兰(lan不能堆叠)"
+  Intro = "具体参考帮助中的战利品处理。师门任务的奖励默认也可以通过这个来设置\n\n特别，对于items里#qu的道具，可以设置一个最大持有数量\n\n比如\n\n#home.10 id=huogu lingyao * 20\n最多带20个huogu lingyao,超过了去存10个\n\n#home id=feicui lan * 2\n最多带2个翡翠兰(lan不能堆叠)\n\n可通过game/shared/hongchenjs/assets.txt全局设置"
 
 [[RequiredParams]]
   Name = "id_pass"

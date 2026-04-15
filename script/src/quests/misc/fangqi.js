@@ -14,7 +14,7 @@ $.Module(function (App) {
         let maxexp = App.Core.GetMaxExp()
         if (maxexp > 0 && App.Data.Player.HP["经验"] > maxexp) {
             return () => {
-                $.PushCommands(
+                $.Insert(
                     $.Prepare("exp")
                 )
                 $.Next()

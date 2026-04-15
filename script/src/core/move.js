@@ -53,7 +53,7 @@
     }
     App.Engine.SetFilter("core.noflyupnow", App.Move.OnNoFlyUpNow)
     App.Move.OnBlocked2 = function (event) {
-        event.Data=event.Data.Wildcards["0"]
+        event.Data = event.Data.Wildcards["0"]
         App.RaiseEvent(event)
     }
     App.Engine.SetFilter("core.blocked2", App.Move.OnBlocked2)
@@ -183,7 +183,10 @@
                 }
                 if (App.Move.FailedMessages[event.Data.Output] != undefined) {
                     if (App.Core.Room.Current.ID == "") {
-                        return true;
+                        if (App.Map.OnStepTimeout()) {
+                            catcher.WithName("movereset")
+                        }
+                        return false;
                     }
                     catcher.WithName("blocked2").WithData(App.Move.FailedMessages[event.Data.Output])
                     return false
@@ -212,7 +215,7 @@
                         case "timeout":
                             if (!App.Map.Room.Data["timeoutlogged"]) {
                                 App.Map.Room.Data["timeoutlogged"] = true
-                                App.Core.Log.LogCurrent("移动超时", result.Task.Data.logs.join("\n"))
+                                App.Core.Log.LogCurrent(`移动超时 RoomID: ${App.Map.Room.ID}`, result.Task.Data.logs.join("\n"))
                             }
                             App.Map.Resend(0)
                             break
@@ -226,7 +229,7 @@
                                 return
                             }
                             if (!App.Map.Room.Data["wrongwaylogged"]) {
-                                App.Log("走错路了")
+                                App.Log(`走错路了 RoomID: ${App.Map.Room.ID}`)
                                 App.Map.Room.Data["wrongwaylogged"] = true
                                 App.Core.Log.LogMore(JSON.stringify(App.Map.LastHistory))
                             }
@@ -304,7 +307,7 @@
         App.Core.Blocker.KillBlocker(name)
     }
     App.Move.OnMoveBlocker = function (name) {
-        if (App.Map.Move.Data["OnMoveBlocker"]) {
+        if (App.Map.Move && App.Map.Move.Data["OnMoveBlocker"]) {
             App.Map.Move.Data["OnMoveBlocker"](name)
             return
         }

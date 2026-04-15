@@ -68,7 +68,7 @@
         App.Core.Goods.NoBox = false
         let items = []
         App.Core.Assets.GoodsRules = []
-        App.LoadVariable("items").forEach(data => {
+        App.LoadVariable("items").concat(App.LoadSharedLines("items.txt", null, "自定义items")).forEach(data => {
             let item = actionModule.Parse(data).ParseNumber()
             if (item.Data) {
                 if (item.Command == "") {
@@ -154,14 +154,14 @@
                                         if (boxitem == null) {
                                             Note(`箱子里没有${item.Data}了`)
                                         } else {
-                                            App.Send(`take ${boxitem.Key} ${takenum<1?1:takenum};i`)
+                                            App.Send(`take ${boxitem.Key} ${takenum < 1 ? 1 : takenum};i`)
                                         }
                                         $.Next()
                                     }),
                                     App.NewNobusyCommand(),
                                 )
                             } else {
-                                let takecmd=takenum>0?`get ${takenum} ${item.Data}`:`get ${item.Data}`
+                                let takecmd = takenum > 0 ? `get ${takenum} ${item.Data}` : `get ${item.Data}`
                                 App.Commands.PushCommands(
                                     App.Move.NewToCommand("chat"),
                                     App.Commands.NewDoCommand(takecmd),

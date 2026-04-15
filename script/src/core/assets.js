@@ -92,11 +92,9 @@
     }
     App.Core.Assets.LoadRules()
     //读取覆盖配置
-    if (HasFile("overwrite/assets.txt")) {
-        App.LoadLines("overwrite/assets.txt").forEach(data => {
-            App.Core.Assets.StaticRules.push(App.Core.Assets.ParseRule(data))
-        })
-    }
+    App.LoadSharedLines("assets.txt", null, "自定义assets").forEach(data => {
+        App.Core.Assets.StaticRules.push(App.Core.Assets.ParseRule(data))
+    })
     //读取默认配置
     App.LoadLines("data/assets.txt").forEach(data => {
         App.Core.Assets.StaticRules.push(App.Core.Assets.ParseRule(data))
@@ -211,7 +209,7 @@
     App.Core.Assets.PrepareDataKey = "assetsrules"
     //注册一个处理物品的准备
     App.Proposals.Register("assets", App.Proposals.NewProposal(function (proposals, context, exclude) {
-        let canStore = (App.Data.Item.List.FindByID("qiankun bag").First() != null) || (GetVariable("house").trim() != "" && App.Data.Item.List.FindByID("key").First() != null)
+        let canStore = (App.Data.Item.List.FindByID("qiankun bag").First() != null) || (App.Mapper.HouseID != "" && App.Data.Item.List.FindByID("key").First() != null)
         for (item of App.Data.Item.List.Items) {
             let result = App.Core.Assets.Maintain(item, context[App.Core.Assets.PrepareDataKey] || [])
             if (result && result.Command != "" && result.Command != "#carry") {

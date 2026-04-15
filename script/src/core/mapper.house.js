@@ -188,7 +188,7 @@
             switch (data[0][0]) {
                 case "p":
                 case "P":
-                    App.Mapper.AddPanlong(data[0].slice(1), data[1], data[2] ,data.length>3?data[3]:null)
+                    App.Mapper.AddPanlong(data[0].slice(1), data[1], data[2], data.length > 3 ? data[3] : null)
                     break
                 case "d":
                 case "D":
@@ -199,13 +199,14 @@
                     App.Mapper.AddCaihong(data[0].slice(1), data[1], data[2])
                     break
                 default:
-                    App.Mapper.AddPanlong(data[0], data[1], data[2] ,data.length>3?data[3]:null)
+                    App.Mapper.AddPanlong(data[0], data[1], data[2], data.length > 3 ? data[3] : null)
             }
             App.Mapper.HomeRooms.forEach(room => { App.Mapper.RegisterRoom(room) })
         } else {
             world.Note("变量 house 未设置")
         }
     }
-    App.Mapper.Addhouse(GetVariable("house"))
+    App.Mapper.SharedHouse = App.LoadSharedFile("house.txt", "全局房屋设置")
+    App.Mapper.Addhouse(GetVariable("house").trim() || App.Mapper.SharedHouse.trim())
 
 })(App)

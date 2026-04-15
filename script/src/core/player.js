@@ -121,6 +121,7 @@
         if (App.NeedEat) {
             let now = (new Date()).getTime()
             if (force || (now - LastEat > IntervalEat)) {
+                App.NeedEat = false
                 App.Send(App.Params.FoodCommand)
                 if (App.Params.FoodCommand != App.Params.DrinkCommand) {
                     App.Send(App.Params.DrinkCommand)
@@ -130,7 +131,9 @@
         }
     }
     App.BindEvent("core.beforecheck", function (event) {
-        App.Eat()
+        if (!App.Params.FoodBusy) {
+            App.Eat()
+        }
     })
     App.BindEvent("core.foodfull", () => {
         App.NeedEat = false
@@ -197,7 +200,7 @@
 
     //你的状态属性如下：
     //≡──────────────────────────≡
-    // 【武林神话】华山派第十四代传人 渡劫(imez)
+    //【 小道士 】全真教第四代传人「嘿嘿嘿」杰三修(jarlyync)
     //--------------------------------------------------------
     //  你是位一百五十四岁二个月的男性，甲午年十一月九日酉时三刻生。
     //  膂力：[448]  悟性：[148]  根骨：[452]  身法：[411]
@@ -234,7 +237,7 @@
 
     App.BindEvent("core.score", App.Core.OnScore)
     var matcherScoreEnd = /^≡─+[^─]+─+─≡$/
-    var matcherScoreMe = /^ 【(.+)】([^「」]+)(「(.+)」)?\s+(\S+)\((.+?)\)$/
+    var matcherScoreMe = /^ 【(.+)】([^「」 ]+)(「(.+)」)?\s*(\S+)\((.+?)\)$/
     var matcherScoreGender = /^  你是.+([男|女])性，.+年.+生。$/
     var matcherScoreBank = /^  你目前的存款：(.+)两黄金.*。$/
     var matcherScoreExp = /^  实战经验：\s+(\d+)\s+门派贡献：\s+(\d+)$/
@@ -314,11 +317,15 @@
         })
     }
     //计算最大等级
-    App.Core.GetMaxSkillLevel = function () {
+    App.Core.GetMaxSkillLevel = function (except) {
+        except = except || []
         let max = 0
         let maxskill = null
         for (var key in App.Data.Player.Skills) {
             let skill = App.Data.Player.Skills[key]
+            if (except.includes(skill.ID)) {
+                continue
+            }
             if (skill["受限经验"]) {
                 if (skill["等级"] > max) {
                     max = skill["等级"]

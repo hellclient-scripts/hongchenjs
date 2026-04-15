@@ -21,9 +21,10 @@
 
     App.HUD.Line1 = () => {
         let scriptname = new App.Word("HONGCHENJS").WithColor("Yellow")
+        let version = new App.Word(` ver${App.Version}`).WithColor("BrightYellow")
         let idlabel = new App.Word(" ID:").WithColor("White")
         let id = new App.Word(GetVariable("id"), 9, false).WithColor("BrightGreen")
-        return App.Word.Join(scriptname, idlabel, id)
+        return App.Word.Join(scriptname, version, idlabel, id)
     }
     App.HUD.Line2 = () => {
         let banklabel = new App.Word(" 存款:").WithColor("BrightYellow")

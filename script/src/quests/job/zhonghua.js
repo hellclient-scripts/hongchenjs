@@ -19,8 +19,18 @@ $.Module(function (App) {
         return null
     }))
     App.Proposals.Register("commonWithQuestZhonghua", App.Proposals.NewProposalGroup("quest.zhonghua"))
-
+    //通过这次训练，你获得了五十三点经验和一点潜能。
+    let matcherRewart=/^通过这次训练，你获得了(.+)点经验和(.+)点潜能。$/
+    let PlanQuest= new App.Plan(
+        App.Positions["Quest"],
+        (task) => {
+            task.AddTrigger(matcherRewart,(tri,result)=>{
+                App.Core.Analytics.Add(Quest.ID,App.CNumber.ParseNumber(result[1]),App.CNumber.ParseNumber(result[2]),0)
+                return true
+            })
+        })
     Zhonghua.Start = () => {
+        PlanQuest.Execute()
         $.PushCommands(
             // $.Timeslice("种花"),
             $.Prepare("commonWithQuestZhonghua", preparedata),

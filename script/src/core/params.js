@@ -7,7 +7,7 @@
     App.Core.Params.Load = () => {
         App.Core.Params.Data = {}
         App.Core.Params.QuestData = {}
-        App.LoadVariable("params").forEach(data => {
+        App.LoadVariable("params").concat(App.LoadSharedLines("params.txt", null, "自定义系统参数")).forEach(data => {
             let action = actionModule.Parse(data)
             if (action.Command) {
                 App.Core.Params.Data[action.Command.slice(1)] = action.Data
