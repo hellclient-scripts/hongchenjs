@@ -1,3 +1,5 @@
+2026/04/16
+* shared目录中添加house,dummy,params的全局配置文件
 * 配合新版本客户端，可以加载game/hongchejs/shared/下的assets.txt和items.txt配置
 * 加入参数JiquMaxAhead，控制自动经验时武学最多领先其他武学多少等级，避免初期武学脱节
 * 吃喝流程优化

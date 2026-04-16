@@ -68,7 +68,7 @@
         App.Core.Goods.NoBox = false
         let items = []
         App.Core.Assets.GoodsRules = []
-        App.LoadVariable("items").concat(App.LoadSharedLines("items.txt", null, "自定义items")).forEach(data => {
+        App.Core.Params.Shared.Items.concat(App.LoadVariable("items")).forEach(data => {
             let item = actionModule.Parse(data).ParseNumber()
             if (item.Data) {
                 if (item.Command == "") {

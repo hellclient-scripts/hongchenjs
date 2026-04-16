@@ -1,0 +1,2 @@
+//key/中文名/英文显示id/英文实际ID/可堆叠(t/f)
+magic water|天香玉露|magic water|magic water|

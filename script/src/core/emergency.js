@@ -116,6 +116,10 @@
                 )
             } else {
                 if (checkdeathmode == 2 && !App.Data.Player.NoForce) {
+                    if (App.Core.Emergency.CanReborn()) {
+                        App.Core.Emergency.DoReborn()
+                        return
+                    }
                     Note("意外死亡")
                     App.PushMessage.Notify("任务状态异常终止", "严重异常")
                     App.Core.Emergency.NoLogin = true
@@ -128,12 +132,30 @@
             App.Next()
         }
     )
+    App.Core.Emergency.DoReborn = function () {
+        if (!App.Quests.Stopped) {
+            App.Commands.Discard()
+            App.Quests.Next()
+        }
+    }
+    App.Core.Emergency.CanReborn = function () {
+        if (App.Quests.Stopped || GetVariable("reborn").trim() == "") {
+            return false
+        }
+        switch (App.PolicyParams.Reborn) {
+            case "check":
+                return App.Data.Player.HPM["死亡保护"]
+            case "force":
+                return true
+        }
+        return false
+    }
     //是否不登录
     App.Core.Emergency.NoLogin = false
     //检查是否挂了
     App.Core.Emergency.CheckDeath = function () {
         App.Commands.PushCommands(
-            App.Commands.NewDoCommand("yun recover;hp;i;cha force"),
+            App.Commands.NewDoCommand("yun recover;hp;i;hp -m;cha force"),
             App.Commands.NewPlanCommand(PlanCheckDeath),
         )
         App.Next()

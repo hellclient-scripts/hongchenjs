@@ -31,6 +31,7 @@
     App.Include("src/core/response.js")
     App.Include("src/core/alias.js")
     App.Include("src/core/prepare.js")
+    App.Include("src/core/item.boxitem.js")
     App.Include("src/core/weapon.js")
     App.Include("src/core/ask.js")
     App.Include("src/core/zone.js")

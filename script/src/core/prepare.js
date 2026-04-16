@@ -311,6 +311,7 @@
         "dropwp",
         "summon",
         "stab",
+        "eatlu",
     )
     App.Proposals.Register("", common)
     App.Proposals.Register("common", common)

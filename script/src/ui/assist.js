@@ -19,10 +19,12 @@
         list.append("reload", "重新加载变量设置")
         list.append("lian", "初始化练习清单")
         list.append("learn", "选择师傅初始化学习清单，需要在师傅房间")
-        list.append("npc", "NPC老师清单")
-        list.append("rooms", "地图房间")
+        list.append("policyparams", "决策参数设置")
         list.append("params", "系统参数设置")
         list.append("questparams", "任务参数设置")
+        list.append("npc", "NPC老师清单")
+        list.append("rooms", "地图房间")
+
         list.append("advance", "高级设置")
         list.append("push", "推送设置")
         list.append("help", "使用帮助")
@@ -50,6 +52,9 @@
                 break
             case "npc":
                 App.UI.Assist.NPCShow()
+                break
+            case "policyparams":
+                App.UI.Assist.PolicyParamsShow()
                 break
             case "params":
                 App.UI.Assist.ParamsShow()
@@ -247,10 +252,73 @@
         let p = App.UI.Assist.QuestParamLast
         App.UI.Assist.QuestParamLast = null
         if (code === 0 && p) {
-            App.Core.Params.SetQuest(p.ID, data)
+            App.Core.PolicyParams.SetQuest(p.ID, data)
             Userinput.alert("", "quest_params变量内容,注意保存", GetVariable("quest_params"))
         }
     }
+
+    App.UI.Assist.PolicyParamLast = null
+    App.UI.Assist.PolicyParamsShow = () => {
+        var list = Userinput.newlist("决策参数设置", "请选择你要设置的决策参数,搜索=显示已设置参数", true)
+        App.PolicyNamedParams.Params.forEach((p) => {
+            let val
+            if (p.Data == null) {
+                val = App.PolicyParams[p.ID] ? "=" + App.Core.Params.PolicyData[p.ID] : "未设置，默认" + App.PolicyParams[p.ID]
+            } else if (p.Data instanceof Array) {
+                let prefix = App.PolicyParams[p.ID] ? "=" : "默认"
+                let valitem = p.Data.find(d => d.Value == App.PolicyParams[p.ID])
+                if (valitem) {
+                    val = `${prefix} [${valitem.Name}]`
+                } else {
+                    val = `${prefix} ${App.PolicyParams[p.ID]}`
+                }
+            }
+            if (val != null) {
+                list.append(p.ID, `${p.Name}-#${p.ID}(${val}) ${p.Desc}:`)
+            }
+        })
+        list.publish("App.UI.Assist.PolicyParamsOnView")
+    }
+    App.UI.Assist.PolicyParamsOnView = (name, id, code, data) => {
+        if (code === 0 && data) {
+            let p
+            App.PolicyNamedParams.Params.forEach((param) => {
+                if (param.ID == data) {
+                    p = param
+                }
+            })
+            if (p) {
+                App.UI.Assist.PolicyParamLast = p
+                if (p.Data == null) {
+                    let val = App.Core.Params.PolicyData[p.ID] || ""
+                    Userinput.Prompt("App.UI.Assist.PolicyParamsOnSet", `${p.Name}-#${p.ID}`, `${p.Desc}\n${p.Intro}`, val)
+                } else if (p.Data instanceof Array) {
+                    let current = ""
+                    let valitem = p.Data.find(d => d.Value == App.PolicyParams[p.ID])
+                    if (valitem) {
+                        current = valitem.Name
+                    } else {
+                        current = App.PolicyParams[p.ID]
+                    }
+                    let desc = `${p.Desc}\n${p.Intro}\n当前：${current}\n请选择一个选项`
+                    var list = Userinput.newlist(`${p.Name}-#${p.ID}`, desc, true)
+                    p.Data.forEach(d => {
+                        list.append(d.Value, d.Name)
+                    })
+                    list.publish("App.UI.Assist.PolicyParamsOnSet")
+                }
+            }
+        }
+    }
+    App.UI.Assist.PolicyParamsOnSet = (name, id, code, data) => {
+        let p = App.UI.Assist.PolicyParamLast
+        App.UI.Assist.PolicyParamLast = null
+        if (code === 0 && p) {
+            App.Core.Params.SetPolicy(p.ID, data)
+            Userinput.alert("", "policy_params变量内容,注意保存", GetVariable("policy_params"))
+        }
+    }
+
 
     let nolian = {
         "force": true,

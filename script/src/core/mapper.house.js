@@ -206,7 +206,6 @@
             world.Note("变量 house 未设置")
         }
     }
-    App.Mapper.SharedHouse = App.LoadSharedFile("house.txt", "全局房屋设置")
-    App.Mapper.Addhouse(GetVariable("house").trim() || App.Mapper.SharedHouse.trim())
+    App.Mapper.Addhouse(GetVariable("house").trim() || App.Core.Params.Shared.House.trim())
 
 })(App)

@@ -29,8 +29,9 @@
             Note(`未找到共享${intro}文件 game/shared/${App.ScriptID}/${file}`)
             return ""
         }
+        Note(`加载共享${intro}文件 ${file}`)
         return ReadSharedFile(file)
-    }   
+    }
     //加载变量
     App.LoadVariable = function (name, sep) {
         return App.LoadLinesText(GetVariable(name).split("\n"), sep)

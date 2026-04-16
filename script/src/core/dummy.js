@@ -2,11 +2,10 @@
     App.Core.Dummy = {}
     App.Core.Dummy.ID = ""
     App.Core.Dummy.Password = ""
-    App.Core.Dummy.SharedDummy = App.LoadSharedFile("house_dummy.txt", "全局大米设置")
     App.Core.Dummy.Load = function () {
         App.Core.Dummy.ID = ""
         App.Core.Dummy.Password = ""
-        let data = GetVariable("house_dummy").trim() || App.Core.Dummy.SharedDummy.trim()
+        let data = GetVariable("house_dummy").trim() || App.Core.Params.Shared.Dummy.trim()
         if (data) {
             if (data.indexOf("\n") >= 0) {
                 PrintSystem("大米变量格式错误,应该为单行的 dummyid dummy密码")

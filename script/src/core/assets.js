@@ -91,12 +91,8 @@
         })
     }
     App.Core.Assets.LoadRules()
-    //读取覆盖配置
-    App.LoadSharedLines("assets.txt", null, "自定义assets").forEach(data => {
-        App.Core.Assets.StaticRules.push(App.Core.Assets.ParseRule(data))
-    })
     //读取默认配置
-    App.LoadLines("data/assets.txt").forEach(data => {
+    App.Core.Params.Shared.Assets.concat(App.LoadLines("data/assets.txt")).forEach(data => {
         App.Core.Assets.StaticRules.push(App.Core.Assets.ParseRule(data))
     })
     App.Core.Assets.Maintain = function (item, rules) {
