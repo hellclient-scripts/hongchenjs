@@ -21,6 +21,10 @@
     App.Core.Room.Current = null
     //创建实例，绑定position
     App.Map = new mapModule.Map(App.Positions["Room"], App.Positions["Move"])
+    App.Map.WithCache(App.Map.NewCache({
+        Max: App.Params.cachemax,
+        MaxSize: App.Params.cachemaxsize,
+    }))
     let initRoom = function () {
         App.Map.Room.WithData("Objects", new objectModule.List())
     }

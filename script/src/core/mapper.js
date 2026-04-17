@@ -134,7 +134,7 @@
     //扩展房间，第一个参数为房间id数组，第二个参数为膨胀多少格。
     App.Mapper.ExpandRooms = (rooms, expand, common) => {
         var opt = common ? App.Mapper.ExpandOptions : App.Mapper.HMM.MapperOptions.New()
-        return App.Mapper.Database.APIDilate(rooms, expand, App.Mapper.Database.Context, opt)
+        return App.Map.Dilate(rooms, expand, App.Mapper.Database.Context, opt)
     }
     App.Mapper.InWinter = function () {
         // return App.Mapper.Data.Winter ? (new Date().getTime() - App.Mapper.Data.Winter) < 100000 : false
@@ -195,6 +195,12 @@
     App.Core.SkillTags = ["dodge"]
     App.Map.AppendInitiator(function () {
         for (var tag in App.Core.SkillTags) {
+            let val
+            if (val > 1000) {
+                val = 1000
+            } else {
+                val = Math.floor(App.Core.Player.GetSkillLevenByID[tag] / 50) * 50
+            }
             App.Map.SetTag(`skill-${tag}`, App.Core.Player.GetSkillLevenByID[tag])
         }
     })

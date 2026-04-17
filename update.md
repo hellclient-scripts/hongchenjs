@@ -1,3 +1,6 @@
+* 引入寻路缓存(node-lru-cache)，优化CPU占用，可以通过系统参数的 cachemax和cachemaxsize进行调整
+* shared目录加入quest_params和policy_params的全局配置文件
+* 加入战略管理功能，用于全局性跨任务的全局战略配置。第一期加入死亡处理和自动吃露
 2026/04/16
 * shared目录中添加house,dummy,params的全局配置文件
 * 配合新版本客户端，可以加载game/hongchejs/shared/下的assets.txt和items.txt配置
