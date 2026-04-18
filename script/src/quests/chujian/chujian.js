@@ -410,7 +410,7 @@ $.Module(function (App) {
         }
     })
     App.Quests.Register(Quest)
-
+    Quest.TimeCost = 30
     App.Quests.Chujian = Chujian
     App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)
 

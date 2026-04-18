@@ -3,6 +3,39 @@
     let questsModule = App.RequireModule("helllibjs/quests/quests.js")
     let conditionsModule = App.RequireModule("helllibjs/conditions/conditions.js")
     App.Core.Quest = {}
+    App.Core.Quest.HeadReadyQueue = []
+    App.Core.Quest.TailReadyQueue = []
+    App.Core.Quest.FilterQueue = []
+
+    App.Core.Quest.HeadReady = () => {
+        for (let i in App.Core.Quest.HeadReadyQueue) {
+            let cb = App.Core.Quest.HeadReadyQueue[i]
+            let result = cb()
+            if (result) {
+                return result
+            }
+        }
+        return null
+    }
+    App.Core.Quest.TailReady = () => {
+        for (let i in App.Core.Quest.TailReadyQueue) {
+            let cb = App.Core.Quest.TailReadyQueue[i]
+            let result = cb()
+            if (result) {
+                return result
+            }
+        }
+        return null
+    }
+    App.Core.Quest.Filter = function (quests, quest) {
+        for (let i in App.Core.Quest.FilterQueue) {
+            let filter = App.Core.Quest.FilterQueue[i]
+            if (!filter(quests, quest)) {
+                return false
+            }
+        }
+        return true
+    }
     App.Core.Quest.StartedAt = 0
     //start别名
     App.Core.Quest.OnAlias = function (n, l, w) {
@@ -39,6 +72,9 @@
     }
     //创建实例并初始化
     App.Quests = new questsModule.Quests(App.Positions["Quest"], App.Commands, new conditionsModule.Conditions)
+    App.Quests.HeadReady = App.Core.Quest.HeadReady
+    App.Quests.TailReady = App.Core.Quest.TailReady
+    App.Quests.Filter = App.Core.Quest.Filter
     App.BindEvent("core.stop", function () {
         App.Quests.Stop()
     })
@@ -62,9 +98,14 @@
         App.Core.Timeslice.Change("")
     }
     App.Quests.OnExec = (quests, ready) => {
-        let quest = ready.Quest
-        let ts = quest.Timeslice ? quest.Timeslice : quest.Name
-        App.Core.Timeslice.Change(ts)
+        //检查是否是正常Quest
+        if (ready.Quest) {
+            let quest = ready.Quest
+            let ts = quest.Timeslice ? quest.Timeslice : quest.Name
+            App.Core.Timeslice.Change(ts)
+        } else {
+            App.Core.Timeslice.Change("")
+        }
     }
     App.Quests.DelayFunction = function (quests) {
         quests.Commands.PushCommands(
@@ -75,7 +116,10 @@
     }
     App.Quests.ReadyCreator = (r, exec, q) => {
         return new questsModule.Ready(r, () => {
-            App.Core.Stage.ChangeStance(q.Group)
+            //检查是否是正常Quest
+            if (q != null) {
+                App.Core.Stage.ChangeStance(q.Group)
+            }
             exec()
         }, q)
     }

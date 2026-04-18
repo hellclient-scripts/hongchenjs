@@ -382,6 +382,7 @@ $.Module(function (App) {
 
     App.Quests.Register(Quest)
     App.Quests.Tianlao = Tianlao
+    Quest.TimeCost = 30
     App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)
 
 })

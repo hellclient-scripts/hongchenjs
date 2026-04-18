@@ -473,6 +473,7 @@ $.Module(function (App) {
     Quest.GetReady = function (q, data) {
         return () => { Quest.Start(data) }
     }
+    Quest.TimeCost = 60
     App.Quests.Register(Quest)
     App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)
 

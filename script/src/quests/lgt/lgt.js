@@ -354,7 +354,7 @@ $.Module(function (App) {
         }
         return () => { Quest.Start(data) }
     }
-
+    Quest.TimeCost = 1800
     App.Quests.Register(Quest)
     App.Quests.LGT = LGT
     App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)

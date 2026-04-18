@@ -1,6 +1,9 @@
 (function (app) {
     let module = {}
     module.Sep = /\|\||\n/
+    let DefaultFilter = function (quests, quest) {
+        return true
+    }
     module.DefaultParser = function (quests, line) {
         let result = []
         let data = line.split(module.Sep)
@@ -61,7 +64,12 @@
     }
     let DefaultOnExec = function (quests, ready) {
     }
-
+    let DefaultHeadReady = function (quests) {
+        return null
+    }
+    let DefaultTailReady = function (quests) {
+        return null
+    }
     let DefaultDelayFunction = function (quests) {
         quests.Commands.PushCommands(
             quests.Commands.NewWaitCommand(this.Delay),
@@ -117,6 +125,9 @@
         OnNext = DefaultOnNext
         OnExec = DefaultOnExec
         DelayFunction = DefaultDelayFunction
+        Filter = DefaultFilter
+        HeadReady = DefaultHeadReady
+        TailReady = DefaultTailReady
         Running = null
         #nextcommand = null
         Position = null
@@ -165,6 +176,10 @@
             this.Commands.Next()
         }
         GetReady() {
+            let headready = this.HeadReady(this)
+            if (headready) {
+                return this.ReadyCreator(null, headready, null)
+            }
             for (let i in this.Queue) {
                 this.Processing = i
                 let r = this.Queue[i]
@@ -172,12 +187,16 @@
                 if (q == null) {
                     throw new Error("Quest " + r.ID + " not found")
                 }
-                if (q && !q.InCooldown() && r.Checker()) {
+                if (q && !q.InCooldown() && r.Checker() && this.Filter(this, q)) {
                     let exe = q.GetReady(q, r.Data)
                     if (exe) {
                         return this.ReadyCreator(r, exe, q)
                     }
                 }
+            }
+            let tailready = this.TailReady(this)
+            if (tailready) {
+                return this.ReadyCreator(null, tailready, null)
             }
             return null
         }
@@ -204,7 +223,7 @@
                 this.Commands.Next()
                 return
             }
-            this.Processing=-1
+            this.Processing = -1
             this.Last = (new Date()).getTime()
             this.OnNext(this)
             this.Position.StartNewTerm()

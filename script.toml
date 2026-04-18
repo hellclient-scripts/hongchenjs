@@ -1941,6 +1941,37 @@ Timers = []
   Italic = false
   Variable = ""
 
+[[Triggers]]
+  ID = "d1h9p41husqq9r71ciu785"
+  Name = "core.servertime"
+  Enabled = true
+  Match = "^现在的 北京 时间 (.+)年(.+)月(.+)日(.+)时(.+)分(.+)秒，.+"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.LineEvent('core.servertime')"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = false
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = false
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
 [[Aliases]]
   ID = "d1fufevcofgvaa73s6n5s7"
   Name = "App.Core.Connect.OnAliasLogin"

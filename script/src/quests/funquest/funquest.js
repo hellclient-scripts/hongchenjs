@@ -730,6 +730,7 @@ $.Module(function (App) {
         )
         App.Next()
     }
+    Quest.TimeCost = 30
     App.Quests.Funquest = Funquest
     App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)
 

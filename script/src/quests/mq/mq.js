@@ -301,7 +301,7 @@ $.Module(function (App) {
                 }
                 return false
             })
-            task.AddTimer(3000).WithName("timeout")
+            task.AddTimer(30000).WithName("timeout")
             $.RaiseStage("mqgivehead")
             App.Send("give head to " + App.Params.MasterID + ";drop head")
             $.RaiseStage("mqbefore")
@@ -312,6 +312,8 @@ $.Module(function (App) {
             if (result.Type != "cancel") {
                 if (result.Name == "timeout") {
                     App.Log("请求quest超时")
+                    App.Fail()
+                    return
                 }
                 $.Next()
             }
@@ -1104,6 +1106,7 @@ $.Module(function (App) {
         }
     })
     App.Quests.Register(Quest)
+    Quest.TimeCost = 30
     App.Core.Analytics.RegisterTask(Quest.ID, Quest.Name, Quest.Timeslice ? Quest.Timeslice : Quest.Name)
     App.Quests.MQ = MQ
 })

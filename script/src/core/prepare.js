@@ -216,15 +216,12 @@
     App.Proposals.Register("eat", App.Proposals.NewProposal(function (proposals, context, exclude) {
         if (App.Params.FoodBusy && App.NeedEat) {
             return function () {
-                let ts = App.Core.Timeslice.Current()
                 $.PushCommands(
-                    $.Timeslice("修整-吃喝"),
                     $.Function(function () {
                         App.Eat()
                         $.Next()
                     }),
                     $.Nobusy(),
-                    $.Timeslice(ts),
                 )
                 App.Next()
             }
