@@ -4,7 +4,7 @@ jin chuangyao|jin chuangyao|金创药|buy|yp|buy 金创药 from yaopu huoji|
 //yangjing dan|yangjing dan|养精丹|buy|yp|buy 养精丹 from yaopu huoji|
 yuchi zhou|yuchi zhou|鱼翅粥|buy|zxl|buy 100 yuchi zhou from xiao er|
 //fire|fire|火折|buy|zhp|buy 火折 from yang yongfu|
-//long bow|long bow|长弓|buy|dtp|buy long bow from tie jiang|8
+//long bow|long bow|长弓|buy|dtp|buy long bow from tie jiang|9
 arrow|Arrow|狼牙箭|buy|dtp|buy 50 狼牙箭 from tie jiang|3
 //long sword|long sword|长剑|buy|dtp|buy long sword from tie jiang|
 //iron blade|iron blade|钢刀|buy|dtp|buy iron blade from tie jiang|
@@ -117,7 +117,7 @@ yumao shan|yumao shan|羽毛扇|buy|liu susu|buy 羽毛扇
 zhe shan|zhe shan|折扇|buy|liu susu|buy 折扇
 book1|book1|「三字经」|buy|zhu xi|buy 「三字经」
 book2|book2|「百家姓」|buy|zhu xi|buy 「百家姓」
-book3|book3|「千字文」|buy|zhu xi|buy 「千字文」|2
+book3|book3|「千字文」|buy|zhu xi|buy 「千字文」|3
 tangshi xuanji|tangshi xuanji|「唐诗选辑」|buy|zhu xi|buy 「唐诗选辑」
 dust|dust|化尸粉|buy|yp|buy 化尸粉|5
 jinchuang yao|jinchuang yao|金创药|buy|yp|buy 金创药
@@ -202,7 +202,7 @@ yin jie|yin jie|银戒指|buy|shop-shoushidian|buy 银戒指
 zuan jie|zuan jie|钻石戒指|buy|shop-shoushidian|buy 钻石戒指
 diao gan|diao gan|钓竿|buy|liu laoshi|buy 钓竿
 muqin|muqin|木琴|buy|liu laoshi|buy 木琴
-shexiang fen|shexiang fen|麝香粉|buy|liu laoshi|buy 麝香粉|10
+shexiang fen|shexiang fen|麝香粉|buy|liu laoshi|buy 麝香粉|11
 yanwu dan|yanwu dan|烟雾弹|buy|liu laoshi|buy 烟雾弹
 baijin xiangquan|baijin xiangquan|白金项圈|buy|jin fuhuan|buy 白金项圈
 liujin wanlian|liujin wanlian|鎏金腕链|buy|jin fuhuan|buy 鎏金腕链

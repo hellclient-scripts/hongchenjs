@@ -424,6 +424,7 @@ $.Module(function (App) {
         let item = App.Data.Item.List.FindByName(Funquest.Data.Object).First()
         if (item == null) {
             App.Log(`没有找到线索对应的物品，道具是${Funquest.Data.Object}`)
+            $.Next()
             return
         }
         let npc = Funquest.LoadNPC(Funquest.Data.Publisher);

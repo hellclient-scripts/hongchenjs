@@ -117,6 +117,7 @@
             } else {
                 if (checkdeathmode == 2 && !App.Data.Player.NoForce) {
                     if (App.Core.Emergency.CanReborn()) {
+                        App.Log("挂了，试图继续")
                         App.Core.Emergency.DoReborn()
                         return
                     }

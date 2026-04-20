@@ -303,7 +303,7 @@ $.Module(function (App) {
             })
             task.AddTimer(30000).WithName("timeout")
             $.RaiseStage("mqgivehead")
-            App.Send("give head to " + App.Params.MasterID + ";drop head")
+            App.Send("give head to " + App.Params.MasterID)
             $.RaiseStage("mqbefore")
             App.Send("quest " + App.Params.MasterID)
             App.Send("quest")
@@ -353,10 +353,10 @@ $.Module(function (App) {
                 $.Next()
             }),
             $.Function(() => {
-                App.Send(`give head to ${App.Params.MasterID};drop head`)
+                App.Send(`give head to ${App.Params.MasterID}`)
                 var headcount = App.Data.Item.List.FindByID("head").Sum()
                 for (var i = headcount; i > 1; i--) {
-                    App.Send(`give head ${i} to ${App.Params.MasterID};drop head`)
+                    App.Send(`give head ${i} to ${App.Params.MasterID}`)
                 }
                 App.Send("i")
                 $.Next()
@@ -717,9 +717,9 @@ $.Module(function (App) {
             // $.To(Cities[MQ.Data.NPC.Zone].Loc),
             $.Function(() => {
                 App.Send("yun recover;yun regenerate")
-                if (App.Data.Item.List.FindByID("head").Sum() > 2) {
-                    App.Send("drop head;i")
-                }
+                // if (App.Data.Item.List.FindByID("head").Sum() > 2) {
+                //     App.Send("drop head;i")
+                // }
                 $.RaiseStage("prepare")
                 $.PushCommands(
                     $.Sync(),
@@ -792,6 +792,9 @@ $.Module(function (App) {
                     App.Combat.Data.NoPerform = true
                     MQ.Data.NPC.Died = true
                     MQ.OnNpcFaint()
+                    if (App.Data.Item.List.FindByID("head").First()) {
+                        App.Send(`put head in ${MQ.Data.NPC.ID};drop head`)
+                    }
                 }
                 return true
             })

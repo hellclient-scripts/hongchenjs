@@ -48,3 +48,4 @@ drop name=小布包
 drop id=letter
 drop id=receipt
 drop id=paper
+drop id=zhenjing taben

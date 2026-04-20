@@ -15,7 +15,7 @@ $.Module(function (App) {
                 let context = {}
                 context.NeiliMin = 15
                 Lian.NeedJifa = true
-                $.PushCommands(
+                $.Insert(
                     $.Prepare("common", context),
                     $.Function(() => { skill.Execute() }),
                     $.Function(() => { Lian.Start() }),
@@ -36,7 +36,7 @@ $.Module(function (App) {
     //定义任务
     let Quest = App.Quests.NewQuest("lianskill")
     Quest.Name = "练技能"
-    Quest.Timeslice="练功"
+    Quest.Timeslice = "练功"
     Quest.Desc = "练习lian变量中设置的技能"
     Quest.Intro = ""
     Quest.Help = ""

@@ -515,9 +515,6 @@ $.Module(function (App) {
             // $.To(Cities[MQ.Data.NPC.Zone].Loc),
             $.Function(() => {
                 App.Send("yun recover;yun regenerate")
-                if (App.Data.Item.List.FindByID("head").Sum() > 2) {
-                    App.Send("drop head;i")
-                }
                 $.RaiseStage("prepare")
                 $.PushCommands(
                     $.Sync(),

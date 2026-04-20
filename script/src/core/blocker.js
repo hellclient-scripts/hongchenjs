@@ -16,6 +16,9 @@
         App.RaiseEvent(event)
     })
     App.Core.Blocker.KillMoveBlocker = (name) => {
+        if (App.Map.Move == null) {
+            return
+        }
         let snap = App.Map.Snap()
         App.Commands.Insert(
             App.NewKillCommand("", App.NewCombat("moveblocker")),
