@@ -9,20 +9,30 @@
     let re = /[;\n]/g
     let re2 = /[！·。\*]/g
     let linkre = /[、&]/g
-    App.Sender.Parser = function (cmd, Grouped) {
+    App.Sender.Parser = function (cmd, Grouped, raw) {
         let result = []
         if (Grouped) {
             result.push([])
         }
-        cmd = cmd.replaceAll(re2, "")
-        let data = cmd.split(re)
+        let data
+        if (!raw) {
+            cmd = cmd.replaceAll(re2, "")
+            data = cmd.split(re)
+        } else {
+            data = [cmd]
+        }
         data.forEach(c => {
             c = c.trim()
             if (c.startsWith("#")) {//#开头是指令，强制分组
                 result.push([c])
                 return
             }
-            let cmds = c.split(linkre)
+            let cmds
+            if (!raw) {
+                cmds = c.split(linkre)
+            } else {
+                cmds = [c]
+            }
             if (Grouped) {
                 result[0] = result[0].concat(cmds)
             } else {
@@ -42,8 +52,8 @@
         return false
     }
     //重新定义App.Send
-    App.Send = function (cmd, Grouped) {
-        App.Sender.Send(cmd, Grouped)
+    App.Send = function (cmd, Grouped, raw) {
+        App.Sender.Send(cmd, Grouped, raw)
     }
     //结果所有用户输入的别名
     App.OnSendAlias = function (n, l, w) {

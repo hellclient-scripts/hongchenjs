@@ -169,7 +169,11 @@
             let pow = Math.pow(10, tofixed)
             num = Math.floor(num / pow) * pow
         } else {
-            num = Math.floor(num)
+            if (num < 10) {
+                num = Math.floor(num * 10) / 10
+            } else {
+                num = Math.floor(num)
+            }
         }
         return num + unit
     }

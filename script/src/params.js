@@ -16,7 +16,7 @@
         ReloginDelay: 120000,
     }
     App.NamedParams = new paramsModule.Params(App.Params)
-    App.NamedParams.AddNumber("cachemax", 3000).WithName("缓存大小").WithDesc("缓存大小，为0禁用缓存，重新加载脚本起效")
+    App.NamedParams.AddNumber("cachemax", 0).WithName("缓存大小").WithDesc("缓存大小，为0禁用缓存，重新加载脚本起效")
     App.NamedParams.AddNumber("cachemaxsize", 20000000).WithName("缓存最大容量").WithDesc("缓存最大容量，重新加载脚本起效")
     App.NamedParams.AddString("MasterID", "").WithName("掌门ID").WithDesc("掌门ID，未指定会根据门派自动判定")
     App.NamedParams.AddString("LocMaster", "").WithName("掌门坐标").WithDesc("掌门坐标，未指定会根据门派自动判定")

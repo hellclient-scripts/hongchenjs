@@ -14,7 +14,6 @@
         return d
     }
     App.BindEvent("core.servertime", function (event) {
-        Dump(event.Data.Wildcards)
         var year = App.CNumber.ParseNumber(event.Data.Wildcards[0])
         var month = App.CNumber.ParseNumber(event.Data.Wildcards[1]) - 1
         var day = App.CNumber.ParseNumber(event.Data.Wildcards[2])

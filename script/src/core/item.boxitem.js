@@ -50,9 +50,32 @@
         }
         $.Next()
     }
+    App.Core.BoxItem.LastWan = 0
+    App.Core.BoxItem.LastWanDelay = 30 * 60 * 1000
+    App.Core.BoxItem.CanEatWan = function () {
+        return (new Date()).getTime() - App.Core.BoxItem.LastWan > App.Core.BoxItem.LastWanDelay
+    }
+    App.Core.BoxItem.EatWan = function () {
+        $.PushCommands(
+            $.Function(() => {
+                App.Core.BoxItem.TryGet("renshen wan")
+            }),
+            $.Function(() => {
+                if (App.Data.Item.List.FindByID("renshen wan").First() != null) {
+                    App.Send("eat renshen wan;i;hp -m;hp")
+                    $.Insert($.Nobusy())
+                } else {
+                    App.Log("没renshen wan了")
+                }
+                $.Next()
+            })
+        )
+        $.Next()
+    }
+
     App.Core.BoxItem.LastLu = 0
     App.Core.BoxItem.LastLuDelay = 30 * 60 * 1000
-    App.Core.BoxItem.CanEatlu = function () {
+    App.Core.BoxItem.CanEatLu = function () {
         return (new Date()).getTime() - App.Core.BoxItem.LastLu > App.Core.BoxItem.LastLuDelay
     }
     App.Core.BoxItem.Eatlu = function () {
@@ -61,7 +84,7 @@
                 App.Core.BoxItem.TryGet("magic water")
             }),
             $.Function(() => {
-                if (App.Data.Item.List.FindByID("key").First() != null) {
+                if (App.Data.Item.List.FindByID("magic water").First() != null) {
                     App.Send("eat magic water;i;hp -m;hp")
                     $.Insert($.Nobusy())
                 } else {
@@ -73,7 +96,7 @@
         $.Next()
     }
     App.Proposals.Register("eatlu", App.Proposals.NewProposal(function (proposals, context, exclude) {
-        if (App.PolicyParams["eatlu"] > 0 && App.Data.Player.HP["内力上限"] < App.PolicyParams["eatlu"] && (App.Data.Player.HPM["内力上限"] - App.Data.Player.HP["内力上限"]) >= 180 && App.Core.BoxItem.CanEatlu()) {
+        if (App.PolicyParams["eatlu"] > 0 && App.Data.Player.HP["内力上限"] < App.PolicyParams["eatlu"] && (App.Data.Player.HPM["内力上限"] - App.Data.Player.HP["内力上限"]) >= 180 && App.Core.BoxItem.CanEatLu()) {
             return App.Core.BoxItem.Eatlu
         }
         return null

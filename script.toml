@@ -2478,6 +2478,75 @@ Timers = []
   OmitFromOutput = false
   OmitFromCommandHistory = false
 
+[[Aliases]]
+  ID = "d1ha2j5lpgrg67721lobfe"
+  Name = "fuse"
+  Enabled = true
+  Match = "#fuse( .+)?"
+  Send = "#start fuse %1||stop"
+  Script = ""
+  SendTo = 10
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = false
+  Menu = false
+  OmitFromLog = false
+  Variable = ""
+  ReverseSpeedwalk = false
+  OmitFromOutput = false
+  OmitFromCommandHistory = false
+
+[[Aliases]]
+  ID = "d1ha2nf4p6qi9k721lpj7j"
+  Name = "blesswater"
+  Enabled = true
+  Match = "#blesswater (.+)$"
+  Send = "#start combine blesswater %1||stop"
+  Script = ""
+  SendTo = 10
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = false
+  Menu = false
+  OmitFromLog = false
+  Variable = ""
+  ReverseSpeedwalk = false
+  OmitFromOutput = false
+  OmitFromCommandHistory = false
+
+[[Aliases]]
+  ID = "d1ha2o2ofrnjii721lpsg3"
+  Name = "wuguohuo"
+  Enabled = true
+  Match = "#wuhuaguo (.+)$"
+  Send = "#start combine wuhuaguo %1||stop"
+  Script = ""
+  SendTo = 10
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = false
+  Menu = false
+  OmitFromLog = false
+  Variable = ""
+  ReverseSpeedwalk = false
+  OmitFromOutput = false
+  OmitFromCommandHistory = false
+
 [[RequiredParams]]
   Name = "id"
   Desc = "用户的id"

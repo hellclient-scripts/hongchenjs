@@ -24,7 +24,9 @@
             case "ok":
                 App.Data.Player.HP["当前气血"] = App.Data.Player.HP["气血上限"]
                 App.Data.Player.HP["当前精气"] = App.Data.Player.HP["精气上限"]
-                App.Data.Player.HP["当前内力"] = App.Data.Player.HP["内力上限"]
+                // App.Data.Player.HP["当前内力"] = App.Data.Player.HP["内力上限"]
+                App.Send("hp")
+                $.Insert($.Nobusy())
                 break
             case "timeout":
                 App.Append(
@@ -52,8 +54,9 @@
         if (neimin > App.Params.NeiliMin) {
             neimin = App.Params.NeiliMin
         }
+        let minNumber = context.NeiliMinNumber || 0
         let jifaForce = App.Data.Player.Jifa["force"] ? App.Data.Player.Jifa["force"].Level : 0
-        if ((App.Data.Player.HP["当前内力"] * 100 / App.Data.Player.HP["内力上限"]) <= neimin) {//touch
+        if ((App.Data.Player.HP["当前内力"] * 100 / App.Data.Player.HP["内力上限"]) <= neimin || App.Data.Player.HP["当前内力"] <= minNumber) {//touch
             if (App.Core.Weapon.Touch) {
                 return function () {
                     App.Commands.PushCommands(

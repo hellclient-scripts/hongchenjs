@@ -1,3 +1,5 @@
+* 加入#wuhuaguo 99 合成忘忧无花果
+* 加入#fuse 99 合成辉月华石 和 #blesswater 99 合成乾坤圣水
 * 升级hmm.js的版本，极大的提升寻路时shortcut的性能
 * 引入寻路缓存(node-lru-cache)，优化CPU占用，可以通过系统参数的 cachemax和cachemaxsize进行调整
 * 加入等待服务器维护功能，接近服务维护时间所有人物会停止进入聊天室等待。

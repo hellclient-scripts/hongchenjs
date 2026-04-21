@@ -252,7 +252,7 @@
         let p = App.UI.Assist.QuestParamLast
         App.UI.Assist.QuestParamLast = null
         if (code === 0 && p) {
-            App.Core.PolicyParams.SetQuest(p.ID, data)
+            App.Core.Params.SetQuest(p.ID, data)
             Userinput.alert("", "quest_params变量内容,注意保存", GetVariable("quest_params"))
         }
     }

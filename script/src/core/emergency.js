@@ -118,6 +118,7 @@
                 if (checkdeathmode == 2 && !App.Data.Player.NoForce) {
                     if (App.Core.Emergency.CanReborn()) {
                         App.Log("挂了，试图继续")
+                        App.PushMessage.Notify("任务状态异常终止", "尝试继续")
                         App.Core.Emergency.DoReborn()
                         return
                     }
@@ -140,7 +141,7 @@
         }
     }
     App.Core.Emergency.CanReborn = function () {
-        if (App.Quests.Stopped || GetVariable("reborn").trim() == "") {
+        if (App.Quests.Stopped || App.PolicyParams["reborn"].trim() == "") {
             return false
         }
         switch (App.PolicyParams.Reborn) {
