@@ -138,7 +138,7 @@
         if (!App.Quests.Stopped) {
             App.Commands.Discard()
             App.Send(GetVariable("jifa"))
-            App.Quests.Next()
+            App.Quests.Restart()
         }
     }
     App.Core.Emergency.CanReborn = function () {

@@ -10,7 +10,7 @@
                 return true
             })
             task.AddTimer(20000, function () {
-                App.Send(" ")
+                Send(" ")
                 return true
             })
 
