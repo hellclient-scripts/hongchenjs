@@ -923,7 +923,7 @@ $.Module(function (App) {
         let id = event.Data.ID
         let loc = event.Data.Loc
         if (MQ.Data.NPC && MQ.Data.NPC.Name == name) {
-            let cites = App.Zone.LocToCityList[loc]
+            let cites = App.Zone.LocToCityList[loc]||[]
             if (cites.length == 0) {
                 return
             }

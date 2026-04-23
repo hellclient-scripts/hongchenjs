@@ -42,6 +42,7 @@ wielded>#carry any
 #home id=xisui xiandan,tonghui xiandan,zhuyuan xiandan,wuji xiandan,bless water,qinglong ya,ruyi jue,wucai zhu,hua shi,magic stone
 //忘情天书
 #home id=tiancan yu,qingyu ya,huandi shenzhu
+#home id=wangqing tianshu
 //peiyao
 #home id=danyu mo
 //funquest

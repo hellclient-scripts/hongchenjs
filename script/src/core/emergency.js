@@ -137,6 +137,7 @@
     App.Core.Emergency.DoReborn = function () {
         if (!App.Quests.Stopped) {
             App.Commands.Discard()
+            App.Send(GetVariable("jifa"))
             App.Quests.Next()
         }
     }
@@ -144,7 +145,7 @@
         if (App.Quests.Stopped || App.PolicyParams["reborn"].trim() == "") {
             return false
         }
-        switch (App.PolicyParams.Reborn) {
+        switch (App.PolicyParams["reborn"]) {
             case "check":
                 return App.Data.Player.HPM["死亡保护"]
             case "force":
