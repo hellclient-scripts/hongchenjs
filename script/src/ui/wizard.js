@@ -167,7 +167,7 @@
         }
     }
     App.UI.Wizard.ShowCombat = function () {
-        Userinput.prompt("App.UI.Wizard.OnCombat", "战斗设置", "请设置您的战斗指令，射箭ID请填shot,如:\nperfrom unarmed.xue twice\nshot", "")
+        Userinput.prompt("App.UI.Wizard.OnCombat", "战斗设置", "请设置您的战斗指令，射箭ID请填shot,如:\nperform unarmed.xue twice\nshot", "")
     }
     App.UI.Wizard.OnCombat = function (name, id, code, data) {
         if (code == 0) {

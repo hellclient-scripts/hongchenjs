@@ -1,3 +1,5 @@
+* 战略管理加入死亡保护策略
+* 加入#tianshu 99 制作天数
 * 加入#wuhuaguo 99 合成忘忧无花果
 * 加入#fuse 99 合成辉月华石 和 #blesswater 99 合成乾坤圣水
 * 升级hmm.js的版本，极大的提升寻路时shortcut的性能
