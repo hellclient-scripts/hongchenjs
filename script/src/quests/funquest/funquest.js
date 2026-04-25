@@ -532,7 +532,7 @@ $.Module(function (App) {
     }
     Funquest.SendNPCOption = (move, map) => {
         move.OnArrive = Funquest.SendNPCArrive
-        move.Option.CommandNotContains = ["cross", "jump ", "enter ", "qian"]
+        move.Option.CommandNotContains = ["cross", "jump ", "enter ", "qian ","dive "]
     }
     Funquest.ResendNPC = () => {
         Note("NPC跟丢了")

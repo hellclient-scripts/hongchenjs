@@ -6,7 +6,7 @@ $.Module(function (App) {
         App.Next()
     }
     let Quest = App.Quests.NewQuest("fangqi")
-    Quest.Name = "放弃经验到Maxexp"
+    Quest.Name = "放弃经验"
     Quest.Desc = "用于配药大米拿danyu mo等限制经验任务"
     Quest.Intro = ""
     Quest.Help = ""

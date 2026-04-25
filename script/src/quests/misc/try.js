@@ -27,7 +27,7 @@ $.Module(function (App) {
         App.Next()
     }
     let Quest = App.Quests.NewQuest("try")
-    Quest.Name = "在指定位置执行指令，尝试创建武功或者绝招"
+    Quest.Name = "创建"
     Quest.Desc = "在指定位置执行指令，等待busy结束 #start try 2682 dazuo 1000"
     Quest.Intro = ""
     Quest.Help = ""

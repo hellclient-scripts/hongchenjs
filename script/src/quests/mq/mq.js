@@ -923,7 +923,7 @@ $.Module(function (App) {
         let id = event.Data.ID
         let loc = event.Data.Loc
         if (MQ.Data.NPC && MQ.Data.NPC.Name == name) {
-            let cites = App.Zone.LocToCityList[loc]||[]
+            let cites = App.Zone.LocToCityList[loc] || []
             if (cites.length == 0) {
                 return
             }
@@ -1005,19 +1005,21 @@ $.Module(function (App) {
                 return true
             })
             task.AddTrigger(matcherreward, (tri, result) => {
-                let msg = "任务成功"
-                MQ.Data.kills++
-                let cost = $.Now() - MQ.Data.NPC.Start
-                MQ.Data.cost += cost
-                let tihui = App.CNumber.ParseNumber(result[3])
-                MQ.Data.tihui += tihui
-                MQ.Data.combatDuration += MQ.Data.NPC.CombatDuration
-                if (MQ.Data.kills > 3) {
-                    msg += " 任务效率：" + MQ.GetEff().toFixed() + " 个/小时,共计" + MQ.Data.kills + "个任务," + `任务耗时 ${(cost / 1000).toFixed(2)} 秒` + "线报率 " + (MQ.Data.helped * 100 / MQ.Data.kills).toFixed(2) + "%"
+                if (MQ.Data.NPC != null) {
+                    let msg = "任务成功"
+                    MQ.Data.kills++
+                    let cost = $.Now() - MQ.Data.NPC.Start
+                    MQ.Data.cost += cost
+                    let tihui = App.CNumber.ParseNumber(result[3])
+                    MQ.Data.tihui += tihui
+                    MQ.Data.combatDuration += MQ.Data.NPC.CombatDuration
+                    if (MQ.Data.kills > 3) {
+                        msg += " 任务效率：" + MQ.GetEff().toFixed() + " 个/小时,共计" + MQ.Data.kills + "个任务," + `任务耗时 ${(cost / 1000).toFixed(2)} 秒` + "线报率 " + (MQ.Data.helped * 100 / MQ.Data.kills).toFixed(2) + "%"
+                    }
+                    Note(msg)
+                    MQ.Log(cost)
+                    App.Core.Analytics.Add(Quest.ID, App.CNumber.ParseNumber(result[1]), App.CNumber.ParseNumber(result[2]), App.CNumber.ParseNumber(result[3]))
                 }
-                Note(msg)
-                MQ.Log(cost)
-                App.Core.Analytics.Add(Quest.ID, App.CNumber.ParseNumber(result[1]), App.CNumber.ParseNumber(result[2]), App.CNumber.ParseNumber(result[3]))
                 return true
             })
             task.AddTrigger(matcherAskGift, (tri, result) => {

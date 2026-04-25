@@ -11,7 +11,7 @@ $.Module(function (App) {
         App.Next()
     }
     let Quest = App.Quests.NewQuest("execute")
-    Quest.Name = "在指定位置执行指令，等待busy结束"
+    Quest.Name = "执行"
     Quest.Desc = "在指定位置执行指令，等待busy结束 #start execute ttg dazuo 1000"
     Quest.Intro = ""
     Quest.Help = ""
