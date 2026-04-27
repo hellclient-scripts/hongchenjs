@@ -186,12 +186,14 @@
     //战斗时的心跳
     App.Combat.Ticker = function (combat) {
         let msg = ""
-        combat.Data.Ticker++
-        msg = msg + Math.floor(combat.Duration() / 1000) + "秒 "
-        msg = msg + (combat.Data.Quest)
-        msg = msg + "[" + Object.keys(combat.Data.Tags).join(",") + "]"
-        Note(msg)
-        App.Core.Combat.Perform()
+        if (combat.Data) {
+            combat.Data.Ticker++
+            msg = msg + Math.floor(combat.Duration() / 1000) + "秒 "
+            msg = msg + (combat.Data.Quest)
+            msg = msg + "[" + Object.keys(combat.Data.Tags).join(",") + "]"
+            Note(msg)
+            App.Core.Combat.Perform()
+        }
         App.Send(checkCombatCmd)
     }
     //战斗结束处理函数

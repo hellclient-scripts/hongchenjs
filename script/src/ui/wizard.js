@@ -146,6 +146,9 @@
         Userinput.prompt("App.UI.Wizard.OnTouch", "Touch武器", "请设置你需要Touch会内力的10兵，留空不touch", "")
 
     }
+    App.UI.Wizard.NeedRepair={
+        "zhang jin":true
+    }
     App.UI.Wizard.OnTouch = function (name, id, code, data) {
         if (code == 0) {
             let touch = data.trim()
@@ -154,7 +157,7 @@
                 App.UI.Wizard.InsertToVariable("items", "long sword")
                 weapon.push("#wield.sword long sword")
             }
-            if (App.UI.Wizard.WieldID.indexOf(" ") < 0) {
+            if (App.UI.Wizard.WieldID.indexOf(" ") < 0||App.UI.Wizard.NeedRepair[App.UI.Wizard.WieldID]) {
                 weapon.push(`#repair ${App.UI.Wizard.WieldID} * 50`)
             }
             if (touch) {

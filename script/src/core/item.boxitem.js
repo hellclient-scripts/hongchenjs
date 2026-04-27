@@ -101,4 +101,29 @@
         }
         return null
     }))
+    App.UserQueue.UserQueue.RegisterCommand("#qu", function (uq, data) {
+        uq.Commands.Append(
+            $.Function(() => {
+                $.PushCommands(
+                    $.To("home"),
+                    $.Nobusy(),
+                    $.Function(App.Core.Item.CheckBox),
+                    $.Function(() => {
+                        let boxitem = App.Data.Box.List.FindByID(data).First()
+                        if (boxitem == null) {
+                            Note(`箱子里没有${data}了`)
+                        } else {
+                            App.Send(`take ${boxitem.Key} 1;i`)
+                        }
+                        $.Next()
+                    }),
+                    App.NewNobusyCommand(),
+                )
+                $.Next()
+            }),
+            uq.Commands.NewFunctionCommand(function () { uq.Next() }),
+        )
+        uq.Commands.Next()
+    })
+
 })(App)

@@ -8,7 +8,7 @@ wielded>#carry any
 #sell id=shenli wan,zenghui dan,zhuanggu fen
 #sell id=handan shi,bixue shi,zijin kuang,wujin kuang,taijin zhu,tiangang tan,tongtian cao,zhenlong shi,xuanyin sha,yinjiao si,xi rang,baxian shi,kunlun shi,haoyue jinsha,leihuo hanjing,yinzhu si,tianshan xuantie
 #home id=dimai xuequan,tianxiang yulu
-//#home id=bainian renshen,qiannian renshen,shenxin dan
+#home2 id=bainian renshen,qiannian renshen,shenxin dan
 #sell #home id=bainian renshen,qiannian renshen,shenxin dan
 #sell id=bainian lingzhi,tianshan xuelian,qiannian lingzhi,qiannian xuelian,lingzhi wan,xuelian gao,lingzhi wan
 #sell id=sui pian1,sui pian3,sui pian4,sui pian5,sui pian6,sui pian7,sui pian8,sui pian9,sui pian10

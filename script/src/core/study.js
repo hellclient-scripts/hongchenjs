@@ -767,7 +767,9 @@
     })
     //注册#jiqu别名
     App.Sender.RegisterAlias("#jiqu", function (data) {
-        App.Send(App.Random(App.Core.Study.Jiqu.Commands))
+        if (App.Core.Study.CanJiqu) {
+            App.Send(App.Random(App.Core.Study.Jiqu.Commands))
+        }
     })
     //注册#jifa指令
     App.UserQueue.UserQueue.RegisterCommand("#jifa", function (uq, data) {

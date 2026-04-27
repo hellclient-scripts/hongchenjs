@@ -28,6 +28,7 @@
             case "#carry":
                 return true
             case "#home":
+            case "#home2":
                 return App.Core.Assets.Gift.CanHome()
         }
         return false
