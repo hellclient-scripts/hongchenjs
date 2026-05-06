@@ -147,6 +147,12 @@
         }
     ).WithGetRoomID(
         function (maze, move, map) {
+            switch (App.Map.Room.Name){
+                case "丝绸之路":
+                    return App.Mapper.Database.APITrackExit("2838","e。")
+                case "戈壁":
+                    return App.Mapper.Database.APITrackExit("2838","w。")
+            }
             return App.Core.RoomsByName["大沙漠"][0]
         }
     ))

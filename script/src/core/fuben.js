@@ -170,7 +170,7 @@
                 task.Data = "retry"
                 return true
             })
-            App.Send("mazemap")
+            App.Send("yun regenerate;mazemap")
             App.Sync()
         },
         (result) => {

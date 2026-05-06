@@ -24,14 +24,14 @@
             }
         })
         App.NamedParams.SetStringValues(App.Core.Params.Data)
-        App.LoadVariable("quest_params").concat(App.Core.Params.Shared.QuestParams).forEach(data => {
+        App.Core.Params.Shared.QuestParams.concat(App.LoadVariable("quest_params")).forEach(data => {
             let action = actionModule.Parse(data)
             if (action.Command) {
                 App.Core.Params.QuestData[action.Command.slice(1)] = action.Data
             }
         })
         App.QuestNamedParams.SetStringValues(App.Core.Params.QuestData)
-        App.LoadVariable("policy_params").concat(App.Core.Params.Shared.PolicyParams).forEach(data => {
+        App.Core.Params.Shared.PolicyParams.concat(App.LoadVariable("policy_params")).forEach(data => {
             let action = actionModule.Parse(data)
             if (action.Command) {
                 App.Core.Params.PolicyData[action.Command.slice(1)] = action.Data

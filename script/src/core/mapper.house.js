@@ -1,6 +1,6 @@
 (function (App) {
     App.Mapper.AddPanlong = function (hosuename, houesid, houseloc, pass) {
-        let passcmd = pass ? `typecode ${pass}、push、n。` : `push、n。`
+        let passcmd = pass ? `typecode ${pass}、push gate、n。` : `push gate、n。`
         App.Mapper.HomeRooms = [
             App.Mapper.NewRoom("4199", `${hosuename}大院`, [
                 App.Mapper.NewExit("n", "4200"),

@@ -228,6 +228,13 @@
                                 App.Map.Resend()
                                 return
                             }
+                            if (App.Map.Move) {
+                                var last = App.Map.Move.GetLastStep()
+                                if (App.Map.Room.ID && last && last.Target.startsWith(App.Zone.HousePrefix)) {
+                                    App.Core.Blocker.BlockStepRetry()
+                                    break
+                                }
+                            }
                             if (!App.Map.Room.Data["wrongwaylogged"]) {
                                 App.Log(`走错路了 RoomID: ${App.Map.Room.ID}`)
                                 App.Map.Room.Data["wrongwaylogged"] = true

@@ -2,11 +2,12 @@
     App.Zone.HouseList = []//房屋列表
     App.Zone.HouseRooms = []
     App.Zone.HousePaths = []
+    App.Zone.HousePrefix = "house-"
     App.Zone.BuildPanlong = function (room, id, name) {
         // if (id == App.Mapper.HouseID) {
         //     return
         // }
-        let roomid = `house-${room}-${id}`
+        let roomid = `${App.Zone.HousePrefix}${room}-${id}`
         App.Zone.HouseRooms.push(
             App.Mapper.NewRoom(roomid, `${name}大院`, [
                 App.Mapper.NewExit("out", room),
@@ -42,7 +43,7 @@
         // if (id == App.Mapper.HouseID) {
         //     return
         // }
-        let roomid = `house-${id}`
+        let roomid = `${App.Zone.HousePrefix}${room}-${id}`
         App.Zone.HouseRooms.push(
             App.Mapper.NewRoom(roomid, `${name}小院`, [
                 App.Mapper.NewExit("out", room),

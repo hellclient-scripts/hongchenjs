@@ -6,9 +6,6 @@
 
     //判断是否可以raid
     ridable = function () {
-        if (App.Map.Room.Data.core_ride_noride === true) {
-            return 0
-        }
         var cmd = GetVariable("cmd_ride") || ""
         cmd = cmd.trim()
         if (cmd) {
@@ -26,8 +23,13 @@
     let canretry = () => {
         return (new Date()).getTime() - LastTry > 5 * 1000
     }
-    App.Map.AppendInitiator(function () {
+
+    App.Map.AppendInitiator(function (map) {
         App.Map.SetTag("ride", ridable())
+        App.Map.SetTag("noride", GetVariable("cmd_ride").trim() != "" ? 0 : 1)
+        if (App.Map.Room.Data.core_ride_noride === true) {
+            App.Map.NewRoomTag(App.Map.Room.ID, "noride", 1).ApplyTo(App.Map.Move, map)
+        }
     })
     App.Engine.SetFilter("core.ride.unride", function (event) {
         App.Send("unride")

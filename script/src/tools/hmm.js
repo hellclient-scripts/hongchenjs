@@ -12,14 +12,16 @@
         })
     }
     App.Tools.HMM.Export = () => {
-        MakeHomeFolder("")
-        WriteHomeFile("export.hmm", App.Mapper.Database.Export())
-        App.Log(`导出完成,最新地图在appadata/game/worlds/${GetWorldID()}/hongchenjs/export.hmm,可以使用HellMapManger进行对比导入`)
+        WriteSharedFile("export.hmm", App.Mapper.Database.Export())
+        App.Log(`导出完成,最新地图在appadata/game/shared//hongchenjs/export.hmm,可以使用HellMapManger进行对比导入`)
     }
     App.Tools.HMMFixShortcuts = () => {
         let shortcuts = App.Mapper.Database.APIListShortcuts(App.Mapper.HMM.APIListOption.New())
         shortcuts.forEach(shortcut => {
             shortcut.RoomConditions = [App.Mapper.HMM.ValueCondition.New("noshortcut", 1, true)]
+            if (shortcut.Command.startsWith("rideto")) {
+                shortcut.RoomConditions.push(App.Mapper.HMM.ValueCondition.New("noride", 1, true))
+            }
         })
         App.Mapper.Database.APIInsertShortcuts(shortcuts)
         App.Tools.HMM.Export()

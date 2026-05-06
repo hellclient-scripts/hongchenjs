@@ -184,7 +184,7 @@
                 App.UI.Wizard.InsertToVariable("items", "arrow * 30")
                 SetVariable("combat", ["#before yun regenerate;yun recover", "#start $wpon;hand bow;shot $1 with arrow", "shot $1 with arrow"].join("\n"))
             } else {
-                SetVariable("combat", [`yun recover`, `#start $wpon;${data}`, `${data}`].join("\n"))
+                SetVariable("combat", [`#before yun regenerate;yun recover`, `#start $wpon;${data}`, `${data}`].join("\n"))
             }
             App.UI.Wizard.Next()
         }
