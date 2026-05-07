@@ -61,7 +61,9 @@
     // })
     App.Core.Goods.Items = []
     App.Core.Goods.NoBox = false
-
+    App.Core.Goods.UseBox = function () {
+        return (App.Data.Item.List.FindByID("key").First() != null && App.Mapper.HouseID && !App.Core.Goods.NoBox)
+    }
     //加载道具设置
     App.Core.Goods.Load = function () {
         App.Core.Goods.Items = []
@@ -145,7 +147,7 @@
                             if (isNaN(takenum) || takenum < 0) {
                                 takenum = 1
                             }
-                            if (App.Data.Item.List.FindByID("key").First() != null && App.Mapper.HouseID && !App.Core.Goods.NoBox) {
+                            if (App.Core.Goods.UseBox()) {
 
                                 App.Commands.PushCommands(
                                     $.Function(App.Core.Item.CheckBox),

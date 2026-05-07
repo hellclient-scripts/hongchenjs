@@ -1,5 +1,5 @@
 HMM1.0>UTF8
-Info>红尘MUD地图|1777456090|
+Info>红尘MUD地图|1778081131|
 Room>100|柳园||||w,113,,1|
 Room>1007|小树林||||s,1008,,1|
 Room>1008|小树林||||s,1009,,1;n,1007,,1|
@@ -1205,7 +1205,7 @@ Room>4213|竹林||||w,4212,,1;e,4214,,1|
 Room>4214|听涛阁||||w,4213,,1|
 Room>4215|绝壁||||u,1481,,1;enter hole,4216,,1|
 Room>4216|麒麟窟||||out,4215,,1|
-Room>4217|跃马桥||||s,3785,,1;d,4231,!noride^,2|
+Room>4217|跃马桥||||s,3785,,1;#try d,4231,!noride^,2|
 Room>4218|居所||||u,4220,,1;w,4219,,1;open men\&e,4212,,2|
 Room>4219|书房||||e,4218,,1|
 Room>4220|卧室||||d,4218,,1|
@@ -4551,6 +4551,7 @@ Marker>huise zunzhe|3995|npc||慧色尊者\|huise zunzhe
 Marker>huitong chanshi|3683|npc||慧通禅师\|huitong chanshi
 Marker>huixiu zunzhe|3994|npc||慧修尊者\|huixiu zunzhe
 Marker>huixu zunzhe|4005|npc||慧虚尊者\|huixu zunzhe
+Marker>huiyue shi|4174|npc|辉月使\|huiyue shi|
 Marker>huizhen zunzhe|3844|npc||慧真尊者\|huizhen zunzhe
 Marker>huo du|1711|npc||霍都\|huo du
 Marker>huo qingtong|2843|npc||霍青桐\|huo qingtong
@@ -4638,6 +4639,7 @@ Marker>liu laoshi|3799|npc||刘老实\|liu laoshi
 Marker>liu susu|2511|npc||刘素素\|liu susu
 Marker>liu zhanggui|3091|npc||刘掌柜\|liu zhanggui
 Marker>liu zhengfeng|1101|npc||刘正风\|liu zhengfeng
+Marker>liuyun shi|4175|npc|流云使\|liuyun shi|
 Marker>long qinsong|2429|npc||龙琴松\|long qinsong
 Marker>long ran|2491|npc||龙燃\|long ran
 Marker>long xiqing|2485|npc||龙惜清\|long xiqing
@@ -4666,6 +4668,7 @@ Marker>mei jian|580|npc||梅剑\|mei jian
 Marker>mi weiyi|1187|npc||米为义\|mi weiyi
 Marker>miao renfeng|499|npc||苗人凤\|miao renfeng
 Marker>miao ruolan|501|npc||苗若兰\|miao ruolan
+Marker>miaofeng shi|4174|npc|妙风使\|miaofeng shi|
 Marker>miejue shitai|945|npc||灭绝师太\|miejue shitai
 Marker>ming yue|1613|npc||明月\|ming yue
 Marker>mo da|1188|npc||莫大\|mo da

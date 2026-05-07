@@ -27,6 +27,9 @@
     App.Sender.RegisterAlias("#sail", function (data) {
         $.RaiseStage("wait")
     })
+    App.Sender.RegisterAlias("#try", function (data) {
+        App.Send(data)
+    })
     //移动模块切换指令
     App.Map.OnModeChange = (map, old, mode) => {
         if (mode == "locate") {
@@ -230,9 +233,14 @@
                             }
                             if (App.Map.Move) {
                                 var last = App.Map.Move.GetLastStep()
-                                if (App.Map.Room.ID && last && last.Target.startsWith(App.Zone.HousePrefix)) {
+                                if (App.Map.Room.ID && last && last.Command.startsWith("#try ")) {
                                     App.Core.Blocker.BlockStepRetry()
                                     break
+                                }
+                                if (!App.Map.Room.Data["core.wrongwayretried"] && (last.Command.includes(";") || last.Command.includes("、") || last.Command.includes("&"))) {
+                                    App.Map.Room.Data["core.wrongwayretried"] = true
+                                    App.Map.Resend()
+                                    return
                                 }
                             }
                             if (!App.Map.Room.Data["wrongwaylogged"]) {

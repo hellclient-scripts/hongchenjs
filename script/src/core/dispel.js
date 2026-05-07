@@ -45,7 +45,7 @@
                 $.Insert(
                     $.Timeslice("修整-解毒"),
                     // App.Move.NewToCommand(App.Params.LocDazuo),
-                    App.Commands.NewDoCommand("yun dispel;hp"),
+                    App.Commands.NewDoCommand("yun dispel;yun dispel;hp"),
                     App.NewNobusyCommand(),
                     $.Timeslice(ts),
                 )

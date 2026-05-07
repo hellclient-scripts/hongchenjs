@@ -156,7 +156,7 @@
                     break
                 case "#home"://放在家里
                 case "#home2":
-                    if (App.Data.Item.List.FindByID("key").First() != null && App.Mapper.HouseID && !App.Core.Goods.NoBox) {
+                    if (App.Core.Goods.UseBox()) {
                         App.Commands.PushCommands(
                             App.Move.NewToCommand("home"),
                             App.Commands.NewDoCommand(`store ${numcmd}${result.Asset.Item.IDLower}`),

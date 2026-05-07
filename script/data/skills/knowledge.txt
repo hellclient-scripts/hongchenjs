@@ -11,3 +11,4 @@ sanscrit,f
 taoism,f
 idle-force,f
 martial-cognize,t
+certosina,f

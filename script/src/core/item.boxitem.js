@@ -23,7 +23,7 @@
             App.Log(`未登记的箱子物品 ${key}`)
             return
         }
-        if (App.Data.Item.List.FindByID("key").First() != null && App.Mapper.HouseID && !App.Core.Goods.NoBox) {
+        if (App.Core.Goods.UseBox()) {
             $.PushCommands(
                 $.To("home"),
                 $.Nobusy(),

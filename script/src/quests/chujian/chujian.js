@@ -203,7 +203,6 @@ $.Module(function (App) {
                 Note(`第${Chujian.Data.Times}次尝试锄奸`)
                 App.Core.HelpFind.HelpFind(Chujian.Data.Name)
                 let wanted = App.NewWanted(Chujian.Data.Name, Chujian.Data.City).WithSingleStep(true).WithChecker(Checker)
-                App.Insert(App.Commands.NewFunctionCommand(Chujian.GoKill))
                 App.Commands.PushCommands(
                     App.NewPrepareCommand(""),
                     $.Function(() => {
@@ -256,7 +255,7 @@ $.Module(function (App) {
                 )
             }
         }
-
+        App.Append(App.Commands.NewFunctionCommand(Chujian.GoKill))
         App.Next()
 
     }

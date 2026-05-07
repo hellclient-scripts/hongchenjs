@@ -114,7 +114,7 @@ $.Module(function (App) {
         }
         $.PushCommands(
             $.To(room),
-            $.Path([`go ${houseid}`]),
+            $.Path([`#try go ${houseid}`]),
             $.Function(ScanHouse.EnterHouse),
         )
         $.Next()

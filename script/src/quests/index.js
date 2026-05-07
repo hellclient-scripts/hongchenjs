@@ -25,11 +25,13 @@
     App.Include("src/quests/job/songxin.js")
     App.Include("src/quests/job/fish.js")
     App.Include("src/quests/fuse/fuse.js")
+    App.Include("src/quests/san/san.js")
     App.Include("src/quests/combine/combine.js")
     App.Include("src/quests/job/zhonghua.js")
     App.Include("src/quests/changanjob/changanjob.js")
     App.Include("src/quests/funquest/funquest.js")
     App.Include("src/quests/item/shenzhaojing.js")
+    App.Include("src/quests/eatwan/eatwan.js")
 
 })(App)
 

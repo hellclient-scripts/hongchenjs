@@ -78,6 +78,8 @@ iron blade|iron blade|钢刀|buy|dtp|buy 钢刀
 knife|knife|屠刀|buy|dtp|buy 屠刀
 long bow|long bow|长弓|buy|dtp|buy 长弓|8
 long sword|long sword|长剑|buy|dtp|buy 长剑
+changbian|changbian|长鞭|buy|dtp|buy 长鞭
+
 short bow|short bow|短弓|buy|dtp|buy 短弓|2
 staff|staff|铁杖|buy|dtp|buy 铁杖
 tiegun|tiegun|铁棍|buy|dtp|buy 铁棍

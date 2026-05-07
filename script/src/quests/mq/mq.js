@@ -47,6 +47,18 @@ $.Module(function (App) {
             this.FleeTimes++
             this.Loc = null
         }
+        Reset() {
+            this.Died = false
+            this.Fled = false
+            this.Farlist = null
+            this.Zone = ""
+            this.Info = null
+            this.Loc = null
+            this.head = false
+            this.HelpZone = ""
+            this.KilledRoom = ""
+            this.Times = 0
+        }
         SetZone(zone, ishelpzone) {
             this.Zone = zone
             if (ishelpzone) {
@@ -222,7 +234,6 @@ $.Module(function (App) {
             MQ.Data.fail = false
             let getquest = false
             MQ.Data.NoMaster = false
-            //MQ.Data.NPC = null
             MQ.Data.last = MQ.Data.current
             MQ.Data.current = null
             task.AddTrigger(reLilian, (tri, result) => {
@@ -257,7 +268,7 @@ $.Module(function (App) {
                 return true
             })
             task.AddTrigger(reFail, () => {
-                if (App.QuestParams["mqretryfail"] == "t" && MQ.Data.NPC && MQ.Data.NPC.Start > 0 && ($.Now() - MQ.Data.NPC.Start < 240000) && !MQ.Data.NPC.Retried) {
+                if (App.QuestParams["mqretryfail"] == "t" && MQ.Data.NPC && MQ.Data.NPC.Start > 0 && (($.Now() - MQ.Data.NPC.Start) < 240000) && !MQ.Data.NPC.Retried) {
                     MQ.Data.NPC.Retry = true
                     MQ.Data.NPC.Retried = true
                 } else {
@@ -288,12 +299,16 @@ $.Module(function (App) {
                     return false
                 }
                 if (getquest || (MQ.Data.NPC && MQ.Data.NPC.Retry)) {
-                    if (MQ.Data.NPC && !MQ.Data.NPC.Retry) {
-                        MQ.Data.NPC.Zone = result[1].slice(0, 2)
-                        MQ.Data.NPC.HelpZone = MQ.Data.NPC.Zone
-                        MQ.Data.NPC.RawZone = MQ.Data.NPC.Zone
-                        if (fled) {
-                            MQ.Data.NPC.Flee()
+                    if (MQ.Data.NPC) {
+                        if (!MQ.Data.NPC.Retry) {
+                            MQ.Data.NPC.Zone = result[1].slice(0, 2)
+                            MQ.Data.NPC.HelpZone = MQ.Data.NPC.Zone
+                            MQ.Data.NPC.RawZone = MQ.Data.NPC.Zone
+                            if (fled) {
+                                MQ.Data.NPC.Flee()
+                            }
+                        } else {
+                            MQ.Data.NPC.Reset()
                         }
                     }
                 } else {
@@ -512,8 +527,6 @@ $.Module(function (App) {
             if (MQ.Data.NPC.Retry) {
                 App.Log("尝试再次寻找NPC")
                 MQ.Data.NPC.Retry = false
-                MQ.Data.NPC.Died = false
-                MQ.Data.NPC.Fled = false
                 MQ.Far(true)
                 return
             }
@@ -1084,7 +1097,6 @@ $.Module(function (App) {
             PrintSystem("掌门位置 " + App.Params.LocMaster + " 无效")
             return
         }
-        MQ.Data.NPC = null
         planOverQuest.Execute()
         MQ.Prepare()
     }
@@ -1109,6 +1121,7 @@ $.Module(function (App) {
             combatDuration: 0,
             rejected: {},
         }
+        MQ.Data.NPC = null
     })
     App.Quests.Register(Quest)
     Quest.TimeCost = 30

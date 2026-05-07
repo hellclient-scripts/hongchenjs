@@ -14,4 +14,5 @@
     App.Include("src/quests/index.js")
     App.Include("src/emergencies/index.js")
     App.Include("src/tools/index.js")
+    App.Include("src/addons.js")
 })(App)

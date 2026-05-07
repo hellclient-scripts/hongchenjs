@@ -34,7 +34,7 @@
         let model = App.Mapper.HMM.Path.New()
         model.From = room
         model.To = roomid
-        model.Command = `go ${id}`
+        model.Command = `#try go ${id}`
         model.Conditions = [App.Mapper.NewCondition("streetview", 1, true)]
         App.Zone.HousePaths.push(model)
 
@@ -52,7 +52,7 @@
         let model = App.Mapper.HMM.Path.New()
         model.From = room
         model.To = roomid
-        model.Command = `go ${id}`
+        model.Command = `#try go ${id}`
         model.Conditions = [App.Mapper.NewCondition("streetview", 1, true)]
         App.Zone.HousePaths.push(model)
     }
@@ -115,7 +115,7 @@
     )
     App.Mapper.ExpandOptions = App.Mapper.HMM.MapperOptions.New().WithCommandNotContains(["goto ", "ask ", "cross", "yell ", "jump ", "enter ", "ride ","climb ","dive"])
     let npcdoptions = App.Mapper.ExpandOptions
-    const NpcdMaxMove = 5
+    const NpcdMaxMove = 6
     //npcd最大移动步数
     App.Mapper.Database.APIListTraces(App.Mapper.HMM.APIListOption.New().WithGroups(["npcd"])).forEach((model) => {
         App.Zone.NPCDMaps[`${model.Key}1`] = { Rooms: App.Mapper.Database.APIDilate(model.Locations, 1, npcdcontext, npcdoptions), Ordered: false }//计算1步路径

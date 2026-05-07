@@ -1,3 +1,8 @@
+* 修正MQ失败重试没起效的bug
+* 加入 #eatwan xxxx ,自动吃人参丸补充精力。如果传入的参数不是有效数字，则补充到hp -m 中的最大精力
+* 加入#sanmy weponid 和#san weaponid模块，#sanmy是武器主人san 武器,#san 是帮助san的id的启动指令
+* 引入shared目录的addon.js和mod功能，用户可以进行代码级别的设置和功能扩展
+* 修正锄奸放弃的一个bug
 * 优化ride 失败处理，离开当前房间继续ride
 * 处理西寄园问题
 * 解决大沙漠接到线报后的错误信息
