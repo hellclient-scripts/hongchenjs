@@ -14,7 +14,10 @@
         { Name: "尝试天书", Value: "try" },
         { Name: "必须保护", Value: "force" },
     ])
-
     App.PolicyNamedParams.AddNumber("eatlu", 0).WithName("自动吃露").WithDesc("内力不足这个值时会尝试自动吃露，0为不吃")
+    App.PolicyNamedParams.AddString("breakup", "").WithName("自动闭关").WithDesc("自动闭关策略").WithData([
+        { Name: "关闭", Value: "" },
+        { Name: "开启", Value: "t" },
+    ])
 
 })()

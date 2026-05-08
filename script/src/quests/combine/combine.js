@@ -80,7 +80,7 @@ $.Module(function (App) {
         App.Send(cmd)
         let combinecmd = "combine " + parts.map(p => p.GetCombineCommands().join(" & ")).join(" & ")
         App.Send(combinecmd, false, true)
-        App.Send("hp;i")
+        App.Send("hp;i;hp -m")
         App.Insert($.Nobusy())
         $.Next()
     }

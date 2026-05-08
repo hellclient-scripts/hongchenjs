@@ -96,7 +96,6 @@ $.Module(function (App) {
         Shenzhaojing.Go()
     }
     Quest.GetReady = function (q, data) {
-        App.Quests.Data.NoJiqu = true
         return () => { Quest.Start(data) };
     }
 

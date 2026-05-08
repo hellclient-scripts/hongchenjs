@@ -95,7 +95,7 @@ $.Module(function (App) {
         if (stone1sum > 0 && stone2sum > 0 && stone3sum > 0 && stone4sum > 0) {
             App.PushCommands(
                 $.Do(`combine ${Stone1} & ${Stone2} & ${Stone3} & ${Stone4}`, true),
-                $.Do("i;hp"),
+                $.Do("i;hp;hp -m"),
                 $.Nobusy(),
             )
             $.Next()
@@ -125,7 +125,7 @@ $.Module(function (App) {
             }),
             $.Function(() => {
                 if (App.Data.Item.List.FindByID("magic stone").First() != null) {
-                    App.Send("fuse magic stone;i;hp")
+                    App.Send("fuse magic stone;i;hp;hp -m")
                     $.Insert($.Nobusy())
                 } else {
                     App.Log("没magic stone了")

@@ -477,7 +477,7 @@
             this.Mazes[name] = maze
         }
         GetRoomExits(rid, withouttemp = false, withoutfly = false) {
-            return module.Database.APIGetRoomExits(rid, !withouttemp ? this.Context : hmm.Context.New(), this.GetMapperOptions(withoutfly))
+            return module.Database.APIGetRoomExits(rid, !withouttemp ? this.Context : hmm.Context.New(), this.#GetMapperOptions(withoutfly))
         }
         #GetMapperOptions(withoutfly, base) {
             if (base == null) {

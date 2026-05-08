@@ -793,6 +793,7 @@ $.Module(function (App) {
             task.AddTrigger(matcherDie, (tri, result) => {
                 if (MQ.Data.NPC && MQ.Data.NPC.Name == result[1]) {
                     MQ.Data.NPC.Died = true
+                    $.RaiseStage("npcbeforecut")
                     App.Send("cut head from corpse")
                     App.Send(`get silver from corpse`)
                     MQ.OnNpcDie()

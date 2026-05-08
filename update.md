@@ -1,3 +1,4 @@
+* 战略管理加入自动闭关，自动breakup,animaout,death
 * 修正MQ失败重试没起效的bug
 * 加入 #eatwan xxxx ,自动吃人参丸补充精力。如果传入的参数不是有效数字，则补充到hp -m 中的最大精力
 * 加入#sanmy weponid 和#san weaponid模块，#sanmy是武器主人san 武器,#san 是帮助san的id的启动指令

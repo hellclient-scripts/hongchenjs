@@ -393,7 +393,10 @@
     App.Core.Study.LearndTimes = 0
     //判断是否到了minpot
     App.Core.Study.HitMinPot = () => {
-        let minpot = GetVariable("min_pot")
+        let minpot = App.Quests.Data.MinPot
+        if (!minpot == null) {
+            minpot = GetVariable("min_pot") - 0
+        }
         return (!isNaN(minpot) && App.Data.Player.HP["潜能"] < (minpot - 0)) || App.Data.Player.HP["潜能"] <= 10
     }
     //执行学习

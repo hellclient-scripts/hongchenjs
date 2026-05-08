@@ -244,6 +244,8 @@
     var matcherScoreYueli = /^  江湖阅历：\s+(\d+)\s+江湖威望：\s+(\d+)$/
     var matcherScoreZhengqi = /^  (正|邪)\s+气：\s+(\d+)\s+灵\s+慧：\s*(\d+)\s*$/
     var matcherReborn = /^  转生次数：\s+(\S+)\s+转生灵魂：\s+(\d+)\s*$/
+    var matcherBreakup = /^\s+任督二脉：\s+(×|○)\s+元婴出世：\s+(×|○)\s*$/
+    var matcherDeath = /^\s+生死玄关：\s+(×|○)\s+转世重生：\s+(×|○)\s*$/
     //响应score指令的计划
     var PlanOnScore = new App.Plan(App.Positions.Connect,
         function (task) {
@@ -294,6 +296,17 @@
                 App.Data.Player.Score["灵慧"] = result[3] - 0
                 return true
             })
+            task.AddTrigger(matcherBreakup, function (trigger, result, event) {
+                App.Data.Player.Score["任督二脉"] = result[1] == "○"
+                App.Data.Player.Score["元婴出世"] = result[2] == "○"
+                return true
+            })
+            task.AddTrigger(matcherDeath, function (trigger, result, event) {
+                App.Data.Player.Score["生死玄关"] = result[1] == "○"
+                App.Data.Player.Score["转世重生"] = result[2] == "○"
+                return true
+            })
+
             task.AddTrigger(matcherReborn, function (trigger, result, event) {
                 App.Data.Player.Score["转生次数"] = result[1] == "无" ? 0 : App.CNumber.ParseNumber(result[1])
                 App.Data.Player.Score["转生灵魂"] = result[2] - 0
@@ -647,6 +660,14 @@
             }
         }
         return skills
+    }
+    App.Core.GetJifaSkillLevel = function (skilltype) {
+        for (let key in App.Data.Player.Jifa) {
+            if (key == skilltype) {
+                return App.Data.Player.Jifa[key].Level
+            }
+        }
+        return 0
     }
     App.Core.OnBei = function (event) {
         event.Context.Propose(function () {
