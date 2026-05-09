@@ -32,25 +32,28 @@
     }
     App.UI.Rooms.Grid.setonview("App.UI.Rooms.GridOnView")
     App.UI.Rooms.GetRoomKey = function (index) {
-        let line= App.UI.Rooms.Lines()[index - 0]||""
+        let line = App.UI.Rooms.Lines()[index - 0] || ""
         return line.split("|")[0]
     }
     App.UI.Rooms.GridOnView = function (name, id, code, data) {
         if (code == 0 && data) {
-            var cmds = data.split(" ")
-            if (cmds.length > 1) {
+            var cmds = SplitN(data, " ", 2)
+            if (cmds.length < 2) {
+                cmds.unshift("i")
+            }
+            if (cmds[0] == "go") {
                 App.UI.Rooms.Grid.hide()
                 App.Move.To(cmds[1]);
                 return
             }
-            let roomkey=App.UI.Rooms.GetRoomKey(data)
+            let roomkey = cmds[0] == "key" ? cmds[1] : App.UI.Rooms.GetRoomKey(cmds[1])
             var list = Userinput.newlist("查看房间", roomkey, false)
             var result = App.Map.GetRoomExits(roomkey, true, true)
             list.append("go " + roomkey, "前往该房间")
             result.forEach(function (exit) {
                 let rooms = App.Mapper.Database.APIListRooms(App.Mapper.HMM.APIListOption.New().WithKeys([exit.To]))
                 if (rooms.length > 0) {
-                    list.append(exit.To, "查看出口[" + rooms[0].Name + "]: " + exit.Command)
+                    list.append(`key ${exit.To}`, "查看出口[" + rooms[0].Name + "]: " + exit.Command)
                 }
             })
             list.publish("App.UI.Rooms.GridOnView")

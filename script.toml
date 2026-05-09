@@ -2739,6 +2739,29 @@ Timers = []
   OmitFromOutput = false
   OmitFromCommandHistory = false
 
+[[Aliases]]
+  ID = "d1hbetn6c2bsqj66se2qt"
+  Name = ""
+  Enabled = true
+  Match = "#fangqiskill( .+)?$"
+  Send = ""
+  Script = "App.UI.FangqiSkill.OnAlias"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = false
+  Menu = false
+  OmitFromLog = false
+  Variable = ""
+  ReverseSpeedwalk = false
+  OmitFromOutput = false
+  OmitFromCommandHistory = false
+
 [[RequiredParams]]
   Name = "id"
   Desc = "用户的id"
