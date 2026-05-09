@@ -199,9 +199,9 @@
             if (val > 1000) {
                 val = 1000
             } else {
-                val = Math.floor(App.Core.Player.GetSkillLevenByID[tag] / 50) * 50
+                val = Math.floor(App.Core.Player.GetSkillLevelByID[tag] / 50) * 50
             }
-            App.Map.SetTag(`skill-${tag}`, App.Core.Player.GetSkillLevenByID[tag])
+            App.Map.SetTag(`skill-${tag}`, App.Core.Player.GetSkillLevelByID[tag])
         }
     })
 

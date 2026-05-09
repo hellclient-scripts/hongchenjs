@@ -837,7 +837,7 @@
     }
     App.BindEvent("core.bug0", App.Core.OnBug0)
 
-    App.Core.Player.GetSkillLevenByID = function (id) {
+    App.Core.Player.GetSkillLevelByID = function (id) {
         if (App.Data.Player.Skills[id]) {
             return App.Data.Player.Skills[id]["等级"]
         }

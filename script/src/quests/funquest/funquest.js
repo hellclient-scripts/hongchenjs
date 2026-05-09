@@ -127,7 +127,7 @@ $.Module(function (App) {
         Funquest.CodeMap[data[0]] = data[1]
     })
     Funquest.GetPreapreContext = () => {
-        if (App.Core.Player.GetSkillLevenByID("force") < 300) {
+        if (App.Core.Player.GetSkillLevelByID("force") < 300) {
             return PrepareContext
         }
         return {}

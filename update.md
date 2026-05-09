@@ -1,7 +1,9 @@
+* 战略管理加入自动冥思功能
+2026/05/08
 * 战略管理加入自动闭关，自动breakup,animaout,death
 * 修正MQ失败重试没起效的bug
 * 加入 #eatwan xxxx ,自动吃人参丸补充精力。如果传入的参数不是有效数字，则补充到hp -m 中的最大精力
-* 加入#sanmy weponid 和#san weaponid模块，#sanmy是武器主人san 武器,#san 是帮助san的id的启动指令
+* 加入#sanmy weaponid 和#san weaponid模块，#sanmy是武器主人san 武器,#san 是帮助san的id的启动指令
 * 引入shared目录的addon.js和mod功能，用户可以进行代码级别的设置和功能扩展
 * 修正锄奸放弃的一个bug
 * 优化ride 失败处理，离开当前房间继续ride
@@ -39,7 +41,7 @@
 * 长安任务，Funquest,保护任务也提供线报支援
 * item变量的#qu支持从聊天室取道具，逻辑同sell变量的#home
 * sell变量的#home指令加入最大持有数量，配合item变量的#qu
-* item变量加入#nobox,确保不会从百宝箱存取东西
+* item变量加入#nobox,确保不会从聚宝箱存取东西
 * lian变量支持去三味书屋读书
 * lian和study变量的等级限制支持 参考技能*比例的格式，方便控制部分高难度系数技能脱节
 * 加入钥匙储备，防止鲁班出问题后无法Ask钥匙

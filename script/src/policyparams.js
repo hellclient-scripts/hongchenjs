@@ -19,5 +19,9 @@
         { Name: "关闭", Value: "" },
         { Name: "开启", Value: "t" },
     ])
+    App.PolicyNamedParams.AddString("mingsi", "").WithName("自动冥思").WithDesc("自动冥思策略").WithData([
+        { Name: "关闭", Value: "" },
+        { Name: "开启", Value: "t" },
+    ])
 
 })()

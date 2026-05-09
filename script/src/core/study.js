@@ -695,10 +695,10 @@
         App.Next()
     }
     App.Core.Study.CanJiqu = () => {
-        if (App.Data.Player.HP["经验"] > 30000 && App.Core.Player.GetSkillLevenByID("martial-cognize") < App.Data.Player.HPM["当前等级"]) {
+        if (App.Data.Player.HP["经验"] > 30000 && App.Core.Player.GetSkillLevelByID("martial-cognize") < App.Data.Player.HPM["当前等级"]) {
             if (GetVariable("max_exp").trim().startsWith("+") && App.Params.JiquMaxAhead >= 0) {
                 let maxskill = App.Core.GetMaxSkillLevel(["martial-cognize"])
-                if (App.Core.Player.GetSkillLevenByID("martial-cognize") - (maxskill ? maxskill["等级"] : 0) > App.Params.JiquMaxAhead) {
+                if (App.Core.Player.GetSkillLevelByID("martial-cognize") - (maxskill ? maxskill["等级"] : 0) > App.Params.JiquMaxAhead) {
                     return false
                 }
             }

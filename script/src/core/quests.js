@@ -172,7 +172,7 @@
             return false
         }
         let level = params.length > 1 ? params[1] - 0 : 1
-        return (App.Core.Player.GetSkillLevenByID(skill) || 0) >= level
+        return (App.Core.Player.GetSkillLevelByID(skill) || 0) >= level
     }))
     //注册Cooldown 条件
     App.Quests.Conditions.RegisterMatcher(App.Quests.Conditions.NewMatcher("cooldown", function (data, target) {

@@ -66,6 +66,16 @@
                     App.Next()
                 }
             }
+            if (App.Core.Miss.Weapons.length > 0) {
+                return function () {
+                    App.Commands.PushCommands(
+                        $.To(App.Core.Miss.Weapons[0].Loc),
+                        App.Commands.NewDoCommand(`touch ${App.Core.Miss.Weapons[0].ID};yun recover;yun regenerate;hp`),
+                        App.NewNobusyCommand(),
+                    )
+                    App.Next()
+                }
+            }
             if ((new Date()).getTime() - App.Core.Heal.LastSleep > App.Core.Heal.SleepInterval) {//sleep
                 return function () {
                     let ts = App.Core.Timeslice.Current()

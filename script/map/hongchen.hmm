@@ -1,5 +1,5 @@
 HMM1.0>UTF8
-Info>红尘MUD地图|1778081131|
+Info>红尘MUD地图|1778311603|
 Room>100|柳园||||w,113,,1|
 Room>1007|小树林||||s,1008,,1|
 Room>1008|小树林||||s,1009,,1;n,1007,,1|
@@ -4337,6 +4337,7 @@ Marker>wm|2522|||
 Marker>yp|2540||扬州药铺|
 Marker>zhp|2542|| 扬州杂货铺|
 Marker>zxl|2544||扬州醉仙楼|
+Marker>action-mingsi|4229|action|冥思位置|
 Marker>fuben-lgtd|4191|fuben|灵感塔底|
 Marker>fuben-tianlao|4197|fuben|天牢副本|
 Marker>fuben-tianlao-entry|5002|fuben|副本天牢入口开始处|
@@ -4344,6 +4345,7 @@ Marker>fuben-tianlao-exit|5003|fuben|副本天牢出口|
 Marker>item-dingdian|4347|item||
 Marker>item-juyou|4346|item||
 Marker>item-yejuhua|4348|item||
+Marker>xisui jing|3847|item||
 Marker>job-fish|3873|job|钓鱼的位置|
 Marker>job-zhonghua|2302|job|种花的工作|
 Marker>a shi|3654|npc||阿时\|a shi

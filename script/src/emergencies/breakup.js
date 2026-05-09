@@ -2,7 +2,7 @@
     let Breakup = {}
     Breakup.GetAction = () => {
         if (App.Data.Player.Score["任督二脉"] == false) {
-            if (App.Core.GetJifaSkillLevel("force") < 450 || App.Data.Player.HP["内力上限"] < 5500 || App.Core.Player.GetSkillLevenByID("martial-cognize") < 300) {
+            if (App.Core.GetJifaSkillLevel("force") < 450 || App.Data.Player.HP["内力上限"] < 5500 || App.Core.Player.GetSkillLevelByID("martial-cognize") < 300) {
                 return ""
             }
             return "breakup"

@@ -451,7 +451,7 @@
     App.Move.ColdRooms = {}
     App.Move.EnterColdRoom = (step) => {
         if (App.Map.Room.ID && App.Move.ColdRooms[step.Target] && !App.Move.ColdRooms[App.Map.Room.ID]) {
-            if (App.Core.Player.GetSkillLevenByID("force") < 300) {
+            if (App.Core.Player.GetSkillLevelByID("force") < 300) {
                 App.Send("yun recover")
                 if ((App.Data.Item.List.FindByID("cutton padded").First() != null)) {
                     App.Send("remove cloth;wear cutton padded")
@@ -461,7 +461,7 @@
     }
     App.Move.LeaveColdRoom = (step) => {
         if (App.Map.Room.ID && !App.Move.ColdRooms[step.Target] && App.Move.ColdRooms[App.Map.Room.ID]) {
-            if (App.Core.Player.GetSkillLevenByID("force") < 300) {
+            if (App.Core.Player.GetSkillLevelByID("force") < 300) {
                 App.Send("yun recover")
                 if ((App.Data.Item.List.FindByID("cutton padded").First() != null)) {
                     App.Send("remove cutton padded;hp")
