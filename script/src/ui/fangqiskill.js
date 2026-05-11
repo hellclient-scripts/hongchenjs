@@ -23,7 +23,7 @@
         list.setmutli(true)
         for (var id in App.Data.Player.Skills) {
             let skill = App.Data.Player.Skills[id]
-            if (!App.Quests.FangqiSkill.Protected[skill.ID] && (max < 0 || skill["等级"] <= max)) {
+            if (!App.Quests.FangqiSkill.Protected[skill.ID] && (max <= 0 || skill["等级"] <= max)) {
                 list.append(skill.ID, `${skill["名称"]}(${skill.ID}) - 等级:${skill["等级"]}`)
             }
         }

@@ -15,6 +15,8 @@
     App.Emergencies.Mingsi.Need[3] = new Need(1000, 4000)
     App.Emergencies.Mingsi.Need[4] = new Need(1500, 8000)
     App.Emergencies.Mingsi.Need[5] = new Need(2000, 16000)
+    App.Emergencies.Mingsi.Need[6] = new Need(3000, 32000)
+
     App.Emergencies.Mingsi.Go = function () {
         $.PushCommands(
             $.To("action-mingsi"),
