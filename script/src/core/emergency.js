@@ -163,7 +163,27 @@
         )
         App.Next()
     }
+    App.Core.Emergency.NextReboot = 0
     //【系统提示】中华英雄将在二分钟以后重新启动，请抓紧时间处理你的人物。
     //【系统提示】中华英雄将在一秒以后重新启动，请抓紧时间处理你的人物。
     //【系统提示】游戏重新启动，请稍候一分钟再 login 。
+    App.Engine.SetFilter("core.reboot", function (event) {
+        let num = App.CNumber.ParseNumber(event.Data.Wildcards["0"])
+        if (num > 0) {
+            let unit
+            switch (event.Data.Wildcards["1"]) {
+                case "分钟":
+                    unit = 60000
+                    break
+                case "秒":
+                    unit = 1000
+                    break
+                default:
+                    return
+            }
+            App.Core.Emergency.NextReboot = $.Now() + num * unit
+            App.RaiseEvent(event)
+        }
+    })
+
 })(App)

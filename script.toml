@@ -2003,6 +2003,37 @@ Timers = []
   Italic = false
   Variable = ""
 
+[[Triggers]]
+  ID = "d1hbje27h434ud732ghdif"
+  Name = "core.reboot"
+  Enabled = true
+  Match = "^【系统提示】.+将在(.+)(分钟|秒)以后重新启动，请抓紧时间处理你的人物。$"
+  Send = ""
+  ColourChangeType = 0
+  Colour = 0
+  Wildcard = 0
+  SoundFileName = ""
+  SoundIfInactive = false
+  Script = "App.FilterLineEvent(\"core.reboot\",\"core.reboot\")"
+  SendTo = 0
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
+  Repeat = true
+  MultiLine = false
+  LinesToMatch = 0
+  WildcardLowerCase = false
+  Group = "event"
+  IgnoreCase = false
+  KeepEvaluating = false
+  OmitFromLog = false
+  OmitFromOutput = false
+  Inverse = false
+  Italic = false
+  Variable = ""
+
 [[Aliases]]
   ID = "d1fufevcofgvaa73s6n5s7"
   Name = "App.Core.Connect.OnAliasLogin"

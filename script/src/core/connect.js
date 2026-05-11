@@ -7,6 +7,9 @@
     App.Core.Connect.Entered = false
     //是否可以登陆
     App.Core.Connect.CanLogin = function () {
+        if (!App.Data.Player.HP||!App.Core.Dispel) {
+            return false
+        }
         if (App.Core.Dispel.Need && (App.Data.Player.HP["气血百分比"] < 10 || App.Data.Player.HP["精气百分比"] < 10)) {
             return false
         }
@@ -18,7 +21,7 @@
         if (next == null && App.Core.Connect.GetAutorun()) {
             next = 0
         }
-        if (!IsConnected() && App.Core.Connect.CanLogin() && next != null && App.Core.Connect.Next <= (new Date()).getTime()) {
+        if (!IsConnected() && App.Core.Connect.CanLogin() && (next == null || App.Core.Connect.Next <= (new Date()).getTime())) {
             Connect()
         }
     }

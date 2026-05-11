@@ -13,6 +13,7 @@ $.Module(function (App) {
         Level: 0,
         Entered: false,
         灵符: 0,
+        Reboot: false,
         Gifts: {},
         Tihui: 0,
         Count: 0,
@@ -89,6 +90,10 @@ $.Module(function (App) {
             })
             task.AddTrigger("你听到无数天魔在耳边吟唱嘶吼，莫大的压力使你开始神智迷糊了...", (tri, result) => {
                 // LGT.Check()
+                return true
+            })
+            task.AddCatcher("core.reboot", (catcher, event) => {
+                LGT.Data.Reboot = true
                 return true
             })
         })
@@ -182,7 +187,7 @@ $.Module(function (App) {
     )
     //爬塔时的核心逻辑
     LGT.Check = () => {
-        if (LGT.Data.灵符 >= 1) {
+        if (LGT.Data.灵符 >= 1 && !LGT.Data.Reboot) {
             LGT.Next()
         } else {
             App.Checker.GetCheck("weaponduration").Force()
@@ -278,6 +283,7 @@ $.Module(function (App) {
         LGT.Data.Entered = false
         LGT.Data.Current = ""
         LGT.Data.Level = 0
+        LGT.Data.Reboot = false
         LGT.Data.灵符 = 0
         $.PushCommands(
             $.Prepare("", { WeaponDurationMin: 80 }),

@@ -22,20 +22,26 @@
             $.Next()
         }
     )
+
+    App.Emergencies.Maintenance.Go = function () {
+        Note("等待维护")
+        App.Insert(
+            $.Timeslice("等待维护"),
+            $.To("chat"),
+            $.Plan(PlanWait),
+            $.Timeslice("")
+        )
+        App.Next()
+    }
     App.Core.Quest.HeadReadyQueue.push(function () {
         let offset = App.Core.ServerTime.MaintenanceOffest()
         if (offset < App.Core.ServerTime.MaintenanceBefore && offset > App.Core.ServerTime.MaintenanceAfter) {
             App.Emergencies.Maintenance.FinishAt = $.Now() + (offset - App.Core.ServerTime.MaintenanceAfter) * 1000
-            return function () {
-                Note("等待维护")
-                App.Insert(
-                    $.Timeslice("等待维护"),
-                    $.To("chat"),
-                    $.Plan(PlanWait),
-                    $.Timeslice("")
-                )
-                App.Next()
-            }
+            return App.Emergencies.Maintenance.Go
+        }
+        if (App.Core.Emergency.NextReboot > 0 && $.Now() + App.Core.ServerTime.MaintenanceBefore < App.Core.Emergency.NextReboot) {
+            App.Emergencies.Maintenance.FinishAt = App.Core.Emergency.NextReboot
+            return App.Emergencies.Maintenance.Go
         }
         return null
     })
