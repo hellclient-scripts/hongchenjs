@@ -282,7 +282,8 @@
     })
     //注册解除所有武器的别名
     App.Sender.RegisterAlias("#unwield", function (data) {
-        App.Sender.Send(App.Core.Weapon.UnwieldAllCommand(data))
+        App.Sender.Send("unwield all")
+        // App.Sender.Send(App.Core.Weapon.UnwieldAllCommand(data))
     })
     //注册捡武器的别名
     App.Sender.RegisterAlias("#pickwp", function (data) {

@@ -3,6 +3,11 @@
     App.Core.Heal = {}
     App.Core.Heal.LastSleep = 0
     App.Core.Heal.SleepInterval = 1 * 1000
+    App.Core.NoSleepRooms = {}
+    App.Mapper.Database.APIListTraces(App.Mapper.HMM.APIListOption.New().WithKeys(["nosleeprooms"]))[0].Locations.forEach(item => {
+        App.Core.NoSleepRooms[item] = true
+    })
+
     let reSleepFail = /^你想合上眼睛好好睡上一觉，可是/
     //睡觉的计划
     let PlanSleep = new App.Plan(App.Positions["Connect"], function (task) {
@@ -40,13 +45,30 @@
         App.Next()
     })
     App.Core.Heal.IsRoomCanSleep = function () {
-        return !(App.Map.Room.Data["core.nosleep"] || App.Data.Item.List.FindByID("sleepbag").First() == null)
+        return !(App.Map.Room.Data["core.nosleep"] || App.Data.Item.List.FindByID("sleepbag").First() == null||App.Core.NoSleepRooms[App.Map.Room.ID])
     }
     App.Core.Heal.SleepHere = () => {
         App.Commands.PushCommands(
             App.Commands.NewPlanCommand(PlanSleep),
         )
         $.Next()
+    }
+    App.Core.Heal.Sleep = () => {
+        let ts = App.Core.Timeslice.Current()
+        App.Core.Timeslice.Change("修整-睡觉")
+        if (!App.Core.Heal.IsRoomCanSleep()) {
+            App.Commands.PushCommands(
+                App.Move.NewToCommand(App.Params.LocSleep),
+                App.Commands.NewPlanCommand(PlanSleep),
+                $.Timeslice(ts)
+            )
+        } else {
+            App.Commands.PushCommands(
+                App.Commands.NewPlanCommand(PlanSleep),
+                $.Timeslice(ts)
+            )
+        }
+        App.Next()
     }
     //打坐(恢复内力)的准备
     App.Proposals.Register("dazuo", App.Proposals.NewProposal(function (proposals, context, exclude) {
@@ -77,23 +99,7 @@
                 }
             }
             if ((new Date()).getTime() - App.Core.Heal.LastSleep > App.Core.Heal.SleepInterval) {//sleep
-                return function () {
-                    let ts = App.Core.Timeslice.Current()
-                    App.Core.Timeslice.Change("修整-睡觉")
-                    if (!App.Core.Heal.IsRoomCanSleep()) {
-                        App.Commands.PushCommands(
-                            App.Move.NewToCommand(App.Params.LocSleep),
-                            App.Commands.NewPlanCommand(PlanSleep),
-                            $.Timeslice(ts)
-                        )
-                    } else {
-                        App.Commands.PushCommands(
-                            App.Commands.NewPlanCommand(PlanSleep),
-                            $.Timeslice(ts)
-                        )
-                    }
-                    App.Next()
-                }
+                return App.Core.Heal.Sleep
             } else {
                 if (jifaForce < 120) {//发呆
                     return function () {
@@ -178,22 +184,23 @@
     //吐纳的准备
     App.Proposals.Register("tuna", App.Proposals.NewProposal(function (proposals, context, exclude) {
         if (App.Data.Player.HP["当前精力"] < App.Params.NumJingliMin && App.Data.Player.HP["精力上限"] > 2 * App.Params.NumJingliMin) {
-            return function () {
-                let num = App.Params.NumTuna > 0 ? App.Params.NumTuna : ((App.Data.Player.HP["精力上限"] - App.Data.Player.HP["当前精力"]) / 2).toFixed()
-                if (num >= App.Data.Player.HP["当前精气"]) { num = App.Data.Player.HP["当前精气"] }
-                if (num < 10) { num = 10 }
-                App.Commands.PushCommands(
-                    App.Move.NewToCommand(App.Params.LocDazuo),
-                    App.Commands.NewDoCommand("tuna " + num),
-                    App.NewNobusyCommand(),
-                    App.Commands.NewDoCommand("yun recover;yun regenerate;hp"),
-                    App.NewSyncCommand(),
-                )
-                if (App.Map.Room.ID == App.Params.LocMaster) {
-                    App.Insert(App.Move.NewToCommand(App.Params.LocDazuo),)
-                }
-                App.Next()
-            }
+            return App.Core.Heal.Sleep
+            // return function () {
+            //     let num = App.Params.NumTuna > 0 ? App.Params.NumTuna : ((App.Data.Player.HP["精力上限"] - App.Data.Player.HP["当前精力"]) / 2).toFixed()
+            //     if (num >= App.Data.Player.HP["当前精气"]) { num = App.Data.Player.HP["当前精气"] }
+            //     if (num < 10) { num = 10 }
+            //     App.Commands.PushCommands(
+            //         App.Move.NewToCommand(App.Params.LocDazuo),
+            //         App.Commands.NewDoCommand("tuna " + num),
+            //         App.NewNobusyCommand(),
+            //         App.Commands.NewDoCommand("yun recover;yun regenerate;hp"),
+            //         App.NewSyncCommand(),
+            //     )
+            //     if (App.Map.Room.ID == App.Params.LocMaster) {
+            //         App.Insert(App.Move.NewToCommand(App.Params.LocDazuo),)
+            //     }
+            //     App.Next()
+            // }
         }
         return null
     }))

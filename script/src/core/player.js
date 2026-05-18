@@ -14,6 +14,7 @@
         Skills: {},
         Jifa: {},
         Bei: {},
+        InDoubleTime: false
     }
     Note("加载基本技能 /data/skills/base.txt")
     App.LoadLines("data/skills/base.txt", ",").forEach(data => {
@@ -647,6 +648,7 @@
     App.Core.OnNoJifa = function (event) {
         event.Context.Propose(function () {
             App.Data.Player.Jifa = {}
+            checkerJifa.Reset()
         })
     }
     App.BindEvent("core.nojifa", App.Core.OnNoJifa)
@@ -844,4 +846,19 @@
         return 0
     }
 
+    let checkerDoubleTime = App.Checker.Register("doubletime", "doubletime", 300000)
+
+    // 你还没有双倍经验加成。
+    App.BindEvent("core.nodoubletime", function () {
+        App.Data.Player.InDoubleTime = false
+        checkerDoubleTime.Reset()
+    })
+
+    // 你的双倍时间还有719分钟
+    App.BindEvent("core.indoubletime", function () {
+        App.Data.Player.InDoubleTime = true
+        checkerDoubleTime.Reset()
+    })
+
+    App
 })(App)

@@ -70,7 +70,7 @@
     App.Core.Combat.Blocks = []
     //判断当前战斗是否能否停止
     App.Core.Combat.CanStop = () => {
-        return App.Combat.Data.HitAndRun == ""
+        return App.Combat.Data == null || App.Combat.Data.HitAndRun == ""
     }
     //创建新的战斗参数
     App.NewCombat = function (quest) {

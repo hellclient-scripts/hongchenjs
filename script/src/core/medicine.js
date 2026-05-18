@@ -63,12 +63,16 @@
     //注册一个eatyao的准备
     App.Proposals.Register("eatyao", App.Proposals.NewProposal(function (proposals, context, exclude) {
         if (App.Data.Player.HP["精力上限"] > App.Params.NumJingliMin && App.Data.Player.HP["当前精力"] < App.Params.NumJingliMin) {
-            return function () {
-                App.PushCommands(
-                    App.Commands.NewDoCommand("yun refresh;hp"),
-                    App.NewSyncCommand(),
-                )
-                App.Next()
+            let jifaForce = App.Data.Player.Jifa["force"] ? App.Data.Player.Jifa["force"].Level : 0
+            if (jifaForce > 100) {
+
+                return function () {
+                    App.PushCommands(
+                        App.Commands.NewDoCommand("yun refresh;hp"),
+                        App.NewSyncCommand(),
+                    )
+                    App.Next()
+                }
             }
             //return eatyao("回精")
         }

@@ -72,14 +72,15 @@
         App.Core.Assets.GoodsRules = []
         App.Core.Params.Shared.Items.concat(App.LoadVariable("items")).forEach(data => {
             let item = actionModule.Parse(data).ParseNumber()
+            if (item.Command == "#nobox") {
+                App.Core.Goods.NoBox = true
+                return
+            }
             if (item.Data) {
                 if (item.Command == "") {
                     item.Command = "#buy"
                 }
                 switch (item.Command) {
-                    case "#nobox":
-                        App.Core.Goods.NoBox = true
-                        return
                     case "#buy"://购买
                         if (App.Goods.GetGood(item.Data) == null) {
                             Note("物品 " + item.Data + " 未找到。")

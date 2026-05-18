@@ -199,7 +199,7 @@
         } else if (App.Core.Weapon.Touch) {
             commands = [
                 "#prepare yun powerup;yun shield",
-                "#wait #jiqu",
+                "#wait #yanjiulian;#jiqu",
                 "#mqbefore #yanjiulian",
                 "#npcdie #yanjiulian",
                 "#moveyanjiu #yanjiu",
@@ -208,7 +208,7 @@
         } else {
             commands = [
                 "#prepare yun powerup;yun shield",
-                "#wait jiqu"
+                "#wait #jiqu"
             ]
         }
         App.UI.Wizard.CommandsData = commands.join("\n")

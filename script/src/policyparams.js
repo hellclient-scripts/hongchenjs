@@ -23,5 +23,9 @@
         { Name: "关闭", Value: "" },
         { Name: "开启", Value: "t" },
     ])
-
+    App.PolicyNamedParams.AddString("godlight", "").WithName("天神之光").WithDesc("使用天神之光的策略").WithData([
+        { Name: "无视", Value: "" },
+        { Name: "尝试使用", Value: "try" },
+        { Name: "必须使用", Value: "force" },
+    ])
 })()

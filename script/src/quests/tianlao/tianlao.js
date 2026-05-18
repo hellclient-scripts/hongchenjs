@@ -117,6 +117,7 @@ $.Module(function (App) {
         Note("进入副本，打探地图")
         Quest.Cooldown(120000)
         App.Core.Fuben.Last = $.Now()
+        Tianlao.LastRoom = ""
         $.PushCommands(
             $.Plan(PlanAccept),
             $.Path(["s"]),
@@ -125,24 +126,37 @@ $.Module(function (App) {
         )
         $.Next()
     }
-    Tianlao.Maze = () => {
-        App.Map.Room.ID = $.RID("fuben-tianlao-entry")
-        if (App.Core.Fuben.Current == null) {
-            Quest.Cooldown(120000)
-            $.PushCommands(
-                $.To("gc"),
-            )
-            $.Next()
-            return
-        }
-        Tianlao.AddApth()
+    Tianlao.OnMoveBlocker = function (name) {
+        Tianlao.LastRoom = App.Map.Room.ID
+        App.Reconnect(2000, Tianlao.Connect0)
+    }
+    Tianlao.Connect0 = function () {
+        App.Reconnect(2000, Tianlao.Connect)
+    }
+    Tianlao.Connect = function () {
+        PlanQuest.Execute()
+        App.Map.Room.ID = Tianlao.LastRoom
+        $.PushCommands(
+            $.Function(App.Core.Emergency.CheckDeath),
+            $.Function(() => {
+                App.Core.Weapon.PickWeapon()
+                $.Next()
+            }),
+            $.Rest(),
+            $.Function(Tianlao.Go)
+        )
+        $.Next()
+
+    }
+    Tianlao.MoveData = App.Move.NewOnMoveBlocker(Tianlao.OnMoveBlocker)
+    Tianlao.Go = () => {
         $.PushCommands(
             $.Function(() => {
                 $.RaiseStage("prepare")
                 $.Next()
             }),
-            $.To(["fuben-tianlao-exit"], App.Map.SingleStep(), App.Core.Fuben.InFuben),
-            $.CounterAttack("lao tou", App.NewCombat("tianlao").WithTags("牢头")),
+            $.To(["fuben-tianlao-exit"], App.Map.SingleStep(), App.Core.Fuben.InFuben, Tianlao.MoveData),
+            $.CounterAttack("lao tou", App.NewCombat("tianlao").WithTags("牢头").WithKillInGroup(true)),
             $.Do("get gold from corpse;get silver from corpse 2"),
             $.Sync(),
             $.Function(() => {
@@ -165,6 +179,19 @@ $.Module(function (App) {
             })
         )
         $.Next()
+    }
+    Tianlao.Maze = () => {
+        App.Map.Room.ID = $.RID("fuben-tianlao-entry")
+        if (App.Core.Fuben.Current == null) {
+            Quest.Cooldown(120000)
+            $.PushCommands(
+                $.To("gc"),
+            )
+            $.Next()
+            return
+        }
+        Tianlao.AddApth()
+        Tianlao.Go()
     }
     Tianlao.Migong = () => {
         $.PushCommands(
@@ -245,6 +272,15 @@ $.Module(function (App) {
                 // $.Timeslice(""),
                 $.Prepare("commonWithExp"),
             )
+            if (App.QuestParams["tianlaokillli"].trim()=="t") {
+                $.Insert(
+                    $.Function(() => {
+                        $.RaiseStage("prepare")
+                        $.Next()
+                    }),
+                    $.Kill("li lianying", App.NewCombat("lilianying").WithTags("李莲英").WithKillInGroup(true))
+                )
+            }
             App.Next()
             return true
         }
@@ -292,6 +328,8 @@ $.Module(function (App) {
             }
             App.Next()
         })
+    Tianlao.LastRoom = ""
+
     Tianlao.Checker = function (move, map) {
         move.OnArrive = function (move, map) {
             if (App.Map.Room.ID) {

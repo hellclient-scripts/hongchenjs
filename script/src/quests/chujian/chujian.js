@@ -374,13 +374,17 @@ $.Module(function (App) {
         ]
     }
     Quest.OnReport = () => {
-        let gifts = Object.keys(Chujian.Data.Gifts).map((gift) => `${gift}*${Chujian.Data.Gifts[gift]}`).join(",")
+        let sum = 0
+        let gifts = Object.keys(Chujian.Data.Gifts).map((gift) => {
+            sum += Chujian.Data.Gifts[gift]
+            return `${gift}*${Chujian.Data.Gifts[gift]}`
+        }).join(",")
         let num = Chujian.HelpRate()
         let rate = num ? num.toFixed(0) + "%" : "-"
         let avg = Chujian.Data.Success > 0 ? (Chujian.Data.Tihui / Chujian.Data.Success).toFixed(0) : 0
         return [
             `锄奸-总数:${Chujian.Data.Count} 成功:${Chujian.Data.Success} 毛效率:${Chujian.Data.Success > 3 ? Chujian.GetEff().toFixed(0) + "个/小时" : "-"} 净效率:${Chujian.Data.Success > 3 ? Chujian.GetTimesliceEff().toFixed(0) + "个/小时" : "-"} 平均体会:${avg} 平均耗时:${Chujian.Data.Success > 3 ? (Chujian.Data.Cost / Chujian.Data.Success / 1000).toFixed(2) + "秒" : "-"}  上次Exp:${Chujian.Data.LastExp} 线报率:${rate}`,
-            `锄奸-奖励:${gifts}`
+            `锄奸-奖励(${sum}):${gifts}`
         ]
     }
     Quest.Start = function (data) {

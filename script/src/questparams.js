@@ -13,6 +13,7 @@
     App.QuestNamedParams.AddNumber("mqtopslow", 5).WithName("MQ记录的最慢日志数量").WithDesc("0为不记录，其他为记录的慢日志数量")
     App.QuestNamedParams.AddNumber("mqmaxsearch", 2).WithName("MQ最大搜索次数").WithDesc("MQ最大尝试的搜索次数")
     App.QuestNamedParams.AddString("changanjobnoambush", "").WithName("长安任务自动放弃埋伏野兽").WithDesc("t放弃,f不放弃，留空自动判断")
+    App.QuestNamedParams.AddString("tianlaokillli", "").WithName("天牢任务杀李莲英").WithDesc("t杀，留空不杀")
     App.QuestNamedParams.AddString("tianlaonosearch", "").WithName("天牢任务不搜索整个迷宫，节约时间(年龄)").WithDesc("t不搜索")
     App.QuestNamedParams.AddNumber("chujiancancelat", -1).WithName("锄奸放弃经验").WithDesc("大于等于0,会在上次经验超过该值时放弃")
     App.QuestNamedParams.AddNumber("chujiannohitfor", 5).WithName("锄奸打不中放弃").WithDesc("锄奸多少秒没命中就取消，默认5秒，小于等于0不会取消")
