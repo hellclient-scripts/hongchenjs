@@ -243,7 +243,7 @@ $.Module(function (App) {
             App.Map.Room.Data.Objects.Clear()
             $.Insert(
                 $.Do("hp"),
-                App.NewKillCommand(App.Zone.Wanted.ID, App.NewCombat("chujian").WithPlan(PlanCombat).WithBeforeStop(Chujian.BeforeStop)),
+                App.NewKillCommand(App.Zone.Wanted.ID, App.NewCombat("chujian").WithPlan(PlanCombat).WithBeforeStop(Chujian.BeforeStop).WithKillInGroup(true)),
                 $.Function(Chujian.CountTihui),
                 $.Function(Chujian.KillNear),
             )

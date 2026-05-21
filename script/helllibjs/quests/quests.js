@@ -88,6 +88,14 @@
         Cooldown(interval) {
             this.CooldownTo = (new Date()).getTime() + (interval ? interval : 0)
         }
+        TryCooldown(interval) {
+            let newcdto=(new Date()).getTime() + (interval ? interval : 0)
+            if (this.CooldownTo < newcdto) {
+                this.CooldownTo = newcdto
+                return true
+            }
+            return false
+        }
         CooldownTo = 0
         ID = ""
         Name = ""

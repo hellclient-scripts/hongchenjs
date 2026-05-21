@@ -188,7 +188,7 @@
             return false
         }
         let duration = params.length > 1 ? params[1] - 0 : 1
-        return $.Now() + duration * 1000 > q.CooldownTo
+        return $.Now() + duration * 1000 >= q.CooldownTo
     }))
 
 })(App)            

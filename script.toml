@@ -2123,7 +2123,7 @@ Timers = []
   ID = "d1fv62osn8i7nf726vpqu6"
   Name = "queue"
   Enabled = true
-  Match = "#(to|wait|do|loop|nobusy|sync|search|killin|prepare|kill|wpon|wpoff|unwield|buy|study|jifa|qu)((\\s|\\|\\|).*)?$"
+  Match = "#(to|wait|do|loop|nobusy|sync|search|killin|prepare|kill|wpon|wpoff|unwield|buy|study|jifa|qu|\\d+)((\\s|\\|\\|).*)?$"
   Send = ""
   Script = "App.UserQueue.OnAlias"
   SendTo = 0
@@ -2538,7 +2538,7 @@ Timers = []
   Name = "noob2"
   Enabled = true
   Match = "#noob2"
-  Send = "#start study !drawing|31|xue|lu ban|lu ban||tianlao||skill drawing 30,yueli 2000,!maxexp 50000>>funquest||maxexp 100000,!maxexp 50000,yueli 20>>letter||maxexp 800000,!maxexp 50000>>changanjob||maxexp 300000>>peiyao||lianskill||idle"
+  Send = "#start study !drawing|31|xue|lu ban|lu ban||tianlao||skill drawing 30,yueli 2000,!maxexp 50000>>funquest||maxexp 100000,!maxexp 50000,yueli 20>>letter||chujian||maxexp 800000,!maxexp 50000>>changanjob||maxexp 300000>>peiyao||lianskill||idle"
   Script = ""
   SendTo = 10
   Sequence = 100
@@ -2856,29 +2856,6 @@ Timers = []
   OmitFromCommandHistory = false
 
 [[Aliases]]
-  ID = "d1hboo1fp448va732gtk3i"
-  Name = "tianlao3"
-  Enabled = true
-  Match = "#tianlao3"
-  Send = "#start tianlao||lianskill||baochu||chujian||idle"
-  Script = ""
-  SendTo = 10
-  Sequence = 100
-  ExpandVariables = false
-  Temporary = false
-  OneShot = false
-  Regexp = false
-  Group = ""
-  IgnoreCase = false
-  KeepEvaluating = false
-  Menu = false
-  OmitFromLog = false
-  Variable = ""
-  ReverseSpeedwalk = false
-  OmitFromOutput = false
-  OmitFromCommandHistory = false
-
-[[Aliases]]
   ID = "d1hbrshde8k6rm732gtogk"
   Name = ""
   Enabled = true
@@ -2914,6 +2891,29 @@ Timers = []
   Temporary = false
   OneShot = false
   Regexp = false
+  Group = ""
+  IgnoreCase = false
+  KeepEvaluating = false
+  Menu = false
+  OmitFromLog = false
+  Variable = ""
+  ReverseSpeedwalk = false
+  OmitFromOutput = false
+  OmitFromCommandHistory = false
+
+[[Aliases]]
+  ID = "d1hcbn3hiobe3v71odl8vi"
+  Name = "eatforce"
+  Enabled = true
+  Match = "#eatforce( .+)"
+  Send = "#start eatforce %1||idle"
+  Script = ""
+  SendTo = 10
+  Sequence = 100
+  ExpandVariables = false
+  Temporary = false
+  OneShot = false
+  Regexp = true
   Group = ""
   IgnoreCase = false
   KeepEvaluating = false
@@ -3022,7 +3022,7 @@ Timers = []
 [[RequiredParams]]
   Name = "jiqu"
   Desc = "汲取武道设置(选填)"
-  Intro = "设置数字则为最大体会，数字小于等于0不汲取，不设自动设置。\n\n#cmd可以指定多条汲取指令。不设则自动。参考\n\n400\n#cmd jiqu\n#cmd #unwield;#wpon;jiqu sword-cognize"
+  Intro = "设置数字则为最大体会，数字小于等于0不汲取，不设自动设置。\n#cmd可以指定多条汲取指令。不设则自动。参考\n\n400\n#cmd jiqu\n#cmd #unwield;#wpon;jiqu sword-cognize\n#limit xxx 指定多少mc后不汲取，避免小号卡经验时不断重复汲取"
 
 [[RequiredParams]]
   Name = "params"

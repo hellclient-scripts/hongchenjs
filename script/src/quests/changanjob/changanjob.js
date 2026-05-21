@@ -20,7 +20,7 @@ $.Module(function (App) {
             Code: ""
         }
         $.PushCommands(
-            $.Prepare("commonWithStudy"),
+            $.Prepare("commonWithExp"),
             // $.Timeslice("长安"),
             $.To("liang xinglu"),
             $.Ask("liang xinglu", "任务", 10),

@@ -6,6 +6,7 @@
     App.Core.Study.Jiqu = {}
     App.Core.Study.Init = function () {
         App.Core.Study.Jiqu.Max = null
+        App.Core.Study.Jiqu.Limit = 0
         App.Core.Study.Jiqu.Commands = []
         App.Core.Study.Learn = []
         App.Core.Study.LearnMode = 0
@@ -256,12 +257,13 @@
             }
 
             for (var limit of this.Limit) {
+                limit = limit.trim()
                 if (!isNaN(limit)) {//数字limit直接限制
                     if (skill && skill["等级"] >= limit) {
                         return false
                     }
                 }
-                let data = SplitN(limit.trim(), " ", 2)
+                let data = SplitN(limit, " ", 2)
                 //limit可以有特殊设置
                 switch (data[0]) {
                     case "":
@@ -272,11 +274,23 @@
                                 return false
                             }
                         }
+                        break
+                    case "more":
+                        let limit = data[1] ? data[1].trim() : "0"
+                        if (skill && skill["等级"] <= limit - 0) {
+                            return false
+                        }
+                        break
                     default://相对其他技能限制,可以用 skill +100 或者 skill-100 的形式
                         let tskill = App.Data.Player.Skills[data[0]]
                         if (tskill) {
                             let level = data[1] ? data[1].trim() : "0"
-                            if (level[0] == "*") {
+                            if (level[0] == "@") {
+                                level = level.slice(1)
+                                if (tskill["等级"] < (level - 0)) {
+                                    return false
+                                }
+                            } else if (level[0] == "*") {
                                 level = level.slice(1)
                                 if (skill["等级"] >= tskill["等级"] * (level - 0)) {
                                     return false
@@ -441,12 +455,18 @@
                 case "":
                 case "#tihuimax":
                     let data = action.Data.trim()
-                    if (action.Data && !isNaN(action.Data)) {
+                    if (data && !isNaN(data)) {
                         App.Core.Study.Jiqu.Max = data - 0
                     }
                     break
                 case "#cmd":
                     App.Core.Study.Jiqu.Commands.push(action.Data)
+                    break
+                case "#limit":
+                    let limit = action.Data.trim()
+                    if (limit && !isNaN(limit)) {
+                        App.Core.Study.Jiqu.Limit = limit - 0
+                    }
                     break
             }
         })
@@ -696,6 +716,9 @@
     }
     App.Core.Study.CanJiqu = () => {
         if (App.Data.Player.HP["经验"] > 30000 && App.Core.Player.GetSkillLevelByID("martial-cognize") < App.Data.Player.HPM["当前等级"]) {
+            if (App.Core.Study.Jiqu.Limit > 0 && App.Core.Player.GetSkillLevelByID("martial-cognize") >= App.Core.Study.Jiqu.Limit) {
+                return false
+            }
             if (GetVariable("max_exp").trim().startsWith("+") && App.Params.JiquMaxAhead >= 0) {
                 let maxskill = App.Core.GetMaxSkillLevel(["martial-cognize"])
                 if (App.Core.Player.GetSkillLevelByID("martial-cognize") - (maxskill ? maxskill["等级"] : 0) > App.Params.JiquMaxAhead) {

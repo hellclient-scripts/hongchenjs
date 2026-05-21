@@ -80,15 +80,19 @@
     }
 
     App.HUD.SummaryLine1 = () => {
-        let banklabel = new App.Word(" 存:").WithColor("BrightYellow")
-        let bank = new App.Word(App.Data.Player.Score["存款"] != null ? App.HUD.UI.ShortNumber(App.Data.Player.Score["存款"]) : "-", 4, true).WithColor("white")
+        // let banklabel = new App.Word(" 存:").WithColor("BrightYellow")
+        // let bank = new App.Word(App.Data.Player.Score["存款"] != null ? App.HUD.UI.ShortNumber(App.Data.Player.Score["存款"]) : "-", 4, true).WithColor("white")
         let expLabel = new App.Word("经:").WithColor("BrightWhite")
-        let exp = new App.Word(App.Data.Player.HP["经验"] != null ? App.HUD.UI.ShortNumber(App.Data.Player.HP["经验"]) : "-", 4, true).WithColor("white")
+        let exp = new App.Word(App.Data.Player.HP["经验"] != null ? App.HUD.UI.ShortNumber(App.Data.Player.HP["经验"]) : "-", 5, true).WithColor("white")
         let potLabel = new App.Word(" 潜:").WithColor("BrightWhite")
-        let pot = new App.Word(App.Data.Player.HP["潜能"] != null ? App.HUD.UI.ShortNumber(App.Data.Player.HP["潜能"]) : "-", 4, true).WithColor("white")
+        let pot = new App.Word(App.Data.Player.HP["潜能"] != null ? App.HUD.UI.ShortNumber(App.Data.Player.HP["潜能"]) : "-", 5, true).WithColor("white")
         let donateLabel = new App.Word(" 集:").WithColor("BrightWhite")
-        let donate = new App.Word(App.HUD.UI.ShortNumber(App.Data.Player.BugPoint || 0), 4, true).WithColor("white")
-        return App.Word.Join(expLabel, exp, potLabel, pot, banklabel, bank, donateLabel, donate)
+        let donate = new App.Word(App.HUD.UI.ShortNumber(App.Data.Player.BugPoint || 0), 5, true).WithColor("white")
+        let mclabel = new App.Word(" 修:").WithColor("BrightYellow")
+        let mc = new App.Word(App.Core.Player.GetSkillLevelByID("martial-cognize"), 5, true).WithColor("white")
+        let soullabel = new App.Word(" 魂:").WithColor("BrightYellow")
+        let ms = new App.Word(App.Data.Player.Score["转生灵魂"] || 0, 5, true).WithColor("white")
+        return App.Word.Join(expLabel, exp, potLabel, pot, donateLabel, donate, mclabel, mc, soullabel, ms)
     }
     App.HUD.SummaryLine2 = () => {
         let dup = {}

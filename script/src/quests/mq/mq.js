@@ -397,7 +397,10 @@ $.Module(function (App) {
                     App.Log("师傅没了")
                     // App.Core.Timeslice.Change("")
                 } else if (MQ.Data.NPC) {
-                    $.Insert($.Function(MQ.Ready))
+                    $.Insert(
+                        $.Nobusy(),
+                        $.Function(MQ.Ready)
+                    )
                 } else {
                     $.Insert(
                         $.Wait(1000),

@@ -1,3 +1,14 @@
+2026/05/21
+* 由于保护会累计无法驱散的异常状态，#tianlao3取消
+* 一览界面加入武学修养和转世灵魂显示
+* 加入#lianskill 练功
+* 加入#eatforce xxx,吃magic water吃到当前特内到指定等级
+* 加入#xx cmd,重复发送cmd xx次
+* 修正chujian下kill cmd
+* 学习的limit加入 force @100的格式，如emei-jiuyang|force @100,180|du|du emei jiuyang 100|4183，方便预设学习技能
+* 修正#mysan的bug
+* 学习的limit加入more 200的格式，如literate|more 119,200|xue|zhu xi|zhu xi，方便读完书继续学
+* jiqu变量加入#limit,限制MC大于等于多少暂不汲取
 * 优化shot id的天牢流程
 * 加入#noob3,10w前只tianlao和送信
 * 天牢任务加入tianlaokillli参数，杀李莲英拿经验

@@ -845,7 +845,19 @@
         }
         return 0
     }
-
+    App.Core.Player.GetSkillLevelByJifa = function (id) {
+        let jifa = App.Data.Player.Jifa[id]
+        if (!jifa) {
+            return 0
+        }
+        for (let key in App.Data.Player.Skills) {
+            let skill = App.Data.Player.Skills[key]
+            if (skill["名称"] == jifa.Skill) {
+                return skill["等级"]
+            }
+        }
+        return 0
+    }
     let checkerDoubleTime = App.Checker.Register("doubletime", "doubletime", 300000)
 
     // 你还没有双倍经验加成。

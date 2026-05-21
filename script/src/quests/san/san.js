@@ -12,6 +12,7 @@ $.Module(function (App) {
         if (App.Data.Player.HP["内力上限"] < 8000 || (App.Data.Player.HPM["内力上限"] - App.Data.Player.HP["内力上限"] > 180)) {
             return App.Core.BoxItem.EatLu
         }
+        
         if (App.Data.Player.HP["精力上限"] < 1000 && App.Data.Player.HPM["精力上限"] > 1000) {
             return App.Core.BoxItem.EatWan
         }
@@ -47,13 +48,13 @@ $.Module(function (App) {
         Weapon = ""
         My = false
     }
-    let rule=App.Core.Assets.ParseRule(`#carry id=${imbue_items.join(",")}`)
+    let rule = App.Core.Assets.ParseRule(`#carry id=${imbue_items.join(",")}`)
     let San = {}
-    San.GetContext=function(){
-        let ctx= {
-            NeiliMinNumber:App.Data.Player.HPM["内力上限"] * 0.91,
+    San.GetContext = function () {
+        let ctx = {
+            NeiliMinNumber: App.Data.Player.HPM["内力上限"] * 0.91,
         }
-        ctx[App.Core.Assets.PrepareDataKey]=[rule]
+        ctx[App.Core.Assets.PrepareDataKey] = [rule]
         return ctx
     }
     San.Data = null

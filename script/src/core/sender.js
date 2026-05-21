@@ -48,6 +48,14 @@
                 sender.Aliases[data[0]](data[1] ? data[1] : "")
                 return true
             }
+            let num=data[0].slice(1)
+            if (!isNaN(num)) {
+                let times = num - 0
+                for(let i = 0; i < times; i++) {
+                    sender.Send(data[1] ? data[1] : "", false, true)
+                }
+                return true
+            }
         }
         return false
     }

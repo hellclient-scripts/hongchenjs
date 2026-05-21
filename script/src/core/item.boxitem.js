@@ -78,14 +78,14 @@
     App.Core.BoxItem.CanEatLu = function () {
         return (new Date()).getTime() - App.Core.BoxItem.LastLu > App.Core.BoxItem.LastLuDelay
     }
-    App.Core.BoxItem.Eatlu = function () {
+    App.Core.BoxItem.EatLu = function () {
         $.PushCommands(
             $.Function(() => {
                 App.Core.BoxItem.TryGet("magic water")
             }),
             $.Function(() => {
                 if (App.Data.Item.List.FindByID("magic water").First() != null) {
-                    App.Send("eat magic water;i;hp -m;hp")
+                    App.Send("eat magic water;i;hp -m;hp;cha")
                     $.Insert($.Nobusy())
                 } else {
                     App.Log("没magic water了")
@@ -97,7 +97,7 @@
     }
     App.Proposals.Register("eatlu", App.Proposals.NewProposal(function (proposals, context, exclude) {
         if (App.PolicyParams["eatlu"] > 0 && App.Data.Player.HP["内力上限"] < App.PolicyParams["eatlu"] && (App.Data.Player.HPM["内力上限"] - App.Data.Player.HP["内力上限"]) >= 180 && App.Core.BoxItem.CanEatLu()) {
-            return App.Core.BoxItem.Eatlu
+            return App.Core.BoxItem.EatLu
         }
         return null
     }))

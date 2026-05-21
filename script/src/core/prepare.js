@@ -298,6 +298,7 @@
         "eat",
         "key",
         "inspire",
+        "summon",
         "dazuo",
         "heal",
         "tuna",
@@ -306,7 +307,6 @@
         "item",
         "repair",
         "dropwp",
-        "summon",
         "stab",
         "eatlu",
     )

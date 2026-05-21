@@ -272,7 +272,7 @@ $.Module(function (App) {
                 // $.Timeslice(""),
                 $.Prepare("commonWithExp"),
             )
-            if (App.QuestParams["tianlaokillli"].trim()=="t") {
+            if (App.QuestParams["tianlaokillli"].trim() == "t") {
                 $.Insert(
                     $.Function(() => {
                         $.RaiseStage("prepare")
@@ -417,7 +417,6 @@ $.Module(function (App) {
             Migong: [],
         }
     })
-
     App.Quests.Register(Quest)
     App.Quests.Tianlao = Tianlao
     Quest.TimeCost = 30
