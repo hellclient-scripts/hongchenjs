@@ -123,7 +123,7 @@
             exec()
         }, q)
     }
-    let matcherGiftBouns = /^(?<prompt>.+)，你获得了((?<exp>.+)点经验、)?((?<pot>.+)点潜能、)?((?<tihui>.+)点实战体会、)?((?<zhen>.+)点正神、)?((?<fu>.+)点负神、)?((?<yueli>.+)点江湖阅历、)?((?<weiwang>.+)点江湖威望、)?(你所在同盟的威望提升了.+点、)?能力得到了提升。$/
+    let matcherGiftBouns = /^(?<prompt>.+)，你获得了((?<exp>.+)点经验、)?((?<pot>.+)点潜能、)?((?<tihui>.+)点实战体会、)?((?<zhen>.+)点正神、)?((?<fu>.+)点负神、)?((?<gongxian>.+)点门派贡献、)?((?<weiwang>.+)点江湖威望、)?((?<weiwang>.+)点江湖威望、)??能力得到了提升。$/
     App.Engine.SetFilter("core.giftbouns", function (event) {
         let result = matcherGiftBouns.exec(event.Data.Wildcards["0"].replace("\n", ""))
         if (result) {

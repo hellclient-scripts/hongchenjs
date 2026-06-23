@@ -485,6 +485,22 @@ yjj
 #prepare||#to 4187||du yijin jing 100||hp||#nobusy||#loop
 ```
 
+读force(lian)
+
+```
+force|200|du|du zhenjing taben 100|4186
+```
+
+读峨眉九阳(lian)
+
+```
+emei-jiyang|180,@force 100|du|du emei jiuyang 100|4183
+```
+
+
+
+读残章
+
 ```
 #prepare||#to 4185||du can zhang 100||hp||#nobusy||#loop
 #prepare||#to 4185||yun regenerate||yanjiu zhao from can zhang ||hp||#nobusy||#loop
@@ -495,8 +511,6 @@ yjj
 ```
 literate|120|du|du literate book4 100|4187
 ```
-
-
 
 有10lv的全真id,初期shot天牢的lian设置，需要买literate book，force book 和dodge book在身上
 
@@ -512,5 +526,29 @@ tianshan-feidu|dodge|lian|dodge|
 正气
 
 ```
-#repeat du zhengqi_book 100||fangqi zhengqijue||score
+#repeat du zhengqi_book 100||fangqi zhengqijue||score||hp
+```
+
+邪气
+
+```
+#repeat du tianmo jue 100||fangqi tianmojue||score||hp
+```
+
+参悟洗髓经
+
+非sl的要杀kong jian,别忘记要过罗汉大阵
+
+如果只有1把10lv,要设置miss,把10lv设为miss.同时在weapon里把10lv用//注释掉，如下
+
+```
+toucha|3967
+```
+
+把武器也要插在3967
+
+然后
+
+```
+#prepare||#to 3847||yun regenerate||#10 canwu xisui jing||hp||#nobusy||#loop
 ```

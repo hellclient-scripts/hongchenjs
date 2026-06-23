@@ -581,8 +581,7 @@
     }
     //注册#yanjiu别名
     App.Sender.RegisterAlias("#yanjiu", function (data) {
-        let minpot = GetVariable("min_pot")
-        if (isNaN(minpot) || App.Data.Player.HP["潜能"] > minpot) {
+        if (!App.Core.Study.HitMinPot()) {
             let skill = App.Core.Study.FilterSkill()
             if (skill && skill.Type == "yanjiu") {
                 let times = data - 0
@@ -618,9 +617,9 @@
     //注册#yanjiulian别名
     App.Sender.RegisterAlias("#yanjiulian", function (data) {
         let skill
-        let minpot = GetVariable("min_pot")
+        let minpot = GetVariable("min_pot") - 0
         let learned = false//防止发送多个hp
-        if (isNaN(minpot) || App.Data.Player.HP["潜能"] > minpot) {
+        if (!App.Core.Study.HitMinPot()) {
             skill = App.Core.Study.FilterSkill()
             if (skill && skill.Type == "yanjiu") {
                 let times = data - 0

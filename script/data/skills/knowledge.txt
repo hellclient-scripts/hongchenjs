@@ -12,3 +12,4 @@ taoism,f
 idle-force,f
 martial-cognize,t
 certosina,f
+count,f

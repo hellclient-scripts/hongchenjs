@@ -151,6 +151,10 @@ $.Module(function (App) {
     let matcherTopcic = /^店小二说道：.*『(.*)』/
     Freequest.AfterAsk = function () {
         if (App.Data.Ask.Result = "ok") {
+            if (App.Data.Ask.Answers.length==0){
+                $.Next()
+                return
+            }
             let answer = App.Data.Ask.Answers[0].Line.match(matcherTopcic)
             if (answer) {
                 Note("得到话题 " + answer[1])

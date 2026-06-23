@@ -356,11 +356,17 @@
     })
     App.Core.Heal.TryTouch = function () {
         if (App.Core.Weapon.Touch) {
+            let touched=false
             if ((App.Data.Player.HP["当前内力"] * 100 / App.Data.Player.HP["内力上限"]) <= App.Params.NeiliMin) {//touch
                 App.Send(`touch ${App.Core.Weapon.Touch}`)
+                touched=true
             }
             if (App.Data.Player.HP["当前精力"] < App.Params.NumJingliMin && App.Data.Player.HP["精力上限"] > 2 * App.Params.NumJingliMin) {
                 App.Send("yun refresh")
+                touched=true
+            }
+            if (touched) {
+                App.Send("hp")
             }
         }
     }
