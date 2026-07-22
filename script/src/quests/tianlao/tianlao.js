@@ -309,7 +309,7 @@ $.Module(function (App) {
                 return true
             })
             task.AddTrigger(matcherRetry, (tri, result) => {
-                task.Data = "injuretryred"
+                task.Data = "retry"
                 return true
             })
             task.AddTrigger(matcherRetry2, (tri, result) => {

@@ -947,6 +947,9 @@ $.Module(function (App) {
             if (MQ.Data.NPC.HelpZone && cites.indexOf(MQ.Data.NPC.HelpZone) == -1) {
                 return
             }
+            if (MQ.Data.NPC.ID && MQ.Data.NPC.ID != id) {
+                return
+            }
             if (!MQ.Data.NPC.ID && id) {
                 MQ.Data.NPC.ID = id.toLowerCase()
             }
