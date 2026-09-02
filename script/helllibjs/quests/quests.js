@@ -40,6 +40,9 @@
         Quest = null
         Execute = null
     }
+    let DefaultPreflight = () => {
+
+    }
     let DefaultOnHUD = () => {
         return null
     }
@@ -89,7 +92,7 @@
             this.CooldownTo = (new Date()).getTime() + (interval ? interval : 0)
         }
         TryCooldown(interval) {
-            let newcdto=(new Date()).getTime() + (interval ? interval : 0)
+            let newcdto = (new Date()).getTime() + (interval ? interval : 0)
             if (this.CooldownTo < newcdto) {
                 this.CooldownTo = newcdto
                 return true
@@ -108,6 +111,7 @@
         OnHUD = DefaultOnHUD
         OnSummary = DefaultOnSummary
         OnReport = DefaultOnReport
+        Preflight = DefaultPreflight
     }
     let DefaultChecker = function () {
         return true
@@ -175,6 +179,7 @@
             if (quests.length) {
                 this.Stopped = false
                 this.Queue = quests
+                this.Preflight()
                 this.Commands.Push().WithReadyCommand(this.#nextcommand).WithFailCommand(this.#nextcommand)
             }
             this.Commands.Next()
@@ -182,6 +187,21 @@
         Restart() {
             this.Commands.Push().WithReadyCommand(this.#nextcommand).WithFailCommand(this.#nextcommand)
             this.Commands.Next()
+        }
+        Preflight() {
+            this.Queue.forEach(q => {
+                let preflighted = {}
+                this.Queue.forEach(q => {
+                    if (preflighted[q.ID]) {
+                        return;
+                    }
+                    preflighted[q.ID] = true;
+                    let quest = this.#registered[q.ID]
+                    if (quest) {
+                        quest.Preflight()
+                    }
+                });
+            });
         }
         GetReady() {
             let headready = this.HeadReady(this)
@@ -214,6 +234,7 @@
                 this.Commands.PushCommands(
                     this.Commands.NewFunctionCommand(() => {
                         this.Running = ready.RunningQuest
+                        this.Position.StartNewTerm()
                         ready.Execute()
                     }),
                     this.Commands.NewFunctionCommand(() => {
@@ -234,7 +255,6 @@
             this.Processing = -1
             this.Last = (new Date()).getTime()
             this.OnNext(this)
-            this.Position.StartNewTerm()
             let ready = this.GetReady()
             if (ready) {
                 this.ExecuteReady(ready)
@@ -243,6 +263,7 @@
             this.Loop()
         }
         Loop() {
+            this.Position.StartNewTerm()
             let now = (new Date()).getTime()
             if ((now - this.Last) < this.Delay) {
                 this.DelayFunction(this)

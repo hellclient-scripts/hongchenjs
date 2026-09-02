@@ -10,13 +10,13 @@
     }
     class Proposals {
         #registered = {}
+        OnSuccess = module.DefaultOnSuccess
         Register(id, Proposal) {
             this.#registered[id] = Proposal
         }
         NewProposal(submit) {
             return new Proposal(submit)
         }
-        OnSuccess = module.DefaultOnSuccess
         NewProposalGroup(...idlist) {
             return new Proposal(function (proposals, context, excluded) {
                 let tocheck = [...idlist]
