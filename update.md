@@ -1,3 +1,4 @@
+* 移除lru-cache
 * 优化 #yanjiu和#yanjiulian对minpot判断的逻辑，确保正常自动闭关
 2026/05/21
 * 由于保护会累计无法驱散的异常状态，#tianlao3取消
