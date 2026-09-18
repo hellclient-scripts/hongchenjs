@@ -1,3 +1,5 @@
+* 战斗变量加入#start.do和#before.do功能
+* 加入蜀道吸气设置
 * 移除lru-cache
 * 优化 #yanjiu和#yanjiulian对minpot判断的逻辑，确保正常自动闭关
 2026/05/21

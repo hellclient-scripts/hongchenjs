@@ -89,6 +89,10 @@
     App.LoadLines("data/walkretry.txt").forEach(data => {
         App.Move.WalkRetryMessages[data] = true
     })
+    App.Move.WalkRecoverMessages = {}
+    App.LoadLines("data/walkrecover.txt").forEach(data => {
+        App.Move.WalkRecoverMessages[data] = true
+    })
     //移动跟踪
     App.Map.Trace = function (map, rid, dir) {
         if (rid == "3527" && dir == "n") {
@@ -183,6 +187,9 @@
                 if (App.Move.BusyMessages[event.Data.Output]) {
                     catcher.WithName("walkbusy")
                     return false
+                }
+                if (App.Move.WalkRecoverMessages[event.Data.Output]) {
+                    App.Send("yun recover")
                 }
                 if (App.Move.FailedMessages[event.Data.Output] != undefined) {
                     if (App.Core.Room.Current.ID == "") {

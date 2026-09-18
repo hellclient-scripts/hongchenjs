@@ -253,9 +253,10 @@ $.Module(function (App) {
                 $.Insert(
                     $.Function(Chujian.KillNear)
                 )
+            } else {
+                App.Append(App.Commands.NewFunctionCommand(Chujian.GoKill))
             }
         }
-        App.Append(App.Commands.NewFunctionCommand(Chujian.GoKill))
         App.Next()
 
     }
