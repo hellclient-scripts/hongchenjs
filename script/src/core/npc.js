@@ -166,6 +166,7 @@
             Key: model.Key,
             Name: [data[0]],
             ID: [data[1]],
+            Loc: [model.Value]
         }
     })
     App.Core.NPC.Other = {}

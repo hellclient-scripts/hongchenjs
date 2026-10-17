@@ -28,7 +28,11 @@
             case "#carry":
                 return true
             case "#home":
+                return App.Core.Assets.Gift.CanHome()
             case "#home2":
+                if (App.Data.Player.Score["门派贡献"] < App.Params.MinGongxian) {
+                    return false
+                }
                 return App.Core.Assets.Gift.CanHome()
         }
         return false

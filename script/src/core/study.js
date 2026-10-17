@@ -193,6 +193,7 @@
                         $.Do(cmds.join(";")),
                         $.Nobusy(),
                         $.Do("hp"),
+                        $.Do("halt"),
                         $.Sync(),
                     )
                     $.Next()
@@ -219,6 +220,7 @@
                         }),
                         $.Wait(1000),
                         $.Do("hp"),
+                        $.Do("halt"),
                         $.Sync(),
                     )
                     $.Next()
@@ -687,7 +689,7 @@
             task.AddTrigger(matcherFull, (tir, result) => {
                 App.Send("hp -m;cha")
             })
-            task.AddTimer(1100)
+            task.AddTimer(App.Params.JiquPauseInterval)
             App.Send(App.Random(App.Core.Study.Jiqu.Commands))
         }, function (result) {
             App.Next()

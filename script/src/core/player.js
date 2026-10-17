@@ -671,6 +671,23 @@
         }
         return 0
     }
+    App.Core.GetJifaSkillID = function (skilltype) {
+        for (let key in App.Data.Player.Jifa) {
+            if (key == skilltype) {
+                return App.Data.Player.Jifa[key].Skill
+            }
+        }
+        return ""
+    }
+    App.Core.GetRawJifaSkillLevel = function (skilltype) {
+        var lv = App.Core.Player.GetSkillLevelByID(skilltype) / 2
+        var id = App.Core.GetSkillIDByName(App.Core.GetJifaSkillID(skilltype))
+        if (id) {
+            lv += App.Core.Player.GetSkillLevelByID(id)
+        }
+        return lv
+    }
+
     App.Core.OnBei = function (event) {
         event.Context.Propose(function () {
             App.Data.Player.Bei = {}

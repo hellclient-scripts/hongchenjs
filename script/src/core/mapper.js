@@ -192,16 +192,28 @@
             PlanLocate.Execute()
         }
     })
-    App.Core.SkillTags = ["dodge"]
+    App.Core.SkillTags = ["dodge", "juechen-shenfa"]
+    App.Core.JifaTags = ["dodge"]
     App.Map.AppendInitiator(function () {
         for (var tag in App.Core.SkillTags) {
             let val
-            val = Math.floor(App.Core.Player.GetSkillLevelByID[tag] / 50) * 50
+            var sk = App.Core.SkillTags[tag]
+            val = Math.floor(App.Core.Player.GetSkillLevelByID(sk) / 10) * 10
             if (val > 1000) {
                 val = 1000
             }
-            App.Map.SetTag(`skill-${tag}`, val)
+            App.Map.SetTag(`skill-${sk}`, val)
+        }
+        for (var tag in App.Core.JifaTags) {
+            let val
+            var sk = App.Core.JifaTags[tag]
+            val = Math.floor(App.Core.GetRawJifaSkillLevel(sk) / 10) * 10
+            if (val > 1000) {
+                val = 1000
+            }
+            App.Map.SetTag(`jifa-${sk}`, val)
         }
     })
+
 
 })(App)

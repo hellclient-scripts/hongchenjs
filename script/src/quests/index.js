@@ -6,6 +6,7 @@
     App.Include("src/quests/misc/relogin.js")
     App.Include("src/quests/misc/stop.js")
     App.Include("src/quests/misc/fangqi.js")
+    App.Include("src/quests/misc/prepare.js")
     App.Include("src/quests/misc/idle.js")
     App.Include("src/quests/misc/execute.js")
     App.Include("src/quests/misc/try.js")

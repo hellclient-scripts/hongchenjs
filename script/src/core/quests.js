@@ -127,6 +127,14 @@
     App.Engine.SetFilter("core.giftbouns", function (event) {
         let result = matcherGiftBouns.exec(event.Data.Wildcards["0"].replace("\n", ""))
         if (result) {
+            result.groups.exp = result.groups.exp || ""
+            result.groups.pot = result.groups.pot || ""
+            result.groups.tihui = result.groups.tihui || ""
+            result.groups.zhen = result.groups.zhen || ""
+            result.groups.fu = result.groups.fu || ""
+            result.groups.yueli = result.groups.yueli || ""
+            result.groups.weiwang = result.groups.weiwang || ""
+            result.groups.alliance = result.groups.alliance || ""
             let giftevent = new App.Event("core.giftbouns", result.groups)
             App.RaiseEvent(giftevent)
         }
@@ -162,6 +170,11 @@
             return true
         }
         return false
+    }))
+    //maxpot
+    App.Quests.Conditions.RegisterMatcher(App.Quests.Conditions.NewMatcher("maxpot", function (data, target) {
+        let maxpot = GetVariable("max_pot") - 0
+        return !isNaN(maxpot) && maxpot > 0 && App.Data.Player.HP["潜能"] >= maxpot
     }))
     //注册skill 条件
     App.Quests.Conditions.RegisterMatcher(App.Quests.Conditions.NewMatcher("skill", function (data, target) {
