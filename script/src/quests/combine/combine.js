@@ -44,7 +44,7 @@ $.Module(function (App) {
 
     Combine.Next = function () {
         $.PushCommands(
-            $.Prepare("commonWithQuestFuse"),
+            $.Prepare("commonWithQuestCombine"),
             $.Function(App.Core.Item.CheckBox),
             $.Function(Combine.Check),
             $.Prepare(),

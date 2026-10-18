@@ -184,6 +184,19 @@
         let goldkeep = context.GoldKeep != null ? context.GoldKeep : App.Params.GoldKeep
         App.Core.PrepareMoneyCmd = "qu " + Math.floor(((goldmax + goldkeep) / 2 - num)) + " gold;i;score"
         if (num < goldkeep) {
+            if (App.Data.Item.Weight > 90) {
+                return function () {
+                    App.Commands.PushCommands(
+                        App.Move.NewToCommand("chat"),
+                        $.Function(function () {
+                            Note("超重，需要手动处理")
+                            App.Next()
+                        }),
+                        $.Wait(30000)
+                    )
+                    App.Next()
+                }
+            }
             return function () {
                 App.Commands.PushCommands(
                     App.Move.NewToCommand(App.Params.LocBank),

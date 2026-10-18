@@ -6,6 +6,7 @@
     App.Map.Movement.MultipleStepConverter.Checker = function (step, index, move, map) {
         return index != 0 && dfsModule.Backward[step.Command] != null
     }
+    App.Map.StepTimeout = 20 * 1000
     //定位命令
     App.Map.Movement.DefaultLocateNext = (move, map, locate) => {
         //避免被关在房间里
@@ -328,9 +329,37 @@
     App.Move.OnBlocker = function (name) {
         App.Core.Blocker.KillBlocker(name)
     }
+    App.Move.LastRoom = "";
+    App.Move.BlockerSnap = null
+    App.Move.MoveBlockerReconnect = function () {
+        App.Move.BlockerSnap = App.Map.Snap()
+        App.Move.LastRoom = App.Map.Room.ID
+        App.Reconnect(2000, App.Move.Connect0, true)
+    }
+    App.Move.Connect0 = function () {
+        App.Reconnect(2000, App.Move.Connect, true)
+    }
+    App.Move.Connect = function () {
+        App.Map.Room.ID = App.Move.LastRoom
+        let snap = App.Move.BlockerSnap
+        App.Move.BlockerSnap = null
+        $.PushCommands(
+            App.Commands.NewFunctionCommand(() => {
+                App.Map.Rollback(snap)
+                App.Map.Resend(0)
+            })
+        )
+        $.Next()
+    }
+
     App.Move.OnMoveBlocker = function (name) {
         if (App.Map.Move && App.Map.Move.Data["OnMoveBlocker"]) {
             App.Map.Move.Data["OnMoveBlocker"](name)
+            return
+        }
+        if (App.Data.Player.HP["经验"] < 1200000) {
+            Note("菜鸟阶段重连")
+            App.Move.MoveBlockerReconnect()
             return
         }
         App.Map.Room.Data["core.moveblocked"] = (App.Map.Room.Data["core.moveblocked"] || 0) + 1

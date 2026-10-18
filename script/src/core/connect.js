@@ -7,7 +7,7 @@
     App.Core.Connect.Entered = false
     //是否可以登陆
     App.Core.Connect.CanLogin = function () {
-        if (!App.Data.Player.HP||!App.Core.Dispel) {
+        if (!App.Data.Player.HP || !App.Core.Dispel) {
             return false
         }
         if (App.Core.Dispel.Need && (App.Data.Player.HP["气血百分比"] < 10 || App.Data.Player.HP["精气百分比"] < 10)) {
@@ -61,6 +61,7 @@
         print("******")
         Send("y")
     }
+    App.Core.Connect.NoDiscard = false
     //是否离线
     App.Core.Connect.Offline = false
     //登陆成功后的回调
@@ -96,8 +97,9 @@
         App.Next()
     }
     //重新连线函数
-    App.Reconnect = function (delay, callback) {
+    App.Reconnect = function (delay, callback, nodiscard) {
         if (!delay) { delay = 0 }
+        if (nodiscard) { App.Core.Connect.NoDiscard = true }
         if (callback == null) { callback = App.Core.Connect.DefaultCallback }
         App.Core.Connect.Next = (new Date()).getTime() + delay
         App.Core.Connect.Callback = callback
@@ -110,11 +112,14 @@
     App.BindEvent("connected", function (event) {
     })
     App.BindEvent("disconnected", function (event) {
-        Metronome.Discard(true)
-        App.Combat.Discard()
-        for (var key in App.Positions) {
-            App.Positions[key].Discard()
+        if (!App.Core.Connect.NoDiscard) {
+            Metronome.Discard(true)
+            App.Combat.Discard()
+            for (var key in App.Positions) {
+                App.Positions[key].Discard()
+            }
         }
+        App.Core.Connect.NoDiscard = false
         if (App.Core.Connect.CanLogin()) {
             if (App.Core.Connect.Next == null) {
                 Note("" + (App.Params.ReloginDelay / 1000).toFixed() + "秒后尝试重连")
