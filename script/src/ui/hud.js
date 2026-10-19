@@ -6,15 +6,32 @@
     App.HUD = {}
     App.HUD.UI = uiModule
     App.Word = App.HUD.UI.Word
+    App.HUD.Closed = false
+    if (GetVariable("_newhelljs_hud_closed")) {
+        App.HUD.Closed = true
+    }
+    SetHUDSize(App.HUD.Closed ? 0 : 7)
+    App.HUD.Toggle = () => {
+        App.HUD.Closed = !App.HUD.Closed
+        SetVariable("_newhelljs_hud_closed", App.HUD.Closed ? "t" : "")
+        SetHUDSize(App.HUD.Closed ? 0 : 7)
+        App.HUD.Update()
+    }
+
     App.HUD.Update = () => {
+
         let line1 = App.HUD.Line1()
-        let line2 = App.HUD.Line2()
-        let line3 = App.HUD.Line3()
-        let line4 = App.HUD.Line4()
-        let linelog = App.HUD.LineLog()
+        if (App.HUD.Closed) {
+            UpdateHUD(0, JSON.stringify([]))
+        } else {
+            let line2 = App.HUD.Line2()
+            let line3 = App.HUD.Line3()
+            let line4 = App.HUD.Line4()
+            let linelog = App.HUD.LineLog()
+            UpdateHUD(0, JSON.stringify([line1, line2, line3, line4, ...linelog]))
+        }
         let summaryline1 = App.HUD.SummaryLine1()
         let summaryline2 = App.HUD.SummaryLine2()
-        UpdateHUD(0, JSON.stringify([line1, line2, line3, line4, ...linelog]))
         SetSummary(JSON.stringify([summaryline1, summaryline2]))
     }
     App.HUD.Space = new App.Word(" ")

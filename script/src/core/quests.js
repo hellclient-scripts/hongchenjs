@@ -94,6 +94,21 @@
         App.Core.Stage.ChangeStance("")
         App.RaiseEvent(new App.Event("core.queststop"))
     }
+    App.Quests.ForceStop = function () {
+        Note("立刻停止运行")
+        App.RaiseEvent(new App.Event("core.stop"))
+        App.Quests.Reset()
+        App.Next()
+    }
+    App.Quests.Reset = function () {
+        for (var key in App.Positions) {
+            App.Positions[key].Discard()
+        }
+        App.Map.Room.ID = ""
+        App.Map.DiscardMove()
+        App.Combat.Discard()
+        App.Commands.Discard()
+    }
     App.Quests.OnNext = (quests) => {
         App.Core.Timeslice.Change("")
     }

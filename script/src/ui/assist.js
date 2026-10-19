@@ -24,8 +24,8 @@
         list.append("questparams", "任务参数设置")
         list.append("npc", "NPC老师清单")
         list.append("rooms", "地图房间")
-
         list.append("advance", "高级设置")
+        list.append("togglehud", App.HUD.Closed ? "打开HUD" : "关闭HUD")
         list.append("push", "推送设置")
         list.append("help", "使用帮助")
         list.publish("App.UI.Assist.OnClick")
@@ -91,6 +91,9 @@
                 break
             case "advance":
                 App.UI.Assist.AdvanceShow()
+                break
+            case "togglehud":
+                App.HUD.Toggle()
                 break
             case "push":
                 App.PushMessage.Show()
