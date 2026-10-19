@@ -2962,7 +2962,7 @@ Timers = []
 [[RequiredParams]]
   Name = "combat"
   Desc = "战斗指令"
-  Intro = "有$1(对象),$wpon(装备武器),$wpoff(卸装备指令）3个变量\n有#before,#start,#send(默认)三种指令\n\n战斗指令,参考：\n#before yun recover\n#start $wpon\n#start perform sword.kuang $1\nyun recover\nperform sword.kuang\n\n或\n#before yun regenerate;hand bow\n#start shot $1 with arrow\nyun recover\nshot $1 with arrow"
+  Intro = "有$1(对象),$wpon(装备武器),$wpoff(卸装备指令）3个变量\n有#before,#start,#send(默认),#finish四种指令\n\n战斗指令,参考：\n#before yun recover\n#start $wpon\n#start perform sword.kuang $1\nyun recover\nperform sword.kuang\n\n或\n#before yun regenerate;hand bow\n#start shot $1 with arrow\nyun recover\nshot $1 with arrow"
 
 [[RequiredParams]]
   Name = "command"

@@ -34,4 +34,4 @@ duan,段氏皇族,duan zhengchun
 sj,商家堡,shang jianming
 miao,中原苗家,miao renfeng
 jq,绝情谷,gongsun zhi
-tm, 唐门世家,tang laotai
+tm,唐门世家,tang laotai
