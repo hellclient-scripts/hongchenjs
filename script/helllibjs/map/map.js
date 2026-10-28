@@ -174,6 +174,9 @@
         BlockPath(from, to) {
             this.#blocked.push([from, to])
         }
+        GetTags(){
+            return this.#tags;
+        }
         SetTag(name, value, force) {
             let old = this.#tags[name]
             if (value === true || value === null || value === undefined) {

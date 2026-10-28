@@ -193,7 +193,6 @@
                         $.Do(cmds.join(";")),
                         $.Nobusy(),
                         $.Do("hp"),
-                        $.Do("halt"),
                         $.Sync(),
                     )
                     $.Next()
@@ -732,6 +731,9 @@
     }
     //注册jiqu准备
     App.Proposals.Register("jiqu", App.Proposals.NewProposal(function (proposals, context, exclude) {
+        if (App.Quests.Stopped) {
+            return null
+        }
         if (!App.Quests.IsStopped() && App.Quests.Data.NoJiqu == true) {
             return null
         }
@@ -745,7 +747,7 @@
     }))
     //注册study准备
     App.Proposals.Register("study", App.Proposals.NewProposal(function (proposals, context, exclude) {
-        if (App.Core.Study.HitMinPot()) {
+        if (App.Core.Study.HitMinPot() || App.Quests.Stopped || App.Quests.Data.NoStudy) {
             return null
         }
         if (App.Core.Dispel.Need) {

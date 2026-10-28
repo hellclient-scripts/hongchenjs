@@ -95,7 +95,7 @@
                             length = length - (value.text - skip + 1)
                             skip = 0
                         } else {
-                            result.AppendWord(value.CopyStyle(value.Text, skip, skip + length - 1))
+                            result.AppendWord(value.CopyStyle(value.Text.slice(skip, skip + length)))
                             return result
                         }
                     }

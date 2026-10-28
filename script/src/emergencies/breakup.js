@@ -21,7 +21,7 @@
     }
     Breakup.Go = function (action) {
         $.PushCommands(
-            $.Prepare("",{NeiliMinNumber:App.Data.Player.HPM["内力上限"] * 0.91}),
+            $.Prepare("",{NeiliMinNumber:App.Data.Player.HP["内力上限"] * 0.91}),
             $.To("home"),
             $.Function(() => {
                 if (App.Data.Player.HP["气血百分比"] <= 90) {
