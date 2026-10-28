@@ -169,6 +169,10 @@
         })
         App.Core.Combat.Pending = {}
         if (App.Combat.Data.NoPerform) {
+            $.RaiseStage("npcfinish")
+            App.Core.Combat.FilterActions("#finish").forEach(action => {
+                App.Send(App.Core.Combat.ReplaceCommand(action.Data))
+            })
             return
         }
         App.Core.Combat.FilterActions("#send", "#wpon", "wpoff").forEach(action => {
@@ -291,6 +295,7 @@
         }
         App.Send(commands.join(";"), data.KillInGroup)
         App.Send(checkCombatCmd)
+        App.Map.Room.Data["combated_room"] = true
         App.Combat.Start(id, data)
     }
     //注册指令

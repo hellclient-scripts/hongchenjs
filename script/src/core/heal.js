@@ -45,7 +45,7 @@
         App.Next()
     })
     App.Core.Heal.IsRoomCanSleep = function () {
-        return !(App.Map.Room.Data["core.nosleep"] || App.Data.Item.List.FindByID("sleepbag").First() == null||App.Core.NoSleepRooms[App.Map.Room.ID])
+        return !(App.Map.Room.Data["core.nosleep"] || App.Data.Item.List.FindByID("sleepbag").First() == null || App.Core.NoSleepRooms[App.Map.Room.ID])
     }
     App.Core.Heal.SleepHere = () => {
         App.Commands.PushCommands(
@@ -56,7 +56,7 @@
     App.Core.Heal.Sleep = () => {
         let ts = App.Core.Timeslice.Current()
         App.Core.Timeslice.Change("修整-睡觉")
-        if (!App.Core.Heal.IsRoomCanSleep()) {
+        if (!App.Core.Heal.IsRoomCanSleep() && App.Map.Room.Data["combated_room"] != true) {
             App.Commands.PushCommands(
                 App.Move.NewToCommand(App.Params.LocSleep),
                 App.Commands.NewPlanCommand(PlanSleep),
@@ -82,7 +82,7 @@
             if (App.Core.Weapon.Touch) {
                 return function () {
                     App.Commands.PushCommands(
-                        App.Commands.NewDoCommand(`touch ${App.Core.Weapon.Touch};yun recover;yun regenerate;hp`),
+                        App.Commands.NewDoCommand(`yun refresh;touch ${App.Core.Weapon.Touch};yun recover;yun regenerate;hp`),
                         App.NewNobusyCommand(),
                     )
                     App.Next()
@@ -98,7 +98,7 @@
                     App.Next()
                 }
             }
-            if ((new Date()).getTime() - App.Core.Heal.LastSleep > App.Core.Heal.SleepInterval) {//sleep
+            if ((new Date()).getTime() - App.Core.Heal.LastSleep > App.Core.Heal.SleepInterva && !App.Core.Dispel.Need) {//sleep
                 return App.Core.Heal.Sleep
             } else {
                 if (jifaForce < 120) {//发呆
@@ -356,14 +356,14 @@
     })
     App.Core.Heal.TryTouch = function () {
         if (App.Core.Weapon.Touch) {
-            let touched=false
+            let touched = false
             if ((App.Data.Player.HP["当前内力"] * 100 / App.Data.Player.HP["内力上限"]) <= App.Params.NeiliMin) {//touch
                 App.Send(`touch ${App.Core.Weapon.Touch}`)
-                touched=true
+                touched = true
             }
             if (App.Data.Player.HP["当前精力"] < App.Params.NumJingliMin && App.Data.Player.HP["精力上限"] > 2 * App.Params.NumJingliMin) {
                 App.Send("yun refresh")
-                touched=true
+                touched = true
             }
             if (touched) {
                 App.Send("hp")
