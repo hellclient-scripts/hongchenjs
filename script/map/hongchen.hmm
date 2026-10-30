@@ -1,5 +1,5 @@
 HMM1.0>UTF8
-Info>红尘MUD地图|1778779333|
+Info>红尘MUD地图|1793291151|
 Room>100|柳园||||w,113,,1|
 Room>1007|小树林||||s,1008,,1|
 Room>1008|小树林||||s,1009,,1;n,1007,,1|
@@ -4791,6 +4791,7 @@ Marker>sun wannian|3028|npc||孙万年\|sun wannian
 Marker>tan chuduan|700|npc||谭处端\|tan chuduan
 Marker>tan youji|2541|npc||谭友纪\|tan youji
 Marker>tang ao|4344|npc||唐傲\|tang ao
+Marker>tang biao|4339|npc||唐镖\|tang biao
 Marker>tang fang|4280|npc||唐方\|tang fang
 Marker>tang fei|4272|npc||唐肥\|tang fei
 Marker>tang gang|4272|npc||唐刚\|tang gang

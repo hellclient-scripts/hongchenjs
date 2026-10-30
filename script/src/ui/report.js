@@ -116,15 +116,41 @@
                 report = report.concat(questreports)
             }
         }
-        report.push(`技能列表`)
+        let skilldata = []
+        let maxName = 0
+        let maxLevel = 0
         for (var i in App.Data.Player.Skills) {
             let skill = App.Data.Player.Skills[i]
-            report.push(`  ${skill["名称"]} - ${skill["等级"]}`)
+            skilldata.push([skill["名称"], skill["等级"] + ""])
+            let nameLength = uiModule.CountDisplayLength(skill["名称"])
+            if (nameLength > maxName) {
+                maxName = nameLength
+            }
+            let levelLength = uiModule.CountDisplayLength(skill["等级"] + "")
+            if (levelLength > maxLevel) {
+                maxLevel = levelLength
+            }
         }
-        report.push(`道具列表`)
+        let itemdata = []
         for (var i in App.Data.Item.List.Items) {
             let item = App.Data.Item.List.Items[i]
-            report.push(`  ${item.GetData().Name} - ${item.GetData().Count} `)
+            itemdata.push([item.GetData().Name, item.GetData().Count + ""])
+            let nameLength = uiModule.CountDisplayLength(item.GetData().Name)
+            if (nameLength > maxName) {
+                maxName = nameLength
+            }
+            let countLength = uiModule.CountDisplayLength(item.GetData().Count + "")
+            if (countLength > maxLevel) {
+                maxLevel = countLength
+            }
+        }
+        report.push(`技能列表`)
+        for (var i in skilldata) {
+            report.push(`  ${uiModule.Pad(skilldata[i][0], maxName, false)} - ${uiModule.Pad(skilldata[i][1], maxLevel, true)}`)
+        }
+        report.push(`道具列表`)
+        for (var i in itemdata) {
+            report.push(`  ${uiModule.Pad(itemdata[i][0], maxName, false)} - ${uiModule.Pad(itemdata[i][1], maxLevel, true)}`)
         }
         Userinput.Note("", "工作汇报", report.join("\n"))
     }

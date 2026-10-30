@@ -209,3 +209,7 @@ yanwu dan|yanwu dan|烟雾弹|buy|liu laoshi|buy 烟雾弹
 baijin xiangquan|baijin xiangquan|白金项圈|buy|jin fuhuan|buy 白金项圈
 liujin wanlian|liujin wanlian|鎏金腕链|buy|jin fuhuan|buy 鎏金腕链
 zijin jiezhi|zijin jiezhi|紫金戒指|buy|jin fuhuan|buy 紫金戒指
+
+coin|Coin|铜板|buy|qz|qu 99 coin
+qizi gangbiao|qizi gangbiao|七子刚镖|buy|tang biao|ask tang biao about 暗器;ask tang biao about 暗器;ask tang biao about 暗器;ask tang biao about 暗器;ask tang biao about 暗器;
+tie lianzi1000|Tie lianzi|铁莲子|buy|tang huai|buy 100 铁莲子;buy 100 铁莲子;buy 100 铁莲子;buy 100 铁莲子;buy 100 铁莲子;buy 100 铁莲子;buy 100 铁莲子;buy 100 铁莲子;buy 100 铁莲子;buy 100 铁莲子

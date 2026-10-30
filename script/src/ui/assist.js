@@ -436,6 +436,7 @@
     App.UI.Assist.AdvanceShow = () => {
         var list = Userinput.newlist("高级设置", "请选择你感兴趣的高级设置", true)
         list.append("quests", "可用任务一览")
+        list.append("reset", "重置向导")
         list.publish("App.UI.Assist.AdvanceOnAction")
     }
     App.UI.Assist.AdvanceOnAction = (name, id, code, data) => {
@@ -443,6 +444,9 @@
             switch (data) {
                 case "quests":
                     App.UI.Assist.QuestsShow()
+                    break
+                case "reset":
+                    App.UI.Wizard.ConfirmReset()
                     break
             }
         }

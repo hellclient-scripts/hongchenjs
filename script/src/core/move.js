@@ -15,11 +15,19 @@
         }
         return locate.MoveNext(move, map)
     }
-    App.Map.Movement.CheckRoomCmd = "#l"
+    App.Map.Movement.CheckRoomCmd = "#checkroom"
     App.Look = () => {
         App.Map.Room.Keep = true
         App.Send("l")
     }
+    //注册#l别名
+    App.Sender.RegisterAlias("#checkroom", function (data) {
+        App.Look()
+        if (GetVariable("cmd_ride").trim() != "" && App.Data.Player.HP["精气上限"] > 50) {
+            App.Map.Room.ID = App.Mapper.UnknownRoom.Key
+        }
+    })
+
     //注册#l别名
     App.Sender.RegisterAlias("#l", function (data) {
         App.Look()
@@ -128,6 +136,13 @@
     App.Move.NewOrdered = function (rooms, ...initiators) {
         return App.Map.NewRoute(new App.Map.Movement.Ordered(rooms), ...initiators)
     }
+    let TimeoutsByCommand = {
+        "flyup": 1000
+    }
+    App.Move.GetStepTimeout = () => {
+        var step = App.Map.Move.GetLastStep()
+        return (TimeoutsByCommand[step ? step.Command : ""]) || App.Move.LongtimeStepDelay
+    }
     App.Move.LongtimeStepDelay = 30 * 1000
     App.Move.RetryStep = false
     //移动的计划，移动失败处理
@@ -141,13 +156,13 @@
             let tt = task.AddTimer(App.Map.StepTimeout, function (timer) {
                 return App.Map.OnStepTimeout()
             }).WithName("timeout")
-            task.AddTimer(App.Move.LongtimeStepDelay, function (timer) {
+            task.AddTimer(App.Move.GetStepTimeout(), function (timer) {
                 if (!App.Map.Move) {
                     return true;
                 }
                 let lastStep = App.Map.Move.GetLastStep()
                 if (lastStep) {
-                    if (lastStep.Command == "#sail") {
+                    if (lastStep.Command == "#sail" || lastStep.Command == "yell boat") {
                         return true
                     }
                 }
@@ -357,7 +372,7 @@
             App.Map.Move.Data["OnMoveBlocker"](name)
             return
         }
-        if (App.Data.Player.HP["经验"] < 1200000) {
+        if (App.Data.Player.HP["经验"] < 1200000 || App.Core.Player.GetSkillLevelByID("force") < 200) {
             Note("菜鸟阶段重连")
             App.Move.MoveBlockerReconnect()
             return

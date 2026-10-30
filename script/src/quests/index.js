@@ -36,5 +36,8 @@
     App.Include("src/quests/eatforce/eatforce.js")
     App.Include("src/quests/fangqiskill/fangqiskill.js")
     App.Include("src/quests/sleepneili/sleepneili.js")
+    App.Include("src/quests/tangmen/tangrou.js")
+    App.Include("src/quests/tangmen/tangbiao.js")
+
 })(App)
 

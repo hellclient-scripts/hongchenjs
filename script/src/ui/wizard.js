@@ -1,6 +1,44 @@
 //设置精灵
 (function (App) {
     App.UI.Wizard = {}
+    App.UI.Wizard.ForcesCanSuck = { "吸星大法": true, "北冥神功": true }
+    App.UI.Wizard.PerformType = function (cmd) {
+        let throwing = App.Data.Player.Jifa["throwing"]
+        if (throwing && throwing.Skill == "金钱镖法") {
+            return "金钱镖法"
+        }
+        if (throwing && throwing.Skill == "唐门暗器") {
+            return "唐门暗器"
+        }
+        return ""
+    }
+    App.UI.Wizard.MakeCombat = function (cmd) {
+        var result = [`#before yun regenerate;yun recover`]
+        var pfm = App.UI.Wizard.PerformType(cmd)
+        switch (pfm) {
+            case "金钱镖法":
+                result.push(`#start $wpon;hand coin;${cmd}`, `hand coin;${cmd}`)
+                break
+            case "唐门暗器":
+                result.push(`#start $wpon;hand tie lianzi;hand qizi gangbiao;${cmd};get qizi gangbiao `, `hand tie lianzi;hand qizi gangbiao;${cmd};get qizi gangbiao`)
+                break
+            default:
+                result.push(`#start $wpon;${cmd}`, `${cmd}`)
+                break
+        }
+        return result
+    }
+    App.UI.Wizard.PrepareItems = function (cmd) {
+        var pfm = App.UI.Wizard.PerformType(cmd)
+        switch (pfm) {
+            case "金钱镖法":
+                App.UI.Wizard.InsertToVariable("items", "coin * 50")
+                break
+            case "唐门暗器":
+                App.UI.Wizard.InsertToVariable("items", "tie lianzi1000 * 2000")
+                break
+        }
+    }
     App.UI.Wizard.InsertToVariable = function (name, line) {
         let v = GetVariable(name).split("\n")
         if (v.indexOf(line) < 0) {
@@ -11,7 +49,10 @@
     App.UI.Wizard.WieldCmd = ""
     App.UI.Wizard.WieldID = ""
     App.UI.Wizard.NeedLongSword = false
+    App.UI.Wizard.WieldCmd2 = ""
+    App.UI.Wizard.WieldID2 = ""
     App.UI.Wizard.Shot = false
+    App.UI.Wizard.YunSuck = false
     App.UI.Wizard.CommandsData = ""
     App.UI.Wizard.Check = function () {
         if (!GetVariable("id")) {
@@ -63,7 +104,7 @@
                 App.UI.Wizard.ShowCombat()
                 break
             case "command":
-                App.UI.Wizard.ShowCommand()
+                App.UI.Wizard.PrepareCommand()
                 break
             default:
                 App.UI.Wizard.ShowFinish()
@@ -119,7 +160,7 @@
                 if (App.UI.Wizard.WieldID == "long sword") {
                     App.UI.Wizard.NeedLongSword = true
                 }
-                App.UI.Wizard.ShowTouch()
+                App.UI.Wizard.ShowWield2()
                 return
             } else if (data.startsWith("wear ")) {
                 App.UI.Wizard.WieldCmd = "#wear"
@@ -139,15 +180,15 @@
     App.UI.Wizard.OnLongsword = function (name, id, code, data) {
         if (code == 0) {
             App.UI.Wizard.NeedLongSword = (data == "yes")
-            App.UI.Wizard.ShowTouch()
+            App.UI.Wizard.ShowWield2()
         }
     }
     App.UI.Wizard.ShowTouch = function () {
         Userinput.prompt("App.UI.Wizard.OnTouch", "Touch武器", "请设置你需要Touch会内力的10兵，留空不touch", "")
 
     }
-    App.UI.Wizard.NeedRepair={
-        "zhang jin":true
+    App.UI.Wizard.NeedRepair = {
+        "zhang jin": true
     }
     App.UI.Wizard.OnTouch = function (name, id, code, data) {
         if (code == 0) {
@@ -156,9 +197,14 @@
             if (App.UI.Wizard.NeedLongSword) {
                 App.UI.Wizard.InsertToVariable("items", "long sword")
                 weapon.push("#wield.sword long sword")
+                weapon.push("#repair long sword * 1")
             }
-            if (App.UI.Wizard.WieldID.indexOf(" ") < 0||App.UI.Wizard.NeedRepair[App.UI.Wizard.WieldID]) {
+            if (App.UI.Wizard.WieldID.indexOf(" ") < 0 || App.UI.Wizard.NeedRepair[App.UI.Wizard.WieldID]) {
                 weapon.push(`#repair ${App.UI.Wizard.WieldID} * 50`)
+            }
+            if (App.UI.Wizard.WieldID2) {
+                weapon.push(`${App.UI.Wizard.WieldCmd2} ${App.UI.Wizard.WieldID2}`)
+                weapon.push(`#repair ${App.UI.Wizard.WieldID2} * 50`)
             }
             if (touch) {
                 weapon.push("#touch " + touch)
@@ -169,6 +215,30 @@
             App.UI.Wizard.Next()
         }
     }
+    App.UI.Wizard.ShowWield2 = function () {
+        Userinput.prompt("App.UI.Wizard.OnWield2", "磨兵器指令", "请设置你是否需要磨兵器，留空不磨兵器。如：\nwear mystrike", "")
+    }
+    App.UI.Wizard.OnWield2 = function (name, id, code, data) {
+        if (code == 0) {
+            if (data.trim() == "") {
+                App.UI.Wizard.ShowTouch()
+                return
+            } else if (data.startsWith("wield ")) {
+                App.UI.Wizard.WieldCmd2 = "#wield"
+                App.UI.Wizard.WieldID2 = data.slice(6).trim()
+
+                App.UI.Wizard.ShowTouch()
+                return
+            } else if (data.startsWith("wear ")) {
+                App.UI.Wizard.WieldCmd2 = "#wear"
+                App.UI.Wizard.WieldID2 = data.slice(5).trim()
+                App.UI.Wizard.ShowTouch()
+                return
+            }
+            App.UI.Wizard.ShowWield2()
+        }
+    }
+
     App.UI.Wizard.ShowCombat = function () {
         Userinput.prompt("App.UI.Wizard.OnCombat", "战斗设置", "请设置您的战斗指令，射箭ID请填shot,如:\nperform unarmed.xue twice\nshot", "")
     }
@@ -184,34 +254,88 @@
                 App.UI.Wizard.InsertToVariable("items", "arrow * 30")
                 SetVariable("combat", ["#before yun regenerate;yun recover", "#start $wpon;hand bow;shot $1 with arrow", "shot $1 with arrow"].join("\n"))
             } else {
-                SetVariable("combat", [`#before yun regenerate;yun recover`, `#start $wpon;${data}`, `${data}`].join("\n"))
+                App.UI.Wizard.PrepareItems(data)
+                SetVariable("combat", App.UI.Wizard.MakeCombat(data).join("\n"))
             }
             App.UI.Wizard.Next()
         }
     }
+    App.UI.Wizard.PrepareCommand = function () {
+        App.UI.Wizard.YunSuck = false
+        let force = App.Data.Player.Jifa["force"]
+        if (force && App.UI.Wizard.ForcesCanSuck[force.Skill]) {
+            App.UI.Wizard.ConfirmYunSuck();
+            return
+        }
+        App.UI.Wizard.ShowCommand()
+    }
+    App.UI.Wizard.ConfirmYunSuck = function () {
+        Userinput.confirm("App.UI.Wizard.OnConfirmYunSuck", "确认yun suck", "您确定要使用yun suck吗？")
+    }
+
+    App.UI.Wizard.OnConfirmYunSuck = function (name, id, code, data) {
+        if (code == 0) {
+            App.UI.Wizard.YunSuck = true
+        } else {
+            App.UI.Wizard.YunSuck = false
+        }
+        App.UI.Wizard.ShowCommand()
+    }
     App.UI.Wizard.ShowCommand = function () {
         let commands = []
+        var wponcmd = App.UI.Wizard.WieldCmd2 ? "#prepare #wpoff 2;#wpon" : ""
+        var changewpcmd = App.UI.Wizard.WieldCmd2 ? "#npcfaint #wpoff;#wpon 2" : ""
+        var wpoff2cmd = App.UI.Wizard.WieldCmd2 ? "#npcdie  #wpoff 2" : ""
+        var yunsuckcmd = App.UI.Wizard.YunSuck ? "#npcfaint yun suck" : ""
+        var yunsuckcmd2 = App.UI.Wizard.YunSuck ? "#npcfinish yun suck" : ""
+        var pfm = App.UI.Wizard.PerformType()
+        var getbiaocmd1 = pfm == "唐门暗器" ? "#npcfaint #enemy get qizi gangbiao from $1" : ""
+        var getbiaocmd2 = pfm == "唐门暗器" ? "#combatdie get qizi gangbiao from corpse" : ""
+        var getbiaocmd3 = pfm == "唐门暗器" ? "#combatstop get qizi gangbiao from corpse" : ""
+
+
+
         if (GetVariable("combat").indexOf("with arrow") >= 0) {
             commands = [
                 "#prepare ",
-                "#wait jiqu"
+                "#wait jiqu",
+                getbiaocmd1,
+                getbiaocmd2,
+                getbiaocmd3,
             ]
         } else if (App.Core.Weapon.Touch) {
             commands = [
                 "#prepare yun powerup;yun shield",
+                wponcmd,
                 "#wait #yanjiulian;#jiqu",
                 "#mqbefore #yanjiulian",
+                getbiaocmd1,
+                changewpcmd,
+                yunsuckcmd,
+                yunsuckcmd2,
+                wpoff2cmd,
                 "#npcdie #yanjiulian",
                 "#moveyanjiu #yanjiu",
                 "#pause #yanjiulian",
+                getbiaocmd2,
+                getbiaocmd3,
             ]
         } else {
             commands = [
                 "#prepare yun powerup;yun shield",
-                "#wait #jiqu"
+                wponcmd,
+                getbiaocmd1,
+                changewpcmd,
+                yunsuckcmd,
+                yunsuckcmd2,
+                wpoff2cmd,
+                "#wait #jiqu",
+                getbiaocmd2,
+                getbiaocmd3,
+
             ]
         }
-        App.UI.Wizard.CommandsData = commands.join("\n")
+        App.UI.Wizard.CommandsData = commands.filter(cmd => cmd.trim() !== "").join("\n")
         Userinput.confirm("App.UI.Wizard.OnCommand", "设置您的自定义指令", "根据你的战斗设置，推测你的指令如下:\n\n" + App.UI.Wizard.CommandsData)
     }
     App.UI.Wizard.OnCommand = function (name, id, code, data) {
@@ -236,5 +360,39 @@
         ]
         Userinput.confirm("", "设置完成", data.join("\n"))
     }
-
+    App.UI.Wizard.ConfirmReset = function () {
+        Userinput.confirm("App.UI.Wizard.OnConfirmReset", "确认重置向导", "您确定要重置向导吗？所有设置将会被清空。")
+    }
+    App.UI.Wizard.OnConfirmReset = function (name, id, code, data) {
+        if (code == 0) {
+            App.UI.Wizard.Reset()
+        }
+    }
+    App.UI.Wizard.Reset = function () {
+        var changed = false
+        if (GetVariable("jifa")) {
+            SetVariableComment("jifa", GetVariable("jifa"))
+            SetVariable("jifa", "")
+            changed = true
+        }
+        if (GetVariable("weapon")) {
+            SetVariableComment("weapon", GetVariable("weapon"))
+            SetVariable("weapon", "")
+            changed = true
+        }
+        if (GetVariable("combat")) {
+            SetVariableComment("combat", GetVariable("combat"))
+            SetVariable("combat", "")
+            changed = true
+        }
+        if (GetVariable("command")) {
+            SetVariableComment("command", GetVariable("command"))
+            SetVariable("command", "")
+            changed = true
+        }
+        Note("向导已重置")
+        if (changed) {
+            Note("原设置已经备份到变量备注内")
+        }
+    }
 })(App)

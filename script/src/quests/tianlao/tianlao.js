@@ -106,6 +106,10 @@ $.Module(function (App) {
             task.AddTrigger(matcherAcceptYes, (tri, result) => {
                 App.Send("accept yes")
             })
+            task.AddTimer(10000, () => {
+                App.Send("answer yes")
+                App.Send("accept yes")
+            })
             $.RaiseStage("wait")
         },
         (result) => {
