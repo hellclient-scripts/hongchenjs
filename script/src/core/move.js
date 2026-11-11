@@ -23,9 +23,6 @@
     //注册#l别名
     App.Sender.RegisterAlias("#checkroom", function (data) {
         App.Look()
-        if (GetVariable("cmd_ride").trim() != "" && App.Data.Player.HP["精气上限"] > 50) {
-            App.Map.Room.ID = App.Mapper.UnknownRoom.Key
-        }
     })
 
     //注册#l别名

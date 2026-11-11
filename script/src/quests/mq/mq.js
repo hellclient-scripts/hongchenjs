@@ -681,7 +681,7 @@ $.Module(function (App) {
         if (App.Map.Room.Data.Objects.FindByLabel(MQ.Data.NPC.Name).First()) {
             App.Map.Room.Data.Objects.Clear()
             $.Insert(
-                $.Kill(MQ.Data.NPC.ID, App.NewCombat("mq").WithPlan(PlanCombat).WithKillInGroup(MQ.Data.NPC.NotKilled)),
+                App.NewCarefulKillCommand(MQ.Data.NPC.ID, MQ.Data.NPC.Name, App.NewCombat("mq").WithPlan(PlanCombat).WithKillInGroup(MQ.Data.NPC.NotKilled)),
                 $.Function(MQ.CheckHead),
                 $.Function(() => {
                     if (!(MQ.Data.NPC.Died || MQ.Data.NPC.Fled)) {
@@ -925,7 +925,7 @@ $.Module(function (App) {
         if (MQ.Data.NPC && MQ.Data.NPC.Name == name) {
             App.Commands.Drop()
             $.PushCommands(
-                $.Kill(MQ.Data.NPC.ID, App.NewCombat("mq").WithPlan(PlanCombat).WithKillInGroup(MQ.Data.NPC.NotKilled)),
+                App.NewCarefulKillCommand(MQ.Data.NPC.ID, MQ.Data.NPC.Name, App.NewCombat("mq").WithPlan(PlanCombat).WithKillInGroup(MQ.Data.NPC.NotKilled)),
                 $.Function(MQ.CheckHead),
                 $.Function(MQ.Ready),
             )

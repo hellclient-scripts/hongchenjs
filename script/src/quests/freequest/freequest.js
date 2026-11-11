@@ -151,7 +151,7 @@ $.Module(function (App) {
     let matcherTopcic = /^店小二说道：.*『(.*)』/
     Freequest.AfterAsk = function () {
         if (App.Data.Ask.Result = "ok") {
-            if (App.Data.Ask.Answers.length==0){
+            if (App.Data.Ask.Answers.length == 0) {
                 $.Next()
                 return
             }
@@ -255,28 +255,29 @@ $.Module(function (App) {
                     return
                 }
             }
-
-            if (App.Data.Ask.Answers[0].Line.match(matcherZhuishaNPC3)) {
-                let npc3 = App.Data.Ask.Answers[1].Line.match(matcherZhuishaNPC3after)
-                if (npc3) {
-                    Note("得到线索，目标是 " + npc3[1])
-                    Freequest.Data.Current.Level = 3;
-                    Freequest.Data.Current.Target = npc3[1]
-                    Freequest.ZhuishaAskMore()
-                    return
-                }
-            }
-            if (App.Data.Ask.Answers[0].Line.match(matcherZhuishaNPC3Answer)) {
-                let npc1area = App.Data.Ask.Answers[1].Line.match(matcherZhuishaNPC3Loc)
-                if (npc1area) {
-                    Note("得到线索，目标在 " + npc1area[1])
-                    Freequest.Data.Current.Level = 3;
-                    Freequest.Data.Count++
-                    if (Freequest.Search(npc1area[1], Freequest.ZhuishaKill)) {
+            if (App.Data.Player.HP["经验"] > 800000) {
+                if (App.Data.Ask.Answers[0].Line.match(matcherZhuishaNPC3)) {
+                    let npc3 = App.Data.Ask.Answers[1].Line.match(matcherZhuishaNPC3after)
+                    if (npc3) {
+                        Note("得到线索，目标是 " + npc3[1])
+                        Freequest.Data.Current.Level = 3;
+                        Freequest.Data.Current.Target = npc3[1]
+                        Freequest.ZhuishaAskMore()
                         return
                     }
-                    App.Log(`未知的区域${npc1area[1]}`)
-                    return
+                }
+                if (App.Data.Ask.Answers[0].Line.match(matcherZhuishaNPC3Answer)) {
+                    let npc1area = App.Data.Ask.Answers[1].Line.match(matcherZhuishaNPC3Loc)
+                    if (npc1area) {
+                        Note("得到线索，目标在 " + npc1area[1])
+                        Freequest.Data.Current.Level = 3;
+                        Freequest.Data.Count++
+                        if (Freequest.Search(npc1area[1], Freequest.ZhuishaKill)) {
+                            return
+                        }
+                        App.Log(`未知的区域${npc1area[1]}`)
+                        return
+                    }
                 }
             }
         }
@@ -285,7 +286,7 @@ $.Module(function (App) {
     Freequest.ZhuishaKill = function () {
         if (App.Zone.Wanted.ID && App.Map.Room.Data.Objects.FindByName(Freequest.Data.Current.Target).First()) {
             $.Insert(
-                $.Kill(App.Zone.Wanted.ID, App.NewCombat("zhuisha")),
+                App.NewCarefulKillCommand(App.Zone.Wanted.ID, Freequest.Data.Current.Target, App.NewCombat("zhuisha")),
                 $.Function(() => {
                     Freequest.SetNextAsk(Freequest.ZhuishaAskNext)//避免做完才终止fq
                     $.Next()
@@ -373,7 +374,7 @@ $.Module(function (App) {
     Freequest.XunzhaoKillKeeper = function () {
         if (App.Zone.Wanted.ID && App.Map.Room.Data.Objects.FindByName(Freequest.Data.Current.Keeper).First()) {
             $.Insert(
-                $.Kill(App.Zone.Wanted.ID, App.NewCombat("xunzhao")),
+                App.NewCarefulKillCommand(App.Zone.Wanted.ID, Freequest.Data.Current.Keeper, App.NewCombat("xunzhao")),
                 $.Do(`get ${Freequest.Data.Current.ItemID} from corpse;i`),
                 $.Sync(),
                 $.Function(Freequest.XunzhaoAfterKillKeeper)
@@ -467,7 +468,7 @@ $.Module(function (App) {
     Freequest.FeizeiKill = function () {
         if (App.Zone.Wanted.ID && App.Map.Room.Data.Objects.FindByName(Freequest.Data.Current.Target).First()) {
             $.Insert(
-                $.Kill(App.Zone.Wanted.ID, App.NewCombat("feizei")),
+                App.NewCarefulKillCommand(App.Zone.Wanted.ID, Freequest.Data.Current.Target, App.NewCombat("feizei")),
             )
         }
         $.Next()
@@ -546,7 +547,7 @@ $.Module(function (App) {
                 return
         }
         Freequest.OnSuccess()
-        App.Core.Analytics.Add(Quest.ID, App.CNumber.ParseNumber(event.Data.exp||""), App.CNumber.ParseNumber(event.Data.pot||""), App.CNumber.ParseNumber(event.Data.tihui||""))
+        App.Core.Analytics.Add(Quest.ID, App.CNumber.ParseNumber(event.Data.exp || ""), App.CNumber.ParseNumber(event.Data.pot || ""), App.CNumber.ParseNumber(event.Data.tihui || ""))
     })
     Quest.Start = function (data) {
         data = data || ""

@@ -38,10 +38,6 @@
         Note("加载地图文件" + mappath)
         mapModule.Database.Import(ReadFile(mappath))
     }
-    App.Mapper.UnknownRoom = mapModule.HMM.Room.New()
-    App.Mapper.UnknownRoom.Key = "unknown"
-    App.Mapper.UnknownRoom.Name = ""
-    mapModule.Database.APIInsertRooms([App.Mapper.UnknownRoom])
     mapModule.Database.APIListMarkers(mapModule.HMM.APIListOption.New()).forEach((marker) => {
         App.Mapper.Data.Markers[marker.Key] = marker.Value
         if ((marker.Group == "npc")) {
@@ -192,7 +188,7 @@
         }
     )
     App.BindEvent("core.roomname", () => {
-        if (!App.Map.Room.ID || App.Map.Room.ID == App.Mapper.UnknownRoom.Key) {
+        if (!App.Map.Room.ID) {
             PlanLocate.Execute()
         }
     })

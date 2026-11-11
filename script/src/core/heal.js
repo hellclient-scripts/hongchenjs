@@ -98,7 +98,7 @@
                     App.Next()
                 }
             }
-            if ((new Date()).getTime() - App.Core.Heal.LastSleep > App.Core.Heal.SleepInterva && !App.Core.Dispel.Need) {//sleep
+            if ((new Date()).getTime() - App.Core.Heal.LastSleep > App.Core.Heal.SleepInterval && !App.Core.Dispel.Need) {//sleep
                 return App.Core.Heal.Sleep
             } else {
                 if (jifaForce < 120) {//发呆
@@ -123,6 +123,7 @@
                     }
                     if (num < 10) { num = 10 }
                     App.Commands.PushCommands(
+                        App.Move.NewToCommand(App.Params.LocDazuo),
                         App.Commands.NewDoCommand("dazuo " + num),
                         App.Commands.NewWaitCommand(1000),
                         App.NewNobusyCommand(),
@@ -228,7 +229,7 @@
     }))
     // inspire的准备
     App.Proposals.Register("inspire", App.Proposals.NewProposal(function (proposals, context, exclude) {
-        if (App.Data.Player.Score["任督"] && (App.Data.Player.HP["精气百分比"] <= App.Params.InspireBelow)) {
+        if (App.Data.Player.Score["任督二脉"] && (App.Data.Player.HP["精气百分比"] <= App.Params.InspireBelow)) {
             return function () {
                 App.Commands.PushCommands(
                     App.Move.NewToCommand(App.Params.LocDazuo),
@@ -251,6 +252,7 @@
     }
     App.Commands.RegisterExecutor("rest", function (commands, running) {
         running.OnStart = function (arg) {
+            let jifaForce = App.Data.Player.Jifa["force"] ? App.Data.Player.Jifa["force"].Level : 0
             if (App.Data.Player.HP["内力上限"] == 0 && (App.Data.Player.HP["当前气血"] * 100 / App.Data.Player.HP["气血上限"]) <= App.Params.NeiliMin) {//发呆
                 Note("无内力，发呆等恢复")
                 App.Commands.PushCommands(
@@ -260,17 +262,24 @@
                 )
             }
             else if (App.Data.Player.HP["当前精力"] < App.Params.NumJingliMin && App.Data.Player.HP["精力上限"] > 2 * App.Params.NumJingliMin) {//tuna
-                let num = App.Params.NumTuna > 0 ? App.Params.NumTuna : ((App.Data.Player.HP["精力上限"] - App.Data.Player.HP["当前精力"]) / 2).toFixed()
-                if (num >= App.Data.Player.HP["当前精气"]) { num = App.Data.Player.HP["当前精气"] }
-                if (num < 10) { num = 10 }
-                App.Commands.PushCommands(
-                    App.Commands.NewDoCommand("tuna " + num),
-                    App.NewNobusyCommand(),
-                    App.Commands.NewDoCommand("yun recover;yun regenerate;hp"),
-                    App.NewSyncCommand(),
-                    App.Core.Heal.NewRestCommand(),
-
-                )
+                if (jifaForce < 120) {
+                    let num = App.Params.NumTuna > 0 ? App.Params.NumTuna : ((App.Data.Player.HP["精力上限"] - App.Data.Player.HP["当前精力"]) / 2).toFixed()
+                    if (num >= App.Data.Player.HP["当前精气"]) { num = App.Data.Player.HP["当前精气"] }
+                    if (num < 10) { num = 10 }
+                    App.Commands.PushCommands(
+                        App.Commands.NewDoCommand("tuna " + num),
+                        App.NewNobusyCommand(),
+                        App.Commands.NewDoCommand("yun recover;yun regenerate;hp"),
+                        App.NewSyncCommand(),
+                        App.Core.Heal.NewRestCommand(),
+                    )
+                } else {
+                    App.Commands.PushCommands(
+                        App.Commands.NewDoCommand("yun refresh;hp"),
+                        App.NewSyncCommand(),
+                        App.Core.Heal.NewRestCommand(),
+                    )
+                }
             } else if (App.Core.Weapon.Touch && App.Data.Item.List.FindByIDLower(App.Core.Weapon.Touch).First() == null) {//summon
                 App.Commands.PushCommands(
                     App.Commands.NewDoCommand(`summon ${App.Core.Weapon.Wield[0].ID};i`),
@@ -290,7 +299,6 @@
                     App.Core.Heal.SleepHere()
                     return
                 }
-                let jifaForce = App.Data.Player.Jifa["force"] ? App.Data.Player.Jifa["force"].Level : 0
                 if (jifaForce < 120) {//发呆
                     Note("有效内功过低，发呆等恢复")
                     App.Commands.PushCommands(
@@ -335,7 +343,7 @@
             } else if (App.Data.Player.HP["精气百分比"] <= 34) {//失败
                 App.Fail()
                 return
-            } else if (App.Data.Player.Score["任督"] && App.Data.Player.HP["精气百分比"] <= App.Params.InspireBelow) {//inspire
+            } else if (App.Data.Player.Score["任督二脉"] && App.Data.Player.HP["精气百分比"] <= App.Params.InspireBelow) {//inspire
                 App.Commands.PushCommands(
                     App.Commands.NewDoCommand("yun inspire"),
                     App.NewNobusyCommand(),

@@ -650,7 +650,12 @@
             App.Send(cmds.join("\n"))
         }
         if (learned) {
-            App.Send("yun recover;yun regenerate;hp")
+            App.Send("yun recover;yun regenerate")
+            if (App.Core.Weapon.Touch) {
+                App.Send("#touch")
+            }
+            App.Send("hp")
+
         }
     })
     let JiquNoPause = () => {
@@ -669,15 +674,16 @@
         App.Next()
     }
     let JiquPauseContext = {}
-
+    App.Core.Study.JiquNoPause = JiquNoPause
     let JiquPause = () => {
         App.Core.Timeslice.Change("修整-汲取")
         App.Core.Study.LastTihui = App.Data.Player.HP["体会"]
         App.Commands.PushCommands(
-            App.Commands.NewFunctionCommand(JiquPauseNext)
+            App.Commands.NewFunctionCommand(App.Core.Study.JiquPauseNext)
         )
         App.Next()
     }
+    App.Core.Study.JiquPause = JiquPause
     let matcherJiquFinish = "你将实战中获得的体会心得充分的消化吸收了。"
     let matcherJiquFail = "似乎没有必要为吸收这点体会下功夫。"
     let matcherFull = "你感觉自己的实战经验还有欠缺，还无法领会更高境界的武学修养。"
@@ -693,33 +699,43 @@
         }, function (result) {
             App.Next()
         })
+    App.Core.Study.JiquNotFinish = function (withoutAutoLimit) {
+        return App.Data.Player.HP["体会"] > 60 && App.Core.Study.CanJiqu(withoutAutoLimit)
+    }
+    App.Core.Study.JiquPauseStep = function () {
+        App.Commands.PushCommands(
+            $.Prepare("common", JiquPauseContext),
+            App.Move.NewToCommand(App.Params.LocDazuo),
+            App.Commands.NewFunctionCommand(() => {
+                $.RaiseStage("pause")
+                App.Next()
+            }),
+            App.Commands.NewDoCommand("yun regenerate;yun recover"),
+            $.Plan(PlanJiqu),
+            App.Commands.NewDoCommand("halt;hp"),
+            App.NewSyncCommand(),
+        )
+        App.Next()
 
-    let JiquPauseNext = () => {
-        if (App.Data.Player.HP["体会"] > 60 && App.Core.Study.CanJiqu()) {
-            App.Insert(App.Commands.NewFunctionCommand(JiquPauseNext))
-            App.Commands.PushCommands(
-                $.Prepare("common", JiquPauseContext),
-                App.Move.NewToCommand(App.Params.LocDazuo),
-                App.Commands.NewFunctionCommand(() => {
-                    $.RaiseStage("pause")
-                    App.Next()
-                }),
-                App.Commands.NewDoCommand("yun regenerate;yun recover"),
-                $.Plan(PlanJiqu),
-                App.Commands.NewDoCommand("halt;hp"),
-                App.NewSyncCommand(),
-            )
+    }
+    App.Core.Study.JiquPauseNext = () => {
+        if (App.Core.Study.JiquNotFinish()) {
+            App.Insert(App.Commands.NewFunctionCommand(App.Core.Study.JiquPauseNext))
+            App.Core.Study.JiquPauseStep()
         } else {
             // App.Core.Timeslice.Change("")
+            App.Next()
         }
-        App.Next()
     }
-    App.Core.Study.CanJiqu = () => {
+    App.Core.Study.NeedJiqu=(max)=>{
+        return max && max > 0 && App.Core.Study.Jiqu.Commands.length && App.Data.Player.HP["体会"] > max && App.Data.Player.HP["精气百分比"] > 70
+    }
+    App.Core.Study.CanJiqu = (withoutAutoLimit) => {
         if (App.Data.Player.HP["经验"] > 30000 && App.Core.Player.GetSkillLevelByID("martial-cognize") < App.Data.Player.HPM["当前等级"]) {
             if (App.Core.Study.Jiqu.Limit > 0 && App.Core.Player.GetSkillLevelByID("martial-cognize") >= App.Core.Study.Jiqu.Limit) {
                 return false
             }
-            if (GetVariable("max_exp").trim().startsWith("+") && App.Params.JiquMaxAhead >= 0) {
+            if (!withoutAutoLimit || (GetVariable("max_exp").trim().startsWith("+") && App.Params.JiquMaxAhead >= 0)) {
                 let maxskill = App.Core.GetMaxSkillLevel(["martial-cognize"])
                 if (App.Core.Player.GetSkillLevelByID("martial-cognize") - (maxskill ? maxskill["等级"] : 0) > App.Params.JiquMaxAhead) {
                     return false
@@ -738,7 +754,7 @@
             return null
         }
         let max = context["JiquMax"] != null ? context["JiquMax"] : App.Core.Study.Jiqu.Max
-        if (App.Core.Study.CanJiqu() && max && max > 0 && App.Core.Study.Jiqu.Commands.length && App.Data.Player.HP["体会"] > max && App.Data.Player.HP["精气百分比"] > 70) {
+        if (App.Core.Study.CanJiqu() && App.Core.Study.NeedJiqu(max)) {
             JiquPauseContext = Object.create(context)
             JiquPauseContext.NeiliMin = 15
             return App.Params.JiquPause == "t" ? JiquPause : JiquNoPause

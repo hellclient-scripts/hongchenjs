@@ -1,5 +1,11 @@
 //战斗模块
 (function (App) {
+    let CarefulIDMap = {
+        "xiao er": true,
+        "xiao fan": true,
+        "yu fu": true,
+        "ma fu": true,
+    }
     let combatModule = App.RequireModule("helllibjs/combat/combat.js")
     let actionModule = App.RequireModule("helllibjs/conditions/action.js")
     App.Core.Combat = {}
@@ -31,6 +37,20 @@
         BeforeStop = null
         //停止perform
         NoPerform = false
+        //不使用Before
+        NoBefore = false
+        //小心模式的NPC名
+        CarefulName = ""
+        //链式调用
+        WithCarefulName(name) {
+            this.CarefulName = name
+            return this
+        }
+        //链式调用
+        WithNoBefore(val) {
+            this.NoBefore = val
+            return this
+        }
         //链式调用
         WithHitAndRun(val) {
             this.HitAndRun = val
@@ -80,6 +100,11 @@
     //战斗是否失败
     App.Core.Combat.Fail = false
     let matcherNeedJingli = /^你凝视.+许久，悠悠一声长叹。$/
+    let matcherDie = /^([^：()\[\]]{1,6})扑在地上挣扎了几下，腿一伸，口中喷出几口鲜血，死了！$/
+    let matcherKillme = /^看起来(.+)想杀死你！$/
+    let matcherHit = /^你对著(.+)大喝一声道：看招！$/
+    let matcherFaint = /^(.+)脚下一个不稳，跌在地上一动也不动了。$/
+    let matcherFainted = "你还要打？不如杀了算了。"
     let Plan = new App.Plan(App.Positions["Combat"],
         function (task) {
             let lastTouch = 0
@@ -95,6 +120,34 @@
                 if (App.Core.Weapon.Touch && ($.Now() - lastTouch > 1000)) {
                     lastTouch = $.Now()
                     App.Send(`touch ${App.Core.Weapon.Touch}`)
+                }
+                return true
+            })
+            task.AddTrigger(matcherKillme, (tri, result) => {
+                if (App.Combat.Target && result[1] == App.Combat.Data.CarefulName) {
+                    App.Combat.Data.CarefulName = ""
+                    Send("kill " + App.Combat.Target)
+                }
+                return true
+            })
+            task.AddTrigger(matcherHit, (tri, result) => {
+                if (App.Combat.Target && result[1] == App.Combat.Data.CarefulName) {
+                    App.Combat.Data.CarefulName = ""
+                    Send("kill " + App.Combat.Target)
+                }
+                return true
+            })
+            task.AddTrigger(matcherFaint, (tri, result) => {
+                if (App.Combat.Target && result[1] == App.Combat.Data.CarefulName) {
+                    App.Combat.Data.CarefulName = ""
+                    Send("kill " + App.Combat.Target)
+                }
+                return true
+            })
+            task.AddTrigger(matcherFainted, (tri, result) => {
+                if (App.Combat.Target) {
+                    App.Combat.Data.CarefulName = ""
+                    App.Send("kill " + App.Combat.Target)
                 }
                 return true
             })
@@ -139,6 +192,10 @@
             task.AddCatcher("core.wrongway", () => {
                 App.Core.Combat.Fail = true
                 App.Combat.Data.HitAndRun = ""
+                return true
+            })
+            task.AddTrigger(matcherDie, (tri, result) => {
+                $.RaiseStage("combatdie")
                 return true
             })
 
@@ -219,6 +276,8 @@
         Note(msg)
         App.Send("yun recover;yun regenerate;hp;i")
         App.Commands.Execute(App.NewSyncCommand())
+        App.Combat.Target = ""
+        $.RaiseStage("combatstop")
     }
     //叫杀函数
     App.Core.Combat.Kill = function (id, data) {
@@ -227,7 +286,15 @@
     }
     //反击函数
     App.Core.Combat.CounterAttack = function (id, data) {
-        data = (data || App.NewCombat("")).WithTags("counterattack")
+        data = (data || App.NewCombat("")).WithNoBefore(true).WithTags("counterattack")
+        App.Core.Combat.DoCombat(id, data)
+    }
+    //小心击杀函数
+    App.Core.Combat.CarefulKill = function (id, name, data) {
+        data = (data || App.NewCombat("")).WithTags("kill")
+        if (CarefulIDMap[id]) {
+            data = data.WithCarefulName(name)
+        }
         App.Core.Combat.DoCombat(id, data)
     }
     //替换变量
@@ -265,19 +332,21 @@
         App.Core.Combat.Pending = {}
         let killcmds = []
         pickActions()
-        App.Core.Combat.FilterActions("#before").forEach(action => {
-            if (action.Param == "do") {
-                killcmds = killcmds.concat(App.Core.Combat.ReplaceCommand(action.Data).split(/[;\n]/))
-            } else {
-                App.Send(App.Core.Combat.ReplaceCommand(action.Data))
-            }
-        })
+        if (data && !data.NoBefore) {
+            App.Core.Combat.FilterActions("#before").forEach(action => {
+                if (action.Param == "do") {
+                    killcmds = killcmds.concat(App.Core.Combat.ReplaceCommand(action.Data).split(/[;\n]/))
+                } else {
+                    App.Send(App.Core.Combat.ReplaceCommand(action.Data))
+                }
+            })
+        }
         let commands = []
         var killcmd = ""
         if (data.Command) {
             killcmd = data.Command
         } else if (id) {
-            killcmd = "kill " + id
+            killcmd = data.CarefulName ? `hit ${id};halt` : `kill ${id}`
         }
         killcmds = killcmds.concat(killcmd.split(/[;\n]/))
         App.Core.Combat.FilterActions("#start").forEach(action => {
@@ -291,7 +360,7 @@
         if (killcmds.length == 1) {
             commands.unshift(killcmds[0])
         } else if (killcmds.length > 1) {
-            commands.unshift(`do ${killcmds.join(",")}`)
+            commands = killcmds.concat(commands)
         }
         App.Send(commands.join(";"), data.KillInGroup)
         App.Send(checkCombatCmd)
@@ -307,6 +376,15 @@
             App.Core.Combat.Kill(running.Command.Data.ID, running.Command.Data.Data)
         }
     })
+    App.NewCarefulKillCommand = function (id, name, data) {
+        return App.Commands.NewCommand("carefulkill", { ID: id, Name: name, Data: data })
+    }
+    App.Commands.RegisterExecutor("carefulkill", function (commands, running) {
+        running.OnStart = function (arg) {
+            App.Core.Combat.CarefulKill(running.Command.Data.ID, running.Command.Data.Name, running.Command.Data.Data)
+        }
+    })
+
     //注册用户队列
     App.UserQueue.UserQueue.RegisterCommand("#kill", function (uq, data) {
         uq.Commands.Append(
@@ -369,6 +447,12 @@
         })
     }
     App.Core.Combat.Load()
+    App.Sender.RegisterAlias("#enemy", function (data) {
+        if (App.Combat.Target.trim() != "") {
+            App.Send(data.replaceAll("$1", App.Combat.Target))
+        }
+    })
+
     //注册ctype条件
     App.Quests.Conditions.RegisterMatcher(App.Quests.Conditions.NewMatcher("ctype", function (data, target) {
         return App.Combat.Data && App.Combat.Data.Quest == data.trim()

@@ -27,7 +27,7 @@
             this.Position.AddTimer(this.Interval, () => {
                 this.Ticker(this)
             })
-            this.Ticker(this)
+            // this.Ticker(this)
             this.Plan.Execute()
             this.Combating = true
             return this

@@ -5,6 +5,7 @@
         App.Stop()
     }
     App.Alias.ForceStop = function (n, l, w) {
+        App.Stop()
         App.Quests.ForceStop()
     }
 })(App)

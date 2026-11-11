@@ -3,7 +3,7 @@
 bx,普通百姓,
 sl,少林派,xuanci dashi
 wd,武当派,song yuanqiao
-em,峨眉派,miejue shitai
+em,峨嵋派,miejue shitai
 hs,华山派,yue buqun
 gb,丐帮,jian zhanglao
 th,桃花岛,huang yaoshi
@@ -18,13 +18,13 @@ ry,日月神教,xiang wentian
 lj,灵鹫宫,xuzhu zi
 slj,神龙教,hong antong
 dls,大轮寺,jinlun fawang
-tiezhang,铁掌帮,qiu qianren
+tz,铁掌帮,qiu qianren
 hh,红花会,wen tailai
 xd,血刀门,xuedao laozu
 wdj,五毒教,he tieshou
 mz,梅庄,heibai zi
 zy,镇远镖局,wang jianjie
-xs,雪山剑派,bai wanjian
+xs,凌霄城,bai wanjian
 song,嵩山派,zuo lengchan
 hen,衡山派,mo da
 oy,欧阳世家,ouyang feng
